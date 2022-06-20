@@ -18,6 +18,7 @@ public class ColeccioTiles : ScriptableObject
     [field: SerializeReference]
     [SerializeField] Tile[] tiles;
     [SerializeField] Connexio[] connexios;
+    [SerializeField] Peça desbloquejadora;
 
     public Tile[] Tiles => tiles;
     public static Connexio[] Connexios => Instance.connexios;

@@ -9,16 +9,24 @@ using XS_Utils;
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
     //VARIABLES PRIVADES
-    [SerializeField] TilePotencial[] tiles;
+    TilePotencial[] tiles;
+    [SerializeField] Grups grups;
+    [SerializeField] Proximitat proximitat;
+   
 
-    //PROPIETATS
+
+    //PROPIETATS   
     public override bool EsPeça => true;
+    public TilePotencial[] Tiles => tiles;
+    public TilePotencial Inicial => inicial;
+    
+
 
     //INTERN
     TilePotencial inicial;
     float startTime;
-    public TilePotencial[] Tiles => tiles;
-    public TilePotencial Inicial => inicial;
+
+
 
     public override void Iniciar()
     {
@@ -29,23 +37,10 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         startTime = Time.realtimeSinceStartup;
         Actualitzar();
-        //1 Comproves.
-
-        //Comprovacions.Combinar(this, Actualitzar);
-
-
-        //Actualitzar();
-        //WaveFunctionColapse.Process(inicial, FerComprovacio);
-        /*for (int i = 0; i < tiles.Length; i++)
-        {
-            WaveFunctionColapse.Add(tiles[i]);
-        }*/
     }
 
     public override void Actualitzar()
     {
-        //2.- Ferla encaixar
-        
         Debug.Log($"Actualitzar ({EstatName}({Coordenades}))");
         name = $"{EstatName}({Coordenades})";
 
@@ -71,19 +66,33 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         Debugar.Log("------------------------");
         #endregion
         SeleccionarInteraccioInicial();
-        //Comprovacions.EnviarVeinsAComprovacio(this);
 
         Estat.TilesInicials(tiles);
-        WaveFunctionColapse.Process(this, IniciarComprovacions);
+        WaveFunctionColapse.Process(this, Agrupar);
         TornarVeinsAmbiguusSiCal();
        
+
+        //PROCEDIMENT CORRECTE
+        //1 Activar el WFC.
+        //2 Afegir a grups.
+        //3 Comprovar proximitats
+        //4 Mirar quins patrons interns encaixen.
+        //5 Crear peces/patrons
+        
+
     }
 
-    void IniciarComprovacions() 
+    void Agrupar() 
     {
-        Debug.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}");
+        grups.Agrupdar(this);
+        Debug.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", this);
         //Comprovacions.Iniciar();
-    } 
+    }
+
+    public void ComprovarProximitats()
+    {
+        
+    }
 
     void CrearTilesPotencials()
     {
@@ -162,11 +171,19 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
+
     //INTERACCIO
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {/*Show info*/ }
     public void OnPointerExit(PointerEventData eventData) {/*Hide info*/ }
 
 
+
+    void OnValidate()
+    {
+        if (grups == null) grups = XS_Editor.LoadAssetAtPath<Grups>("Assets/XidoStudio/Hexbase/Grups/Grups.asset");
+        if (proximitat == null) proximitat = XS_Editor.LoadAssetAtPath<Proximitat>("Assets/XidoStudio/Hexbase/Proximitat/Proximitat.asset");
+    }
 }
+
 
 

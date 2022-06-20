@@ -699,6 +699,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5812c3859e805914e954fd0de47f0a3f, type: 3}
+--- !u!1 &232148797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 232148799}
+  - component: {fileID: 232148798}
+  m_Layer: 0
+  m_Name: CorrutinaEstatica
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &232148798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232148797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 379896335}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &232148799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232148797}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!850595691 &284743675
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1056,6 +1100,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5812c3859e805914e954fd0de47f0a3f, type: 3}
+--- !u!115 &379896335
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 5
+  m_Script: 
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_ExecutionOrder: 0
+  m_ClassName: XS_Coroutine/CorrutinaEstaticaMonoBehavior
+  m_Namespace: XS_Utils
 --- !u!1 &444594984
 GameObject:
   m_ObjectHideFlags: 0
@@ -4321,11 +4379,15 @@ PrefabInstance:
     - target: {fileID: 805383729190451881, guid: 732e6a987ea1317468b13ec838209c58, type: 3}
       propertyPath: seleccionada
       value: 
-      objectReference: {fileID: 11400000, guid: 3bfed3da418d4b84ead03b3ec0d63373, type: 2}
+      objectReference: {fileID: 11400000, guid: 386316b5ea3c8004698c86e4b82881a0, type: 2}
     - target: {fileID: 805383729190451881, guid: 732e6a987ea1317468b13ec838209c58, type: 3}
       propertyPath: prefab_Ranura
       value: 
       objectReference: {fileID: 5919137175624590415, guid: 7e1ce3baa2f85474a96ab7d98575e488, type: 3}
+    - target: {fileID: 805383729190451881, guid: 732e6a987ea1317468b13ec838209c58, type: 3}
+      propertyPath: desbloquejadora
+      value: 
+      objectReference: {fileID: 11400000, guid: 386316b5ea3c8004698c86e4b82881a0, type: 2}
     - target: {fileID: 805383729190451881, guid: 732e6a987ea1317468b13ec838209c58, type: 3}
       propertyPath: "pe\xE7aSeleccionada"
       value: 

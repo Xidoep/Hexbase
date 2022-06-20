@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
+
 /// <summary>
 /// La classe base de les peces del Grid
 /// </summary>
@@ -11,6 +13,7 @@ public abstract class Hexagon : MonoBehaviour
 {
     public void Setup(Grid grid, Vector2Int coordenades, EstatPeça estat)
     {
+        this.grid = grid;
         veins = grid.Veins;
         crearPeça = grid.CrearPeça;
         this.estat = estat;
@@ -22,10 +25,11 @@ public abstract class Hexagon : MonoBehaviour
     [SerializeField] Transform parent;
     [SerializeField] protected AnimacioPerCodi animacioPerCodi;
 
-    [SerializeField] protected EstatPeça estat;
+    protected EstatPeça estat;
     [SerializeField] public bool acabadaDeCrear => WaveFunctionColapse.UltimaPeçaCreada == this;
 
     Vector2Int coordenades;
+    Grid grid;
     protected System.Func<Vector2Int, Hexagon[]> veins;
     System.Action<Vector2Int> crearPeça;
 
@@ -36,6 +40,7 @@ public abstract class Hexagon : MonoBehaviour
     public bool EstatNull => estat == null;
     public Transform Parent => parent;
     public bool EstatIgualA(EstatPeça altreEstat) => estat == altreEstat;
+    public Grid Grid => grid;
 
     //FUNCIONS
     public Hexagon[] Veins => veins.Invoke(coordenades);

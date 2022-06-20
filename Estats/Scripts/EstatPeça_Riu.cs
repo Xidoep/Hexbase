@@ -117,12 +117,12 @@ public class EstatPeça_Riu : EstatPeça
             {
                 if (i < ultimaAigua)
                 {
-                    Riu(tiles[i]);
-                    /*if (VeiNull(tiles[i])) Riu(tiles[i]);
-                    else if (VeiAcuatic(tiles[i]) && Random.Range(0,2) == 0)
+                    //Riu(tiles[i]);
+                    if (VeiNull(tiles[i])) Riu(tiles[i]);
+                    else if (VeiAcuatic(tiles[i]))
                         Afluent(tiles[i]);
                     else
-                        Riu(tiles[i]);*/
+                        Riu(tiles[i]);
                 }
                 else if (i == ultimaAigua)
                 {

@@ -6,25 +6,13 @@ using XS_Utils;
 
 public static class WaveFunctionColapse
 {
-    
 
+    static Peça peçaCreada;
     static List<TilePotencial> pendents;
     static int index = 0;
     static Hexagon ultimaPeçaCreada;
-    static int colisions;
     static int interaccionsTotals;
     static TilePotencial ultimaPreçaComprovada;
-    //static TilePotencial prioritaria;
-    /*static TilePotencial Prioritaria
-    {
-        get
-        {
-            TilePotencial tmp = prioritaria;
-            prioritaria = null;
-            return tmp;
-        }
-        set => prioritaria = value;
-    }*/
     public static Hexagon UltimaPeçaCreada { get => ultimaPeçaCreada; set => ultimaPeçaCreada = value; }
 
 
@@ -44,6 +32,7 @@ public static class WaveFunctionColapse
 
     public static void Process(Peça _peça, System.Action _enFinalitzar, bool _debug = true)
     {
+        peçaCreada = _peça;
         if (iniciat)
         {
             //Prioritaria = _peça.Inicial;
@@ -56,7 +45,6 @@ public static class WaveFunctionColapse
 
         iniciat = true;
         index = 0;
-        colisions = 0;
         interaccionsTotals = 0;
         if (pendents == null) pendents = new List<TilePotencial>();
         startTime = Time.realtimeSinceStartup;
@@ -88,14 +76,36 @@ public static class WaveFunctionColapse
             return;
         }
 
-        /*if(interaccionsTotals > 300)
+        if(interaccionsTotals > 1000)
         {
-            for (int i = 0; i < pendents.Count; i++)
-            {
-                pendents[i].Ambiguo();
-            }
+            Debug.LogError("CREAR NOVA PEÇA PERQUE S'HA BLOQUEJAT");
             interaccionsTotals = 0;
-        }*/
+            /*for (int p = 0; p < pendents.Count; p++)
+            {
+                for (int t = 0; t < peçaCreada.Tiles.Length; t++)
+                {
+                    if(pendents[p] == peçaCreada.Tiles[t])
+                    {
+                        pendents.RemoveAt(p);
+                        p--;
+                    }
+                }
+            }*/
+            for (int t = 0; t < peçaCreada.Tiles.Length; t++)
+            {
+                if(pendents.Contains(peçaCreada.Tiles[t]))
+                    pendents.Remove(peçaCreada.Tiles[t]);
+            }
+
+            Vector2Int coordenades = peçaCreada.Coordenades;
+            Grid grid = peçaCreada.Grid;
+            pecesModificades.Remove(peçaCreada);
+            MonoBehaviour.Destroy(peçaCreada.gameObject);
+            grid.CrearPeçaDesbloquejadora(coordenades);
+
+            XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
+            return;
+        }
         //IndexMesProvable();
 
 
@@ -299,9 +309,13 @@ public static class WaveFunctionColapse
             _debug += $"{pendents[i].ID}{(pendents[i].Resolt ? "[Resolt]" : "")}\n";
         }
         Debug.Log(_debug);
-        
-        
-        Debug.Log($"El mes provable es: {_pendents[_index].ID}");
+
+        _debug = $"El mes provable es: {_pendents[_index].ID}";
+        for (int i = 0; i < _pendents.Count; i++)
+        {
+            _debug += $"{_pendents[i].ID}{(_pendents[i].Resolt ? "[Resolt]" : "")}\n";
+        }
+        Debug.Log(_debug);
 
         if (_index == _pendents.IndexOf(ultimaPreçaComprovada))
         {
@@ -525,7 +539,6 @@ public static class WaveFunctionColapse
             _debug += $"|-Vei[D]{(tile.Veins[2] != null ? tile.Veins[2].ID : "Null\n")}";
             Debug.Log(_debug);
             #endregion
-            colisions ++;
             tile.HaFallat = true;
             return true;
         }
@@ -577,7 +590,7 @@ public static class WaveFunctionColapse
             return true;
         }*/
         //else if (tile.Interaccions > 6 && colisions >= 2)
-        if (tile.Interaccions > 1 && tile.Interaccions <= 3)
+        if (tile.Interaccions > 2 && tile.Interaccions <= 4)
         {
             possibilitats = new Possibilitats(p.Tile(0), p.Tile(0));
             tile.SetPossiblitats(possibilitats);
@@ -586,7 +599,7 @@ public static class WaveFunctionColapse
             #endregion
             return true;
         }
-        else if (tile.Interaccions > 3)
+        else if (tile.Interaccions > 4)
         {
             int random = Random.Range(0, p.Count);
             possibilitats = new Possibilitats(p.Tile(random), p.Tile(random));

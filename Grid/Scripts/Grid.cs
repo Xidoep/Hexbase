@@ -18,6 +18,7 @@ public class Grid : MonoBehaviour
     [Space(10)]
     [Header("Peces")]
     [SerializeField] EstatPeça inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
+    [SerializeField] EstatPeça desbloquejadora;
     [Space(10)]
     [SerializeField] EstatPeça seleccionada;
 
@@ -50,7 +51,7 @@ public class Grid : MonoBehaviour
     }
 
 
-    
+    public void CrearPeçaDesbloquejadora(Vector2Int coordenada) => CrearPeça(desbloquejadora, coordenada);
     public void CrearPeça(Vector2Int coordenada) => CrearPeça(seleccionada, coordenada);
     /// <summary>
     /// Crea el prefab peça, declarant la peça i les coordenades.
