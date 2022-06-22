@@ -90,8 +90,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     void Agrupar() 
     {
-        grups.Agrupdar(this);
-        Proximitat();
+        grups.Agrupdar(this, Proximitat);
     }
     void Proximitat()
     {
@@ -177,7 +176,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-
+    public override void CanviarSubestat(Subestat subestat)
+    {
+        base.CanviarSubestat(subestat);
+        for (int i = 0; i < Tiles.Length; i++)
+        {
+            Tiles[i].Detalls(subestat);
+        }
+    }
 
 
 

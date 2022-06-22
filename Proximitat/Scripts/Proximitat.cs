@@ -11,6 +11,7 @@ public class Proximitat : ScriptableObject
     //2.- Si formen part d'un grup de X o +.
     //3.- Com l'1, pero en tot el grup.
     [SerializeField] Queue<Hexagon> peces;
+    System.Action enFinalitzar;
 
     bool _iniciat;
     Hexagon _actual;
@@ -22,11 +23,12 @@ public class Proximitat : ScriptableObject
         _actual = null;
         _canviar = false;
     }
-    public void Add(Hexagon peça)
+    public void Add(Hexagon peça, System.Action enFinalitzar = null)
     {
         if(!peces.Contains(peça)) peces.Enqueue(peça);
-        
+
         //if not started start the proces.
+        if (enFinalitzar != null) this.enFinalitzar = enFinalitzar;
         if (!_iniciat) Process();
     }
     void AddVeins(Hexagon peça)
@@ -48,6 +50,7 @@ public class Proximitat : ScriptableObject
         {
             _iniciat = false;
             Debug.LogError("FINALITZAT!");
+            enFinalitzar.Invoke();
             return;
         }
 
@@ -57,7 +60,6 @@ public class Proximitat : ScriptableObject
         Debug.LogError(_actual.name);
         for (int i = 0; i < _actual.Subestat.Condicions.Length; i++)
         {
-            Debug.LogError($"{_actual.name} - {_actual.Subestat.Condicions[i].Comprovar(_actual)}", _actual);
             if (_actual.Subestat.Condicions[i].Comprovar(_actual))
             {
                 AddVeins(_actual);
@@ -66,7 +68,7 @@ public class Proximitat : ScriptableObject
             }
         }
 
-        XS_Coroutine.StartCoroutine_Ending(1, Process);
+        XS_Coroutine.StartCoroutine_Ending(0.01f, Process);
     }
 
 }

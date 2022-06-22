@@ -46,7 +46,7 @@ public abstract class Hexagon : MonoBehaviour
     public Hexagon[] Veins => veins.Invoke(coordenades);
 
     public Subestat Subestat => subestat;
-
+    public virtual void CanviarSubestat(Subestat subestat) => this.subestat = subestat;
     //FUNCIONS
 
     public void CrearPeça() => crearPeça.Invoke(coordenades);

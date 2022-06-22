@@ -11,6 +11,7 @@ public class Grups : ScriptableObject
 
     [SerializeField] List<Grup> grups;
     [SerializeField] Proximitat proximitat;
+    //System.Action enFinalitzar;
 
     //INTERN
     List<Hexagon> veinsIguals;
@@ -21,10 +22,12 @@ public class Grups : ScriptableObject
         grups = new List<Grup>();
     }
 
-    public void Agrupdar(Peça peça)
+    public void Agrupdar(Peça peça, System.Action enFinalitzar)
     {
         if (peça == null)
             return;
+
+        //this.enFinalitzar = enFinalitzar;
 
         veinsIguals = new List<Hexagon>();
         for (int v = 0; v < peça.Veins.Length; v++)
@@ -83,7 +86,7 @@ public class Grups : ScriptableObject
         }
 
         Debug.Log($"Agrupdar estat: {peça.name}");
-        proximitat.Add(peça);
+        proximitat.Add(peça, enFinalitzar);
     }
     void CrearNouGrup(Peça peça)
     {

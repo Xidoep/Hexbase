@@ -40,6 +40,7 @@ public class TilePotencial
 
 
     [SerializeField] GameObject tileFisic;
+    [SerializeField] GameObject detalls;
     TilePotencial[] veins;
     
     
@@ -223,6 +224,21 @@ public class TilePotencial
 
         tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
         tileFisic.AddComponent<TileDebug>().New(veins);
+
+        Detalls(peça.Subestat);
+    }
+
+    public void Detalls(Subestat subestat)
+    {
+        if(detalls != null)
+        {
+            MonoBehaviour.Destroy(detalls);
+        }
+
+        if (subestat.detalls.Length == 0)
+            return;
+
+        detalls = GameObject.Instantiate(subestat.detalls[0], tileFisic.transform.position + (tileFisic.transform.forward * 0.45f), tileFisic.transform.rotation, tileFisic.transform);
     }
 }
 
