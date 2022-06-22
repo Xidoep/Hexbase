@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 [SelectionBase]
 public abstract class Hexagon : MonoBehaviour
 {
-    public void Setup(Grid grid, Vector2Int coordenades, EstatPeça estat)
+    public virtual void Setup(Grid grid, Vector2Int coordenades, EstatPeça estat)
     {
         this.grid = grid;
         veins = grid.Veins;
@@ -25,13 +25,15 @@ public abstract class Hexagon : MonoBehaviour
     [SerializeField] Transform parent;
     [SerializeField] protected AnimacioPerCodi animacioPerCodi;
 
-    protected EstatPeça estat;
-    [SerializeField] public bool acabadaDeCrear => WaveFunctionColapse.UltimaPeçaCreada == this;
+    EstatPeça estat;
+    [SerializeField] protected Subestat subestat;
 
     Vector2Int coordenades;
     Grid grid;
     protected System.Func<Vector2Int, Hexagon[]> veins;
     System.Action<Vector2Int> crearPeça;
+
+
 
     public abstract bool EsPeça { get; }
     public Vector2Int Coordenades => coordenades;
@@ -41,11 +43,15 @@ public abstract class Hexagon : MonoBehaviour
     public Transform Parent => parent;
     public bool EstatIgualA(EstatPeça altreEstat) => estat == altreEstat;
     public Grid Grid => grid;
-
-    //FUNCIONS
     public Hexagon[] Veins => veins.Invoke(coordenades);
 
+    public Subestat Subestat => subestat;
+
+    //FUNCIONS
+
     public void CrearPeça() => crearPeça.Invoke(coordenades);
+
+
 
     public abstract void Iniciar();
     public abstract void Actualitzar();

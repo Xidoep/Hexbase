@@ -8,8 +8,11 @@ public class EstatPeça : ScriptableObject
 {
     [SerializeField] Tile[] tilesPossibles;
     [SerializeField] Connexio[] connexionsPossibles;
+    [SerializeField] Subestat subestatInicial;
+
     public Tile[] Possibilitats() => tilesPossibles;
     public Connexio[] ConnexionsPossibles => connexionsPossibles;
+    public Subestat SubestatInicial => subestatInicial;
 
     public virtual void TilesInicials(TilePotencial[] tiles) 
     {
@@ -36,10 +39,3 @@ public class EstatPeça : ScriptableObject
     }
 }
 
-public static class EstatPeçaExtension
-{
-    public static EstatPeça Crear(this EstatPeça tipusPeça)
-    {
-        return ScriptableObject.CreateInstance<EstatPeça>();
-    }
-}

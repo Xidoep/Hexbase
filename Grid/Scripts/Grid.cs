@@ -23,7 +23,7 @@ public class Grid : MonoBehaviour
     [SerializeField] EstatPeça seleccionada;
 
     Hexagon[,] grid;
-    List<Hexagon> gridDebug;
+    //List<Hexagon> gridDebug;
 
 
     public ColeccioTiles Coleccio => coleccio;
@@ -69,6 +69,7 @@ public class Grid : MonoBehaviour
             CrearRanura(coodVei);
         }
 
+        /*
         #region DEBUG
         if (grid != null)
         {
@@ -82,6 +83,7 @@ public class Grid : MonoBehaviour
             }
         }
         #endregion
+        */
     }
     void CrearRanura(Vector2Int coordenada)
     {

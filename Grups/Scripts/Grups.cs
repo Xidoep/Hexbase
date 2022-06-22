@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Grups")]
 public class Grups : ScriptableObject
 {
+    //*************************************************************************************************
+    //FALTA: Que al buscar grups, agafi els grups de les peces adjacents a la peça que proves. No tots
+    //*************************************************************************************************
+
     [SerializeField] List<Grup> grups;
     [SerializeField] Proximitat proximitat;
 
@@ -12,7 +16,6 @@ public class Grups : ScriptableObject
     List<Hexagon> veinsIguals;
     bool agrupada = false;
     int primerGrup = 0;
-
     void OnEnable()
     {
         grups = new List<Grup>();
@@ -79,8 +82,8 @@ public class Grups : ScriptableObject
             CrearNouGrup(peça);
         }
 
-        proximitat.Add(peça);
         Debug.Log($"Agrupdar estat: {peça.name}");
+        proximitat.Add(peça);
     }
     void CrearNouGrup(Peça peça)
     {
@@ -92,7 +95,6 @@ public class Grups : ScriptableObject
         tmp.peces = new List<Peça>() { peça };
         tmp.estat = peça.Estat;
         grups.Add(tmp);
-
     }
 
     void AfegirAGrup(Peça peça, Grup grup) 
@@ -120,8 +122,11 @@ public class Grups : ScriptableObject
             proximitat.Add(desti.peces[i]);
         }
 
+
+
         return grups.IndexOf(desti);
     }
+
 }
 
 

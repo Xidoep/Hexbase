@@ -8,18 +8,24 @@ using XS_Utils;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
+    public override void Setup(Grid grid, Vector2Int coordenades, EstatPeça estat)
+    {
+        base.Setup(grid, coordenades, estat);
+        subestat = estat.SubestatInicial;
+    }
+
     //VARIABLES PRIVADES
     TilePotencial[] tiles;
     [SerializeField] Grups grups;
+    [SerializeField] int indexgGrup;
     [SerializeField] Proximitat proximitat;
-   
 
 
     //PROPIETATS   
     public override bool EsPeça => true;
     public TilePotencial[] Tiles => tiles;
     public TilePotencial Inicial => inicial;
-    
+    public 
 
 
     //INTERN
@@ -85,8 +91,13 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     void Agrupar() 
     {
         grups.Agrupdar(this);
+        Proximitat();
+    }
+    void Proximitat()
+    {
+        //proximitat.Add(this);
+        
         Debug.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", this);
-        //Comprovacions.Iniciar();
     }
 
     public void ComprovarProximitats()
