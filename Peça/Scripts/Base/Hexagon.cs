@@ -25,7 +25,7 @@ public abstract class Hexagon : MonoBehaviour
     [SerializeField] Transform parent;
     [SerializeField] protected AnimacioPerCodi animacioPerCodi;
 
-    EstatPeça estat;
+    [SerializeField] EstatPeça estat;
     [SerializeField] protected Subestat subestat;
 
     Vector2Int coordenades;

@@ -235,10 +235,23 @@ public class TilePotencial
             MonoBehaviour.Destroy(detalls);
         }
 
-        if (subestat.detalls.Length == 0)
+        if (subestat.detalls == null || subestat.detalls.Length == 0)
             return;
 
-        detalls = GameObject.Instantiate(subestat.detalls[0], tileFisic.transform.position + (tileFisic.transform.forward * 0.45f), tileFisic.transform.rotation, tileFisic.transform);
+        for (int d = 0; d < subestat.detalls.Length; d++)
+        {
+            int[] tiles = subestat.detalls[d].Tiles;
+            for (int t = 0; t < tiles.Length; t++)
+            {
+                if(tiles[t] == orientacio)
+                {
+                    detalls = GameObject.Instantiate(subestat.detalls[0].GameObject, tileFisic.transform.position + (tileFisic.transform.forward * 0.45f), Quaternion.identity, tileFisic.transform);
+                }
+            }
+        
+            
+        }
+
     }
 }
 

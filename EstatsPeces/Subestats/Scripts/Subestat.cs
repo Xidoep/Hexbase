@@ -5,11 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat")]
 public class Subestat : ScriptableObject
 {
-    public GameObject[] detalls;
+    //public GameObject[] detalls;
+    public Detall[] detalls;
     [SerializeField] Condicio[] condicions;
-    [SerializeField] 
 
     public Condicio[] Condicions => condicions;
+
 }
 
 
