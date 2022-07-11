@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
 
-[CreateAssetMenu(menuName = "Xido Studio/Hex/Detalls/Modificacio/Rotacio Absoluta")]
+[CreateAssetMenu(menuName = "Xido Studio/Hex/Detalls/Modificacio/Rotacio")]
 public class Detall_Modif_RotacioAbsoluta : Detall_Modificacio
 {
     public enum Accio
@@ -16,7 +16,7 @@ public class Detall_Modif_RotacioAbsoluta : Detall_Modificacio
     [SerializeField] Vector3 valor;
     [SerializeField] Vector3 valorRandom;
     [SerializeField] bool relatiu;
-    public override void Modificar(GameObject tile, GameObject detall)
+    public override void Modificar(TilePotencial tile, GameObject detall)
     {
         switch (accio)
         {
@@ -24,7 +24,7 @@ public class Detall_Modif_RotacioAbsoluta : Detall_Modificacio
                 if (!relatiu)
                 {
                     detall.transform.position =
-                        tile.GetComponentInParent<Peça>().transform.position + 
+                        tile.Peça.transform.position + 
                         new Vector3(
                         Random.Range(valor.x, valorRandom.x),
                         Random.Range(valor.y, valorRandom.y),
@@ -33,10 +33,10 @@ public class Detall_Modif_RotacioAbsoluta : Detall_Modificacio
                 else
                 {
                     detall.transform.position = 
-                        tile.transform.position +
-                        (tile.transform.right * Random.Range(valor.x, valorRandom.x)) +
-                        (tile.transform.up * Random.Range(valor.y, valorRandom.y)) +
-                        (tile.transform.forward * Random.Range(valor.z, valorRandom.z));
+                        tile.TileFisic.transform.position +
+                        (tile.TileFisic.transform.right * Random.Range(valor.x, valorRandom.x)) +
+                        (tile.TileFisic.transform.up * Random.Range(valor.y, valorRandom.y)) +
+                        (tile.TileFisic.transform.forward * Random.Range(valor.z, valorRandom.z));
                 }
                 break;
             case Accio.Rotacio:

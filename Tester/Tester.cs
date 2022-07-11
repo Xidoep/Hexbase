@@ -16,6 +16,7 @@ public class Tester : ScriptableObject
     Ranura[] ranures;
     Hexagon[] hexagons;
     List<Hexagon> viables;
+    Coroutine proces;
 
     [ContextMenu("Iniciar")]
     void Iniciar()
@@ -31,7 +32,7 @@ public class Tester : ScriptableObject
 
     void StepDelayed()
     {
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+        proces = XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
     }
 
     void Step()
@@ -57,5 +58,15 @@ public class Tester : ScriptableObject
         seleccionat.CrearPeça();
         //Destroy(seleccionat.gameObject, 0.05f);
         //WaveFunctionColapse.EnFinalitzar = StepDelayed;
+    }
+
+    private void OnDisable()
+    {
+        proces?.StopCoroutine();
+    }
+
+    private void OnDestroy()
+    {
+        proces?.StopCoroutine();
     }
 }

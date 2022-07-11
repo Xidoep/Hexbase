@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Detall_Modificacio : ScriptableObject
 {
-    public abstract void Modificar(GameObject tile, GameObject detall);
+    public abstract void Modificar(TilePotencial tile, GameObject detall);
 }

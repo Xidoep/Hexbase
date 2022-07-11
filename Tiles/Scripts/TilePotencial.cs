@@ -104,6 +104,7 @@ public class TilePotencial
     }
     public bool Resolt => possibilitats.Length == 1;
     public int OrientacioFisica => orientacioFisica;
+    public int Orientacio => orientacio;
     public bool HaFallat { get => haFallat; set => haFallat = value; }
 
 
@@ -245,11 +246,16 @@ public class TilePotencial
             {
                 if(tiles[t] == orientacio)
                 {
+                    if (subestat.detalls[d].GameObject(peça) == null)
+                        continue;
+
+                    //detalls = GameObject.Instantiate(subestat.detalls[d].GameObject(peça), tileFisic.transform.position, Quaternion.identity, tileFisic.transform);
                     detalls = GameObject.Instantiate(subestat.detalls[d].GameObject(peça), tileFisic.transform.position, Quaternion.identity);
                     for (int m = 0; m < subestat.detalls[d].Modificacios.Length; m++)
                     {
-                        subestat.detalls[d].Modificacios[m].Modificar(tileFisic, detalls);
+                        subestat.detalls[d].Modificacios[m].Modificar(this, detalls);
                     }
+                    detalls.transform.SetParent(tileFisic.transform);
                 }
             }
         

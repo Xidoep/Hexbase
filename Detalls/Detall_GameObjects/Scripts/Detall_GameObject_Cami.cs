@@ -5,8 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Detalls/GameObject/Camí")]
 public class Detall_GameObject_Cami : Detall_GameObject
 {
+    const string NO_CAMI = "000000";
+
     [SerializeField] Estat cami;
-    [SerializeField] List<Estat> estatsCaminables;
+    //[SerializeField] List<Estat> estatsCaminables;
+    [SerializeField] Detall_Tiles_Estats estatsCaminables;
 
     int[] bits;
     public string binary;
@@ -26,11 +29,18 @@ public class Detall_GameObject_Cami : Detall_GameObject
         {
             if (veins[i].EsPeça)
             {
-                //binary += ((Peça)veins[i]).EstatIgualA(cami) ? "1" : "0";
-                binary += estatsCaminables.Contains(peça.Estat) ? "1" : "0";
+                if (peça.EstatIgualA(cami))
+                {
+                    binary += estatsCaminables.Estats.Contains(((Peça)veins[i]).Estat) ? "1" : "0";
+                }
+                else binary += ((Peça)veins[i]).EstatIgualA(cami) ? "1" : "0";
+                
             }
             else binary += "0";
         }
+
+        if (binary == NO_CAMI)
+            return null;
 
         found = false;
         for (int d = detalls.Length - 1; d >= 0; d--)
