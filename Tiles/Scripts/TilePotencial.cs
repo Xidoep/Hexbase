@@ -7,7 +7,7 @@ using XS_Utils;
 [System.Serializable]
 public class TilePotencial
 {
-    public TilePotencial(EstatPeça estat, Peça peça, int orientacio)
+    public TilePotencial(Estat estat, Peça peça, int orientacio)
     {
         this.peça = peça;
         this.estat = estat;
@@ -20,14 +20,14 @@ public class TilePotencial
         assegurat = false;
         haFallat = false;
 
-        ConnexionsNules = estat.Null;
+        ConnexionsNules = estat.VeiNull;
         PossibilitatsInicials = estat.Possibilitats;
         possibilitats = PossibilitatsInicials.Invoke();
     }
 
 
     Peça peça;
-    EstatPeça estat;
+    Estat estat;
     public string estatName;
     int orientacio;
     public Vector2Int coordenades;
@@ -62,7 +62,7 @@ public class TilePotencial
         }
     }
     public Peça Peça => peça;
-    public EstatPeça Estat => estat;
+    public Estat Estat => estat;
     public Vector2Int Coordenades => coordenades;
     public Tile[] Possibilitats => possibilitats;
     public void Interactuar() => interaccions++;
@@ -130,7 +130,7 @@ public class TilePotencial
             haFallat = false;
         } 
         #region DEBUG
-        MonoBehaviour.Destroy(tileFisic);
+        if(tileFisic) MonoBehaviour.Destroy(tileFisic);
         #endregion
 
         ResetPossibilitats();
@@ -156,9 +156,9 @@ public class TilePotencial
         //interaccions = 0;
         haFallat = false;
         #region DEBUG
-        Crear();
+        //Crear();
+        //Debug.Log($"ESCOLLIR: {tileFisic.name}");
         #endregion
-        Debug.Log($"ESCOLLIR: {tileFisic.name}");
     }
 
     public void GetVeins(Peça peça)
@@ -240,12 +240,16 @@ public class TilePotencial
 
         for (int d = 0; d < subestat.detalls.Length; d++)
         {
-            int[] tiles = subestat.detalls[d].Tiles;
+            int[] tiles = subestat.detalls[d].Tiles(peça);
             for (int t = 0; t < tiles.Length; t++)
             {
                 if(tiles[t] == orientacio)
                 {
-                    detalls = GameObject.Instantiate(subestat.detalls[0].GameObject, tileFisic.transform.position + (tileFisic.transform.forward * 0.45f), Quaternion.identity, tileFisic.transform);
+                    detalls = GameObject.Instantiate(subestat.detalls[d].GameObject(peça), tileFisic.transform.position, Quaternion.identity);
+                    for (int m = 0; m < subestat.detalls[d].Modificacios.Length; m++)
+                    {
+                        subestat.detalls[d].Modificacios[m].Modificar(tileFisic, detalls);
+                    }
                 }
             }
         

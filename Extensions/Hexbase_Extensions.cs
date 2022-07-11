@@ -66,27 +66,63 @@ public static class GridExtensions
         return new Vector3(xPosition, 0, -yPosition);
     }
 
+
+    static List<Hexagon> _tmpVeins;
+    static List<Vector2Int> _tmpCoordenades;
+    static List<Peça> _tmpPeces;
+    static Hexagon _tmpPeça;
     public static Hexagon[] Veins(this Hexagon[,] grid, Vector2Int coordenades)
     {
-        List<Hexagon> _tmp = new List<Hexagon>();
-        _tmp.Add(grid.Get(coordenades.Up()));
-        _tmp.Add(grid.Get(coordenades.UpRight()));
-        _tmp.Add(grid.Get(coordenades.DownRight()));
-        _tmp.Add(grid.Get(coordenades.Down()));
-        _tmp.Add(grid.Get(coordenades.DownLeft()));
-        _tmp.Add(grid.Get(coordenades.UpLeft()));
-        return _tmp.ToArray();
+        if (_tmpVeins == null) _tmpVeins = new List<Hexagon>();
+        else _tmpVeins.Clear();
+
+        _tmpVeins.Add(grid.Get(coordenades.Up()));
+        _tmpVeins.Add(grid.Get(coordenades.UpRight()));
+        _tmpVeins.Add(grid.Get(coordenades.DownRight()));
+        _tmpVeins.Add(grid.Get(coordenades.Down()));
+        _tmpVeins.Add(grid.Get(coordenades.DownLeft()));
+        _tmpVeins.Add(grid.Get(coordenades.UpLeft()));
+        return _tmpVeins.ToArray();
     }
+
     public static Vector2Int[] VeinsCoordenades(this Hexagon[,] grid, Vector2Int coordenades)
     {
-        List<Vector2Int> _tmp = new List<Vector2Int>();
-        _tmp.Add(coordenades.Up());
-        _tmp.Add(coordenades.UpRight());
-        _tmp.Add(coordenades.DownRight());
-        _tmp.Add(coordenades.Down());
-        _tmp.Add(coordenades.DownLeft());
-        _tmp.Add(coordenades.UpLeft());
-        return _tmp.ToArray();
+        if (_tmpCoordenades == null) _tmpCoordenades = new List<Vector2Int>();
+        else _tmpCoordenades.Clear();
+
+        _tmpCoordenades.Add(coordenades.Up());
+        _tmpCoordenades.Add(coordenades.UpRight());
+        _tmpCoordenades.Add(coordenades.DownRight());
+        _tmpCoordenades.Add(coordenades.Down());
+        _tmpCoordenades.Add(coordenades.DownLeft());
+        _tmpCoordenades.Add(coordenades.UpLeft());
+        return _tmpCoordenades.ToArray();
+    }
+
+    public static Peça[] VeinsPeça(this Hexagon[,] grid, Vector2Int coordenades)
+    {
+        if (_tmpPeces == null) _tmpPeces = new List<Peça>();
+        else _tmpPeces.Clear();
+
+        _tmpPeça = grid.Get(coordenades.Up());
+        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+
+        _tmpPeça = grid.Get(coordenades.UpRight());
+        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+
+        _tmpPeça = grid.Get(coordenades.DownRight());
+        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+
+        _tmpPeça = grid.Get(coordenades.Down());
+        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+
+        _tmpPeça = grid.Get(coordenades.DownLeft());
+        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+
+        _tmpPeça = grid.Get(coordenades.UpLeft());
+        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+
+        return _tmpPeces.ToArray();
     }
 
 }

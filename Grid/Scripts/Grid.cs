@@ -9,27 +9,28 @@ using XS_Utils;
 
 public class Grid : MonoBehaviour
 {
+    //***************************************************
+    //Potser aixo també es podria convertir en un Scriptable. Així l'escena queda neta.
+    //***************************************************
+
+
     const int GRID_SIZE = 200;
 
+    [SerializeField] Fase processar;
     [Header("Prefasb")]
     [SerializeField] GameObject prefab_Ranura;
     [SerializeField] GameObject prefab_Peça;
-    [SerializeField] ColeccioTiles coleccio;
     [Space(10)]
     [Header("Peces")]
-    [SerializeField] EstatPeça inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
-    [SerializeField] EstatPeça desbloquejadora;
-    [Space(10)]
-    [SerializeField] EstatPeça seleccionada;
+    [SerializeField] Estat inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
+    [SerializeField] Estat desbloquejadora;
 
     Hexagon[,] grid;
     //List<Hexagon> gridDebug;
 
 
-    public ColeccioTiles Coleccio => coleccio;
-    public EstatPeça Seleccionada { set => seleccionada = value; }
-
     public Hexagon[] Veins(Vector2Int coordenades) => grid.Veins(coordenades);
+    public Peça[] VeinsPeça(Vector2Int coordenades) => grid.VeinsPeça(coordenades);
 
     private void OnEnable()
     {
@@ -50,40 +51,32 @@ public class Grid : MonoBehaviour
         grid = new Hexagon[GRID_SIZE, GRID_SIZE];
     }
 
-
-    public void CrearPeçaDesbloquejadora(Vector2Int coordenada) => CrearPeça(desbloquejadora, coordenada);
-    public void CrearPeça(Vector2Int coordenada) => CrearPeça(seleccionada, coordenada);
+    public void CrearDesdeRanura(Estat tipus, Vector2Int coordenada)
+    {
+        processar.Iniciar(coordenada);
+    }
+    public void CrearPeçaDesbloquejadora(Vector2Int coordenada) 
+    {
+        CrearPeça(desbloquejadora, coordenada);
+    } 
     /// <summary>
     /// Crea el prefab peça, declarant la peça i les coordenades.
     /// </summary>
-    void CrearPeça(EstatPeça tipus, Vector2Int coordenada)
+    public void CrearPeça(Estat tipus, Vector2Int coordenada, bool desbloquejadora = false)
     {
         Peça peçaFisica = Instanciar(prefab_Peça, coordenada.x, coordenada.y).GetComponent<Peça>();
 
         peçaFisica.Setup(this, coordenada, tipus);
         grid.Set(peçaFisica);
-        peçaFisica.Iniciar();
+        //peçaFisica.Iniciar();
 
         foreach (var coodVei in grid.VeinsCoordenades(peçaFisica.Coordenades))
         {
             CrearRanura(coodVei);
         }
 
-        /*
-        #region DEBUG
-        if (grid != null)
-        {
-            gridDebug = new List<Hexagon>();
-            for (int _x = 0; _x < grid.GetLength(0); _x++)
-            {
-                for (int _y = 0; _y < grid.GetLength(1); _y++)
-                {
-                    gridDebug.Add(grid[_y, _x]);
-                }
-            }
-        }
-        #endregion
-        */
+        if(!desbloquejadora)
+            processar.Iniciar(peçaFisica);
     }
     void CrearRanura(Vector2Int coordenada)
     {
@@ -100,7 +93,7 @@ public class Grid : MonoBehaviour
         //Ranura ranura = tile.GetComponent<Ranura>();
         ranura.Setup(this, coordenada, null);
         grid.Set(ranura);
-        ranura.Iniciar();
+        //ranura.Iniciar();
 
     }
 
@@ -116,7 +109,6 @@ public class Grid : MonoBehaviour
     {
         if (prefab_Ranura == null) prefab_Ranura = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Ranura.prefab");
         if (prefab_Peça == null) prefab_Peça = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Peça.prefab");
-        if (coleccio == null) coleccio = XS_Editor.LoadAssetAtPath<ColeccioTiles>("Assets/XidoStudio/Hexbase/Tiles/Colleccio/_Col·leccio Tiles.asset");
     }
 
 }

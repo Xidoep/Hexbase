@@ -13,8 +13,8 @@ public class Tile : ScriptableObject
     [SerializeField] Connexio dreta;
 
     [Header("Punta")]
-    [SerializeField] EstatPeça punta;
-    public EstatPeça Punta => punta;
+    [SerializeField] Estat punta;
+    public Estat Punta => punta;
     public Connexio Exterior(int orientacioFisica)
     {
         //return Abaix;

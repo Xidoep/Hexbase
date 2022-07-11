@@ -6,16 +6,22 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Tester")]
 public class Tester : ScriptableObject
 {
-    [SerializeField] Grid grid;
-    [SerializeField] EstatPeça[] peces;
+    [SerializeField] Estat[] peces;
+    [SerializeField] Fase_Processar processar;
+    [SerializeField] Fase_Colocar colocar;
 
+    Grid grid;
+
+
+    Ranura[] ranures;
     Hexagon[] hexagons;
     List<Hexagon> viables;
 
     [ContextMenu("Iniciar")]
     void Iniciar()
     {
-        if(grid == null)
+        processar.onFinish = StepDelayed;
+        if (grid == null)
         {
             grid = FindObjectOfType<Grid>();
         }
@@ -30,24 +36,26 @@ public class Tester : ScriptableObject
 
     void Step()
     {
-        hexagons = grid.GetComponentsInChildren<Hexagon>();
+        ranures = grid.GetComponentsInChildren<Ranura>();
+        /*hexagons = grid.GetComponentsInChildren<Hexagon>();
         viables = new List<Hexagon>();
         for (int i = 0; i < hexagons.Length; i++)
         {
             if (hexagons[i].EstatNull) 
                 viables.Add(hexagons[i]);
 
-        }
+        }*/
 
-        Hexagon seleccionat = viables[Random.Range(0, viables.Count)];
-        if(!seleccionat.EstatNull)
+        //Hexagon seleccionat = viables[Random.Range(0, viables.Count)];
+        Ranura seleccionat = ranures[Random.Range(0, ranures.Length)];
+        /*if (!seleccionat.EstatNull)
         {
             Debug.LogError("PERO SI AQUESTA NO ES NULLA!!!");
-        }
+        }*/
 
-        grid.Seleccionada = peces[Random.Range(0, peces.Length)];
+        colocar.PeçaSeleccionada = peces[Random.Range(0, peces.Length)];
         seleccionat.CrearPeça();
-        Destroy(seleccionat.gameObject, 0.05f);
-        WaveFunctionColapse.EnFinalitzar = StepDelayed;
+        //Destroy(seleccionat.gameObject, 0.05f);
+        //WaveFunctionColapse.EnFinalitzar = StepDelayed;
     }
 }
