@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Controller")]
 public class FasesControlador : ScriptableObject
 {
+
     [SerializeField] Fase actual;
     public Fase Actual
     {
@@ -17,6 +18,7 @@ public class FasesControlador : ScriptableObject
             actual.Actualitzar();
         }
     }
+
 
 
     private void OnValidate()

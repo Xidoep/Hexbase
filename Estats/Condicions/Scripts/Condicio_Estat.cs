@@ -8,11 +8,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Condicio/byEstat")]
 public class Condicio_Estat : Condicio
 {
-    [Space(20)]
+    [Linia]
     [Header("ESTAT")]
     [SerializeField] Estat estat;
     [SerializeField] int quantitat;
-
     //INTERN
     int _quantitat = 0;
     bool _cohincidit = false;
@@ -20,7 +19,7 @@ public class Condicio_Estat : Condicio
 
     public override bool Comprovar(Peça peça)
     {
-        if (peça.Subestat == objectiu)
+        if (peça.SubestatIgualA(objectiu))
             return false;
 
         _quantitat = 0;

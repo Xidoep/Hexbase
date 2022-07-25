@@ -5,13 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Estats/Riu")]
 public class Estat_Riu : Estat
 {
-    [Space(20)]
     [Header("RIU")]
-    [Header("Inicials")]
+    [Linia]
+    [Nota("Els tiles que es coloquen al iniciar")]
     [SerializeField] Tile riu;
     [SerializeField] Tile riuTrencat;
     [SerializeField] Tile terra;
-    [Header("VeinsNulls")]
+
+    [Linia]
+    [Nota("Les connexions utlitzarà quan trobi una peça veina nula, en comptes de totes.")]
     [SerializeField] List<Estat> aigues;
     [SerializeField] Connexio cRiu;
     [SerializeField] Connexio cCostaA;

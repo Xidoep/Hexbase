@@ -15,6 +15,7 @@ public class Habitant : System.Object
     {
         this.feina = feina;
         ocupat = true;
+        //feina.AddHabitant(this);
     }
 
     public Peça casa;

@@ -5,15 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Estats/Montanya")]
 public class Estat_Montanya : Estat
 {
-    [Space(20)]
     [Header("MONTANYA")]
-    [Header("Inicials")]
+    [Linia]
+    [Nota("Els tiles que es coloquen al iniciar")]
     [SerializeField] Tile punta;
     [SerializeField] Tile serra;
     [SerializeField] Tile cim;
-    //[SerializeField] Tile serra;
-    //[SerializeField] EstatPeça aigues;
-    [Header("VeinsNulls")]
+
+    [Linia]
+    [Nota("Les connexions utlitzarà quan trobi una peça veina nula, en comptes de totes.")]
     [SerializeField] Connexio[] nules;
     public override void TilesInicials(TilePotencial[] tiles)
     {

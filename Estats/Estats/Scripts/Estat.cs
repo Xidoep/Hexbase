@@ -6,19 +6,23 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Estats/Basic")]
 public class Estat : ScriptableObject
 {
+    [Linia]
     [Header("TILES")]
+    [SerializeField] Tile[] tilesInicials;
     [SerializeField] Tile[] tilesPossibles;
     [Tooltip("S'emplena automaticament")][SerializeField] Connexio[] connexionsPossibles;
-
+    
+    [Linia]
     [Header("SUBESTAT")]
-    [SerializeField] Subestat subestatInicial;
+    [SerializeField] Subestat inicial;
     [SerializeField] Condicio[] condicions;
 
     //PROPIETATS
     public Tile[] Possibilitats() => tilesPossibles;
     public Connexio[] ConnexionsPossibles => connexionsPossibles;
-    public Subestat SubestatInicial => subestatInicial;
+    public Subestat SubestatInicial => inicial;
 
+    public virtual bool EsCasa => false;
 
 
     //public virtual void OnCreate(Peça peça) { }
@@ -29,7 +33,8 @@ public class Estat : ScriptableObject
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            tiles[i].Escollir(new WaveFunctionColapse.Possibilitats(tilesPossibles[0], 0), 0);
+            tiles[i].Escollir(WaveFunctionColapse.RandomTiles(tilesInicials), 0);
+            //tiles[i].Escollir(new WaveFunctionColapse.Possibilitats(tilesPossibles[0], 0), 0);
         }
     }
 

@@ -10,6 +10,7 @@ public class Detall_GameObject_Cami : Detall_GameObject
     [SerializeField] Estat cami;
     //[SerializeField] List<Estat> estatsCaminables;
     [SerializeField] Detall_Tiles_Estats estatsCaminables;
+    [SerializeField] Dependencia[] tilesProhibits;
 
     int[] bits;
     public string binary;
@@ -17,7 +18,10 @@ public class Detall_GameObject_Cami : Detall_GameObject
     string codi = "";
     bool found = false;
     int rotation = 0;
-    public override GameObject Get(Peça peça)
+    bool prohibit = false;
+
+
+    public override GameObject Get(Peça peça, TilePotencial tile)
     {
 
         Hexagon[] veins = peça.Veins;
@@ -27,11 +31,30 @@ public class Detall_GameObject_Cami : Detall_GameObject
 
         for (int i = 0; i < veins.Length; i++)
         {
-            if (veins[i].EsPeça)
+            if (veins[i] != null && veins[i].EsPeça)
             {
                 if (peça.EstatIgualA(cami))
                 {
-                    binary += estatsCaminables.Estats.Contains(((Peça)veins[i]).Estat) ? "1" : "0";
+                    if (!EstaProhibit(peça.Tiles[i]))
+                    {
+                        binary += estatsCaminables.Estats.Contains(((Peça)veins[i]).Estat) ? "1" : "0";
+                    }
+                    else binary += "0";
+                    /*if (estatsCaminables.Estats.Contains(((Peça)veins[i]).Estat))
+                    {
+                        prohibit = true;
+                        for (int p = 0; p < tilesProhibits.Length; p++)
+                        {
+                            if (tilesProhibits[p].Cohincideix(tile))
+                            {
+                                prohibit = false;
+                                break;
+                            }
+                        }
+                        binary += prohibit ? "1" : "0";
+                    }
+                    else binary += "0";*/
+
                 }
                 else binary += ((Peça)veins[i]).EstatIgualA(cami) ? "1" : "0";
                 
@@ -39,7 +62,8 @@ public class Detall_GameObject_Cami : Detall_GameObject
             else binary += "0";
         }
 
-        if (binary == NO_CAMI)
+
+        if (binary == NO_CAMI && !peça.EstatIgualA(cami))
             return null;
 
         found = false;
@@ -73,5 +97,21 @@ public class Detall_GameObject_Cami : Detall_GameObject
 
         detalls[index].transform.GetChild(0).rotation = Quaternion.Euler(0, -60 * rotation, 0);
         return detalls[index];
+    }
+
+
+
+    bool EstaProhibit(TilePotencial tile)
+    {
+        prohibit = false;
+        for (int p = 0; p < tilesProhibits.Length; p++)
+        {
+            if (tilesProhibits[p].Cohincideix(tile))
+            {
+                prohibit = true;
+                break;
+            }
+        }
+        return prohibit;
     }
 }

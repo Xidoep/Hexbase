@@ -46,7 +46,7 @@ public static class WaveFunctionColapse
         iniciat = true;
         index = 0;
         interaccionsTotals = 0;
-        if (pendents == null) pendents = new List<TilePotencial>();
+        StartPendents();
 
         //Prioritaria = _peça.Inicial;
         for (int i = 0; i < _peça.Tiles.Length; i++)
@@ -64,7 +64,10 @@ public static class WaveFunctionColapse
         //Step();
         XS_Coroutine.StartCoroutine_Ending(0.5f, Step);
     }
-
+    public static void StartPendents()
+    {
+        if (pendents == null) pendents = new List<TilePotencial>();
+    }
 
     static void Step()
     {
@@ -114,6 +117,7 @@ public static class WaveFunctionColapse
 
         XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
     }
+    
     public static void Add(TilePotencial tilePotencial)
     {
         if (!pendents.Contains(tilePotencial)) pendents.Add(tilePotencial);
@@ -122,6 +126,9 @@ public static class WaveFunctionColapse
     static void Finalitzar()
     {
         Debugar.Log("FINISH WFC");
+        //************************************************************************************
+        //Abans de crear els tiles fisics s'han d'analitzar els patrons de les peces creades buscant patrons pels tiles multiples.
+        //************************************************************************************
         pecesModificades[0].CrearTilesFisics();
         if(pecesModificades.Count > 1)
         {
@@ -546,6 +553,7 @@ public static class WaveFunctionColapse
     {
         if (p.Count == 1)
         {
+            Debug.LogError("SELECCIONAR TILE ONE");
             tile.Escollir(p, 0);
             #region DEBUG
             if (debug) Debug.Log($"RESULTAT: {p.Tile(0).name}|{p.Orietacio(0)}");
@@ -560,65 +568,88 @@ public static class WaveFunctionColapse
 
     static bool VariesPossibilitats(TilePotencial tile, Possibilitats p)
     {
-        //if(!tile.Peça.Estat.TotesLesPossiblitats(p.Count))
-        //    return false;
-
-        /*if (p.Contains(tile.Preferit))
-        {
-            tile.Escollir(p, p.IndexOf(tile.Preferit));
-            #region DEBUG
-            if (debug) Debug.Log($"RESULTAT: {p.Tile(p.IndexOf(tile.Preferit)).name}|{p.Orietacio(p.IndexOf(tile.Preferit))}");
-            #endregion
-            if (!pecesModificades.Contains(tile.Peça)) 
-                pecesModificades.Add(tile.Peça);
-
-            return true;
-        }
-        else
-        {*/
         Possibilitats possibilitats;
-        /*if (p.Count == tile.Possibilitats.Length && !tile.HaFallat)
+        /*if(tile.Interaccions > 2)
         {
-            
-            possibilitats = new Possibilitats(p.Tile(0), p.Tile(0));
+            Debug.LogError("RANDOM!!!");
+
+            possibilitats = RandomTiles(p);
             tile.SetPossiblitats(possibilitats);
-            #region DEBUG
-            if (debug) Debug.Log($"COMPLETAMENT LLIURE: {possibilitats.Tile(0).name}|{possibilitats.Orietacio(0)}");
-            #endregion
             return true;
         }*/
-        //else if (tile.Interaccions > 6 && colisions >= 2)
-        if (tile.Interaccions > 2 && tile.Interaccions <= 4)
+        if (tile.Interaccions > 1 && tile.Interaccions <= 3)
         {
-            possibilitats = new Possibilitats(p.Tile(0), p.Tile(0));
+            Debug.LogError("SELECCIONAR TILE PREFERIT");
+            //NEW
+            //RANDOM ENTRE TILES (+PES) AMB LES MATEIXES CONNEXIONS
+            /*possibilitats = new Possibilitats(p.Tile(0), 0, 0, p.Tile(0).Pes);
+            for (int i = 1; i < p.Count; i++)
+            {
+                if (p.Tile(i).ConnexionsIgualsA(p.Tile(0)))
+                {
+                    possibilitats.Add(p.Tile(i), 0);
+                }
+            }
+            possibilitats = RandomTiles(possibilitats);*/
+            /*possibilitats = new Possibilitats(p.Tile(0), 0,0,p.Tile(0).Pes);
+            int randomMax = p.Tile(0).Pes;
+            for (int i = 1; i < p.Count; i++)
+            {
+                if (p.Tile(i).ConnexionsIgualsA(p.Tile(0))) 
+                {
+                    possibilitats.Add(p.Tile(i), 0, randomMax + 1, randomMax + p.Tile(i).Pes);
+                    randomMax += p.Tile(i).Pes;
+                } 
+            }
+
+            Tile randomized = possibilitats.Tile(possibilitats.Random(Random.Range(0, randomMax)));
+            possibilitats = new Possibilitats(randomized, randomized);*/
+
+            possibilitats = new Possibilitats(p.Tile(0), 0, 0, p.Tile(0).Pes);
+            for (int i = 1; i < p.Count; i++)
+            {
+                if (p.Tile(i).ConnexionsIgualsA(p.Tile(0)))
+                {
+                    possibilitats.Add(p.Tile(i), 0);
+                }
+            }
+
+            possibilitats = RandomTiles(possibilitats);
+             //OLD
+             //possibilitats = new Possibilitats(p.Tile(0), p.Tile(0));
             tile.SetPossiblitats(possibilitats);
             #region DEBUG
             if (debug) Debug.Log($"PROVAR PRIMER: {possibilitats.Tile(0).name}|{possibilitats.Orietacio(0)}");
             #endregion
             return true;
         }
-        else if (tile.Interaccions > 4)
+        else if (tile.Interaccions > 3)
         {
-            int random = Random.Range(0, p.Count);
-            possibilitats = new Possibilitats(p.Tile(random), p.Tile(random));
+            //Fer un random basat en el temps.
+            //RANDOM ENTRE TILES (+PES)
+            Debug.LogError("SELECCIONAR TILE RANDOM");
+
+            //NEW
+            possibilitats = RandomTiles(p);
+            /*int randomMax = 0;
+            for (int i = 0; i < p.Count; i++)
+            {
+                p.SetRandomRange(i, randomMax + 1, randomMax + p.Tile(i).Pes);
+                randomMax += p.Tile(i).Pes;
+            }
+            Tile randomized = p.Tile(p.Random(Random.Range(0, randomMax)));
+            possibilitats = new Possibilitats(randomized, randomized);*/
+
+            //OLD
+            //int random = Random.Range(0, p.Count);
+            //possibilitats = new Possibilitats(p.Tile(random), p.Tile(random));
             tile.SetPossiblitats(possibilitats);
             #region DEBUG
             if (debug) Debug.Log($"ALEATORI: {possibilitats.Tile(0).name}|{possibilitats.Orietacio(0)}");
             #endregion
             return true;
         }
-        else return false;  
-
-
-        /*tile.Ambiguo();
-        for (int i = 0; i < tile.Veins.Length; i++)
-        {
-            tile.Veins[i]?.Ambiguo();
-            tile.Veins[i]?.Veins[1]?.Ambiguo();
-            tile.Veins[i]?.Veins[2]?.Ambiguo();
-        }*/
-        //}
-        //return false;
+        else return false;
     }
 
  
@@ -639,6 +670,37 @@ public static class WaveFunctionColapse
     }
 
 
+    public static Possibilitats RandomTiles(Possibilitats possibilitats)
+    {
+        int randomMax = 0;
+        Debug.LogError($"{possibilitats.Count} POSSIBLITATS");
+        for (int i = 0; i < possibilitats.Count; i++)
+        {
+            possibilitats.Replace(i, 0, randomMax, randomMax + possibilitats.Tile(i).Pes - 1);
+            randomMax += possibilitats.Tile(i).Pes;
+        }
+
+        Tile randomized = possibilitats.Tile(possibilitats.Random(Random.Range(0, randomMax - 1)));
+        return new Possibilitats(randomized);
+    }
+    public static Possibilitats RandomTiles(Tile[] tiles)
+    {
+        Possibilitats possibilitats = new Possibilitats(tiles[0], 0,0,tiles[0].Pes);
+        int randomMax = tiles[0].Pes;
+        Debug.LogError($"{tiles.Length} TILES INICIALS");
+        if(tiles.Length > 1)
+        {
+            for (int i = 1; i < tiles.Length; i++)
+            {
+                possibilitats.Add(tiles[i], 0, randomMax + 1, randomMax + tiles[i].Pes);
+                randomMax += tiles[i].Pes;
+            }
+        }
+        
+        Tile randomized = possibilitats.Tile(possibilitats.Random(Random.Range(0, randomMax)));
+        return new Possibilitats(randomized);
+    }
+
     public struct Possibilitats
     {
         public Possibilitats(List<Possibilitat> possibilitats)
@@ -653,6 +715,16 @@ public static class WaveFunctionColapse
             contains = false;
             index = 0;
         }
+        public Possibilitats(Tile tile, int orientacio, int rMin, int rMax)
+        {
+            possibilitats = new List<Possibilitat>() { new Possibilitat(tile, orientacio, rMin, rMax) };
+            contains = false;
+            index = 0;
+        }
+
+        /// <summary>
+        /// Utilitzat principalment per quan es tria el PREFERIT. I es donen dos mes opcios, perque es torni a comprovar la eleccio i no es resolgui al tenir un sol resultat.
+        /// </summary>
         public Possibilitats(Tile tile1, Tile tile2)
         {
             possibilitats = new List<Possibilitat>();
@@ -661,7 +733,15 @@ public static class WaveFunctionColapse
             contains = false;
             index = 0;
         }
-
+        public Possibilitats(Tile tile1)
+        {
+            possibilitats = new List<Possibilitat>();
+            possibilitats.Add(new Possibilitat(tile1, 0));
+            possibilitats.Add(new Possibilitat(tile1, 1));
+            possibilitats.Add(new Possibilitat(tile1, 2));
+            contains = false;
+            index = 0;
+        }
 
         List<Possibilitat> possibilitats;
 
@@ -676,6 +756,9 @@ public static class WaveFunctionColapse
         public Tile Tile(int index) => possibilitats[index].tile;
         public int Orietacio(int index) => possibilitats[index].orientacio;
         public void Add(Tile tile, int orientacio) => possibilitats.Add(new Possibilitat(tile, orientacio));
+        public void Add(Tile tile, int orientacio, int rMin, int rMax) => possibilitats.Add(new Possibilitat(tile, orientacio, rMin, rMax));
+        public void Replace(int index, int orientacio, int rMin, int rMax) => possibilitats[index] = new Possibilitat(Tile(index), orientacio, rMin, rMax);
+
         public bool Contains(Tile tile)
         {
             contains = false;
@@ -698,7 +781,20 @@ public static class WaveFunctionColapse
             }
             return index;
         }
+        public void SetRandomRange(int index, int rMin, int rMax) => possibilitats[index].Random(new Vector2Int(rMin, rMax));
 
+        public int Random(int random)
+        {
+            int index = -1;
+            Debug.LogError($"GIVEN RANDOM NUMBER = {random}");
+            for (int i = 0; i < possibilitats.Count; i++)
+            {
+                Debug.LogError($"P{i} RANDOM {possibilitats[i].random}");
+                if (possibilitats[i].InRandomRange(random)) index = i;
+            }
+            Debug.LogError($"RANDOM = {index}");
+            return index;
+        }
         public Tile[] ToArray()
         {
             List<Tile> tiles = new List<Tile>();
@@ -715,13 +811,24 @@ public static class WaveFunctionColapse
         {
             this.tile = tile;
             this.orientacio = orientacio;
+            random = new Vector2Int();
+        }
+        public Possibilitat(Tile tile, int orientacio, int rMin, int rMax)
+        {
+            this.tile = tile;
+            this.orientacio = orientacio;
+            random = new Vector2Int(rMin, rMax);
         }
         public Tile tile;
         public int orientacio;
 
 
+        public Vector2Int random;
+
+        public void Random(Vector2Int random) => this.random = random;
 
         public bool EsIgual(Tile tile) => this.tile == tile;
+        public bool InRandomRange(int r) => r == Mathf.Clamp(r, random.x, random.y);
     }
 
 

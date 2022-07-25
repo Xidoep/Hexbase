@@ -13,7 +13,7 @@ public class Detall_Tiles_Estat : Detall_Tiles
         Hexagon[] veins = peça.Veins;
         for (int i = 0; i < veins.Length; i++)
         {
-            if (veins[i].EsPeça)
+            if (veins[i] != null && veins[i].EsPeça)
             {
                 if (((Peça)veins[i]).EstatIgualA(estat)) tmp.Add(i);
             }

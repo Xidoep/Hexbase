@@ -8,65 +8,93 @@ using XS_Utils;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
-    public override void Setup(Grid grid, Vector2Int coordenades, Estat estat)
+    public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
+    {
+        base.Setup(grid, coordenades, estat, null);
+
+        this.estat = estat;
+
+        if (subestat == null)
+            return;
+
+        this.subestat = subestat;
+        if (!this.estat.EsCasa) this.subestat.Productor(this);
+
+        condicions = this.estat.Condicions(this.subestat);
+    }
+    /*public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
         base.Setup(grid, coordenades, estat);
 
         this.estat = estat;
-        subestat = estat.SubestatInicial;
-        //subestat = estat.SubestatInicial.Get(this);
 
-        condicions = estat.Condicions(subestat);
-        /*List<Condicio> _tmp = new List<Condicio>(estat.Condicions);
-        _tmp.AddRange(subestat.Condicions);
-        condicions = _tmp.ToArray();*/
-        //condicions = new List<Condicio>(estat.Condicions);
-        //condicions.AddRange(estat.SubestatInicial.Condicions);
-    }
+        this.subestat = this.estat.SubestatInicial;
+        if (!this.estat.EsCasa) subestat.Productor(this);
+
+        condicions = this.estat.Condicions(subestat);
+    }*/
 
     //VARIABLES PUBLIQUES
+    [Linia]
     [Header("ESTAT")]
     [SerializeField] Estat estat;
     [SerializeField] protected Subestat subestat;
 
+    [Linia]
+    [Header("GRUP")]
+    [SerializeField] int grup;
+
+    [Linia]
     [Header("CASA")]
     [SerializeField] List<Casa> cases;
+
+    [Linia]
+    [Header("HABITANT")]
+    [SerializeField] Casa[] treballador;
+
     //VARIABLES PRIVADES
-    TilePotencial[] tiles;
+    [SerializeField] TilePotencial[] tiles;
     protected Condicio[] condicions;
 
 
 
-    //PROPIETATS   
+    //PROPIETATS
+    public int Grup { set => grup = value; get => grup; }
+
     public override bool EsPeça => true;
     public TilePotencial[] Tiles => tiles;
     public Estat Estat => estat;
+    public Subestat Subestat => subestat;
     public string EstatName => estat.name;
     public bool EstatIgualA(Estat altreEstat) => estat.Equals(altreEstat);
+    public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
     public Condicio[] Condicions => condicions;
-    public Subestat Subestat => subestat;
-    public bool TeCases => cases != null || cases.Count > 0;
-    public int Cases => cases != null ? cases.Count : 0;
-    public Habitant HabitantLLiure
+    //public bool TeCases => cases != null || cases.Count > 0;
+    public int CasesCount => cases != null ? cases.Count : 0;
+    public List<Casa> Cases => cases;
+    public Casa TreballadorLLiure
     {
         get
         {
-            Habitant hab = null;
+            Casa disponible = null;
             for (int i = 0; i < cases.Count; i++)
             {
-                hab = cases[i].HabitantDisponible();
-                if (hab != null) break;
+                if (cases[i].Disponible)
+                {
+                    disponible = cases[i];
+                    break;
+                }
             }
-            return hab;
+            return disponible;
         }
     }
-
-
+    public bool HiHaTreballador => treballador != null && treballador.Length != 0;
+    public Casa Treballador => treballador[0];
 
     public void Actualitzar()
     {
-        Debug.Log($"Actualitzar ({EstatName}({Coordenades}))");
-        name = $"{EstatName}({Coordenades})";
+        Debug.Log($"Actualitzar ({estat.name}({Coordenades}))");
+        name = $"{estat.name}({Coordenades})";
 
         CrearTilesPotencials();
         AssignarVeinsTiles(tiles);
@@ -97,7 +125,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
-    void CrearTilesPotencials()
+    public void CrearTilesPotencials()
     {
         tiles = new TilePotencial[6];
         for (int i = 0; i < 6; i++)
@@ -105,7 +133,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
             tiles[i] = new TilePotencial(Estat, this, i);
         }
     }
-    void AssignarVeinsTiles(TilePotencial[] tilesPotencials)
+    public void AssignarVeinsTiles(TilePotencial[] tilesPotencials)
     {
         for (int i = 0; i < tilesPotencials.Length; i++)
         {
@@ -143,9 +171,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void CrearTilesFisics()
     {
-        //*************************
-        //ANALITZAR PATRONS INTERNS
-        //*************************
+        //***************************************************************
+        //Abans d'arribar a aquest punt. s'han hagut d'analitzar els tiles i buscar patrons on quadrin les peces multiples.
+        //***************************************************************
 
         //if(!acabadaDeCrear)
             //animacioPerCodi.Play();
@@ -164,11 +192,16 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (condicions == null)
             return;
 
+        Debug.LogError($"DONAR {subestat.Punts} PUNTS!");
+
         /*for (int i = 0; i < this.subestat.Condicions.Length; i++)
         {
             condicions.Remove(this.subestat.Condicions[i]);
         }*/
+
         this.subestat = subestat;
+        if (!estat.EsCasa) subestat.Productor(this);
+
         //condicions.AddRange(subestat.Condicions);
 
         condicions = estat.Condicions(subestat);
@@ -179,16 +212,31 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+
+
     public void AddCasa()
     {
         if (cases == null) cases = new List<Casa>();
 
-        cases.Add(new Casa(this, 2));
+        //cases.Add(new Casa(this, 2));
+        cases.Add(new Casa(this, ((Estat_Casa)Estat).Necessitats));
     }
-    public void RemoveCasa()
+    public void AddCasa(Casa casa)
     {
-        cases.RemoveAt(cases.Count - 1);
+        if (cases == null) cases = new List<Casa>();
+        cases.Add(casa);
     }
+    public void RemoveCasa() 
+    {
+        cases[cases.Count - 1].Desocupar();
+        cases.RemoveAt(cases.Count - 1);
+    } 
+    public void AddTreballador(Casa treballador) => this.treballador = new Casa[] { treballador };
+    public void RemoveTreballador() => treballador = null;
+
+
+
+    //public void AddHabitant(Habitant habitant) => treballador = habitant;
 
     /*public void AfegirCasa(int habitants)
     {

@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     //VARIABLES
+    [Linia]
     [SerializeField] Fase_Colocar colocar;
 
     //Prevé multiples clics.
@@ -23,7 +24,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     void Crear()
     {
-        if (!Fase_Colocar.colocarPecesPermes)
+        if (!Fase_Colocar.PermesColoarPeça)
             return;
 
         if (autobloquejar)

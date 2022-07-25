@@ -5,21 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Colocar")]
 public class Fase_Colocar : Fase
 {
+    static bool permesColoarPeça = false;
+
     Grid grid;
 
-    public static bool colocarPecesPermes = false;
-    public bool debug;
-
+    [Linia]
+    [Nota("Amb el temps això s'ha de setejar desde fora",NoteType.Error)]
     [SerializeField] Estat peçaSeleccionada;
+
+
+
     public Estat PeçaSeleccionada { set => peçaSeleccionada = value; }
+    public static bool PermesColoarPeça => permesColoarPeça;
 
     public override void Actualitzar()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();
 
         //Prepara la peça inicial agafantla del pool de peces.
-        colocarPecesPermes = true;
-        debug = colocarPecesPermes;
+        permesColoarPeça = true;
     }
 
 
@@ -32,7 +36,6 @@ public class Fase_Colocar : Fase
     {
         onFinish?.Invoke();
 
-        colocarPecesPermes = false;
-        debug = colocarPecesPermes;
+        permesColoarPeça = false;
     }
 }

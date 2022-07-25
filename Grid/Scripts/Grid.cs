@@ -16,29 +16,43 @@ public class Grid : MonoBehaviour
 
     const int GRID_SIZE = 200;
 
+    [SerializeField] Fase inicial;
     [SerializeField] Fase processar;
-    [Header("Prefasb")]
+    [Linia]
+    //[SerializeField] SaveHex save;
+    [SerializeField] Peça provaSave;
+    [Linia]
+    [Header("PREFABS")]
     [SerializeField] GameObject prefab_Ranura;
     [SerializeField] GameObject prefab_Peça;
-    [Space(10)]
-    [Header("Peces")]
-    [SerializeField] Estat inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
-    [SerializeField] Estat desbloquejadora;
+    //[Linia]
+    //[Header("PECES")]
+    //[Nota("Això haurà d'anar en una Fase 'Inicial', que s'encarregará de crear el mon abans de tu començar a jugar.", NoteType.Error)]
+    //[SerializeField] Estat inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
 
     Hexagon[,] grid;
+
+    public void Start()
+    {
+        inicial.Iniciar();
+    }
+
     //List<Hexagon> gridDebug;
 
-
+    public GameObject Prefab_Peça => prefab_Peça;
     public Hexagon[] Veins(Vector2Int coordenades) => grid.Veins(coordenades);
     public Peça[] VeinsPeça(Vector2Int coordenades) => grid.VeinsPeça(coordenades);
-
-    private void OnEnable()
+    public Vector2Int[] VeinsCoordenades(Vector2Int coordenades) => grid.VeinsCoordenades(coordenades);
+    public Vector2Int Centre => new Vector2Int(GRID_SIZE / 2, GRID_SIZE / 2);
+    public void Set(Peça peça) => grid.Set(peça);
+    public Hexagon Get(Vector2Int coordenada) => grid.Get(coordenada);
+    /*private void OnEnable()
     {
         CrearGrid();
         CrearPeça(inicial, new Vector2Int(GRID_SIZE / 2, GRID_SIZE / 2));
-    }
+    }*/
 
-    void CrearGrid()
+    public void CrearGrid()
     {
         //Posiciona el grid perque la pece central sigui al centre del mon.
         transform.position = -GridExtensions.GetWorldPosition(GRID_SIZE / 2, GRID_SIZE / 2);
@@ -55,10 +69,7 @@ public class Grid : MonoBehaviour
     {
         processar.Iniciar(coordenada);
     }
-    public void CrearPeçaDesbloquejadora(Vector2Int coordenada) 
-    {
-        CrearPeça(desbloquejadora, coordenada);
-    } 
+
     /// <summary>
     /// Crea el prefab peça, declarant la peça i les coordenades.
     /// </summary>
@@ -66,7 +77,7 @@ public class Grid : MonoBehaviour
     {
         Peça peçaFisica = Instanciar(prefab_Peça, coordenada.x, coordenada.y).GetComponent<Peça>();
 
-        peçaFisica.Setup(this, coordenada, tipus);
+        peçaFisica.Setup(this, coordenada, tipus, tipus.SubestatInicial);
         grid.Set(peçaFisica);
         //peçaFisica.Iniciar();
 
@@ -78,7 +89,7 @@ public class Grid : MonoBehaviour
         if(!desbloquejadora)
             processar.Iniciar(peçaFisica);
     }
-    void CrearRanura(Vector2Int coordenada)
+    public void CrearRanura(Vector2Int coordenada)
     {
         if (coordenada.IsOutOfRange(GRID_SIZE))
             return;
@@ -91,7 +102,7 @@ public class Grid : MonoBehaviour
         
         Ranura ranura = Instanciar(prefab_Ranura, coordenada.x, coordenada.y).GetComponent<Ranura>();
         //Ranura ranura = tile.GetComponent<Ranura>();
-        ranura.Setup(this, coordenada, null);
+        ranura.Setup(this, coordenada, null, null);
         grid.Set(ranura);
         //ranura.Iniciar();
 

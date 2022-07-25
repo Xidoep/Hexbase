@@ -20,11 +20,13 @@ public class TilePotencial
         assegurat = false;
         haFallat = false;
 
-        ConnexionsNules = estat.VeiNull;
-        PossibilitatsInicials = estat.Possibilitats;
-        possibilitats = PossibilitatsInicials.Invoke();
+        if(estat != null)
+        {
+            ConnexionsNules = estat.VeiNull;
+            PossibilitatsInicials = estat.Possibilitats;
+            possibilitats = PossibilitatsInicials.Invoke();
+        }
     }
-
 
     Peça peça;
     Estat estat;
@@ -107,7 +109,7 @@ public class TilePotencial
     public int Orientacio => orientacio;
     public bool HaFallat { get => haFallat; set => haFallat = value; }
 
-
+    public SavedTile Save => new SavedTile(possibilitats[0], orientacio, orientacioFisica);
 
 
     //INTERN
@@ -125,13 +127,18 @@ public class TilePotencial
         //if (Resolt)
         //    return;
 
+        //*********************************************************
+        //Aqui, si el tile està compartit, s'han de tornar ambiguues els tiles potencials que comperteixin geometria.
+        //*********************************************************
+
         if (inicial) 
         {
             interaccions = 0;
             haFallat = false;
         } 
+
         #region DEBUG
-        if(tileFisic) MonoBehaviour.Destroy(tileFisic);
+        //if(tileFisic) MonoBehaviour.Destroy(tileFisic);
         #endregion
 
         ResetPossibilitats();
@@ -158,7 +165,7 @@ public class TilePotencial
         haFallat = false;
         #region DEBUG
         //Crear();
-        //Debug.Log($"ESCOLLIR: {tileFisic.name}");
+        //SDebug.Log($"ESCOLLIR: {tileFisic.name}");
         #endregion
     }
 
@@ -223,7 +230,7 @@ public class TilePotencial
         if (orientacioFisica != 0)
             tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
 
-        tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
+        //tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
         tileFisic.AddComponent<TileDebug>().New(veins);
 
         Detalls(peça.Subestat);
@@ -236,24 +243,26 @@ public class TilePotencial
             MonoBehaviour.Destroy(detalls);
         }
 
-        if (subestat.detalls == null || subestat.detalls.Length == 0)
+        if (subestat.Detalls == null || subestat.Detalls.Length == 0)
             return;
 
-        for (int d = 0; d < subestat.detalls.Length; d++)
+        for (int d = 0; d < subestat.Detalls.Length; d++)
         {
-            int[] tiles = subestat.detalls[d].Tiles(peça);
+            int[] tiles = subestat.Detalls[d].Tiles(peça);
             for (int t = 0; t < tiles.Length; t++)
             {
+                //Tiles del detalls no retorna tots els tiles, només els que s'han de instanciar. Aqui es mira si aquest està a la llista.
                 if(tiles[t] == orientacio)
                 {
-                    if (subestat.detalls[d].GameObject(peça) == null)
+                    GameObject _detall = subestat.Detalls[d].GameObject(peça, this);
+                    if (_detall == null)
                         continue;
 
                     //detalls = GameObject.Instantiate(subestat.detalls[d].GameObject(peça), tileFisic.transform.position, Quaternion.identity, tileFisic.transform);
-                    detalls = GameObject.Instantiate(subestat.detalls[d].GameObject(peça), tileFisic.transform.position, Quaternion.identity);
-                    for (int m = 0; m < subestat.detalls[d].Modificacios.Length; m++)
+                    detalls = GameObject.Instantiate(_detall, tileFisic.transform.position, Quaternion.identity);
+                    for (int m = 0; m < subestat.Detalls[d].Modificacios.Length; m++)
                     {
-                        subestat.detalls[d].Modificacios[m].Modificar(this, detalls);
+                        subestat.Detalls[d].Modificacios[m].Modificar(this, detalls);
                     }
                     detalls.transform.SetParent(tileFisic.transform);
                 }

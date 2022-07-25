@@ -6,5 +6,16 @@ using UnityEngine;
 public class Detall_GameObject : ScriptableObject
 {
     [SerializeField] protected GameObject[] detalls;
-    public virtual GameObject Get(Peça peça) => detalls[0];
+    public virtual GameObject Get(Peça peça, TilePotencial tile) => detalls[0];
+
+
+    [System.Serializable]
+    public struct Dependencia
+    {
+        public Tile tile;
+        [Tooltip("Si es -1, no ho tindrà en compte")] public int orientacioFisica;
+        public int indexDetall;
+
+        public bool Cohincideix(TilePotencial tilePotencial) => tilePotencial.Possibilitats[0] == tile && (orientacioFisica == -1 || tilePotencial.OrientacioFisica == orientacioFisica);
+    }
 }
