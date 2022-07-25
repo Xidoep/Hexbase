@@ -577,7 +577,7 @@ public static class WaveFunctionColapse
             tile.SetPossiblitats(possibilitats);
             return true;
         }*/
-        if (tile.Interaccions > 1 && tile.Interaccions <= 3)
+        if (tile.Interaccions > 1 && tile.Interaccions <= 2)
         {
             Debug.LogError("SELECCIONAR TILE PREFERIT");
             //NEW
@@ -623,7 +623,7 @@ public static class WaveFunctionColapse
             #endregion
             return true;
         }
-        else if (tile.Interaccions > 3)
+        else if (tile.Interaccions > 2)
         {
             //Fer un random basat en el temps.
             //RANDOM ENTRE TILES (+PES)

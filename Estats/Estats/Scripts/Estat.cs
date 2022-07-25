@@ -75,5 +75,13 @@ public class Estat : ScriptableObject
         }
         connexionsPossibles = connexios.ToArray();
     }
+
+
+    [System.Serializable]
+    public class TilesPossibles
+    {
+        public Tile tile;
+        public int pes;
+    }
 }
 

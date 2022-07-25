@@ -6,14 +6,15 @@ using UnityEngine;
 public class Tile : ScriptableObject
 {
     [SerializeField] GameObject prefab;
-
+    [Linia]
     [Header("Connexions")]
     [SerializeField] Connexio exterior;
     [SerializeField] Connexio esquerra;
     [SerializeField] Connexio dreta;
 
-    [Header("Punta")]
-    [SerializeField] Estat punta;
+    [SerializeField] Posicions[] posicions;
+    //[Header("Punta")]
+    //[SerializeField] Estat punta;
 
     [Linia]
     [Nota("Això haurà d'anar a l'estat, perque cada estat pugui tenir possiblitats diferents", NoteType.Error)]
@@ -21,7 +22,7 @@ public class Tile : ScriptableObject
     
 
 
-    public Estat Punta => punta;
+    //public Estat Punta => punta;
     public GameObject Prefab => prefab;
     public int Pes => pes;
 
@@ -69,5 +70,13 @@ public class Tile : ScriptableObject
     public bool ConnexionsIgualsA(Tile altre) => exterior == altre.exterior && esquerra == altre.esquerra && dreta == altre.dreta;
 
 
-    public virtual bool Comprovar(TilePotencial tile, int orientacioFisica, Connexio exterior, Connexio esquerra, Connexio dreta) => true;
+    [System.Serializable] public class Posicions
+    {
+        public int orientacio;
+        public Vector2 posicio;
+
+
+    }
+
+    //public virtual bool Comprovar(TilePotencial tile, int orientacioFisica, Connexio exterior, Connexio esquerra, Connexio dreta) => true;
 }

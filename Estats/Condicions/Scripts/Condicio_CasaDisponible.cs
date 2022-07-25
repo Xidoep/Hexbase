@@ -17,6 +17,7 @@ public class Condicio_CasaDisponible : Condicio
 
     [Linia]
     [Header("GRUP")]
+    [Nota("")]
     [SerializeField] bool utilitzarGrup;
     [SerializeField] Grups grups;
 

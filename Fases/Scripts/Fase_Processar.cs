@@ -59,7 +59,7 @@ public class Fase_Processar : Fase
     
     void Proximitat(int index)
     {
-        Debug.LogError("--------------REPOBLAR---------------");
+
         //if (proximitats == null) proximitats = new List<Peça>();
         //else proximitats.Clear();
 

@@ -14,7 +14,7 @@ public class Grups : ScriptableObject
 
     [SerializeField] List<Grup> grups;
     [SerializeField] List<Grup> pobles;
-    
+
     [Linia]
     [Header("CASA")]
     [SerializeField] Estat casa;
@@ -27,10 +27,16 @@ public class Grups : ScriptableObject
     [SerializeField] Detall_Tiles_Estats caminables;
     //System.Action enFinalitzar;
 
+    [Linia]
+    [Header("CONNEXIONS")]
+    [SerializeField] Connexio[] connexions;
+
+
     public List<Grup> Pobles => pobles;
 
 
     //INTERN
+    //Queue<Grup> pendents;
     List<Peça> veinsIguals;
     bool agrupada = false;
     int primerGrup = 0;
@@ -72,8 +78,59 @@ public class Grups : ScriptableObject
             CrearNouGrup(peça);
         }
 
+        //SET VEINS AND CONNEXTATS.
+        Grup grup = grups[peça.Grup];
+        grup.SetVeins = TrobarVeins(grup);
+        grup.SetConnectats = GetGrupsConnectats(grup, grup.Veins);
 
+        //SET VEINS I CONNEXIONS DEL MEUS VEINS
+        for (int i = 0; i < veins.Length; i++)
+        {
+            Grup vei = grups[veins[i].Grup];
+            vei.SetVeins = TrobarVeins(vei);
+            vei.SetConnectats = GetGrupsConnectats(vei, vei.Veins);
 
+            /*for (int c = 0; c < connexions.Length; c++)
+            {
+                if(connexions[c].inici == grup.Estat && connexions[c].canal == vei.Estat)
+                {
+                    List<Peça> veinsCanal = vei.Veins;
+                    for (int v = 0; v < veinsCanal.Count; v++)
+                    {
+                        grups[veinsCanal[i].Grup].SetConnectats = GetGrupsConnectats(grups[veinsCanal[i].Grup], grups[veinsCanal[i].Grup].Veins);
+                    }
+                }
+            }*/
+        }
+
+        //SET LES CONNEXIONS DE CANNALS QUE ARRIBIN FINS A MI.
+        /*for (int c = 0; c < connexions.Length; c++)
+        {
+            veinsGrup = grups[peça.Grup].Veins;
+            for (int v = 0; v < veinsGrup.Count; v++)
+            {
+                if (veinsGrup[v].EstatIgualA(connexions[c].canal))
+                {
+                    //List<Peça> canal = grups[veinsGrup[v].Grup].Peces;
+                    List<Peça> veinsCanal = grups[veinsGrup[v].Grup].Veins;
+                    for (int i = 0; i < veinsCanal.Count; i++)
+                    {
+                        if(!grups[peça.Grup].Peces.Contains(veinsCanal[i]) && veinsCanal[i].EstatIgualA(connexions[c].inici))
+                        //grups[veinsCanal[i].Grup].SetVeins = TrobarVeins(grups[veinsCanal[i].Grup]);
+                        grups[veinsCanal[i].Grup].SetConnectats = GetGrupsConnectats(grups[veinsCanal[i].Grup], grups[veinsCanal[i].Grup].Veins);
+                    }
+                }
+            }
+        }*/
+        /*if(grups[peça.Grup].Connectats != null && grups[peça.Grup].Connectats.Count > 0)
+        {
+            for (int i = 0; i < grups[peça.Grup].Connectats.Count; i++)
+            {
+                int connectat = grups[peça.Grup].Connectats[i];
+                grups[connectat].SetConnectats = GetGrupsConnectats(grups[connectat], grups[connectat].Veins, connexios);
+            }
+        }*/
+        
         //******************************************************************************************************************
         //Aixo s'utlitzava per ajuntar les peces caminables que toquen un camí, perque formessin part del cami.
         //pero aixo crea conflictes amb la funcio Veins. Ja que no camptura per exemple una casa si un cami l'atravessa.
@@ -95,13 +152,64 @@ public class Grups : ScriptableObject
             IntentarAgrupar(peça);
         }*/
 
+        //CONVERTIR AIXO EN UN PROCES.
+        //if (caminsSortida == null) caminsSortida = new List<Peça>();
+        //else caminsSortida.Clear();
+
+        //pendents = new Queue<Grup>();
+        //pendents.Enqueue(grups[peça.Grup]);
+        //Step(enFinalitzar);
 
 
-
-
-        Debug.Log($"Agrupdar estat: {peça.name}");
+       
         enFinalitzar.Invoke(index);
         //proximitat.Add(peça, enFinalitzar);
+    }
+
+    /*void Step(System.Action<int> enFinalitzar)
+    {
+        Grup grup = pendents.Dequeue();
+
+        //List<Peça> veins = TrobarVeins(grup);
+        //grup.SetVeins = veins;
+        grup.SetConnectats = GetGrupsConnectats(grup.Veins);
+
+
+
+        if (pendents.Count == 0)
+        {
+            //Debug.Log($"Agrupdar estat: {peça.name}");
+            enFinalitzar.Invoke(index);
+            return;
+        }
+    }*/
+
+    List<int> GetGrupsConnectats(Grup grup, List<Peça> veins)
+    {
+        List<int> indexConnextats = new List<int>();
+        for (int i = 0; i < connexions.Length; i++)
+        {
+            if (grup.Estat != connexions[i].inici)
+                continue;
+
+            for (int v = 0; v < veins.Count; v++)
+            {
+                if (veins[v].EstatIgualA(connexions[i].canal))
+                {
+                    List<Peça> connectatsACami = Veins(veins[v].Grup);
+                    for (int c = 0; c < connectatsACami.Count; c++)
+                    {
+                        if (!grup.Peces.Contains(connectatsACami[c]) && connectatsACami[c].EstatIgualA(connexions[i].objectiu))
+                        {
+                            indexConnextats.Add(connectatsACami[c].Grup);
+                            //pendents.Enqueue(grups[connectatsACami[c].Grup]);
+                        }
+                    }
+                }
+            }
+
+        }
+        return indexConnextats;
     }
 
     private void IntentarAgrupar(Peça peça)
@@ -216,23 +324,30 @@ public class Grups : ScriptableObject
 
     public List<Peça> Peces(int index) => grups[index].Peces; 
 
+
     public List<Peça> Veins(int indexGrup) => Veins(grups[indexGrup]);
-    public List<Peça> Veins(Grup grup)
+    public List<Peça> Veins(Grup grup) => grup.Veins;
+
+
+    public bool EstaConnectat(int indexGrup) => grups[indexGrup].Connectats != null && grups[indexGrup].Connectats.Count > 0;
+    public List<int> Connectats(int indexGrup) => grups[indexGrup].Connectats;
+    List<Peça> TrobarVeins(Grup grup)
     {
-        if (veinsGrup == null) veinsGrup = new List<Peça>();
-        else veinsGrup.Clear();
+        //if (veinsGrup == null) veinsGrup = new List<Peça>();
+        //else veinsGrup.Clear();
+        List<Peça> tmp = new List<Peça>();
 
         for (int g = 0; g < grup.Peces.Count; g++)
         {
             Peça[] veins = grup.Peces[g].VeinsPeça;
             for (int v = 0; v < veins.Length; v++)
             {
-                if (!veinsGrup.Contains(veins[v]) && !grup.Peces.Contains(veins[v])) veinsGrup.Add(veins[v]);
+                if (!tmp.Contains(veins[v]) && !grup.Peces.Contains(veins[v])) tmp.Add(veins[v]);
             }
             
         }
 
-        return veinsGrup;
+        return tmp;
     }
 
     public void CrearGrups_FromLoad(List<Peça> peces)
@@ -265,6 +380,12 @@ public class Grups : ScriptableObject
                 pobles.Add(grups[peces[i].Grup]);
             }
         }
+        for (int i = 0; i < grups.Count; i++)
+        {
+            List<Peça> veins = TrobarVeins(grups[i]);
+            grups[i].SetVeins = veins;
+            grups[i].SetConnectats = GetGrupsConnectats(grups[i], veins);
+        }
 
         //grups = new List<Grup>(tmp);
         /*for (int i = 0; i < peces.Count; i++)
@@ -281,6 +402,14 @@ public class Grups : ScriptableObject
             Debug.LogError($"Add {peces[i]} al grup {peces[i].Grup}");
             grups[peces[i].Grup].Set(peces[i], casa);
         }*/
+    }
+
+    [System.Serializable]
+    public struct Connexio
+    {
+        public Estat inici;
+        public Estat canal;
+        public Estat objectiu;
     }
 }
 
@@ -299,10 +428,14 @@ public class Grup : System.Object
     Estat estat;
     [SerializeField] List<Peça> peces;
     bool esPoble = false;
+    [SerializeField] List<Peça> veins;
+    [SerializeField] List<int> connectats;
 
     public Estat Estat => estat;
     public List<Peça> Peces => peces;
     public bool EsPoble => esPoble;
+    public List<Peça> Veins => veins;
+    public List<int> Connectats => connectats;
 
     public void Set(Peça peça, Estat casa)
     {
@@ -314,7 +447,7 @@ public class Grup : System.Object
         if (peces == null) peces = new List<Peça>();
         peces.Add(peça);
     }
-
-
+    public List<Peça> SetVeins { set => veins = value; }
+    public List<int> SetConnectats { set => connectats = value; }
 
 }

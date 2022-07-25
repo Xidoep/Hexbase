@@ -18,7 +18,7 @@ public class Tile_Costa : Tile
     bool exterior;
 
 
-    public override bool Comprovar(TilePotencial tile, int orientacioFisica, Connexio exterior, Connexio esquerra, Connexio dreta)
+    /*public override bool Comprovar(TilePotencial tile, int orientacioFisica, Connexio exterior, Connexio esquerra, Connexio dreta)
     {
         return true;
         if(exterior == connexioAssimetrica)
@@ -37,13 +37,13 @@ public class Tile_Costa : Tile
                 return false;
         }
         return true;
-    }
+    }*/
 
 
 
 
 
-
+    /*
     bool Encaixa_Exterior(int laMevaOrientacioFisica, TilePotencial vei)
     {
         if (Null_NoResolt(vei))
@@ -120,9 +120,9 @@ public class Tile_Costa : Tile
             else return false;
         }
     }
+    */
 
-
-
+    /*
     bool Null_NoResolt(TilePotencial vei)
     {
         if (vei == null)
@@ -135,6 +135,7 @@ public class Tile_Costa : Tile
     }
 
     bool SomIguals(TilePotencial vei) => exterior ? vei.Possibilitats[0] == invertit : vei.Possibilitats[0] != invertit;
+    */
 
     private void OnValidate()
     {
