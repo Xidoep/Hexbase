@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31e7306b32389fb49ab35bb4dd1a6923, type: 3}
+  m_Name: GO_Cami_Entrada
+  m_EditorClassIdentifier: 
+  detalls:
+  - {fileID: 3457433364678101851, guid: 2206250e0176a2b4aae971b214fc3f6c, type: 3}
+  - {fileID: 8759309351336269394, guid: 9a4d75703c77fe84a80b4ef843f3c997, type: 3}
+  - {fileID: 582883219557968563, guid: 17ebd418d6f442348a5b9c461bca0aa6, type: 3}
+  dependencies:
+  - tile: {fileID: 11400000, guid: ca99107eafde6c741bcf21f5d643b6b3, type: 2}
+    orientacioFisica: 1
+    indexDetall: 1
+  - tile: {fileID: 11400000, guid: ca99107eafde6c741bcf21f5d643b6b3, type: 2}
+    orientacioFisica: 2
+    indexDetall: 2
+  - tile: {fileID: 11400000, guid: ca99107eafde6c741bcf21f5d643b6b3, type: 2}
+    orientacioFisica: 0
+    indexDetall: 2
+  - tile: {fileID: 11400000, guid: 9fa1eae8c5a5866439f2c0a486c2cec0, type: 2}
+    orientacioFisica: -1
+    indexDetall: 2

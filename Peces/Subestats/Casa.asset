@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cfc903844a936444bdaa9b795719866, type: 3}
+  m_Name: Casa
+  m_EditorClassIdentifier: 
+  punts: 0
+  detalls:
+  - nom: Casa central
+    detall: {fileID: 11400000, guid: d064be188f21aa14682a2f76ce8f8c06, type: 2}
+    tiles: {fileID: 11400000, guid: 5ecac38e763073841ba6e1eb83ab3662, type: 2}
+    modificacions: []
+  - nom: Cases laterals si altres cases
+    detall: {fileID: 11400000, guid: d064be188f21aa14682a2f76ce8f8c06, type: 2}
+    tiles: {fileID: 11400000, guid: c5cd548cad6ffd7409c9d2dd528f3442, type: 2}
+    modificacions:
+    - {fileID: 11400000, guid: ccd0dedf31acf2343a564963ac0b2788, type: 2}
+  - nom: Cami / encreuement
+    detall: {fileID: 11400000, guid: fb6fa957f71a5c04a8b6b9fcd33a8161, type: 2}
+    tiles: {fileID: 11400000, guid: 5ecac38e763073841ba6e1eb83ab3662, type: 2}
+    modificacions:
+    - {fileID: 11400000, guid: a55ace76ebc0d8f49887388aba200a41, type: 2}
+    - {fileID: 11400000, guid: 3bb714dbec78209488771965fa10ca50, type: 2}
+  - nom: Pont si passa per sobre un riu.
+    detall: {fileID: 11400000, guid: c4874977230c30347910b874cc0d2f2a, type: 2}
+    tiles: {fileID: 11400000, guid: dd25d3bb972b1af4bacb64653db6e2ad, type: 2}
+    modificacions:
+    - {fileID: 11400000, guid: 3bb714dbec78209488771965fa10ca50, type: 2}
+    - {fileID: 11400000, guid: fe2b68624f75b304580c8b38a8052901, type: 2}
+  condicions: []
+  produccio: {fileID: 0}
+  recurs: {fileID: 0}

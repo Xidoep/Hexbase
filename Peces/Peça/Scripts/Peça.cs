@@ -35,21 +35,17 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }*/
 
     //VARIABLES PUBLIQUES
-    [Linia]
-    [Header("ESTAT")]
+    [Apartat("ESTAT")]
     [SerializeField] Estat estat;
     [SerializeField] protected Subestat subestat;
 
-    [Linia]
-    [Header("GRUP")]
+    [Apartat("GRUP")]
     [SerializeField] int grup;
 
-    [Linia]
-    [Header("CASA")]
+    [Apartat("CASA")]
     [SerializeField] List<Casa> cases;
 
-    [Linia]
-    [Header("HABITANT")]
+    [Apartat("HABITANT")]
     [SerializeField] Casa[] treballador;
 
     //VARIABLES PRIVADES
@@ -193,6 +189,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
             return;
 
         Debug.LogError($"DONAR {subestat.Punts} PUNTS!");
+        
 
         /*for (int i = 0; i < this.subestat.Condicions.Length; i++)
         {
