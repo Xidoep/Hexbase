@@ -10,8 +10,8 @@ public class Detall_Tiles_Estat : Detall_Tiles
     {
         List<int> tmp = new List<int>();
 
-        Hexagon[] veins = peça.Veins;
-        for (int i = 0; i < veins.Length; i++)
+        List<Hexagon> veins = peça.Veins;
+        for (int i = 0; i < veins.Count; i++)
         {
             if (veins[i] != null && veins[i].EsPeça)
             {

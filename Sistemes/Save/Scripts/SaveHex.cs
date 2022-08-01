@@ -15,7 +15,7 @@ public class SaveHex : ScriptableObject
     int index;
     Grid grid;
     List<Peça> creades;
-    Vector2Int[] veins;
+    List<Vector2Int> veins;
 
     public void Add(Peça peça)
     {
@@ -77,7 +77,7 @@ public class SaveHex : ScriptableObject
         for (int i = 0; i < creades.Count; i++)
         {
             veins = grid.VeinsCoordenades(creades[i].Coordenades);
-            for (int v = 0; v < veins.Length; v++)
+            for (int v = 0; v < veins.Count; v++)
             {
                 grid.CrearRanura(veins[v]);
             }
@@ -160,8 +160,6 @@ public class SavedPeça
             for (int i = 0; i < peça.CasesCount; i++) { cases[i] = peça.Cases[i].Save; }
         }
 
-        if (peça.HiHaTreballador)
-            treballador = new SavedCasa[] { peça.Treballador.Save };
 
         tiles = new SavedTile[]
         {
@@ -179,7 +177,6 @@ public class SavedPeça
     [SerializeField] Subestat subestat;
     [SerializeField] int grup;
     [SerializeField] SavedCasa[] cases;
-    [SerializeField] SavedCasa[] treballador;
     [SerializeField] SavedTile[] tiles;
     
     public Peça Load(Grid grid)

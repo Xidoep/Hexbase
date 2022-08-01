@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cfc903844a936444bdaa9b795719866, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a9858291d3aafd409f72d8560c643c9, type: 3}
   m_Name: Casa
   m_EditorClassIdentifier: 
   punts: 0
+  condicions:
+  - {fileID: 11400000, guid: db94491c74461d34994848629329f00c, type: 2}
   detalls:
   - nom: Casa central
     detall: {fileID: 11400000, guid: d064be188f21aa14682a2f76ce8f8c06, type: 2}
@@ -35,6 +37,8 @@ MonoBehaviour:
     modificacions:
     - {fileID: 11400000, guid: 3bb714dbec78209488771965fa10ca50, type: 2}
     - {fileID: 11400000, guid: fe2b68624f75b304580c8b38a8052901, type: 2}
-  condicions: []
-  produccio: {fileID: 0}
-  recurs: {fileID: 0}
+  detallsScriptables:
+  - {fileID: 11400000, guid: 19d6e891da2666c4ea75e1f797556515, type: 2}
+  - {fileID: 11400000, guid: 154442a4578494b4baaf6ce53d761bf8, type: 2}
+  - {fileID: 11400000, guid: 9eceaf4546ee2a540ada734b6f5afe43, type: 2}
+  - {fileID: 11400000, guid: 5d9d0e11c07ccfc418b57f37ea5c96cf, type: 2}

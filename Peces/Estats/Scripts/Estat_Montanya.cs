@@ -5,8 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Estats/Montanya")]
 public class Estat_Montanya : Estat
 {
-    [Header("MONTANYA")]
-    [Linia]
+    [Apartat("MONTANYA")]
     [Nota("Els tiles que es coloquen al iniciar")]
     [SerializeField] Tile punta;
     [SerializeField] Tile serra;

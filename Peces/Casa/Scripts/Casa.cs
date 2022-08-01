@@ -14,7 +14,7 @@ public class Casa
             this.habitants.Add(new Habitant(peça));
         }
     }*/
-    public Casa(Peça peça, Recurs[] recursosNeeded)
+    public Casa(Peça peça, Producte[] recursosNeeded)
     {
         this.peça = peça;
 
@@ -47,14 +47,14 @@ public class Casa
     public Casa(Vector2Int peça, Vector2Int feina, int nivell, Necessitat[] necessitats)
     {
         this.coordenadaPeça = peça;
-        this.coordenadaFeina = feina;
+        this.coordenadaProducte = feina;
         this.nivell = nivell;
         this.necessitats = necessitats;
     }
 
 
     [SerializeField] Peça peça;
-    [SerializeField] Peça feina;
+    [SerializeField] Peça producte;
     [SerializeField] int nivell;
     //[SerializeField] Condicio_GuanyarRecurs condicio;
     [SerializeField] Necessitat[] necessitats;
@@ -73,29 +73,30 @@ public class Casa
     //INTERN
     //int index = -1;
     Vector2Int coordenadaPeça;
-    Vector2Int coordenadaFeina;
+    Vector2Int coordenadaProducte;
 
-    public bool Disponible => feina == null;
+    public bool Disponible => producte == null;
     public int Grup => peça.Grup;
-    public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1), feina != null ? feina.Coordenades : new Vector2Int(-1, -1)) : null;
+    public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1), producte != null ? producte.Coordenades : new Vector2Int(-1, -1)) : null;
     public void LoadLastStep(Grid grid)
     {
         peça = (Peça)grid.Get(coordenadaPeça);
-        feina = (Peça)grid.Get(coordenadaFeina);
-        Ocupar(feina);
+        producte = (Peça)grid.Get(coordenadaProducte);
+
+        //Ocupar(producte);
     }
 
 
 
-    public void Ocupar(Peça feina)
+    /*public void Ocupar(Peça feina)
     {
-        this.feina = feina;
+        this.producte = feina;
         feina.AddTreballador(this);
-    }
-    public void Desocupar()
+    }*/
+    /*public void Desocupar()
     {
-        feina.RemoveTreballador();
-    }
+        producte.RemoveTreballador();
+    }*/
 
 
 
@@ -103,7 +104,7 @@ public class Casa
     /// Aporta un recurs a les necessitats de la casa.
     /// </summary>
     /// <returns>Retorna si el recurs s'ha pogut entregar o no, si es que no, s'ha d'entregar a una altre casa.</returns>
-    public bool Proveir(Recurs recurs)
+    public bool Proveir(Producte recurs)
     {
         bool proveit = false;
         for (int i = 0; i < necessitats.Length; i++)
@@ -145,23 +146,23 @@ public class Casa
     [System.Serializable]
     public class Necessitat : System.Object
     {
-        public Necessitat(Recurs recurs)
+        public Necessitat(Producte recurs)
         {
             this.recurs = recurs;
             //proveits = new List<Recurs>();
             //AddNecessitat();
-            proveits = new Recurs[1];
+            proveits = new Producte[1];
         }
 
-        [SerializeField] Recurs recurs;
-        [SerializeField] Recurs[] proveits;
+        [SerializeField] Producte recurs;
+        [SerializeField] Producte[] proveits;
         [SerializeField] bool solventat = false;
 
 
         //INTERN
         bool complet = false;
 
-        public Recurs Recurs => recurs;
+        public Producte Recurs => recurs;
         public bool Complet
         {
             get
@@ -184,7 +185,7 @@ public class Casa
         /// </summary>
         public void AddNecessitat() 
         {
-            List<Recurs> tmp = new List<Recurs>(proveits);
+            List<Producte> tmp = new List<Producte>(proveits);
             tmp.Add(null);
             proveits = tmp.ToArray();
         } 

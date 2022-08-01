@@ -44,6 +44,6 @@ public class PoolPeces : ScriptableObject
 
     private void OnValidate()
     {
-        estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Estats/Estats").ToArray();
+        estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
     }
 }

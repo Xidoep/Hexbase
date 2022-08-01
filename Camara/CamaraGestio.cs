@@ -7,130 +7,195 @@ using Cinemachine;
 
 public class CamaraGestio : MonoBehaviour
 {
+    [SerializeField] Movement movement;
+    [Linia]
+    [SerializeField] Zoom zoom;
+    [Linia]
+    [SerializeField] Rotation rotation;
 
-    [Apartat("MOVIMENT")]
-    [SerializeField] InputActionReference panKeyboard;
-    [SerializeField] InputActionReference panMouse;
-    public float movementSpeed;
-    public float movementTime;
-    Vector3 movement;
 
-    [Apartat("ZOOM")]
-    [SerializeField] CinemachineVirtualCamera vCamera;
-    CinemachineTransposer transposer;
-    [SerializeField] InputActionReference zoomKeyboard;
-    [SerializeField] InputActionReference zoomMouse;
-    public ZoomPosition close;
-    public ZoomPosition middle;
-    public ZoomPosition far;
-    public float zoomSpeed;
-    public float zoomTime;
-    float zoom;
 
-    [Apartat("DEBUG")]
-    public Vector2 input;
-
-    // Start is called before the first frame update
     void Start()
     {
-        movement = transform.position;
-
-        transposer = vCamera.GetCinemachineComponent<CinemachineTransposer>();
-        zoom = .25f;
-        close.Setup();
-        middle.Setup();
-        far.Setup();
-        transposer.m_FollowOffset = FactorToZoom();
-        
+        movement.Start(transform);
+        zoom.Start();
+        rotation.Start(transform);
     }
-
-    // Update is called once per frame
     void Update()
     {
-        Movement();
-
-        Zoom();
-    }
-
-    void Movement()
-    {
-        Moviment_Keyboard();
-        //Moviment_Mouse();
-
-        transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * movementTime * (zoom + 1));
+        movement.Update(transform, zoom.Value);
+        rotation.Update(transform);
+        zoom.Update();
     }
 
 
 
-    void Moviment_Keyboard()
+
+
+    [System.Serializable]
+    public class Movement
     {
-        if (!panKeyboard.IsVector2Zero())
+        [SerializeField] InputActionReference keyboard;
+        [SerializeField] InputActionReference mouse;
+        [Space(10)]
+        [SerializeField] float speed;
+        [SerializeField] float time;
+        Vector3 movement;
+
+
+
+        public void Start(Transform transform)
         {
-            movement += ((transform.forward * panKeyboard.GetVector2().y) * movementSpeed) + ((transform.right * panKeyboard.GetVector2().x) * movementSpeed);
+            movement = transform.position;
+        }
+        public void Update(Transform transform, float zoom)
+        {
+            Moviment_Keyboard(transform);
+            //Moviment_Mouse(transform);
+
+            transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * (zoom + 1));
         }
 
-    }
-    void Moviment_Mouse()
-    {
-        Vector2 mPosition = panMouse.GetVector2();
-        if (NearUpScreen(mPosition)) movement += transform.forward * movementSpeed;
-        else if (NearDownScreen(mPosition)) movement -= transform.forward * movementSpeed;
-
-        if (NearRightScreen(mPosition)) movement += transform.right * movementSpeed;
-        else if (NearLeftScreen(mPosition)) movement -= transform.right * movementSpeed;
-    }
 
 
-    void Zoom()
-    {
-        Zoom_Keyboard();
-        Zoom_Mouse();
-
-        zoom = Mathf.Clamp01(zoom);
-        transposer.m_FollowOffset = Vector3.Lerp(transposer.m_FollowOffset, FactorToZoom(), Time.deltaTime * zoomTime);
-    }
-
-    void Zoom_Keyboard()
-    {
-        //input = zoomKeyboard.GetFloat();
-        if (!zoomKeyboard.IsFloatZero())
+        void Moviment_Keyboard(Transform transform)
         {
-            zoom += zoomKeyboard.GetFloat() * zoomSpeed;
+            if (!keyboard.IsVector2Zero())
+            {
+                movement += ((transform.forward * keyboard.GetVector2().y) * speed) + ((transform.right * keyboard.GetVector2().x) * speed);
+            }
         }
-        
-    }
-    void Zoom_Mouse()
-    {
-        input = zoomMouse.GetVector2();
-        zoom += zoomMouse.GetVector2().y * zoomSpeed;
-    }
+        void Moviment_Mouse(Transform transform)
+        {
+            Vector2 mPosition = mouse.GetVector2();
+            if (NearUpScreen(mPosition)) movement += transform.forward * speed;
+            else if (NearDownScreen(mPosition)) movement -= transform.forward * speed;
+
+            if (NearRightScreen(mPosition)) movement += transform.right * speed;
+            else if (NearLeftScreen(mPosition)) movement -= transform.right * speed;
+        }
 
 
 
-
-
-
-
-
-    bool NearUpScreen(Vector2 axis) => axis.y >= Screen.height * .95f;
-    bool NearDownScreen(Vector2 axis) => axis.y <= Screen.height * .05f;
-    bool NearRightScreen(Vector2 axis) => axis.x >= Screen.width * .95f;
-    bool NearLeftScreen(Vector2 axis) => axis.x <= Screen.width * .05f;
-
-    Vector3 FactorToZoom()
-    {
-        if (zoom <= .5f)
-            return Vector3.Lerp(close.Get, middle.Get, (zoom * 2));
-        else
-            return Vector3.Lerp(middle.Get, far.Get, ((zoom * 2) - 1));
+        bool NearUpScreen(Vector2 axis) => axis.y >= Screen.height * .95f;
+        bool NearDownScreen(Vector2 axis) => axis.y <= Screen.height * .05f;
+        bool NearRightScreen(Vector2 axis) => axis.x >= Screen.width * .95f;
+        bool NearLeftScreen(Vector2 axis) => axis.x <= Screen.width * .05f;
     }
 
 
-    [System.Serializable] public class ZoomPosition
+
+
+
+    [System.Serializable]
+    public class Rotation
     {
-        [SerializeField] Vector2 offset;
-        Vector3 valor;
-        public void Setup() => valor = new Vector3(0, offset.x, offset.y);
-        public Vector3 Get => valor;
+        [SerializeField] InputActionReference keyboard;
+        [SerializeField] float speed;
+        [SerializeField] float time;
+        Quaternion rotacio;
+
+
+
+        public void Start(Transform transform)
+        {
+            rotacio = transform.rotation;
+        }
+        public void Update(Transform transform)
+        {
+            Rotacio_Keyboard();
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotacio, Time.deltaTime * time);
+        }
+
+
+
+        void Rotacio_Keyboard()
+        {
+            if (!keyboard.IsFloatZero())
+            {
+                rotacio *= Quaternion.Euler(Vector3.up * (speed * keyboard.GetFloat()));
+            }
+        }
+    }
+
+
+
+
+
+    [System.Serializable]
+    public class Zoom
+    {
+        [SerializeField] CinemachineVirtualCamera vCamera;
+        [Space(10)]
+        [SerializeField] InputActionReference keyboard;
+        [SerializeField] InputActionReference mouse;
+        [Space(10)]
+        [SerializeField] Vector2 close;
+        [SerializeField] Vector2 middle;
+        [SerializeField] Vector2 far;
+        Vector3 fClose;
+        Vector3 fMiddle;
+        Vector3 fFar;
+        [Space(10)]
+        [SerializeField] float speed;
+        [SerializeField] float time;
+
+        CinemachineTransposer transposer;
+        float zoom;
+        public float Value => zoom;
+
+
+
+        public void Start()
+        {
+            transposer = vCamera.GetCinemachineComponent<CinemachineTransposer>();
+            zoom = .25f;
+
+            fClose = new Vector3(0, close.x, close.y);
+            fMiddle = new Vector3(0, middle.x, middle.y);
+            fFar = new Vector3(0, far.x, far.y);
+
+            transposer.m_FollowOffset = FactorToZoom();
+        }
+        public void Update()
+        {
+            Zoom_Keyboard();
+            Zoom_Mouse();
+
+            zoom = Mathf.Clamp01(zoom);
+            transposer.m_FollowOffset = Vector3.Lerp(transposer.m_FollowOffset, FactorToZoom(), Time.deltaTime * time);
+        }
+
+
+
+        void Zoom_Keyboard()
+        {
+            if (!keyboard.IsFloatZero())
+            {
+                zoom += keyboard.GetFloat() * speed;
+            }
+        }
+        void Zoom_Mouse()
+        {
+            zoom += mouse.GetVector2().y * speed * 2;
+        }
+
+
+
+        Vector3 FactorToZoom()
+        {
+            if (zoom <= .5f)
+                return Vector3.Lerp(fClose, fMiddle, (zoom * 2));
+            else
+                return Vector3.Lerp(fMiddle, fFar, ((zoom * 2) - 1));
+        }
+        [System.Serializable] public class ZoomPosition
+        {
+            [SerializeField] Vector2 offset;
+            Vector3 valor;
+            public void Setup() => valor = new Vector3(0, offset.x, offset.y);
+            public Vector3 Get => valor;
+        }
     }
 }

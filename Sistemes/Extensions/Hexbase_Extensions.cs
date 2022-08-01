@@ -71,7 +71,7 @@ public static class GridExtensions
     static List<Vector2Int> _tmpCoordenades;
     static List<Peça> _tmpPeces;
     static Hexagon _tmpPeça;
-    public static Hexagon[] Veins(this Hexagon[,] grid, Vector2Int coordenades)
+    public static List<Hexagon> Veins(this Hexagon[,] grid, Vector2Int coordenades)
     {
         if (_tmpVeins == null) _tmpVeins = new List<Hexagon>();
         else _tmpVeins.Clear();
@@ -82,10 +82,10 @@ public static class GridExtensions
         _tmpVeins.Add(grid.Get(coordenades.Down()));
         _tmpVeins.Add(grid.Get(coordenades.DownLeft()));
         _tmpVeins.Add(grid.Get(coordenades.UpLeft()));
-        return _tmpVeins.ToArray();
+        return _tmpVeins;
     }
 
-    public static Vector2Int[] VeinsCoordenades(this Hexagon[,] grid, Vector2Int coordenades)
+    public static List<Vector2Int> VeinsCoordenades(this Hexagon[,] grid, Vector2Int coordenades)
     {
         if (_tmpCoordenades == null) _tmpCoordenades = new List<Vector2Int>();
         else _tmpCoordenades.Clear();
@@ -96,10 +96,10 @@ public static class GridExtensions
         _tmpCoordenades.Add(coordenades.Down());
         _tmpCoordenades.Add(coordenades.DownLeft());
         _tmpCoordenades.Add(coordenades.UpLeft());
-        return _tmpCoordenades.ToArray();
+        return _tmpCoordenades;
     }
 
-    public static Peça[] VeinsPeça(this Hexagon[,] grid, Vector2Int coordenades)
+    public static List<Peça> VeinsPeça(this Hexagon[,] grid, Vector2Int coordenades)
     {
         if (_tmpPeces == null) _tmpPeces = new List<Peça>();
         else _tmpPeces.Clear();
@@ -122,7 +122,7 @@ public static class GridExtensions
         _tmpPeça = grid.Get(coordenades.UpLeft());
         if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
 
-        return _tmpPeces.ToArray();
+        return _tmpPeces;
     }
 
 }

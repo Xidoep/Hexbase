@@ -26,8 +26,8 @@ public abstract class Hexagon : MonoBehaviour
 
     Vector2Int coordenades;
 
-    System.Func<Vector2Int, Hexagon[]> veins;
-    System.Func<Vector2Int, Peça[]> veinsPeça;
+    System.Func<Vector2Int, List<Hexagon>> veins;
+    System.Func<Vector2Int, List<Peça>> veinsPeça;
 
 
 
@@ -36,8 +36,8 @@ public abstract class Hexagon : MonoBehaviour
 
     public Transform Parent => parent;
 
-    public Hexagon[] Veins => veins.Invoke(coordenades);
-    public Peça[] VeinsPeça => veinsPeça.Invoke(coordenades);
+    public List<Hexagon> Veins => veins.Invoke(coordenades);
+    public List<Peça> VeinsPeça => veinsPeça.Invoke(coordenades);
 
 
 

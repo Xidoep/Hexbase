@@ -17,10 +17,12 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (subestat == null)
             return;
 
-        this.subestat = subestat;
-        if (!this.estat.EsCasa) this.subestat.Productor(this);
+        this.subestat = subestat.Setup(this);
+        //this.subestat.Setup(this);
+        //if (!this.estat.EsCasa) this.subestat.Productor(this);
 
         condicions = this.estat.Condicions(this.subestat);
+        ocupat = false;
     }
     /*public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
@@ -45,8 +47,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [Apartat("CASA")]
     [SerializeField] List<Casa> cases;
 
-    [Apartat("HABITANT")]
-    [SerializeField] Casa[] treballador;
+    [Apartat("PRODUCTOR/PRODUCTE")]
+    [SerializeField] Peça[] producte;
+    [SerializeField] bool ocupat;
 
     //VARIABLES PRIVADES
     [SerializeField] TilePotencial[] tiles;
@@ -68,24 +71,10 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //public bool TeCases => cases != null || cases.Count > 0;
     public int CasesCount => cases != null ? cases.Count : 0;
     public List<Casa> Cases => cases;
-    public Casa TreballadorLLiure
-    {
-        get
-        {
-            Casa disponible = null;
-            for (int i = 0; i < cases.Count; i++)
-            {
-                if (cases[i].Disponible)
-                {
-                    disponible = cases[i];
-                    break;
-                }
-            }
-            return disponible;
-        }
-    }
-    public bool HiHaTreballador => treballador != null && treballador.Length != 0;
-    public Casa Treballador => treballador[0];
+
+    public Producte[] ExtreureProducte() => producte[0].Subestat.Produccio();
+    public bool Ocupat => ocupat;
+    public bool LLiure => !ocupat;
 
     public void Actualitzar()
     {
@@ -188,7 +177,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (condicions == null)
             return;
 
-        Debug.LogError($"DONAR {subestat.Punts} PUNTS!");
+        //Debug.LogError($"DONAR {subestat.Punts} PUNTS!");
         
 
         /*for (int i = 0; i < this.subestat.Condicions.Length; i++)
@@ -196,8 +185,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
             condicions.Remove(this.subestat.Condicions[i]);
         }*/
 
-        this.subestat = subestat;
-        if (!estat.EsCasa) subestat.Productor(this);
+        this.subestat = subestat.Setup(this);
+        //if (!estat.EsCasa) subestat.Setup(this);
 
         //condicions.AddRange(subestat.Condicions);
 
@@ -207,6 +196,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         {
             Tiles[i].Detalls(subestat);
         }
+
+        ocupat = false;
     }
 
 
@@ -225,13 +216,15 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
     public void RemoveCasa() 
     {
-        cases[cases.Count - 1].Desocupar();
+        //cases[cases.Count - 1].Desocupar();
         cases.RemoveAt(cases.Count - 1);
     } 
-    public void AddTreballador(Casa treballador) => this.treballador = new Casa[] { treballador };
-    public void RemoveTreballador() => treballador = null;
 
-
+    public void Ocupar(Peça productor) 
+    {
+        ocupat = true;
+        productor.producte = new Peça[] { this };
+    } 
 
     //public void AddHabitant(Habitant habitant) => treballador = habitant;
 

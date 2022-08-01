@@ -22,7 +22,7 @@ public class Estat : ScriptableObject
     public Connexio[] ConnexionsPossibles => connexionsPossibles;
     public Subestat SubestatInicial => inicial;
 
-    public virtual bool EsCasa => false;
+    //public virtual bool EsCasa => false;
 
 
     //public virtual void OnCreate(Peça peça) { }

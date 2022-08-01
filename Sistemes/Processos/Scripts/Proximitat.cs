@@ -19,7 +19,7 @@ public class Proximitat : ScriptableObject
     //bool _iniciat;
     Peça _actual;
     //bool _canviar;
-    Peça[] veins;
+    List<Peça> veins;
 
     void OnEnable()
     {
@@ -41,7 +41,7 @@ public class Proximitat : ScriptableObject
     {
         veins = peça.VeinsPeça;
 
-        for (int i = 0; i < veins.Length; i++)
+        for (int i = 0; i < veins.Count; i++)
         {
             //if (veins[i].EsPeça)
             Add(veins[i]);
@@ -79,6 +79,7 @@ public class Proximitat : ScriptableObject
         {
             if (_actual.Condicions[i].Comprovar(_actual))
             {
+                
                 pool.Add(_actual.Subestat.Punts);
                 AddVeins(_actual);
                 //_canviar = true;

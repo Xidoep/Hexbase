@@ -37,9 +37,9 @@ public class Grid : MonoBehaviour
     //List<Hexagon> gridDebug;
 
     public GameObject Prefab_Peça => prefab_Peça;
-    public Hexagon[] Veins(Vector2Int coordenades) => grid.Veins(coordenades);
-    public Peça[] VeinsPeça(Vector2Int coordenades) => grid.VeinsPeça(coordenades);
-    public Vector2Int[] VeinsCoordenades(Vector2Int coordenades) => grid.VeinsCoordenades(coordenades);
+    public List<Hexagon> Veins(Vector2Int coordenades) => grid.Veins(coordenades);
+    public List<Peça> VeinsPeça(Vector2Int coordenades) => grid.VeinsPeça(coordenades);
+    public List<Vector2Int> VeinsCoordenades(Vector2Int coordenades) => grid.VeinsCoordenades(coordenades);
     public Vector2Int Centre => new Vector2Int(GRID_SIZE / 2, GRID_SIZE / 2);
     public void Set(Peça peça) => grid.Set(peça);
     public Hexagon Get(Vector2Int coordenada) => grid.Get(coordenada);

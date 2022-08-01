@@ -72,13 +72,13 @@ public class Fase_Processar : Fase
             if(!proximitats.Contains(grup[i])) proximitats.Add(grup[i]);
         }
 
-        Peça[] veins = peça.VeinsPeça;
-        for (int i = 0; i < veins.Length; i++)
+        List<Peça> veins = peça.VeinsPeça;
+        for (int i = 0; i < veins.Count; i++)
         {
             if (!proximitats.Contains(veins[i])) proximitats.Add(veins[i]);
         }
 
-        for (int i = 0; i < veins.Length; i++)
+        for (int i = 0; i < veins.Count; i++)
         {
             if (veins[i].EstatIgualA(cami))
             {

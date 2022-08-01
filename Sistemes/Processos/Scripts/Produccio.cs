@@ -74,10 +74,14 @@ public class Produccio : ScriptableObject
 
     void RepartimentEquitatiu(Peça productor)
     {
-        List<Peça> poble = grups.Peces(productor.Treballador.Grup);
+        //*********************************************************************************************
+        //Canviar el sistema de produccio.
+        //*********************************************************************************************
+
+        List<Peça> poble = grups.Peces(productor.Grup);
         bool proveit = false;
-        
-        Recurs[] recursos = productor.Subestat.Recursos(productor);
+
+        Producte[] recursos = productor.ExtreureProducte();
         Debug.LogError($"Donar {recursos.Length} Recursos a {poble.Count} peces");
 
         for (int r = 0; r < recursos.Length; r++)
@@ -140,7 +144,7 @@ public class Produccio : ScriptableObject
        
     }
 
-    bool IntentarProveir(List<Peça> poble, bool proveit, Recurs recurs)
+    bool IntentarProveir(List<Peça> poble, bool proveit, Producte recurs)
     {
         proveit = false;
         for (int p = 0; p < poble.Count; p++)

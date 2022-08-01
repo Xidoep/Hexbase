@@ -5,12 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Estats/Casa")]
 public class Estat_Casa : Estat
 {
-    [SerializeField] Recurs[] necessitats;
-    //[SerializeField] Condicio_GuanyarRecurs condicioGuanyarRecurs;
+    [SerializeField] Producte[] necessitats;
 
-
-    public override bool EsCasa => true;
-
-    public Recurs[] Necessitats => necessitats;
-    //public Condicio_GuanyarRecurs CondicioGuanyarRecurs => condicioGuanyarRecurs;
+    public Producte[] Necessitats => necessitats;
 }

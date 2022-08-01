@@ -171,7 +171,7 @@ public class TilePotencial
 
     public void GetVeins(Peça peça)
     {
-        Hexagon[] PecesVeines = peça.Veins;
+        List<Hexagon> PecesVeines = peça.Veins;
         Peça hexagonVei = PecesVeines[orientacio] != null ? (PecesVeines[orientacio].EsPeça ? (Peça)PecesVeines[orientacio] : null) : null;
 
         veins = new TilePotencial[]

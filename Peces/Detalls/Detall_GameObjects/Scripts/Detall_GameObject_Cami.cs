@@ -24,12 +24,12 @@ public class Detall_GameObject_Cami : Detall_GameObject
     public override GameObject Get(Peça peça, TilePotencial tile)
     {
 
-        Hexagon[] veins = peça.Veins;
+        List<Hexagon> veins = peça.Veins;
         bits = new int[6];
         binary = "";
         
 
-        for (int i = 0; i < veins.Length; i++)
+        for (int i = 0; i < veins.Count; i++)
         {
             if (veins[i] != null && veins[i].EsPeça)
             {

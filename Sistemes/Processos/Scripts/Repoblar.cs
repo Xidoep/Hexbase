@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/Repoblar")]
 public class Repoblar : ScriptableObject
 {
-    [SerializeField] Estat casa;
+    [SerializeField] Subestat casa;
     [SerializeField] Detall_Tiles_Estat detall_Tiles;
 
     [Nota("Només per debugging",NoteType.Warning)]
@@ -24,9 +24,10 @@ public class Repoblar : ScriptableObject
         Debug.LogError("--------------REPOBLAR---------------");
         for (int p = 0; p < peces.Count; p++)
         {
-            if (!peces[p].EstatIgualA(casa))
+            if (!peces[p].SubestatIgualA(casa))
                 continue;
 
+            //Afegeix la seva Casa, i utilitza del DETALL_TILES de les cases veines per afegir mes cases.
             AfegirCasa(peces[p], 1 + detall_Tiles.Get(peces[p]).Length);
         }
     }
