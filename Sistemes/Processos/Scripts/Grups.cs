@@ -13,22 +13,17 @@ public class Grups : ScriptableObject
 
 
     [SerializeField] List<Grup> grups;
-    [SerializeField] List<Grup> pobles;
+    //[SerializeField] List<Grup> pobles;
 
-    [Linia]
-    [Header("CASA")]
+    [Apartat("ESTATS NECESSARIS")]
     [SerializeField] Estat casa;
-
-    
-    [Linia]
-    [Header("CAMI")]
     [SerializeField] Estat cami;
-    [Nota("Son els estats que permeten crear-hi un camí", NoteType.Info)]
-    [SerializeField] Detall_Tiles_Estats caminables;
+    [SerializeField] Subestat port;
+    [SerializeField] Estat aigua;
     //System.Action enFinalitzar;
 
-    public List<Grup> Pobles => pobles;
-
+    //public List<Grup> Pobles => pobles;
+    public List<Grup> Grup => grups;
 
     //INTERN
     //Queue<Grup> pendents;
@@ -45,13 +40,9 @@ public class Grups : ScriptableObject
     void OnEnable()
     {
         grups = new List<Grup>();
-        pobles = new List<Grup>();
+        //pobles = new List<Grup>();
         Setup();
     }
-
-    bool CamiICaminable(Peça jo, Peça tu) => (jo.EstatIgualA(cami) && caminables.Estats.Contains(tu.Estat)) || (tu.EstatIgualA(cami) && caminables.Estats.Contains(jo.Estat));
-    bool EsCami(Peça peça) => peça.EstatIgualA(cami);
-    bool EscCaminable(Peça peça) => caminables.Estats.Contains(peça.Estat);
 
     public void Agrupdar(Peça peça, System.Action<int> enFinalitzar)
     {
@@ -79,6 +70,7 @@ public class Grups : ScriptableObject
             IntentarAgrupar(peça, veinsIguals);
         else CrearNouGrup(peça);
 
+        
 
         /*
         //SI ES CAMINABLE BUSCA UN CAMI VEI PER AJUNTARSI
@@ -112,6 +104,10 @@ public class Grups : ScriptableObject
         Grup grup = grups[peça.Grup];
         grup.SetVeins = TrobarVeins(grup);
 
+       
+
+
+
         XS_Coroutine.StartCoroutine_Ending(0.1f, AgruparVeins);
 
 
@@ -129,6 +125,12 @@ public class Grups : ScriptableObject
             vei.SetVeins = TrobarVeins(vei);
 
 
+        }
+
+        //ESTABLIR CONNEXIONS.
+        for (int i = 0; i < grups.Count; i++)
+        {
+            Connexions(grups[i]);
         }
 
         enFinalitzar.Invoke(index);
@@ -185,11 +187,11 @@ public class Grups : ScriptableObject
         if(grups == null)
         {
             grups = new List<Grup>();
-            pobles = new List<Grup>();
+            //pobles = new List<Grup>();
         }
         Grup tmp = new Grup(peça.Estat, new List<Peça>() { peça }, peça.EstatIgualA(casa));
         grups.Add(tmp);
-        if (tmp.EsPoble) pobles.Add(tmp);
+        //if (tmp.EsPoble) pobles.Add(tmp);
 
         peça.Grup = grups.Count - 1;
     }
@@ -216,7 +218,7 @@ public class Grups : ScriptableObject
         {
             desti.Peces.Add(pecesTmp[i]);
         }
-        if (pobles.Contains(seleccionat)) pobles.Remove(seleccionat);
+        //if (pobles.Contains(seleccionat)) pobles.Remove(seleccionat);
         grups.Remove(seleccionat);
 
         for (int g = 0; g < grups.Count; g++)
@@ -257,13 +259,235 @@ public class Grups : ScriptableObject
         return grups[index];
     }*/
 
-    public List<Peça> Peces(int index) => grups[index].Peces; 
+    public List<Peça> Peces(Peça peça) => grups[peça.Grup].Peces;
+    public List<Peça> Peces(int index) => grups[index].Peces;
 
-
+    public List<Peça> Veins(Peça peça) => Veins(grups[peça.Grup]);
     public List<Peça> Veins(int indexGrup) => Veins(grups[indexGrup]);
     public List<Peça> Veins(Grup grup) => grup.Veins;
 
+    void Connexions(Grup grup)
+    {
+        //List<int> connexions = new List<int>();
+        //if (grup.connexions != null) connexions = grup.connexions;
 
+        if (!grup.Peces[0].EstatIgualA(casa)) 
+        {
+            if (grup.connexions != null) grup.connexions = null;    
+            return;
+        }
+
+        //Ell sempre estarà connectat amb si mateix.
+        if (grup.connexions == null) grup.connexions = new List<int>();
+        if (!grup.connexions.Contains(grups.IndexOf(grup))) grup.connexions.Add(grups.IndexOf(grup));
+
+        //**************************************************************************************************************
+        //Una vegada aixo funcioni, per optimitzar, cada com que un grup "canvii" es marca com a modificat. Quan s'acaba el proces es posa tot a false.
+        //Aixi només comprovaria els grups que s'han podificat. Aixo te sentit??? no ho he acabat de pensar del tot....
+        //**************************************************************************************************************
+        //Ah! i a la primera busca, millor guardar el que trobi per no tornar a fer el mateix, grup.Veins .EstatIgualA... bla bla. ok?
+        //**************************************************************************************************************
+        //Busquem cases veines.
+
+        List<Peça> cases = new List<Peça>();
+        List<Peça> camins = new List<Peça>();
+        List<Peça> veinsCami;
+        List<Peça> ports = new List<Peça>();
+        List<Peça> altresPorts = new List<Peça>();
+        List<Peça> veinsPort;
+        List<Peça> mar;
+        //Capturar cases, camins i ports
+        for (int i = 0; i < grup.Veins.Count; i++)
+        {
+            if (grup.Veins[i].EstatIgualA(casa)) cases.Add(grup.Veins[i]);
+            else if (grup.Veins[i].EstatIgualA(cami)) camins.Add(grup.Veins[i]);
+            if (grup.Veins[i].SubestatIgualA(port)) ports.Add(grup.Veins[i]);
+        }
+
+        //Comprovar cases
+        for (int i = 0; i < cases.Count; i++)
+        {
+            Debug.LogError("Add - CASA");
+            AddConnexio(grup, cases[i]);
+            //if (!connexions.Contains(cases[i].Grup)) connexions.Add(cases[i].Grup);
+        }
+
+        //Comprovar pobles connectats amb veins.
+        for (int i = 0; i < camins.Count; i++)
+        {
+            veinsCami = grups[camins[i].Grup].Veins;
+            for (int c = 0; c < veinsCami.Count; c++)
+            {
+                if (veinsCami[c].EstatIgualA(casa)) //Si troba un poble enganxat al cami, el connecta.
+                {
+                    Debug.LogError("Add - CASA >>> CAMI >>> CASA");
+                    AddConnexio(grup, veinsCami[c]);
+                    //if (!connexions.Contains(veinsCami[c].Grup)) connexions.Add(veinsCami[c].Grup);
+                }
+                else if (veinsCami[c].SubestatIgualA(port)) //Si troba un port enganxat el cami, el guarda com a port, per tractarlo al final.
+                {
+                    //Debugar.LogError("Add port a través de cami");
+                    //AddConnexio(ref connexions, grup, veinsCami[c]);
+                    if (!ports.Contains(veinsCami[c])) ports.Add(veinsCami[c]);
+                }
+            }
+        }
+
+
+        Debug.LogError($"{ports.Count} ports");
+        //Comprova els ports trobats (primer els enganxats i despres els solitaris.
+        for (int p = 0; p < ports.Count; p++)
+        {
+            mar = MarIVoltants(ports[p].VeinsPeça);
+
+            Debug.LogError($"{mar.Count} peces de mar.");
+            //Ports vora el mar
+            for (int m = 0; m < mar.Count; m++)
+            {
+                if (mar[m].SubestatIgualA(port) && mar[m] != ports[p]) 
+                {
+                    Debug.LogError($"{mar[m].name} es un port");
+                    if (!altresPorts.Contains(mar[m])) altresPorts.Add(mar[m]);
+                }
+            }
+
+            //Faig una primera comprovacio dels ports, per saber quins tenen un poble enganxat.
+            for (int ap = 0; ap < altresPorts.Count; ap++)
+            {
+                veinsPort = altresPorts[ap].VeinsPeça;
+                for (int vp = 0; vp < veinsPort.Count; vp++)
+                {
+                    if (veinsPort[vp].EstatIgualA(casa)) 
+                    {
+                        Debug.LogError("Add - CASA >>> PORT >>> MAR >>> PORT >>> CASA");
+                        AddConnexio(grup, veinsPort[vp]);
+                        //if (!connexions.Contains(veinsPort[vp].Grup)) connexions.Add(veinsPort[vp].Grup); //Una poblacio al costat del port d'arribada.
+                    } 
+                }
+            }
+
+            //Faig una segona comprovacio pels que només hi arriba un cami, i trobar tots els pobles d'aquell camí.
+            for (int ap = 0; ap < altresPorts.Count; ap++)
+            {
+                veinsPort = altresPorts[ap].VeinsPeça;
+                for (int vp = 0; vp < veinsPort.Count; vp++)
+                {
+                    if (veinsPort[vp].EstatIgualA(cami))
+                    {
+                        veinsCami = grups[veinsPort[vp].Grup].Veins;
+                        for (int c = 0; c < veinsCami.Count; c++)
+                        {
+                            if (veinsCami[c].EstatIgualA(casa))
+                            {
+                                Debug.LogError("Add - CASA >>> PORT >>> MAR >>> PORT >>> CAMI >>> CASA");
+                                AddConnexio(grup, veinsCami[c]);
+                                //if (!connexions.Contains(veinsCami[c].Grup)) connexions.Add(veinsCami[c].Grup);
+                            }
+                        }
+                    }
+                }
+            }
+
+           
+        }
+
+
+
+        //Comprova els ports llunyans i les rutes que porten a ciutats amb ports.
+
+
+        //Comprova els ports llunyans i les rutes que porten a ciutats amb ports.
+
+
+        //Comprova els ports llunyans i les rutes que porten a ports solitaris.
+
+        //Comprovar els ports propers.
+
+
+        /*for (int v = 0; v < grup.Veins.Count; v++)
+        {
+            if (grup.Veins[v].EstatIgualA(casa))//Si el vei es una casa, segurament serà que jo soc una casa que s'ha convertit en un productor. I aquesta casa representa el poble on ja estava.
+            {
+                if (!connexions.Contains(grup.Veins[v].Grup)) connexions.Add(grup.Veins[v].Grup);
+            }
+            else if(grup.Veins[v].EstatIgualA(cami)) //Buscar una casa al llarg del cami.
+            if (veins[v].EstatIgualA(cami))
+            {
+                List<Peça> veinsDelCami = Veins(veins[v]);
+                tmp.AddRange(veinsDelCami);
+            }
+            List<Peça> veins = grup.Peces[g].VeinsPeça;
+            for (int v = 0; v < veins.Count; v++)
+            {
+
+            }
+        }*/
+
+        //return connexions;
+    }
+
+    void AddConnexio( Grup origen, Peça desti)
+    {
+
+        Debug.LogError($"From {grups.IndexOf(origen)}({grups[grups.IndexOf(origen)].Peces[0].name}) >>> to >>> {desti.Grup}({desti.name})");
+
+        if (!origen.connexions.Contains(desti.Grup)) origen.connexions.Add(desti.Grup);
+        else Debug.LogError("Ja connectat");
+
+        if (grups[desti.Grup].connexions == null) grups[desti.Grup].connexions = new List<int>();
+        if (!grups[desti.Grup].connexions.Contains(grups.IndexOf(origen))) grups[desti.Grup].connexions.Add(grups.IndexOf(origen));
+        else Debug.LogError("Ja connectat");
+    }
+
+    List<Peça> MarIVoltants(List<Peça> voltantPort)
+    {
+        List<Peça> mar = new List<Peça>();
+        for (int vp = 0; vp < voltantPort.Count; vp++)
+        {
+            if (voltantPort[vp].EstatIgualA(aigua))  //He trobat el mar 
+            {
+                mar.AddRange(grups[voltantPort[vp].Grup].Peces);
+                mar.AddRange(grups[voltantPort[vp].Grup].Veins);
+                break;
+            }
+        }
+        return mar;
+    }
+
+    public List<Peça> VeinsAmbCami(Peça peça) => VeinsAmbCami(grups[peça.Grup]);
+    public List<Peça> VeinsAmbCami(Grup grup) 
+    {
+        List<Peça> tmp = new List<Peça>();
+        for (int g = 0; g < grup.Peces.Count; g++)
+        {
+            List<Peça> veins = grup.Peces[g].VeinsPeça;
+            for (int v = 0; v < veins.Count; v++)
+            {
+                if (!tmp.Contains(veins[v])) tmp.Add(veins[v]);
+
+                if (veins[v].EstatIgualA(cami))
+                {
+                    List<Peça> veinsDelCami = Veins(veins[v]);
+                    tmp.AddRange(veinsDelCami);
+                }
+            }
+        }
+        return tmp;
+    }
+
+    public List<Peça> VeinsAmbPort(Peça peça) //Es una combinacio de vein
+    {
+        //1 Si la casa toca un port. Salta al pas 3
+        //2 O un cami arriba a un port
+        //3 Busca veins aigua del port
+        //4 de tots els veins del grup aigua
+        //5 Busca un port que no sigui el mateix
+        //6 I dels veins del port, busca una casa i agafa el seu poble. Torna al pas 5
+        //7 Si no hi ha casa aprop de port, busca un cami.
+        //8 per totes els veins del cami, busca una casa i agafa el seu poble. Torna al pas 7.
+        //9 una vegada acabis amb totes els veins del poble, Torna al pas 5.
+        return null;
+    }
     List<Peça> TrobarVeins(Grup grup)
     {
 
@@ -278,12 +502,13 @@ public class Grups : ScriptableObject
             {
                 if (!tmp.Contains(veins[v])) //Si no l'he agafat encara
                 {
-                    if (!grup.Peces.Contains(veins[v])) tmp.Add(veins[v]); //Si no forma part del grup, es veï
-                    else //Si forma part del grup
-                    {
-                        if (grup.Estat == cami && !veins[v].EstatIgualA(cami)) tmp.Add(veins[v]); //Si formes part del camp, pero no ets un cami, tambe contes com a vei.
-                        //if (grup.Estat == cami && caminables.Estats.Contains(veins[v].Estat)) tmp.Add(veins[v]); //Si jo soc un camí i tu ets un caminable, ets veï.
-                    }
+                    tmp.Add(veins[v]);
+                    /* if (!grup.Peces.Contains(veins[v])) tmp.Add(veins[v]); //Si no forma part del grup, es veï
+                     else //Si forma part del grup
+                     {
+                         if (grup.Estat == cami && !veins[v].EstatIgualA(cami)) tmp.Add(veins[v]); //Si formes part del cami pero no ets un cami, tambe contes com a vei.
+                     }
+                    */
                 }
             }
             
@@ -295,7 +520,7 @@ public class Grups : ScriptableObject
     public void CrearGrups_FromLoad(List<Peça> peces)
     {
         grups = new List<Grup>();
-        pobles = new List<Grup>();
+        //pobles = new List<Grup>();
 
         //Comprovar el numero de grups que es necessiten.
         int indexMesAlt = 0;
@@ -319,7 +544,7 @@ public class Grups : ScriptableObject
             grups[peces[i].Grup].Set(peces[i], casa);
             if (peces[i].EstatIgualA(casa))
             {
-                pobles.Add(grups[peces[i].Grup]);
+                //pobles.Add(grups[peces[i].Grup]);
             }
         }
         for (int i = 0; i < grups.Count; i++)
@@ -349,7 +574,7 @@ public class Grups : ScriptableObject
     private void OnValidate() => Setup();
     protected virtual void Setup()
     {
-        if (caminables == null) caminables = XS_Editor.LoadAssetAtPath<Detall_Tiles_Estats>("Assets/XidoStudio/Hexbase/Peces/Detalls/Tiles_CAMINABLES.asset");
+       
     }
 }
 
@@ -363,24 +588,26 @@ public class Grup : System.Object
     {
         this.estat = estat;
         this.peces = peces;
-        this.esPoble = esPoble;
+        //this.esPoble = esPoble;
     }
-    Estat estat;
+    [SerializeField] Estat estat;
     [SerializeField] List<Peça> peces;
-    bool esPoble = false;
+    //bool esPoble = false;
     [SerializeField] List<Peça> veins;
+    public List<int> connexions;
 
     public Estat Estat => estat;
     public List<Peça> Peces => peces;
-    public bool EsPoble => esPoble;
+    //public bool EsPoble => esPoble;
     public List<Peça> Veins => veins;
+
 
     public void Set(Peça peça, Estat casa)
     {
         if(estat == null)
         {
             estat = peça.Estat;
-            esPoble = peça.EstatIgualA(casa);
+            //esPoble = peça.EstatIgualA(casa);
         }
         if (peces == null) peces = new List<Peça>();
         peces.Add(peça);

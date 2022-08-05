@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Detalls/Detall")]
 public class DetallScriptable : ScriptableObject

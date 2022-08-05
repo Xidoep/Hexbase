@@ -13,7 +13,7 @@ public class Condicio_Subestat : Condicio
     bool _cohincidit = false;
     List<Peça> veins;
 
-    public override bool Comprovar(Peça peça)
+    public override bool Comprovar(Peça peça, Proximitat proximitat)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;

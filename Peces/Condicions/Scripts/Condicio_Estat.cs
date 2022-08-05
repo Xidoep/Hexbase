@@ -11,12 +11,13 @@ public class Condicio_Estat : Condicio
     [Apartat("CONDICIO ESTAT")]
     [SerializeField] Estat estat;
     [SerializeField] [Range(1, 6)] int quantitat = 1;
+
     //INTERN
     int _quantitat = 0;
     bool _cohincidit = false;
-    List<Peça> veins; 
+    List<Peça> veins;
 
-    public override bool Comprovar(Peça peça)
+    public override bool Comprovar(Peça peça, Proximitat proximitat)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
@@ -24,7 +25,7 @@ public class Condicio_Estat : Condicio
         _quantitat = 0;
         _cohincidit = false;
 
-        veins = peça.VeinsPeça;
+        veins = GetVeinsAcordingToOptions(peça);
 
         for (int i = 0; i < veins.Count; i++)
         {

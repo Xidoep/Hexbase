@@ -8,6 +8,7 @@ public class SaveHex : ScriptableObject
 {
     [SerializeField] Grups grups;
     [Linia]
+    [SerializeField] string nom;
     [SerializeField] List<SavedPeça> peçes;
     //Altres coses relacionades amb la partida.
 

@@ -9,8 +9,10 @@ public class Detall_GameObject_Cami : Detall_GameObject
 
     [SerializeField] Estat cami;
     //[SerializeField] List<Estat> estatsCaminables;
-    [SerializeField] Detall_Tiles_Estats estatsCaminables;
+    //[SerializeField] Detall_Tiles_Subestats estatsCaminables;
     [SerializeField] Dependencia[] tilesProhibits;
+
+    [SerializeField][Range(0,6)] int caminsMinims = 1;
 
     int[] bits;
     public string binary;
@@ -23,6 +25,8 @@ public class Detall_GameObject_Cami : Detall_GameObject
 
     public override GameObject Get(Peça peça, TilePotencial tile)
     {
+        if(peça.VeinsPeça.Count < caminsMinims) 
+            return null;
 
         List<Hexagon> veins = peça.Veins;
         bits = new int[6];
@@ -37,7 +41,8 @@ public class Detall_GameObject_Cami : Detall_GameObject
                 {
                     if (!EstaProhibit(peça.Tiles[i]))
                     {
-                        binary += estatsCaminables.Estats.Contains(((Peça)veins[i]).Estat) ? "1" : "0";
+                        binary += ((Peça)veins[i]).Subestat.Caminable ? "1" : "0";
+                        //binary += estatsCaminables.Subestats.Contains(((Peça)veins[i]).Subestat) ? "1" : "0";
                     }
                     else binary += "0";
                     /*if (estatsCaminables.Estats.Contains(((Peça)veins[i]).Estat))

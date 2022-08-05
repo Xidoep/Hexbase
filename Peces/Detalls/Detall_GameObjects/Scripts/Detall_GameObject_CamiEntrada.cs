@@ -5,12 +5,19 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Detalls/GameObject/Tile dependent")]
 public class Detall_GameObject_CamiEntrada : Detall_GameObject
 {
+    [SerializeField] Estat vei;
     [SerializeField] Dependencia[] dependencies;
 
     //INTERN
     GameObject tmp;
     public override GameObject Get(Peça peça, TilePotencial tile)
     {
+        if(vei != null)
+        {
+            if (!Cohincidieix(tile.Veins[0].Estat))
+                return null;
+        }
+
         tmp = null;
         for (int i = 0; i < dependencies.Length; i++)
         {
@@ -23,5 +30,5 @@ public class Detall_GameObject_CamiEntrada : Detall_GameObject
         return tmp != null ? tmp : detalls[0];
     }
 
-
+    bool Cohincidieix(Estat estat) => estat == vei;
 }

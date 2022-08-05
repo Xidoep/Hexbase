@@ -53,7 +53,7 @@ public class CamaraGestio : MonoBehaviour
             Moviment_Keyboard(transform);
             //Moviment_Mouse(transform);
 
-            transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * (zoom + 1));
+            transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * ((zoom + 1) * 5));
         }
 
 
@@ -178,7 +178,7 @@ public class CamaraGestio : MonoBehaviour
         }
         void Zoom_Mouse()
         {
-            zoom += mouse.GetVector2().y * speed * 2;
+            zoom -= mouse.GetVector2().y * speed * 2;
         }
 
 

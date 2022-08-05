@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Condicio/byOcupat")]
 public class Condicio_Ocupat : Condicio
 {
-    public override bool Comprovar(Peça peça)
+    public override bool Comprovar(Peça peça, Proximitat proximitat)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;

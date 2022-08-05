@@ -10,45 +10,25 @@ public class Condicio_Producte : Condicio
 
     //INTERN
     List<Peça> veins;
-    List<Peça> veinsCami;
 
-    public override bool Comprovar(Peça peça)
+    public override bool Comprovar(Peça peça, Proximitat proximitat)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
 
-        
 
-        if (cami)
+        veins = GetVeinsAcordingToOptions(peça);
+
+        for (int i = 0; i < veins.Count; i++)
         {
-            veinsCami = VeinsAmbCami(peça);
-
-            for (int i = 0; i < veinsCami.Count; i++)
+            if (veins[i].SubestatIgualA(subestat) && veins[i].LLiure)
             {
-                if (veinsCami[i].SubestatIgualA(subestat) && veinsCami[i].LLiure)
-                {
-                    veinsCami[i].Ocupar(peça);
-                    Canviar(peça);
-                    return true;
-                }
-            }
-        }
-        else
-        {
-            veins = Veins(peça);
-
-            for (int i = 0; i < veins.Count; i++)
-            {
-                if (veins[i].SubestatIgualA(subestat) && veins[i].LLiure)
-                {
-                    veins[i].Ocupar(peça);
-                    Canviar(peça);
-                    return true;
-                }
+                veins[i].Ocupar(peça);
+                Canviar(peça);
+                return true;
             }
         }
 
-        
         return false;
     }
 

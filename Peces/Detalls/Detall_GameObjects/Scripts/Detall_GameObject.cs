@@ -12,6 +12,7 @@ public class Detall_GameObject : ScriptableObject
     [System.Serializable]
     public struct Dependencia
     {
+
         public Tile tile;
         [Tooltip("Si es -1, no ho tindrà en compte")] public int orientacioFisica;
         public int indexDetall;

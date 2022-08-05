@@ -12,6 +12,7 @@ public class Proximitat : ScriptableObject
     //2.- Si formen part d'un grup de X o +.
     //3.- Com l'1, pero en tot el grup.
     [SerializeField] Queue<Peça> peces;
+    [SerializeField] Grups grups;
     List<Peça> comprovades;
     System.Action<List<Peça>> enFinalitzar;
 
@@ -28,25 +29,60 @@ public class Proximitat : ScriptableObject
         _actual = null;
         //_canviar = false;
     }
-    public void Add(Peça peça, System.Action enFinalitzar = null)
+    public void Add(Peça peça)
     {
-        if(!peces.Contains(peça)) peces.Enqueue(peça);
+        List<Peça> tmp = GetPecesToComprovar(peça);
+        for (int i = 0; i < tmp.Count; i++)
+        {
+            if (!peces.Contains(tmp[i])) peces.Enqueue(tmp[i]);
+        }
 
+       
+
+        /*List<Peça> veins = peça.VeinsPeça;
+        for (int i = 0; i < veins.Count; i++)
+        {
+            if (!peces.Contains(veins[i])) peces.Enqueue(veins[i]);
+        }
+
+        List<Peça> grup = grups.Peces(peça);
+        for (int i = 0; i < grup.Count; i++)
+        {
+            if (!peces.Contains(grup[i])) peces.Enqueue(grup[i]);
+        }
+
+        List<Peça> veinsGrupAmbCami = grups.VeinsAmbCami(peça);
+        for (int i = 0; i < veinsGrupAmbCami.Count; i++)
+        {
+            if (!peces.Contains(veinsGrupAmbCami[i])) peces.Enqueue(veinsGrupAmbCami[i]);
+        }*/
         //if not started start the proces.
         //if (enFinalitzar != null) this.enFinalitzar = enFinalitzar;
         //if (!_iniciat) Process();
     }
 
-    void AddVeins(Peça peça)
+    public List<Peça> GetPecesToComprovar(Peça peça)
     {
-        veins = peça.VeinsPeça;
+        List<Peça> tmp = new List<Peça>();
 
+        List<Peça> veins = peça.VeinsPeça;
         for (int i = 0; i < veins.Count; i++)
         {
-            //if (veins[i].EsPeça)
-            Add(veins[i]);
+            if (!tmp.Contains(veins[i])) tmp.Add(veins[i]);
         }
-        //if (!_iniciat) Process();
+
+        List<Peça> grup = grups.Peces(peça);
+        for (int i = 0; i < grup.Count; i++)
+        {
+            if (!tmp.Contains(grup[i])) tmp.Add(grup[i]);
+        }
+
+        List<Peça> veinsGrupAmbCami = grups.VeinsAmbCami(peça);
+        for (int i = 0; i < veinsGrupAmbCami.Count; i++)
+        {
+            if (!tmp.Contains(veinsGrupAmbCami[i])) tmp.Add(veinsGrupAmbCami[i]);
+        }
+        return tmp;
     }
 
     public void Process(List<Peça> peces, System.Action<List<Peça>> enFinalitzar)
@@ -77,11 +113,11 @@ public class Proximitat : ScriptableObject
         Debug.LogError(_actual.name);
         for (int i = 0; i < _actual.Condicions.Length; i++)
         {
-            if (_actual.Condicions[i].Comprovar(_actual))
+            if (_actual.Condicions[i].Comprovar(_actual, this))
             {
-                
-                pool.Add(_actual.Subestat.Punts);
-                AddVeins(_actual);
+
+                //pool.Add(_actual.Subestat.Punts);
+                Add(_actual);
                 //_canviar = true;
                 break;
             }

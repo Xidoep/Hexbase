@@ -7,22 +7,19 @@ public class Fase_Processar : Fase
 {
     Grid grid;
 
-    [Linia]
-    [Header("PROCESSOS")]
+    [Apartat("PROCESSOS")]
     [SerializeField] Grups grups;
     [SerializeField] Proximitat proximitat;
     [SerializeField] Repoblar repoblar;
     [SerializeField] Produccio produccio;
-    [Linia]
-    [Header("SEGÜENT FASE")]
+
+    [Apartat("SEGÜENT FASE")]
     [SerializeField] Fase colocar;
 
     [Linia]
     [Nota("Estats per desbloquejar el WFC")]
     [SerializeField] Estat[] desbloquejadores;
 
-    [Linia]
-    [SerializeField] Estat cami;
 
     float startTime;
     Peça peça;
@@ -62,38 +59,52 @@ public class Fase_Processar : Fase
 
         //if (proximitats == null) proximitats = new List<Peça>();
         //else proximitats.Clear();
+        List<Peça> proximitats = new List<Peça>() { peça };
+        proximitats.AddRange(proximitat.GetPecesToComprovar(peça));
 
-        List<Peça> proximitats = new List<Peça>();
+        /*List<Peça> proximitats = new List<Peça>();
         proximitats.Add(peça);
 
-        List<Peça> grup = grups.Peces(index);
-        for (int i = 0; i < grup.Count; i++)
-        {
-            if(!proximitats.Contains(grup[i])) proximitats.Add(grup[i]);
-        }
-
+        //Els veins
         List<Peça> veins = peça.VeinsPeça;
         for (int i = 0; i < veins.Count; i++)
         {
             if (!proximitats.Contains(veins[i])) proximitats.Add(veins[i]);
         }
 
-        for (int i = 0; i < veins.Count; i++)
+        //Les peces del grup
+        List<Peça> grup = grups.Peces(peça);
+        for (int i = 0; i < grup.Count; i++)
+        {
+            if(!proximitats.Contains(grup[i])) proximitats.Add(grup[i]);
+        }
+
+        //Veins del grup amb cami.
+        List<Peça> veinsGrupAmbCami = grups.VeinsAmbCami(peça);
+        for (int i = 0; i < veinsGrupAmbCami.Count; i++)
+        {
+            if (!proximitats.Contains(veinsGrupAmbCami[i])) proximitats.Add(veinsGrupAmbCami[i]);
+        }*/
+
+
+        /*for (int i = 0; i < veins.Count; i++)
         {
             if (veins[i].EstatIgualA(cami))
             {
-                List<Peça> _cami = grups.Peces(veins[i].Grup);
+                //Els camins
+                List<Peça> _cami = grups.Peces(veins[i]);
                 for (int c = 0; c < _cami.Count; c++)
                 {
                     if (!proximitats.Contains(_cami[c])) proximitats.Add(_cami[c]);
                 }
-                List<Peça> veinsCami = grups.Veins(veins[i].Grup);
+                //Els veins del camí.
+                List<Peça> veinsCami = grups.Veins(veins[i]);
                 for (int vc = 0; vc < veinsCami.Count; vc++)
                 {
                     if (!proximitats.Contains(veinsCami[vc])) proximitats.Add(veinsCami[vc]);
                 }
             }
-        }
+        }*/
         //List<Peça> cami = grups.Peces(index);
 
        

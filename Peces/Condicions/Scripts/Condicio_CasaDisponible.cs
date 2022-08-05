@@ -15,7 +15,7 @@ public class Condicio_CasaDisponible : Condicio
     List<Peça> veinsAmbCami;
 
 
-    public override bool Comprovar(Peça peça)
+    public override bool Comprovar(Peça peça, Proximitat proximitat)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;

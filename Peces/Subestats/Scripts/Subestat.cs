@@ -18,9 +18,12 @@ public class Subestat : ScriptableObject
     [Linia]
     [SerializeField] DetallScriptable[] detallsScriptables;
 
+    [Linia]
+    [SerializeField] bool caminable;
 
     public Condicio[] Condicions => condicions;
     public DetallScriptable[] Detalls => detallsScriptables;
+    public bool Caminable => caminable;
 
     public virtual Producte[] Produccio() => null;
     public int Punts => punts;

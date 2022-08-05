@@ -13,20 +13,9 @@ MonoBehaviour:
   m_Name: Cami
   m_EditorClassIdentifier: 
   punts: 0
-  condicions: []
-  detalls:
-  - nom: Cami / encreuement
-    detall: {fileID: 11400000, guid: fb6fa957f71a5c04a8b6b9fcd33a8161, type: 2}
-    tiles: {fileID: 11400000, guid: 5ecac38e763073841ba6e1eb83ab3662, type: 2}
-    modificacions:
-    - {fileID: 11400000, guid: a55ace76ebc0d8f49887388aba200a41, type: 2}
-    - {fileID: 11400000, guid: 3bb714dbec78209488771965fa10ca50, type: 2}
-  - nom: Pont si passa per sobre un riu.
-    detall: {fileID: 11400000, guid: c4874977230c30347910b874cc0d2f2a, type: 2}
-    tiles: {fileID: 11400000, guid: dd25d3bb972b1af4bacb64653db6e2ad, type: 2}
-    modificacions:
-    - {fileID: 11400000, guid: 3bb714dbec78209488771965fa10ca50, type: 2}
-    - {fileID: 11400000, guid: fe2b68624f75b304580c8b38a8052901, type: 2}
+  condicions:
+  - {fileID: 11400000, guid: 8aa6d0ee50b9a3647bb7311744820f74, type: 2}
   detallsScriptables:
   - {fileID: 11400000, guid: 9eceaf4546ee2a540ada734b6f5afe43, type: 2}
   - {fileID: 11400000, guid: 5d9d0e11c07ccfc418b57f37ea5c96cf, type: 2}
+  caminable: 1

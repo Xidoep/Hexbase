@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 using XS_Utils;
 
 
@@ -49,10 +50,10 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     [Apartat("PRODUCTOR/PRODUCTE")]
     [SerializeField] Peça[] producte;
-    [SerializeField] bool ocupat;
+    bool ocupat;
 
     //VARIABLES PRIVADES
-    [SerializeField] TilePotencial[] tiles;
+    TilePotencial[] tiles;
     protected Condicio[] condicions;
 
 
@@ -186,6 +187,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }*/
 
         this.subestat = subestat.Setup(this);
+
+        
         //if (!estat.EsCasa) subestat.Setup(this);
 
         //condicions.AddRange(subestat.Condicions);
@@ -198,6 +201,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }
 
         ocupat = false;
+
+        for (int i = 0; i < cases.Count; i++)
+        {
+            RemoveCasa();
+        }
     }
 
 

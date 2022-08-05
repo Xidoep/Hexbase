@@ -10,15 +10,21 @@ public class Produccio : ScriptableObject
     [SerializeField] Grups grups;
     [SerializeField] PoolPeces pool;
 
+    [Nota("Ara es mostra només per debugar", NoteType.Warning)]
     [SerializeField] List<Peça> productors;
+    
+    
+    [Apartat("ESTATS NECESSARIS")]
     [SerializeField] Estat cami;
-    System.Action enFinalitzar;
-
-    //INTERN
-    int index;
+    [SerializeField] Subestat casa;
+    //PROPIETATS
     bool Finalitzat => index == productors.Count;
 
-
+    //INTERN
+    Action enFinalitzar;
+    int index;
+    List<Peça> veins;
+    List<int> connexions;
     void OnEnable()
     {
         productors = new List<Peça>();
@@ -59,13 +65,16 @@ public class Produccio : ScriptableObject
 
     private void CleanAllNeeds()
     {
-        for (int po = 0; po < grups.Pobles.Count; po++)
+        for (int po = 0; po < grups.Grup.Count; po++)
         {
-            for (int pe = 0; pe < grups.Pobles[po].Peces.Count; pe++)
+            if (!grups.Grup[po].Peces[0].SubestatIgualA(casa))
+                continue;
+
+            for (int pe = 0; pe < grups.Grup[po].Peces.Count; pe++)
             {
-                for (int c = 0; c < grups.Pobles[po].Peces[pe].CasesCount; c++)
+                for (int c = 0; c < grups.Grup[po].Peces[pe].CasesCount; c++)
                 {
-                    grups.Pobles[po].Peces[pe].Cases[c].Clean();
+                    grups.Grup[po].Peces[pe].Cases[c].Clean();
                 }
             }
             
@@ -78,65 +87,58 @@ public class Produccio : ScriptableObject
         //Canviar el sistema de produccio.
         //*********************************************************************************************
 
-        List<Peça> poble = grups.Peces(productor.Grup);
+        //List<Peça> poble = grups.Peces(productor);
         bool proveit = false;
 
         Producte[] recursos = productor.ExtreureProducte();
-        Debug.LogError($"Donar {recursos.Length} Recursos a {poble.Count} peces");
+        Debug.LogError($"Donar {recursos.Length} Recursos");
 
         for (int r = 0; r < recursos.Length; r++)
         {
             //proveit = false;
-            proveit = IntentarProveir(poble,proveit,recursos[r]);
-
-            /*for (int p = 0; p < poble.Count; p++)
+            //proveit = IntentarProveir(poble,proveit,recursos[r]);
+            connexions = grups.Grup[productor.Grup].connexions;
+            for (int c = 0; c < connexions.Count; c++)
             {
-                for (int c = 0; c < poble[p].CasesCount; c++)
-                {
-                    if (poble[p].Cases[c].Proveir(recursos[r]))
-                    {
-                        proveit = true;
-                        Debug.LogError($"Donat un recuros a la casa {c} de la peça {poble[p].gameObject.name}");
-                        break;
-                    }
-                }
-                if (proveit) //???
-                    break;
-            }*/
+                //veins = grups.Grup[connexions[c]].Peces;
+                proveit = IntentarProveir(grups.Grup[connexions[c]].Peces, proveit, recursos[r]);
 
-            //Si despres de recorrer totes les cases del poble, no s'ha donat el recurs, vol dir que sobra.
+                if (proveit)
+                    break;
+            }
+
             if (!proveit)
             {
-                //*****************************************************************************************************************************
-                //Primer, haig de buscar tots els camins que arribin fins al poble/grup.
-                //Per cada cami: Buscar totes les peces casa que veines del cami, que no formin part del poble/grup inicial.
-                //Per cada poble/cami trobat al llarg del cami: Iniciar el mateix procediment que he fet amb el propi poble/grup inicial, pero amb aquests pobles/grups trobats.
-                //*****************************************************************************************************************************
-                List<Peça> veins = grups.Veins(poble[0].Grup);
+                //OLD
+                /*veins = grups.Veins(poble[0]);
                 for (int v = 0; v < veins.Count; v++)
                 {
                     if (veins[v].EstatIgualA(cami))
                     {
-                        List<Peça> camiVeins = grups.Veins(veins[v].Grup);
+                        List<Peça> camiVeins = grups.Veins(veins[v]);
                         for (int c = 0; c < camiVeins.Count; c++)
                         {
                             if (poble.Contains(camiVeins[c]) || !camiVeins[c].EstatIgualA(poble[0].Estat))
                                 continue;
 
-                            List<Peça> altrePoble = grups.Peces(camiVeins[c].Grup);
+                            List<Peça> altrePoble = grups.Peces(camiVeins[c]);
                             proveit = IntentarProveir(altrePoble, proveit, recursos[r]);
                         }
                     }
-                }
-
-                /*if (!grups.EstaConnectat(productor.Treballador.Grup)) //Si no te connexions no es pot donar el recurs a ningú més
-                    break;
-                    
-                List<int> connectats = grups.Connectats(productor.Treballador.Grup);
-                for (int c = 0; c < connectats.Count; c++)
-                {
-                    proveit = IntentarProveir(grups.Peces(connectats[c]), proveit, recursos[r]);
                 }*/
+
+                //LESS NEW
+                /*veins = grups.VeinsAmbCami(productor);
+                for (int i = 0; i < veins.Count; i++)
+                {
+                    if (poble.Contains(veins[i]) || !veins[i].SubestatIgualA(casa))
+                        continue;
+
+                    proveit = IntentarProveir(grups.Peces(veins[i]), proveit, recursos[r]);
+                }*/
+
+                //NEW
+                
 
                 Debug.LogError("Sobra aquest recurs. haig de buscar un poble connectat per enviar els recursos.");
             }
@@ -155,7 +157,7 @@ public class Produccio : ScriptableObject
                 {
                     proveit = true;
                     pool.Add(1);
-                    Debug.LogError($"Donat un recuros a la casa {c} de la peça {poble[p].gameObject.name}");
+                    Debug.LogError($"Donat un recuros a la casa {c} de la peça {poble[p].gameObject.name}", poble[p].gameObject);
                     break;
                 }
             }
