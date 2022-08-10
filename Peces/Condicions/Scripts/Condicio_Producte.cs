@@ -9,7 +9,7 @@ public class Condicio_Producte : Condicio
     [SerializeField] Subestat subestat;
 
     //INTERN
-    List<Peça> veins;
+    List<Peça> myVeins;
 
     public override bool Comprovar(Peça peça, Proximitat proximitat)
     {
@@ -17,13 +17,13 @@ public class Condicio_Producte : Condicio
             return false;
 
 
-        veins = GetVeinsAcordingToOptions(peça);
+        myVeins = GetVeinsAcordingToOptions(peça);
 
-        for (int i = 0; i < veins.Count; i++)
+        for (int i = 0; i < myVeins.Count; i++)
         {
-            if (veins[i].SubestatIgualA(subestat) && veins[i].LLiure)
+            if (myVeins[i].SubestatIgualA(subestat) && myVeins[i].LLiure)
             {
-                veins[i].Ocupar(peça);
+                myVeins[i].Ocupar(peça);
                 Canviar(peça);
                 return true;
             }

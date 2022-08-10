@@ -6,16 +6,17 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Estats/Basic")]
 public class Estat : ScriptableObject
 {
-    [Linia]
-    [Header("TILES")]
+    [Apartat("TILES")]
     [SerializeField] Tile[] tilesInicials;
     [SerializeField] Tile[] tilesPossibles;
     [Tooltip("S'emplena automaticament")][SerializeField] Connexio[] connexionsPossibles;
     
-    [Linia]
-    [Header("SUBESTAT")]
+    [Apartat("SUBESTAT")]
     [SerializeField] Subestat inicial;
     [SerializeField] Condicio[] condicions;
+
+    [Apartat("Visualitzacio")]
+    [SerializeField] GameObject prefab;
 
     //PROPIETATS
     public Tile[] Possibilitats() => tilesPossibles;

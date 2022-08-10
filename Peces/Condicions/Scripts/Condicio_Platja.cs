@@ -5,25 +5,26 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Condicio/byPlatja")]
 public class Condicio_Platja : Condicio
 {
+    [Linia]
     [Apartat("CONDICIO PLATJA")]
     [SerializeField] List<Tile> tilesPlatja;
     [SerializeField] bool potConvertirVeins;
 
     [SerializeField] Estat casa;
     //INTERN
-    List<Peça> veins;
+    List<Peça> m_veins;
 
     public override bool Comprovar(Peça peça, Proximitat proximitat)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
 
-        veins = Veins(peça);
+        m_veins = Veins(peça);
         if (potConvertirVeins) 
         {
-            for (int i = 0; i < veins.Count; i++)
+            for (int i = 0; i < m_veins.Count; i++)
             {
-                if (veins[i].SubestatIgualA(objectiu))
+                if (m_veins[i].SubestatIgualA(objectiu))
                     return false;
             }
         }
@@ -41,17 +42,17 @@ public class Condicio_Platja : Condicio
         //If I reach this point, means that any tile is one of the ones i was looking for.
         if (potConvertirVeins)
         {
-            for (int v = 0; v < veins.Count; v++)
+            for (int v = 0; v < m_veins.Count; v++)
             {
-                if (veins[v].EstatIgualA(casa))
+                if (m_veins[v].EstatIgualA(casa))
                     continue;
 
-                for (int i = 0; i < veins[v].Tiles.Length; i++)
+                for (int i = 0; i < m_veins[v].Tiles.Length; i++)
                 {
-                    if (tilesPlatja.Contains(veins[v].Tiles[i].Possibilitats[0]))
+                    if (tilesPlatja.Contains(m_veins[v].Tiles[i].Possibilitats[0]))
                     {
                         //Canviar(peça);
-                        Canviar(veins[v]);
+                        Canviar(m_veins[v]);
                         return true;
                     }
                 }

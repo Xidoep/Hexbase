@@ -14,7 +14,12 @@ public class CamaraGestio : MonoBehaviour
     [SerializeField] Rotation rotation;
 
 
-
+    private void OnEnable()
+    {
+        movement.Enable();
+        zoom.Enable();
+        rotation.Enable();
+    }
     void Start()
     {
         movement.Start(transform);
@@ -27,7 +32,12 @@ public class CamaraGestio : MonoBehaviour
         rotation.Update(transform);
         zoom.Update();
     }
-
+    private void OnDisable()
+    {
+        movement.Disable();
+        zoom.Disable();
+        rotation.Disable();
+    }
 
 
 
@@ -43,7 +53,11 @@ public class CamaraGestio : MonoBehaviour
         Vector3 movement;
 
 
-
+        public void Enable()
+        {
+            keyboard.action.Enable();
+            mouse.action.Enable();
+        }
         public void Start(Transform transform)
         {
             movement = transform.position;
@@ -55,7 +69,11 @@ public class CamaraGestio : MonoBehaviour
 
             transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * ((zoom + 1) * 5));
         }
-
+        public void Disable()
+        {
+            keyboard.action.Disable();
+            mouse.action.Disable();
+        }
 
 
         void Moviment_Keyboard(Transform transform)
@@ -96,7 +114,10 @@ public class CamaraGestio : MonoBehaviour
         Quaternion rotacio;
 
 
+        public void Enable()
+        {
 
+        }
         public void Start(Transform transform)
         {
             rotacio = transform.rotation;
@@ -107,7 +128,10 @@ public class CamaraGestio : MonoBehaviour
 
             transform.rotation = Quaternion.Lerp(transform.rotation, rotacio, Time.deltaTime * time);
         }
+        public void Disable()
+        {
 
+        }
 
 
         void Rotacio_Keyboard()
@@ -146,7 +170,10 @@ public class CamaraGestio : MonoBehaviour
         public float Value => zoom;
 
 
+        public void Enable()
+        {
 
+        }
         public void Start()
         {
             transposer = vCamera.GetCinemachineComponent<CinemachineTransposer>();
@@ -166,7 +193,10 @@ public class CamaraGestio : MonoBehaviour
             zoom = Mathf.Clamp01(zoom);
             transposer.m_FollowOffset = Vector3.Lerp(transposer.m_FollowOffset, FactorToZoom(), Time.deltaTime * time);
         }
+        public void Disable()
+        {
 
+        }
 
 
         void Zoom_Keyboard()

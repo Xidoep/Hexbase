@@ -11,6 +11,7 @@ public abstract class Condicio : ScriptableObject
 {
     [Tooltip("L'subestat al que canviarà quan es compleixi la condiciò.")] [SerializeField] protected Subestat objectiu;
 
+
     [Apartat("OPCIONS")]
     [SerializeField] protected bool cami;
     [SerializeField] protected bool grup;
