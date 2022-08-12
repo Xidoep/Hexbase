@@ -448,14 +448,6 @@ public static class WaveFunctionColapse
                         //if (tilePotencial.CompararConnexions(out int orientacio, p, cExterior[c1], cLeft[c3], cRight[c2]))
                         if (orientacioFisica != -1)
                         {
-                            /*if (!tile.Possibilitats[p].Comprovar(tile, orientacioFisica, cExterior[c1], cEsquerra[c3], cDreta[c2]))
-                            {
-                                #region DEBUG
-                                _debug += $"| -A.{cExterior[c1].name} -E.{cDreta[c2].name} -D.{cEsquerra[c3].name} [{orientacioFisica}] ***MATCH PERO L'ESPECIFIC DEL TILE EM DIU QUE NO...***\n";
-                                #endregion
-                                continue;
-                            }*/
-                            
                             if (!possibilitats.Contains(tile.Possibilitats[p]))
                             {
                                 possibilitats.Add(tile.Possibilitats[p], orientacioFisica);
@@ -569,41 +561,9 @@ public static class WaveFunctionColapse
     static bool VariesPossibilitats(TilePotencial tile, Possibilitats p)
     {
         Possibilitats possibilitats;
-        /*if(tile.Interaccions > 2)
-        {
-            Debug.LogError("RANDOM!!!");
-
-            possibilitats = RandomTiles(p);
-            tile.SetPossiblitats(possibilitats);
-            return true;
-        }*/
         if (tile.Interaccions > 1 && tile.Interaccions <= 2)
         {
             Debug.LogError("SELECCIONAR TILE PREFERIT");
-            //NEW
-            //RANDOM ENTRE TILES (+PES) AMB LES MATEIXES CONNEXIONS
-            /*possibilitats = new Possibilitats(p.Tile(0), 0, 0, p.Tile(0).Pes);
-            for (int i = 1; i < p.Count; i++)
-            {
-                if (p.Tile(i).ConnexionsIgualsA(p.Tile(0)))
-                {
-                    possibilitats.Add(p.Tile(i), 0);
-                }
-            }
-            possibilitats = RandomTiles(possibilitats);*/
-            /*possibilitats = new Possibilitats(p.Tile(0), 0,0,p.Tile(0).Pes);
-            int randomMax = p.Tile(0).Pes;
-            for (int i = 1; i < p.Count; i++)
-            {
-                if (p.Tile(i).ConnexionsIgualsA(p.Tile(0))) 
-                {
-                    possibilitats.Add(p.Tile(i), 0, randomMax + 1, randomMax + p.Tile(i).Pes);
-                    randomMax += p.Tile(i).Pes;
-                } 
-            }
-
-            Tile randomized = possibilitats.Tile(possibilitats.Random(Random.Range(0, randomMax)));
-            possibilitats = new Possibilitats(randomized, randomized);*/
 
             possibilitats = new Possibilitats(p.Tile(0), 0, 0, p.Tile(0).Pes);
             for (int i = 1; i < p.Count; i++)
@@ -615,8 +575,7 @@ public static class WaveFunctionColapse
             }
 
             possibilitats = RandomTiles(possibilitats);
-             //OLD
-             //possibilitats = new Possibilitats(p.Tile(0), p.Tile(0));
+
             tile.SetPossiblitats(possibilitats);
             #region DEBUG
             if (debug) Debug.Log($"PROVAR PRIMER: {possibilitats.Tile(0).name}|{possibilitats.Orietacio(0)}");
@@ -625,24 +584,10 @@ public static class WaveFunctionColapse
         }
         else if (tile.Interaccions > 2)
         {
-            //Fer un random basat en el temps.
-            //RANDOM ENTRE TILES (+PES)
             Debug.LogError("SELECCIONAR TILE RANDOM");
 
-            //NEW
             possibilitats = RandomTiles(p);
-            /*int randomMax = 0;
-            for (int i = 0; i < p.Count; i++)
-            {
-                p.SetRandomRange(i, randomMax + 1, randomMax + p.Tile(i).Pes);
-                randomMax += p.Tile(i).Pes;
-            }
-            Tile randomized = p.Tile(p.Random(Random.Range(0, randomMax)));
-            possibilitats = new Possibilitats(randomized, randomized);*/
 
-            //OLD
-            //int random = Random.Range(0, p.Count);
-            //possibilitats = new Possibilitats(p.Tile(random), p.Tile(random));
             tile.SetPossiblitats(possibilitats);
             #region DEBUG
             if (debug) Debug.Log($"ALEATORI: {possibilitats.Tile(0).name}|{possibilitats.Orietacio(0)}");

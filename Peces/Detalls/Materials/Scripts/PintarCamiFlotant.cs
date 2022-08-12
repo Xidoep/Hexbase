@@ -16,7 +16,7 @@ public class PintarCamiFlotant : MonoBehaviour
     private void LateUpdate()
     {
         Pintar();
-        //Destroy(this);
+        Destroy(this);
     }
 
     public void Pintar()

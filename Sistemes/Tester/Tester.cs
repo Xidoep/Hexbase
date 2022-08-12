@@ -54,7 +54,7 @@ public class Tester : ScriptableObject
             Debug.LogError("PERO SI AQUESTA NO ES NULLA!!!");
         }*/
 
-        colocar.PeçaSeleccionada = peces[Random.Range(0, peces.Length)];
+        colocar.Seleccionar(peces[Random.Range(0, peces.Length)]);
         seleccionat.CrearPeça();
         //Destroy(seleccionat.gameObject, 0.05f);
         //WaveFunctionColapse.EnFinalitzar = StepDelayed;

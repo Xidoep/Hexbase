@@ -8,7 +8,7 @@ using XS_Utils;
 public class Produccio : ScriptableObject
 {
     [SerializeField] Grups grups;
-    [SerializeField] PoolPeces pool;
+    //[SerializeField] PoolPeces pool;
 
     [Nota("Ara es mostra només per debugar", NoteType.Warning)]
     [SerializeField] List<Peça> productors;
@@ -25,6 +25,7 @@ public class Produccio : ScriptableObject
     int index;
     List<Peça> veins;
     List<int> connexions;
+    float stepTime = 0.1f;
     void OnEnable()
     {
         productors = new List<Peça>();
@@ -43,6 +44,7 @@ public class Produccio : ScriptableObject
         index = 0;
         this.enFinalitzar = enFinalitzar;
         CleanAllNeeds();
+        stepTime = 0.1f;
         Step();
     }
 
@@ -60,7 +62,7 @@ public class Produccio : ScriptableObject
         //productors[index].Produir();
 
         index++;
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+        XS_Coroutine.StartCoroutine_Ending(stepTime, Step);
     }
 
     private void CleanAllNeeds()
@@ -153,18 +155,22 @@ public class Produccio : ScriptableObject
         {
             for (int c = 0; c < poble[p].CasesCount; c++)
             {
-                if (poble[p].Cases[c].Proveir(recurs))
+                if (poble[p].Cases[c].Proveir(recurs, TempsDeVisualitzacio))
                 {
                     proveit = true;
-                    pool.Add(1);
+                    //pool.Add(1);
                     Debug.LogError($"Donat un recuros a la casa {c} de la peça {poble[p].gameObject.name}", poble[p].gameObject);
-                    break;
+                    return proveit;
                 }
             }
             if (proveit) //???
                 break;
         }
 
+        ResetStepTime();
         return proveit;
     }
+
+    void TempsDeVisualitzacio() => stepTime = 3;
+    void ResetStepTime() => stepTime = 0.1f;
 }

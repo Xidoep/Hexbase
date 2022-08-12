@@ -127,10 +127,6 @@ public class TilePotencial
         //if (Resolt)
         //    return;
 
-        //*********************************************************
-        //Aqui, si el tile està compartit, s'han de tornar ambiguues els tiles potencials que comperteixin geometria.
-        //*********************************************************
-
         if (inicial) 
         {
             interaccions = 0;
@@ -138,7 +134,7 @@ public class TilePotencial
         } 
 
         #region DEBUG
-        //if(tileFisic) MonoBehaviour.Destroy(tileFisic);
+        if(tileFisic) MonoBehaviour.Destroy(tileFisic);
         #endregion
 
         ResetPossibilitats();
@@ -164,7 +160,7 @@ public class TilePotencial
         //interaccions = 0;
         haFallat = false;
         #region DEBUG
-        //Crear();
+        Crear();
         //SDebug.Log($"ESCOLLIR: {tileFisic.name}");
         #endregion
     }
@@ -231,7 +227,7 @@ public class TilePotencial
             tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
 
         //tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
-        tileFisic.AddComponent<TileDebug>().New(veins);
+        tileFisic.AddComponent<TileDebug>().New(veins, orientacioFisica);
 
         Detalls(peça.Subestat);
     }
@@ -278,9 +274,11 @@ public class TilePotencial
 public class TileDebug : MonoBehaviour
 {
     [SerializeField] TilePotencial[] veins;
-    public TileDebug New(TilePotencial[] veins) 
+    [SerializeField] int orientacioFisica;
+    public TileDebug New(TilePotencial[] veins, int orientacioFisica) 
     {
         this.veins = veins;
+        this.orientacioFisica = orientacioFisica;
         return this;
     }
 }

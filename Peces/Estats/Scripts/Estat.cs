@@ -22,6 +22,7 @@ public class Estat : ScriptableObject
     public Tile[] Possibilitats() => tilesPossibles;
     public Connexio[] ConnexionsPossibles => connexionsPossibles;
     public Subestat SubestatInicial => inicial;
+    public GameObject Prefag => prefab;
 
     //public virtual bool EsCasa => false;
 

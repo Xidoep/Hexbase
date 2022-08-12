@@ -65,9 +65,10 @@ public class CamaraGestio : MonoBehaviour
         public void Update(Transform transform, float zoom)
         {
             Moviment_Keyboard(transform);
-            //Moviment_Mouse(transform);
+            if(!Application.isEditor) 
+                Moviment_Mouse(transform);
 
-            transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * ((zoom + 1) * 5));
+            transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * (((zoom * 3) + 1) * 5));
         }
         public void Disable()
         {
@@ -78,7 +79,7 @@ public class CamaraGestio : MonoBehaviour
 
         void Moviment_Keyboard(Transform transform)
         {
-            if (!keyboard.IsVector2Zero())
+            if (!keyboard.IsZero_Vector2())
             {
                 movement += ((transform.forward * keyboard.GetVector2().y) * speed) + ((transform.right * keyboard.GetVector2().x) * speed);
             }
@@ -109,13 +110,21 @@ public class CamaraGestio : MonoBehaviour
     public class Rotation
     {
         [SerializeField] InputActionReference keyboard;
+        [SerializeField] InputActionReference mouseActivation;
+        [SerializeField] InputActionReference mouse;
         [SerializeField] float speed;
         [SerializeField] float time;
         Quaternion rotacio;
-
+        bool active;
+        //float startMousePos;
+        //Quaternion startRot;
 
         public void Enable()
         {
+            keyboard.action.Enable();
+            mouseActivation.action.Enable();
+            mouseActivation.OnPerformedAdd(Activate);
+            mouse.action.Enable();
 
         }
         public void Start(Transform transform)
@@ -125,21 +134,40 @@ public class CamaraGestio : MonoBehaviour
         public void Update(Transform transform)
         {
             Rotacio_Keyboard();
+            Rotacio_Mouse();
 
             transform.rotation = Quaternion.Lerp(transform.rotation, rotacio, Time.deltaTime * time);
         }
         public void Disable()
         {
-
+            keyboard.action.Disable();
+            mouseActivation.action.Disable();
+            mouseActivation.OnPerformedRemove(Activate);
+            mouse.action.Disable();
         }
 
-
+        public void Activate(InputAction.CallbackContext context) 
+        {
+            active = context.GetBool();
+            Fase_Colocar.Bloquejar(active);
+        } 
         void Rotacio_Keyboard()
         {
-            if (!keyboard.IsFloatZero())
-            {
-                rotacio *= Quaternion.Euler(Vector3.up * (speed * keyboard.GetFloat()));
-            }
+            if (keyboard.IsZero_Float())
+                return;
+
+            rotacio *= Quaternion.Euler(Vector3.up * (speed * keyboard.GetFloat()));
+        }
+
+        void Rotacio_Mouse()
+        {
+            if (!active)
+                return;
+
+            rotacio *= Quaternion.Euler(Vector3.up * (speed * mouse.GetVector2().x));
+            //rotacio *= Quaternion.Euler(Vector3.up * (speed * (startMousePos - mouse.GetVector2().y)));
+            //rotacio = startRot * Quaternion.Euler(Vector3.up * (speed * (startMousePos - mouse.GetVector2().x)));
+            //startMousePos = mouse.GetVector2().y;
         }
     }
 
@@ -172,7 +200,8 @@ public class CamaraGestio : MonoBehaviour
 
         public void Enable()
         {
-
+            keyboard.action.Enable();
+            mouse.action.Enable();
         }
         public void Start()
         {
@@ -195,13 +224,14 @@ public class CamaraGestio : MonoBehaviour
         }
         public void Disable()
         {
-
+            keyboard.action.Disable();
+            mouse.action.Disable();
         }
 
 
         void Zoom_Keyboard()
         {
-            if (!keyboard.IsFloatZero())
+            if (!keyboard.IsZero_Float())
             {
                 zoom += keyboard.GetFloat() * speed;
             }

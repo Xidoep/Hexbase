@@ -6,6 +6,7 @@ using UnityEngine;
 public class Fase_Colocar : Fase
 {
     static bool permesColoarPeça = false;
+    static bool bloquejat = false;
 
     Grid grid;
 
@@ -16,8 +17,8 @@ public class Fase_Colocar : Fase
     [SerializeField] Estat debug;
 
 
-    public Estat PeçaSeleccionada { set => debug = value; }
     public static bool PermesColoarPeça => permesColoarPeça;
+    public static bool Bloquejat => bloquejat;
 
     public override void Actualitzar()
     {
@@ -29,7 +30,11 @@ public class Fase_Colocar : Fase
         //poolPeces.Get
     }
 
-
+    public void Seleccionar(Estat estat) 
+    {
+        Debug.LogError($"SELECT {estat.name}");
+        debug = estat;
+    } 
     public void CrearPeça(Vector2Int coordenada)
     {
         grid.CrearPeça(debug == null ? poolPeces.Get : debug, coordenada);
@@ -41,4 +46,8 @@ public class Fase_Colocar : Fase
 
         permesColoarPeça = false;
     }
+
+    public static void Bloquejar() => Bloquejar(true);
+    public static void Desbloquejar() => Bloquejar(false);
+    public static void Bloquejar(bool bloquejar) => bloquejat = bloquejar;
 }

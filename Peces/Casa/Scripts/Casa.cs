@@ -104,7 +104,7 @@ public class Casa
     /// Aporta un recurs a les necessitats de la casa.
     /// </summary>
     /// <returns>Retorna si el recurs s'ha pogut entregar o no, si es que no, s'ha d'entregar a una altre casa.</returns>
-    public bool Proveir(Producte recurs)
+    public bool Proveir(Producte recurs, System.Action onPujarNivell)
     {
         bool proveit = false;
         for (int i = 0; i < necessitats.Length; i++)
@@ -118,6 +118,10 @@ public class Casa
                 if (necessitats[i].Proveir())
                 {
                     PujarNivell();
+                    onPujarNivell.Invoke();
+                    //**********************************
+                    //Pos un callback
+                    //**********************************
                 }
                 break;
             }
