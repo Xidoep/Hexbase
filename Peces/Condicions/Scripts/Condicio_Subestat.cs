@@ -11,9 +11,9 @@ public class Condicio_Subestat : Condicio
     //INTERN
     int _quantitat = 0;
     bool _cohincidit = false;
-    List<Peça> veins;
+    List<Peça> myVeins;
 
-    public override bool Comprovar(Peça peça, Proximitat proximitat)
+    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
@@ -21,11 +21,11 @@ public class Condicio_Subestat : Condicio
         _quantitat = 0;
         _cohincidit = false;
 
-        veins = peça.VeinsPeça;
+        myVeins = peça.VeinsPeça;
 
-        for (int i = 0; i < veins.Count; i++)
+        for (int i = 0; i < myVeins.Count; i++)
         {
-            if (veins[i].SubestatIgualA(subestat)) _quantitat++;
+            if (myVeins[i].SubestatIgualA(subestat)) _quantitat++;
         }
 
         if (_cohincidit = _quantitat >= quantitat)

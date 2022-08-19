@@ -13,6 +13,7 @@ public class Fase_Iniciar : Fase
     [Header("INICIAL")]
     [SerializeField] Estat inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
     [SerializeField] PoolPeces pool;
+    [SerializeField] int pecesInicials = 20;
 
     [Linia]
     [Header("SAVE")]
@@ -29,7 +30,7 @@ public class Fase_Iniciar : Fase
         if (!save)
         {
             grid.CrearPeça(inicial, grid.Centre);
-            pool.Inicialize(20);
+            pool.Inicialize(pecesInicials);
         }
         else
         {
@@ -37,7 +38,7 @@ public class Fase_Iniciar : Fase
         }
         
 
-        colocar.Iniciar();
+        //colocar.Iniciar();
     }
 
 

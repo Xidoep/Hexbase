@@ -13,44 +13,48 @@ public class TilePotencial
         this.estat = estat;
         estatName = estat.name;
         this.orientacio = orientacio;
-        coordenades = peça.Coordenades;
+        //coordenades = peça.Coordenades;
         connexions = estat.ConnexionsPossibles;
-        orientacioFisica = 0;
-        interaccions = 0;
-        assegurat = false;
-        haFallat = false;
+        //interaccions = 0;
+        //assegurat = false;
+        //haFallat = false;
+
+        GetPossibilitats();
+        /*orientacioFisica = 0;
 
         if(estat != null)
         {
-            ConnexionsNules = estat.VeiNull;
-            PossibilitatsInicials = estat.Possibilitats;
-            possibilitats = PossibilitatsInicials.Invoke();
-        }
+            //ConnexionsNules = estat.VeiNull;
+            //PossibilitatsInicials = estat.Possibilitats;
+            //possibilitats = PossibilitatsInicials.Invoke();
+            possibilitatsVirtuals = estat.PossibilitatsVirutals();
+        }*/
     }
 
     Peça peça;
     Estat estat;
-    public string estatName;
-    int orientacio;
-    public Vector2Int coordenades;
-    Tile[] possibilitats;
+    [SerializeField] string estatName;
+    [SerializeField] int orientacio;
+    //Vector2Int coordenades;
+    //Tile[] possibilitats;
+    [SerializeField] Possibilitats possibilitatsVirtuals;
     Connexio[] connexions;
     int orientacioFisica = 0;
-    [SerializeField]int interaccions = 0;
-    [SerializeField]bool assegurat;
-    [SerializeField]bool haFallat;
+    //int interaccions = 0;
+    //bool assegurat;
+    //bool haFallat;
 
 
     [SerializeField] GameObject tileFisic;
-    [SerializeField] GameObject detalls;
-    TilePotencial[] veins;
+    GameObject detalls;
+    [HideInInspector] TilePotencial[] veins;
     
     
     
-    public Func<TilePotencial, Connexio[]> ConnexionsNules;
-    public Func<Tile[]> PossibilitatsInicials;
-    public string ID => $"{(estat ? estat.name : "???")}-{orientacio}({(Resolt ? possibilitats[0] : "???")})|{orientacioFisica} {(assegurat ? "(ASSEGURAT)" : "")}";
-    public bool Assegurat
+    //public Func<TilePotencial, Connexio[]> ConnexionsNules;
+    //public Func<Tile[]> PossibilitatsInicials;
+    //public string ID => $"{(estat ? estat.name : "???")}-{orientacio}({(Resolt ? possibilitats[0] : "???")})|{orientacioFisica} {(assegurat ? "(ASSEGURAT)" : "")}";
+    /*public bool Assegurat
     {
         get => assegurat;
         set
@@ -58,23 +62,25 @@ public class TilePotencial
             assegurat = value;
             if (tileFisic != null)
             {
-                tileFisic.name = ID;
+                //tileFisic.name = ID;
                 tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
             }
         }
-    }
+    }*/
+    public string EstatName => $"{estatName}-{orientacio}";
     public Peça Peça => peça;
     public Estat Estat => estat;
-    public Vector2Int Coordenades => coordenades;
-    public Tile[] Possibilitats => possibilitats;
-    public void Interactuar() => interaccions++;
-    public int Interaccions => interaccions;
+    //public Vector2Int Coordenades => coordenades;
+    //public Tile[] Possibilitats => possibilitats;
+    public Possibilitats PossibilitatsVirtuals => possibilitatsVirtuals;
+    //public void Interactuar() => interaccions++;
+    //public int Interaccions => interaccions;
     public GameObject TileFisic => tileFisic;
     public TilePotencial[] Veins => veins;
     public Connexio[] Connexions => connexions;
 
 
-    public int VeinsResolts
+    /*public int VeinsResolts
     {
         get
         {
@@ -88,7 +94,7 @@ public class TilePotencial
             }
             return tmp;
         }
-    }
+    }*/
     float AngleOrientacioFisica
     {
         get
@@ -104,64 +110,104 @@ public class TilePotencial
             }
         }
     }
-    public bool Resolt => possibilitats.Length == 1;
+    public bool Resolt => possibilitatsVirtuals.Count == 1;
     public int OrientacioFisica => orientacioFisica;
     public int Orientacio => orientacio;
-    public bool HaFallat { get => haFallat; set => haFallat = value; }
+    //public bool HaFallat { get => haFallat; set => haFallat = value; }
 
-    public SavedTile Save => new SavedTile(possibilitats[0], orientacio, orientacioFisica);
+    public SavedTile Save => new SavedTile(PossibilitatsVirtuals.Get(0).Tile, orientacio, orientacioFisica);
 
 
     //INTERN
 
-    void ResetPossibilitats()
+    public void GetPossibilitats()
     {
-        this.possibilitats = PossibilitatsInicials.Invoke();
+        if (estat == null || peça.Subestat == null)
+            return;
         orientacioFisica = 0;
-    }
-    public void SetPossiblitats(WaveFunctionColapse.Possibilitats possibilitats) => this.possibilitats = possibilitats.ToArray();
 
-    public void Ambiguo(bool inicial = false)
+        if (peça.Subestat.TilesPropis) 
+            possibilitatsVirtuals = estat.Possibilitats(peça.Subestat.TilesAlternatius);
+        else possibilitatsVirtuals = estat.Possibilitats();
+    }
+    //public void SetPossiblitats(Possibilitats possibilitats) => this.possibilitats = possibilitats.ToArray();
+
+    public TilePotencial Ambiguo()
     {
         //??? potser podria anar aixo aqui...
         //if (Resolt)
         //    return;
 
-        if (inicial) 
+        /*if (inicial) 
         {
             interaccions = 0;
             haFallat = false;
-        } 
+        } */
 
         #region DEBUG
-        if(tileFisic) MonoBehaviour.Destroy(tileFisic);
+        if (tileFisic) 
+        {
+            XS_InstantiateGPU.RemoveGrafic(tileFisic);
+            MonoBehaviour.Destroy(tileFisic);
+        } 
         #endregion
 
-        ResetPossibilitats();
-        assegurat = false;
+        GetPossibilitats();
+        //assegurat = false;
         //interaccions = 0;
 
-        Debug.Log($"{ID} Ambiguo");
+        //Debug.Log($"{ID} Ambiguo");
 
         GetVeins(peça);
         for (int i = 0; i < veins.Length; i++)
         {
             veins[i]?.GetVeins(veins[i]?.Peça);
         }
-        WaveFunctionColapse.Add(this);
-        //Potser falta buscar els veins dels veins
+
+        return this;
+        //WaveFunctionColapse.Add(this);
+
     }
 
-    public void Escollir(WaveFunctionColapse.Possibilitats possibilitats, int index) => Escollir(possibilitats.Tile(index), possibilitats.Orietacio(index));
+    public void Escollir()
+    {
+        int r = 0;
+
+        if (possibilitatsVirtuals.Count > 1)
+        {
+            int randomMax = 0;
+
+            List<Random> randoms = new List<Random>();
+
+            for (int i = 0; i < possibilitatsVirtuals.Count; i++)
+            {
+                randoms.Add(new Random() { index = i, rang = new Vector2Int(randomMax + (i > 0 ? 1 : 0), randomMax + possibilitatsVirtuals.Get(i).Pes) });
+                randomMax += possibilitatsVirtuals.Get(i).Pes;
+            }
+            int randomNumber = UnityEngine.Random.Range(0, randomMax);
+            //Debug.LogError($"GIVEN RANDOM NUMBER = {randomNumber}");
+            for (int i = 0; i < randoms.Count; i++)
+            {
+                //Debug.LogError($"P{i} RANDOM {randoms[i].rang}");
+                if (randomNumber == Mathf.Clamp(randomNumber, randoms[i].rang.x, randoms[i].rang.y))
+                {
+                    r = randoms[i].index;
+                    //break;
+                }
+            }
+            Debug.Log($"RANDOM = {r}");
+        }
+       
+        Escollir(possibilitatsVirtuals.Tile(r), possibilitatsVirtuals.Orietacio(r));
+    }
+
     public void Escollir(Tile tile, int orientacioFisica)
     {
         this.orientacioFisica = orientacioFisica;
-        possibilitats = new Tile[] { tile };
-        //interaccions = 0;
-        haFallat = false;
+        this.possibilitatsVirtuals = new Possibilitats(tile, orientacioFisica, 1000);
+
         #region DEBUG
         Crear();
-        //SDebug.Log($"ESCOLLIR: {tileFisic.name}");
         #endregion
     }
 
@@ -179,57 +225,38 @@ public class TilePotencial
     }
     
 
-    public Connexio[] GetConnexions(int p) => new Connexio[] { possibilitats[p].Exterior(orientacioFisica), possibilitats[p].Esquerra(orientacioFisica), possibilitats[p].Dreta(orientacioFisica) };
+    public Connexio[] GetConnexions(Possibilitat p) => new Connexio[] { p.Tile.Exterior(p.Orientacio), p.Tile.Esquerra(p.Orientacio), p.Tile.Dreta(p.Orientacio) };
+    public bool CompararConnexions(Possibilitat possibilitat, Connexio exterior, Connexio esquerra, Connexio dreta) =>
+        Igualar(exterior, possibilitat.Tile.Exterior(possibilitat.Orientacio)) &&
+        Igualar(esquerra, possibilitat.Tile.Esquerra(possibilitat.Orientacio)) &&
+        Igualar(dreta, possibilitat.Tile.Dreta(possibilitat.Orientacio));
 
-
-    public int CompararConnexions(int p, Connexio exterior, Connexio esquerra, Connexio dreta)
-    {
-        /*if (exterior == possibilitats[p].Exterior(orientacioFisica) & esquerra == possibilitats[p].Esquerra(orientacioFisica) & dreta == possibilitats[p].Dreta(orientacioFisica))
-            return 0;
-        else
-        {
-            if (exterior == possibilitats[p].Esquerra(orientacioFisica) & esquerra == possibilitats[p].Dreta(orientacioFisica) & dreta == possibilitats[p].Exterior(orientacioFisica))
-                return 1;
-            else
-            {
-                if (exterior == possibilitats[p].Dreta(orientacioFisica) & esquerra == possibilitats[p].Exterior(orientacioFisica) & dreta == possibilitats[p].Esquerra(orientacioFisica))
-                    return 2;
-                else
-                    return -1;
-            }
-        }*/
-
-        if (Igualar(exterior, possibilitats[p].Exterior(orientacioFisica)) & Igualar(esquerra, possibilitats[p].Esquerra(orientacioFisica)) & Igualar(dreta, possibilitats[p].Dreta(orientacioFisica)))
-            return 0;
-        else
-        {
-            if (Igualar(exterior, possibilitats[p].Esquerra(orientacioFisica)) & Igualar(esquerra, possibilitats[p].Dreta(orientacioFisica)) & Igualar(dreta, possibilitats[p].Exterior(orientacioFisica)))
-                return 1;
-            else
-            {
-                if (Igualar(exterior, possibilitats[p].Dreta(orientacioFisica)) & Igualar(esquerra, possibilitats[p].Exterior(orientacioFisica)) & Igualar(dreta, possibilitats[p].Esquerra(orientacioFisica)))
-                    return 2;
-                else
-                    return -1;
-            }
-        }
-    }
 
     bool Igualar(Connexio a, Connexio b) => a.Viable == b && b.Viable == a;
 
     public void Crear()
     {
-        tileFisic = GameObject.Instantiate(possibilitats[0].Prefab, peça.Parent.position, Quaternion.Euler(0, orientacio * 60, 0), peça.Parent);
-        tileFisic.name = ID;
+        if (tileFisic != null) 
+        {
+            XS_InstantiateGPU.RemoveGrafic(tileFisic);
+            MonoBehaviour.Destroy(TileFisic);
+        }
+
+        //XS_InstantiateGPU.Instantiate(PossibilitatsVirtuals.Get(0).Tile.Prefab);
+
+        tileFisic = GameObject.Instantiate(PossibilitatsVirtuals.Get(0).Tile.Prefab, peça.Parent.position, Quaternion.Euler(0, orientacio * 60, 0), peça.Parent);
+        tileFisic.name = $"{estatName}-{orientacio}";
 
         tileFisic.transform.localEulerAngles = new Vector3(0, orientacio * 60, 0) + new Vector3(0, AngleOrientacioFisica, 0);
         if (orientacioFisica != 0)
             tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
 
         //tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
+        XS_InstantiateGPU.AddGrafics(tileFisic);
+        
         tileFisic.AddComponent<TileDebug>().New(veins, orientacioFisica);
 
-        Detalls(peça.Subestat);
+        //Detalls(peça.Subestat);
     }
 
     public void Detalls(Subestat subestat)
@@ -267,6 +294,11 @@ public class TilePotencial
             
         }
 
+    }
+    public struct Random
+    {
+        public int index;
+        public Vector2Int rang;
     }
 }
 

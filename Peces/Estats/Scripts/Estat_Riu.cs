@@ -27,7 +27,7 @@ public class Estat_Riu : Estat
     int ultimaAigua;
     bool riuEntrat;
     TilePotencial tilePerReordenar;
-    public override void TilesInicials(TilePotencial[] tiles)
+    /*public override void TilesInicials(TilePotencial[] tiles)
     {
         VeinsAcuatics(tiles);
 
@@ -50,7 +50,7 @@ public class Estat_Riu : Estat
         {
             tiles[i].Crear();
         }
-    }
+    }*/
     public override Connexio[] VeiNull(TilePotencial tile)
     {
         VeinsAcuatics(tile.Peça.Tiles);
@@ -59,7 +59,7 @@ public class Estat_Riu : Estat
 
 
 
-    void NoAigua(TilePotencial[] tiles)
+    /*void NoAigua(TilePotencial[] tiles)
     {
         if (Random.Range(0, 2) == 0)
         {
@@ -79,8 +79,8 @@ public class Estat_Riu : Estat
             Sortida(tiles[4]);
             Terra(tiles[5]);
         }
-    }
-    void UnaAigua(List<TilePotencial> tiles)
+    }*/
+    /*void UnaAigua(List<TilePotencial> tiles)
     {
         if (Random.Range(0, 2) == 0)
         {
@@ -100,8 +100,8 @@ public class Estat_Riu : Estat
             Terra(tiles[4]);
             Terra(tiles[5]);
         }
-    }
-    void MultiplesAigues(List<TilePotencial> tiles)
+    }*/
+    /*void MultiplesAigues(List<TilePotencial> tiles)
     {
         ultimaAigua = 5;
         for (int i = 5; i > 0; i--)
@@ -140,11 +140,11 @@ public class Estat_Riu : Estat
                     Terra(tiles[i]);
             }
         }
-    }
+    }*/
 
 
-    bool VeiAcuatic(TilePotencial tile) => aigues.Contains(tile.Veins[0].Estat);
-    void Reordenar(TilePotencial[] tiles)
+    //bool VeiAcuatic(TilePotencial tile) => aigues.Contains(tile.Veins[0].Estat);
+    /*void Reordenar(TilePotencial[] tiles)
     {
         tilesReordenats = new List<TilePotencial>(tiles);
         for (int i = 0; i < tilesReordenats.Count; i++)
@@ -161,7 +161,7 @@ public class Estat_Riu : Estat
                 tilesReordenats.Add(tilePerReordenar);
             }
         }
-    }
+    }*/
     void VeinsAcuatics(TilePotencial[] tiles)
     {
         veinsAcuatics = 0;
@@ -176,10 +176,11 @@ public class Estat_Riu : Estat
     }
 
 
-
+/*
     void Entrada(TilePotencial tile) => tile.Escollir(riu, 2);
     void Riu(TilePotencial tile) => tile.Escollir(riu, 1);
     void Sortida(TilePotencial tile) => tile.Escollir(riu, 0);
     void Terra(TilePotencial tile) => tile.Escollir(terra, 0);
     void Afluent(TilePotencial tile) => tile.Escollir(riuTrencat, 0);
+*/
 }

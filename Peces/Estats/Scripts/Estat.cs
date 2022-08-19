@@ -7,8 +7,9 @@ using UnityEngine.Events;
 public class Estat : ScriptableObject
 {
     [Apartat("TILES")]
-    [SerializeField] Tile[] tilesInicials;
-    [SerializeField] Tile[] tilesPossibles;
+    //[SerializeField] Tile[] tilesInicials;
+    //[SerializeField] Tile[] tilesPossibles;
+    [SerializeField] TilesPossibles[] tiles;
     [Tooltip("S'emplena automaticament")][SerializeField] Connexio[] connexionsPossibles;
     
     [Apartat("SUBESTAT")]
@@ -19,7 +20,23 @@ public class Estat : ScriptableObject
     [SerializeField] GameObject prefab;
 
     //PROPIETATS
-    public Tile[] Possibilitats() => tilesPossibles;
+    //public Tile[] Possibilitats() => tilesPossibles;
+    public Possibilitats Possibilitats() => Possibilitats(tiles);
+    public Possibilitats Possibilitats(TilesPossibles[] tiles)
+    {
+        Possibilitats ps = new Possibilitats(new List<Possibilitat>());
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (!tiles[i].tile.ConnexionsIguals)
+            {
+                ps.Add(tiles[i].tile, 0, tiles[i].pes);
+                ps.Add(tiles[i].tile, 1, tiles[i].pes);
+                ps.Add(tiles[i].tile, 2, tiles[i].pes);
+            }
+            else ps.Add(tiles[i].tile, 0, tiles[i].pes * 3);
+        }
+        return ps;
+    }
     public Connexio[] ConnexionsPossibles => connexionsPossibles;
     public Subestat SubestatInicial => inicial;
     public GameObject Prefag => prefab;
@@ -31,14 +48,14 @@ public class Estat : ScriptableObject
 
 
     //Els tiles amb que comença la peça quan es crea
-    public virtual void TilesInicials(TilePotencial[] tiles) 
+    /*public virtual void TilesInicials(TilePotencial[] tiles) 
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            tiles[i].Escollir(WaveFunctionColapse.RandomTiles(tilesInicials), 0);
+            tiles[i].Escollir(WFC_Possibilitats.RandomTiles(tilesInicials), 0);
             //tiles[i].Escollir(new WaveFunctionColapse.Possibilitats(tilesPossibles[0], 0), 0);
         }
-    }
+    }*/
 
 
     //Que retorna si troba un vei null. En alguns estat puc voler que sigui una altre cosa.
@@ -68,14 +85,22 @@ public class Estat : ScriptableObject
 
     void OnValidate()
     {
-        List<Connexio> connexios = new List<Connexio>();
-        for (int i = 0; i < tilesPossibles.Length; i++)
+        List<Tile> tmpTiles = new List<Tile>();
+        for (int i = 0; i < tiles.Length; i++)
         {
-            if (!connexios.Contains(tilesPossibles[i].Exterior(0))) connexios.Add(tilesPossibles[i].Exterior(0));
-            if (!connexios.Contains(tilesPossibles[i].Esquerra(0))) connexios.Add(tilesPossibles[i].Esquerra(0));
-            if (!connexios.Contains(tilesPossibles[i].Dreta(0))) connexios.Add(tilesPossibles[i].Dreta(0));
+            tmpTiles.Add(tiles[i].tile);
         }
-        connexionsPossibles = connexios.ToArray();
+        //tilesPossibles = tmpTiles.ToArray();
+
+        List<Connexio> tmpConnexions = new List<Connexio>();
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (!tmpConnexions.Contains(tiles[i].tile.Exterior(0))) tmpConnexions.Add(tiles[i].tile.Exterior(0));
+            if (!tmpConnexions.Contains(tiles[i].tile.Esquerra(0))) tmpConnexions.Add(tiles[i].tile.Esquerra(0));
+            if (!tmpConnexions.Contains(tiles[i].tile.Dreta(0))) tmpConnexions.Add(tiles[i].tile.Dreta(0));
+        }
+
+        connexionsPossibles = tmpConnexions.ToArray();
     }
 
 
@@ -83,7 +108,7 @@ public class Estat : ScriptableObject
     public class TilesPossibles
     {
         public Tile tile;
-        public int pes;
+        [Range(1,100)]public int pes;
     }
 }
 

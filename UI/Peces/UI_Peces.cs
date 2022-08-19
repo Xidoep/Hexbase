@@ -11,7 +11,7 @@ public class UI_Peces : MonoBehaviour
     const float OFFSET_CAMERA_X = 2f;
     const float OFFSET_CAMERA_Rot = -30f;
 
-    [SerializeField] AnimacioPerCodi_Base.Transformacions transformacio;
+    [SerializeField] Transformacions transformacio;
     [SerializeField] GameObject prefab;
     [SerializeField] Transform parent;
     [SerializeField] Fase_Colocar colocar;

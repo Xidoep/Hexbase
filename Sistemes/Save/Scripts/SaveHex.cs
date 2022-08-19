@@ -96,7 +96,7 @@ public class SaveHex : ScriptableObject
             }
         }
 
-        WaveFunctionColapse.StartPendents();
+        //WaveFunctionColapse.StartPendents();
         //Fer les accions que s'han de fer al final.
     }
 
@@ -241,7 +241,7 @@ public class SavedPeça
     {
         peça.Tiles[orientacio] = new TilePotencial(peça.Estat, peça, orientacio);
         peça.Tiles[orientacio].Escollir(tile, orientacioFisica);
-        peça.Tiles[orientacio].Assegurat = true;
+        //peça.Tiles[orientacio].Assegurat = true;
     }
 
     //ON LOAD

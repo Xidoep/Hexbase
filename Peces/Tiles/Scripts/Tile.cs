@@ -16,15 +16,10 @@ public class Tile : ScriptableObject
     //[Header("Punta")]
     //[SerializeField] Estat punta;
 
-    [Linia]
-    [Nota("Això haurà d'anar a l'estat, perque cada estat pugui tenir possiblitats diferents", NoteType.Error)]
-    [SerializeField] int pes;
-    
-
+    public bool ConnexionsIguals => exterior == esquerra && esquerra == dreta;
 
     //public Estat Punta => punta;
     public GameObject Prefab => prefab;
-    public int Pes => pes;
 
 
 
@@ -67,7 +62,7 @@ public class Tile : ScriptableObject
                 return dreta;
         }
     }
-    public bool ConnexionsIgualsA(Tile altre) => exterior == altre.exterior && esquerra == altre.esquerra && dreta == altre.dreta;
+    //public bool ConnexionsIgualsA(Tile altre) => exterior == altre.exterior && esquerra == altre.esquerra && dreta == altre.dreta;
 
 
     [System.Serializable] public class Posicions

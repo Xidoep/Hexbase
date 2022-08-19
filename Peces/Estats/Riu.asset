@@ -12,17 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c4da7a57100904ba7dd997794c2f81, type: 3}
   m_Name: RIU
   m_EditorClassIdentifier: 
-  tilesInicials: []
-  tilesPossibles:
-  - {fileID: 11400000, guid: ca99107eafde6c741bcf21f5d643b6b3, type: 2}
-  - {fileID: 11400000, guid: 83ae862aa53fb114b9505f6191248306, type: 2}
-  - {fileID: 11400000, guid: b3359720f7c6ed144ba7dfce746603ca, type: 2}
-  - {fileID: 11400000, guid: 9fa1eae8c5a5866439f2c0a486c2cec0, type: 2}
+  tiles:
+  - tile: {fileID: 11400000, guid: ca99107eafde6c741bcf21f5d643b6b3, type: 2}
+    pes: 100
+  - tile: {fileID: 11400000, guid: 83ae862aa53fb114b9505f6191248306, type: 2}
+    pes: 20
+  - tile: {fileID: 11400000, guid: b3359720f7c6ed144ba7dfce746603ca, type: 2}
+    pes: 20
+  - tile: {fileID: 11400000, guid: 9fa1eae8c5a5866439f2c0a486c2cec0, type: 2}
+    pes: 1
+  - tile: {fileID: 11400000, guid: bd000a1dcbf2704459fee727dcc19aa6, type: 2}
+    pes: 1
+  - tile: {fileID: 11400000, guid: b9b1f0f507d9da3469b6d36b77aae954, type: 2}
+    pes: 1
+  - tile: {fileID: 11400000, guid: 7f3bae4d8b2f037498968092cbed8c88, type: 2}
+    pes: 1
   connexionsPossibles:
   - {fileID: 11400000, guid: 6d3f7aeb2bea21549a9b9c8fe7ea4195, type: 2}
   - {fileID: 11400000, guid: 6fdc22fa8098d6e48bd30a59e3dc4514, type: 2}
   - {fileID: 11400000, guid: 3003d7bf47f2de645be86197acfba486, type: 2}
   - {fileID: 11400000, guid: f5501edd8f42d104585c9471978f595b, type: 2}
+  - {fileID: 11400000, guid: 477ac00c94bb47943a3b2e5b78f10ed6, type: 2}
   inicial: {fileID: 11400000, guid: 1c7f712b4e1db874eb4e50daf3b0c69c, type: 2}
   condicions: []
   prefab: {fileID: 7690671316916706654, guid: 0960e8522c4d6e042a6367bb447ab6fb, type: 3}

@@ -166,6 +166,11 @@ public class Grups : ScriptableObject
                 {
                     for (int v = 0; v < veins.Count; v++)//Per cada vei.
                     {
+                        if(g >= grups.Count)
+                        {
+                            Debug.Log("He ajuntat l'ultim grup de la llista, aixi que no cal que continui.");
+                            continue;
+                        }
                         //Aquest son els grups dels altres veins iguals
                         if (grups[g].Peces.Contains(veins[v]))//mira si el vei es part del grup.
                         {

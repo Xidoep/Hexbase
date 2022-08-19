@@ -13,8 +13,11 @@ public class Proximitat : ScriptableObject
     //3.- Com l'1, pero en tot el grup.
     [SerializeField] Queue<Peça> peces;
     [SerializeField] Grups grups;
+    [SerializeField] Estat cami;
     List<Peça> comprovades;
-    System.Action<List<Peça>> enFinalitzar;
+    List<Peça> canviades;
+    System.Action<List<Peça>, List<Peça>> enFinalitzar;
+    //System.Action<List<Peça>> enFinalitzar;
 
     //INTERN
     //bool _iniciat;
@@ -85,11 +88,13 @@ public class Proximitat : ScriptableObject
         return tmp;
     }
 
-    public void Process(List<Peça> peces, System.Action<List<Peça>> enFinalitzar)
+    public void Process(List<Peça> peces, System.Action<List<Peça>, List<Peça>> enFinalitzar)
+    //public void Process(List<Peça> peces, System.Action<List<Peça>> enFinalitzar)
     {
         Debug.LogError("--------------PROXIMITAT---------------");
         this.peces = new Queue<Peça>(peces);
         comprovades = new List<Peça>();
+        canviades = new List<Peça>();
         this.enFinalitzar = enFinalitzar;
         Debug.Log("Process");
         Step();
@@ -103,7 +108,8 @@ public class Proximitat : ScriptableObject
         {
             //_iniciat = false;
             Debug.LogError("FINALITZAT!");
-            enFinalitzar.Invoke(comprovades);
+            enFinalitzar.Invoke(comprovades, canviades);
+            //enFinalitzar.Invoke(comprovades);
             return;
         }
 
@@ -113,11 +119,12 @@ public class Proximitat : ScriptableObject
         Debug.LogError(_actual.name);
         for (int i = 0; i < _actual.Condicions.Length; i++)
         {
-            if (_actual.Condicions[i].Comprovar(_actual, this))
+            if (_actual.Condicions[i].Comprovar(_actual, this, grups, cami))
             {
 
                 //pool.Add(_actual.Subestat.Punts);
                 Add(_actual);
+                canviades.Add(_actual);
                 //_canviar = true;
                 break;
             }

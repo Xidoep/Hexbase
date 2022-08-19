@@ -11,13 +11,13 @@ public class Condicio_Producte : Condicio
     //INTERN
     List<Peça> myVeins;
 
-    public override bool Comprovar(Peça peça, Proximitat proximitat)
+    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
 
 
-        myVeins = GetVeinsAcordingToOptions(peça);
+        myVeins = GetVeinsAcordingToOptions(peça, grups, cami);
 
         for (int i = 0; i < myVeins.Count; i++)
         {

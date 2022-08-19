@@ -34,6 +34,11 @@ public class Grid : MonoBehaviour
         inicial.Iniciar();
     }
 
+    private void Update()
+    {
+        XS_InstantiateGPU.RenderUpdate();
+    }
+
     //List<Hexagon> gridDebug;
 
     public GameObject Prefab_Peça => prefab_Peça;

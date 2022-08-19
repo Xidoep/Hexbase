@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
-
+/*
 public static class WaveFunctionColapse
 {
 
@@ -83,17 +83,7 @@ public static class WaveFunctionColapse
         {
             Debug.LogError($"CREAR NOVA PEÇA PERQUE S'HA BLOQUEJAT ({peçaCreada.name}-{peçaCreada.Coordenades})", peçaCreada);
             interaccionsTotals = 0;
-            /*for (int p = 0; p < pendents.Count; p++)
-            {
-                for (int t = 0; t < peçaCreada.Tiles.Length; t++)
-                {
-                    if(pendents[p] == peçaCreada.Tiles[t])
-                    {
-                        pendents.RemoveAt(p);
-                        p--;
-                    }
-                }
-            }*/
+
             for (int t = 0; t < peçaCreada.Tiles.Length; t++)
             {
                 if(pendents.Contains(peçaCreada.Tiles[t]))
@@ -174,15 +164,7 @@ public static class WaveFunctionColapse
 
         ultimaPreçaComprovada = tile;
         tile.Interactuar();
-        /*if (TriarPossibilitat(tile, TilesPossibles(tile)))
-        {
-            IndexMesProvable(tile);
-        }
-        else
-        {
-            
-            IndexMesProvable();
-        }*/
+
 
         TriarPossibilitat(tile, TilesPossibles(tile));
         IndexMesProvable(tile);
@@ -252,34 +234,7 @@ public static class WaveFunctionColapse
 
 
 
-        /*if (tile == null)
-        {
-            _pendents = pendents;
-        }
-        else
-        {
-            if(tile.VeinsResolts == 3)
-            {
-                _pendents = pendents;
-            }
-            else
-            {
-                _pendents = new List<TilePotencial>();
-                for (int i = 0; i < tile.Veins.Length; i++)
-                {
-                    if (tile.Veins[i] == null)
-                        continue;
 
-                    if (!tile.Veins[i].Resolt)
-                        _pendents.Add(tile.Veins[i]);
-                }
-                if(_pendents.Count == 0)
-                {
-                    _pendents = pendents;
-                }
-            }
-          
-        }*/
 
 
         for (int i = 0; i < _pendents.Count; i++)
@@ -420,7 +375,7 @@ public static class WaveFunctionColapse
             _debug = "";
             _debug += $"{tile.ID} Connexions:";
 
-            _debug += $"\nAball - from({tile.Veins[0]?.ID})[{cExterior.Length}] = ";
+            _debug += $"\nExterior - from({tile.Veins[0]?.ID})[{cExterior.Length}] = ";
             for (int i = 0; i < cExterior.Length; i++) { _debug += $"{cExterior[i].name}, "; }
             _debug += $"\nEsquerra - from({tile.Veins[1]?.ID})[{cEsquerra.Length}] = ";
             for (int i = 0; i < cEsquerra.Length; i++) { _debug += $"{cEsquerra[i].name}, "; }
@@ -450,7 +405,7 @@ public static class WaveFunctionColapse
                         {
                             if (!possibilitats.Contains(tile.Possibilitats[p]))
                             {
-                                possibilitats.Add(tile.Possibilitats[p], orientacioFisica);
+                                possibilitats.Add(tile.Possibilitats[p], orientacioFisica, tile.Possibilitats[p].Pes);
                                 #region DEBUG
                                 _debug += $"| -A.{cExterior[c1].name} -E.{cDreta[c2].name} -D.{cEsquerra[c3].name} [{orientacioFisica}] ***MATCH***\n";
                                 #endregion
@@ -503,11 +458,7 @@ public static class WaveFunctionColapse
         {
             for (int i = 0; i < tile.Veins.Length; i++)
             {
-                /*if (tile.Interaccions <= 5) 
-                {
-                    if (tile.Veins[i].Peça.acabadaDeCrear)
-                        continue;
-                }*/
+
 
                 if (tile.Veins[i] == null)
                     continue;
@@ -530,7 +481,7 @@ public static class WaveFunctionColapse
             //Prioritaria = tile;
             //tile.Ambiguo();
             #region DEBUG
-            _debug = $"COLISIO! - tile {tile.ID} - ({tile.estatName}{tile.Coordenades}) - interaccio({tile.Interaccions})\n";
+            _debug = $"COLISIO! - tile {tile.ID} - ({tile.EstatName}{tile.Coordenades}) - interaccio({tile.Interaccions})\n";
             _debug += $"|-Vei[A]{(tile.Veins[0] != null ? tile.Veins[0].ID : "Null\n")}";
             _debug += $"|-Vei[E]{(tile.Veins[1] != null ? tile.Veins[1].ID : "Null\n")}";
             _debug += $"|-Vei[D]{(tile.Veins[2] != null ? tile.Veins[2].ID : "Null\n")}";
@@ -570,11 +521,11 @@ public static class WaveFunctionColapse
             {
                 if (p.Tile(i).ConnexionsIgualsA(p.Tile(0)))
                 {
-                    possibilitats.Add(p.Tile(i), 0);
+                    possibilitats.Add(p.Tile(i), 0,100);
                 }
             }
 
-            possibilitats = RandomTiles(possibilitats);
+            possibilitats = WFC_Possibilitats.RandomTiles(possibilitats);
 
             tile.SetPossiblitats(possibilitats);
             #region DEBUG
@@ -586,7 +537,7 @@ public static class WaveFunctionColapse
         {
             Debug.LogError("SELECCIONAR TILE RANDOM");
 
-            possibilitats = RandomTiles(p);
+            possibilitats = WFC_Possibilitats.RandomTiles(p);
 
             tile.SetPossiblitats(possibilitats);
             #region DEBUG
@@ -615,166 +566,9 @@ public static class WaveFunctionColapse
     }
 
 
-    public static Possibilitats RandomTiles(Possibilitats possibilitats)
-    {
-        int randomMax = 0;
-        Debug.LogError($"{possibilitats.Count} POSSIBLITATS");
-        for (int i = 0; i < possibilitats.Count; i++)
-        {
-            possibilitats.Replace(i, 0, randomMax, randomMax + possibilitats.Tile(i).Pes - 1);
-            randomMax += possibilitats.Tile(i).Pes;
-        }
+    
 
-        Tile randomized = possibilitats.Tile(possibilitats.Random(Random.Range(0, randomMax - 1)));
-        return new Possibilitats(randomized);
-    }
-    public static Possibilitats RandomTiles(Tile[] tiles)
-    {
-        Possibilitats possibilitats = new Possibilitats(tiles[0], 0,0,tiles[0].Pes);
-        int randomMax = tiles[0].Pes;
-        Debug.LogError($"{tiles.Length} TILES INICIALS");
-        if(tiles.Length > 1)
-        {
-            for (int i = 1; i < tiles.Length; i++)
-            {
-                possibilitats.Add(tiles[i], 0, randomMax + 1, randomMax + tiles[i].Pes);
-                randomMax += tiles[i].Pes;
-            }
-        }
-        
-        Tile randomized = possibilitats.Tile(possibilitats.Random(Random.Range(0, randomMax)));
-        return new Possibilitats(randomized);
-    }
-
-    public struct Possibilitats
-    {
-        public Possibilitats(List<Possibilitat> possibilitats)
-        {
-            this.possibilitats = possibilitats;
-            contains = false;
-            index = 0;
-        }
-        public Possibilitats(Tile tile, int orientacio)
-        {
-            possibilitats = new List<Possibilitat>() { new Possibilitat(tile, orientacio) };
-            contains = false;
-            index = 0;
-        }
-        public Possibilitats(Tile tile, int orientacio, int rMin, int rMax)
-        {
-            possibilitats = new List<Possibilitat>() { new Possibilitat(tile, orientacio, rMin, rMax) };
-            contains = false;
-            index = 0;
-        }
-
-        /// <summary>
-        /// Utilitzat principalment per quan es tria el PREFERIT. I es donen dos mes opcios, perque es torni a comprovar la eleccio i no es resolgui al tenir un sol resultat.
-        /// </summary>
-        public Possibilitats(Tile tile1, Tile tile2)
-        {
-            possibilitats = new List<Possibilitat>();
-            possibilitats.Add(new Possibilitat(tile1, 0));
-            possibilitats.Add(new Possibilitat(tile2, 0));
-            contains = false;
-            index = 0;
-        }
-        public Possibilitats(Tile tile1)
-        {
-            possibilitats = new List<Possibilitat>();
-            possibilitats.Add(new Possibilitat(tile1, 0));
-            possibilitats.Add(new Possibilitat(tile1, 1));
-            possibilitats.Add(new Possibilitat(tile1, 2));
-            contains = false;
-            index = 0;
-        }
-
-        List<Possibilitat> possibilitats;
-
-        //INTERN
-        bool contains;
-        int index;
-
-
-
-        //FUNCIONS
-        public int Count => possibilitats.Count;
-        public Tile Tile(int index) => possibilitats[index].tile;
-        public int Orietacio(int index) => possibilitats[index].orientacio;
-        public void Add(Tile tile, int orientacio) => possibilitats.Add(new Possibilitat(tile, orientacio));
-        public void Add(Tile tile, int orientacio, int rMin, int rMax) => possibilitats.Add(new Possibilitat(tile, orientacio, rMin, rMax));
-        public void Replace(int index, int orientacio, int rMin, int rMax) => possibilitats[index] = new Possibilitat(Tile(index), orientacio, rMin, rMax);
-
-        public bool Contains(Tile tile)
-        {
-            contains = false;
-            for (int i = 0; i < possibilitats.Count; i++)
-            {
-                if (possibilitats[i].EsIgual(tile)) contains = true;
-            }
-            return contains;
-        }
-        public int IndexOf(Tile tile)
-        {
-            index = 0;
-            for (int i = 0; i < possibilitats.Count; i++)
-            {
-                if (possibilitats[i].EsIgual(tile)) 
-                {
-                    index = i;
-                    break;
-                }
-            }
-            return index;
-        }
-        public void SetRandomRange(int index, int rMin, int rMax) => possibilitats[index].Random(new Vector2Int(rMin, rMax));
-
-        public int Random(int random)
-        {
-            int index = -1;
-            Debug.LogError($"GIVEN RANDOM NUMBER = {random}");
-            for (int i = 0; i < possibilitats.Count; i++)
-            {
-                Debug.LogError($"P{i} RANDOM {possibilitats[i].random}");
-                if (possibilitats[i].InRandomRange(random)) index = i;
-            }
-            Debug.LogError($"RANDOM = {index}");
-            return index;
-        }
-        public Tile[] ToArray()
-        {
-            List<Tile> tiles = new List<Tile>();
-            for (int i = 0; i < possibilitats.Count; i++)
-            {
-                tiles.Add(possibilitats[i].tile);
-            }
-            return tiles.ToArray();
-        }
-    }
-    public struct Possibilitat
-    {
-        public Possibilitat(Tile tile, int orientacio)
-        {
-            this.tile = tile;
-            this.orientacio = orientacio;
-            random = new Vector2Int();
-        }
-        public Possibilitat(Tile tile, int orientacio, int rMin, int rMax)
-        {
-            this.tile = tile;
-            this.orientacio = orientacio;
-            random = new Vector2Int(rMin, rMax);
-        }
-        public Tile tile;
-        public int orientacio;
-
-
-        public Vector2Int random;
-
-        public void Random(Vector2Int random) => this.random = random;
-
-        public bool EsIgual(Tile tile) => this.tile == tile;
-        public bool InRandomRange(int r) => r == Mathf.Clamp(r, random.x, random.y);
-    }
-
+   
 
 }
+*/

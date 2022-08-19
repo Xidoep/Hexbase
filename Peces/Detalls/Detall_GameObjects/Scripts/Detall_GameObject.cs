@@ -17,6 +17,6 @@ public class Detall_GameObject : ScriptableObject
         [Tooltip("Si es -1, no ho tindrà en compte")] public int orientacioFisica;
         public int indexDetall;
 
-        public bool Cohincideix(TilePotencial tilePotencial) => tilePotencial.Possibilitats[0] == tile && (orientacioFisica == -1 || tilePotencial.OrientacioFisica == orientacioFisica);
+        public bool Cohincideix(TilePotencial tilePotencial) => tilePotencial.PossibilitatsVirtuals.Get(0).Tile == tile && (orientacioFisica == -1 || tilePotencial.OrientacioFisica == orientacioFisica);
     }
 }

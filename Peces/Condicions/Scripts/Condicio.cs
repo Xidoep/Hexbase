@@ -16,9 +16,9 @@ public abstract class Condicio : ScriptableObject
     [SerializeField] protected bool cami;
     [SerializeField] protected bool grup;
 
-    [Apartat("REFERENCIES (autosetting)")]
-    [SerializeField] protected Estat refCami;
-    [SerializeField] protected Grups refGrups;
+   // [Apartat("REFERENCIES (autosetting)")]
+   // [SerializeField] protected Estat refCami;
+   // [SerializeField] protected Grups refGrups;
 
     //INTERN
     List<Peça> veins;
@@ -35,7 +35,7 @@ public abstract class Condicio : ScriptableObject
     /// 
     /// IMPORTANT: Les funcions subscrites han de cridar Canviar quan el resultat sigui positiu.
     /// </summary>
-    public abstract bool Comprovar(Peça peça, Proximitat proximitat);
+    public abstract bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami);
 
 
     /// <summary>
@@ -48,26 +48,26 @@ public abstract class Condicio : ScriptableObject
     }
 
 
-    protected List<Peça> GetVeinsAcordingToOptions(Peça peça)
+    protected List<Peça> GetVeinsAcordingToOptions(Peça peça, Grups _grup, Estat _cami)
     {
         if (veins == null) veins = new List<Peça>();
         else veins.Clear();
 
         if (cami)
         {
-            if (grup) veins = refGrups.Veins(peça);
-            else veins = VeinsAmbCami(peça);
+            if (grup) veins = _grup.Veins(peça);
+            else veins = VeinsAmbCami(peça,_grup,_cami);
         }
         else
         {
-            if (grup) veins = refGrups.Veins(peça);
+            if (grup) veins = _grup.Veins(peça);
             else veins = Veins(peça);
         }
         return veins;
     }
     protected List<Peça> Veins(Peça peça) => peça.VeinsPeça;
-    protected List<Peça> VeinsAmbCami(Peça peça) => VeinsAmbCami(Veins(peça));
-    protected List<Peça> VeinsAmbCami(List<Peça> veins)
+    protected List<Peça> VeinsAmbCami(Peça peça, Grups _grup, Estat _cami) => VeinsAmbCami(Veins(peça), _grup, _cami);
+    protected List<Peça> VeinsAmbCami(List<Peça> veins, Grups _grup, Estat _cami)
     {
         if (connectatsACami == null) connectatsACami = new List<Peça>();
         else connectatsACami.Clear();
@@ -77,9 +77,9 @@ public abstract class Condicio : ScriptableObject
         Debug.LogError("UTILITZAR CAMI");
         for (int v = 0; v < veins.Count; v++)
         {
-            if (veins[v].EstatIgualA(refCami))
+            if (veins[v].EstatIgualA(_cami))
             {
-                List<Peça> veinsDelCami = refGrups.Veins(veins[v]);
+                List<Peça> veinsDelCami = _grup.Veins(veins[v]);
                 connectatsACami.AddRange(veinsDelCami);
             }
         }
@@ -89,8 +89,8 @@ public abstract class Condicio : ScriptableObject
 
     protected virtual void Setup()
     {
-        if (refCami == null) refCami = XS_Editor.LoadAssetAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats/CAMI.asset");
-        if (refGrups == null) refGrups = XS_Editor.LoadAssetAtPath<Grups>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Grups.asset");
+      //  if (refCami == null) refCami = XS_Editor.LoadAssetAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats/CAMI.asset");
+      //  if (refGrups == null) refGrups = XS_Editor.LoadAssetAtPath<Grups>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Grups.asset");
         if (objectiu == null) Debugar.LogError($"La condicio {this.name} no the Objectiu!");
     }
 }
