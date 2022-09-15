@@ -7,18 +7,18 @@ public class WfcRegla_RiuSeguit : WfcRegla
 {
     [SerializeField] Subestat riu;
 
-    [SerializeField] bool aquatic;
     [SerializeField] List<Possibilitat> tilesAcceptats;
     [Tooltip("Es la quantitat de Tiles que pot deixar sense cohincidir")][SerializeField] [Range(0,5)] int minimsEncerts;
 
     //Intern
     bool complert;
-    bool acceptat;
     int encerts;
     int comprovats;
-    int ir;
     List<TilePotencial> tiles;
+
     public override Subestat Subestat => riu;
+
+
 
     protected override bool Comprovacio(Peça peça)
     {
@@ -46,18 +46,15 @@ public class WfcRegla_RiuSeguit : WfcRegla
             for (int p = 0; p < tilesAcceptats.Count; p++)
             {
                 Debug.Log($"Tile[{i}] es igual a {tilesAcceptats[p].Tile.name}???");
-                acceptat = false;
                 if (tiles[i].PossibilitatsVirtuals.Get(0).EqualsTo(tilesAcceptats[p]))
                 {
                     Debug.Log($"Tile[{i}] ES UN DELS PERMESSOS!");
-                    acceptat = true;
                     encerts++;
                     break;
                 }
             }
 
             tiles.RemoveAt(i);
-
             comprovats++;
         }
         /*if (encerts == comprovats) complert = true;

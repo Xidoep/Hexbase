@@ -147,7 +147,7 @@ public class TilePotencial
         #region DEBUG
         if (tileFisic) 
         {
-            XS_InstantiateGPU.RemoveGrafic(tileFisic);
+            //XS_InstantiateGPU.RemoveGrafic(tileFisic);
             MonoBehaviour.Destroy(tileFisic);
         } 
         #endregion
@@ -238,7 +238,7 @@ public class TilePotencial
     {
         if (tileFisic != null) 
         {
-            XS_InstantiateGPU.RemoveGrafic(tileFisic);
+            //XS_InstantiateGPU.RemoveGrafic(tileFisic);
             MonoBehaviour.Destroy(TileFisic);
         }
 
@@ -252,7 +252,7 @@ public class TilePotencial
             tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
 
         //tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
-        XS_InstantiateGPU.AddGrafics(tileFisic);
+        //XS_InstantiateGPU.AddGrafics(tileFisic);
         
         tileFisic.AddComponent<TileDebug>().New(veins, orientacioFisica);
 

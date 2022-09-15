@@ -17,6 +17,7 @@ public class Condicio_Estat : Condicio
     bool _cohincidit = false;
     List<Peça> myVeins;
 
+    public override bool AfterWFC => false;
     public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
     {
         if (peça.SubestatIgualA(objectiu))

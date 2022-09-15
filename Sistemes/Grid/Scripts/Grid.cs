@@ -36,7 +36,7 @@ public class Grid : MonoBehaviour
 
     private void Update()
     {
-        XS_InstantiateGPU.RenderUpdate();
+        //XS_InstantiateGPU.RenderUpdate();
     }
 
     //List<Hexagon> gridDebug;

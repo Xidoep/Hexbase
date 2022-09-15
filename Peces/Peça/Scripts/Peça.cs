@@ -167,7 +167,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         {
             if (tiles[i].TileFisic != null)
             {
-                XS_InstantiateGPU.RemoveGrafic(tiles[i].TileFisic);
+                //XS_InstantiateGPU.RemoveGrafic(tiles[i].TileFisic);
                 Destroy(tiles[i].TileFisic);
             }
 

@@ -16,28 +16,34 @@ public class Condicio_Tiles : Condicio
     [Tooltip("En cas que guigui convertir venis, el que tinguin aquest estat no seran afectats")][SerializeField] List<Estat> estatsInmunes;
 
     //INTERN
-    List<Peça> m_veins;
+    //List<Peça> m_veins;
+    bool trobat;
 
+    public override bool AfterWFC => true;
     public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
 
-        m_veins = Veins(peça);
+        //m_veins = Veins(peça);
 
         if (!invertit)
         {
             //AH! aixo prevent que hi hagui dos ports de costat.
-            if (potConvertirVeins)
+            /*if (potConvertirVeins)
             {
                 for (int i = 0; i < m_veins.Count; i++)
                 {
                     if (m_veins[i].SubestatIgualA(objectiu))
                         return false;
                 }
+            }*/
+
+            Debug.LogError("Aquesta peça vol canviar!", peça);
+            for (int i = 0; i < peça.Tiles.Length; i++)
+            {
+                Debug.LogError($"{peça.Tiles[i].PossibilitatsVirtuals.Get(0).Tile}", peça);
             }
-
-
             for (int i = 0; i < peça.Tiles.Length; i++)
             {
                 if (tilesBuscats.Contains(peça.Tiles[i].PossibilitatsVirtuals.Get(0).Tile))
@@ -48,7 +54,7 @@ public class Condicio_Tiles : Condicio
             }
 
             //If I reach this point, means that any tile is one of the ones i was looking for.
-            if (potConvertirVeins)
+            /*if (potConvertirVeins)
             {
                 for (int v = 0; v < m_veins.Count; v++)
                 {
@@ -65,17 +71,22 @@ public class Condicio_Tiles : Condicio
                         }
                     }
                 }
-            }
+            }*/
         }
         else //INVERTIT
         {
+            trobat = false;
             for (int i = 0; i < peça.Tiles.Length; i++)
             {
-                if (!tilesBuscats.Contains(peça.Tiles[i].PossibilitatsVirtuals.Get(0).Tile))
+                if (tilesBuscats.Contains(peça.Tiles[i].PossibilitatsVirtuals.Get(0).Tile))
                 {
-                    Canviar(peça);
-                    return true;
+                    trobat = true;
                 }
+            }
+            if (!trobat)
+            {
+                Canviar(peça);
+                return true;
             }
         }
         

@@ -139,7 +139,7 @@ public struct Possibilitat
 
     //public bool EsIgual(Tile tile) => this.tile == tile;
     //public bool InRandomRange(int r) => r == Mathf.Clamp(r, random.x, random.y);
-    public bool EqualsTo(Possibilitat possibilitat) => possibilitat.tile == tile && possibilitat.orientacio == orientacio;
+    public bool EqualsTo(Possibilitat possibilitat) => possibilitat.tile == tile && (possibilitat.orientacio == orientacio);
     //public bool EqualsTo(Tile tile, int orientacio) => tile == this.tile && orientacio == this.orientacio;
 }
 

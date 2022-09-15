@@ -16,9 +16,9 @@ public abstract class Condicio : ScriptableObject
     [SerializeField] protected bool cami;
     [SerializeField] protected bool grup;
 
-   // [Apartat("REFERENCIES (autosetting)")]
-   // [SerializeField] protected Estat refCami;
-   // [SerializeField] protected Grups refGrups;
+    // [Apartat("REFERENCIES (autosetting)")]
+    // [SerializeField] protected Estat refCami;
+    // [SerializeField] protected Grups refGrups;
 
     //INTERN
     List<Peça> veins;
@@ -28,6 +28,8 @@ public abstract class Condicio : ScriptableObject
 
     private void OnEnable() => Setup();
     private void OnValidate() => Setup();
+
+    public abstract bool AfterWFC { get; }
 
     /// <summary>
     /// Funcio virtual sobreescrite per la resta de condicions, que comprova si es compleix la condicio.

@@ -50,8 +50,10 @@ public class CamaraGestio : MonoBehaviour
         [Space(10)]
         [SerializeField] float speed;
         [SerializeField] float time;
-        Vector3 movement;
 
+        //INTERN
+        Vector2 keyboardValue;
+        Vector3 movement;
 
         public void Enable()
         {
@@ -65,8 +67,7 @@ public class CamaraGestio : MonoBehaviour
         public void Update(Transform transform, float zoom)
         {
             Moviment_Keyboard(transform);
-            if(!Application.isEditor) 
-                Moviment_Mouse(transform);
+            if (!Application.isEditor) Moviment_Mouse(transform);
 
             transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * (((zoom * 3) + 1) * 5));
         }
@@ -76,13 +77,14 @@ public class CamaraGestio : MonoBehaviour
             mouse.action.Disable();
         }
 
-
+        //void Moviment_Keyboard(InputAction.CallbackContext context) => keyboardValue = keyboard.GetVector2();
         void Moviment_Keyboard(Transform transform)
         {
-            if (!keyboard.IsZero_Vector2())
-            {
-                movement += ((transform.forward * keyboard.GetVector2().y) * speed) + ((transform.right * keyboard.GetVector2().x) * speed);
-            }
+            if (keyboard.GetVector2() == Vector2.zero)
+                return;
+
+            keyboardValue = keyboard.GetVector2();
+            movement += ((transform.forward * keyboardValue.y) * speed) + ((transform.right * keyboardValue.x) * speed);
         }
         void Moviment_Mouse(Transform transform)
         {
@@ -119,11 +121,17 @@ public class CamaraGestio : MonoBehaviour
         //float startMousePos;
         //Quaternion startRot;
 
+        //INTERN
+        float keyboardValue;
+
         public void Enable()
         {
             keyboard.action.Enable();
+            keyboard.OnPerformedAdd(Rotacio_Keyboard);
+
             mouseActivation.action.Enable();
             mouseActivation.OnPerformedAdd(Activate);
+
             mouse.action.Enable();
 
         }
@@ -141,22 +149,26 @@ public class CamaraGestio : MonoBehaviour
         public void Disable()
         {
             keyboard.action.Disable();
+            keyboard.OnPerformedRemove(Rotacio_Keyboard);
+
             mouseActivation.action.Disable();
             mouseActivation.OnPerformedRemove(Activate);
+
             mouse.action.Disable();
         }
 
-        public void Activate(InputAction.CallbackContext context) 
+        void Activate(InputAction.CallbackContext context) 
         {
             active = context.GetBool();
             Fase_Colocar.Bloquejar(active);
-        } 
+        }
+        void Rotacio_Keyboard(InputAction.CallbackContext context) => keyboardValue = keyboard.GetFloat();
         void Rotacio_Keyboard()
         {
-            if (keyboard.IsZero_Float())
+            if (keyboardValue == 0)
                 return;
 
-            rotacio *= Quaternion.Euler(Vector3.up * (speed * keyboard.GetFloat()));
+            rotacio *= Quaternion.Euler(Vector3.up * (speed * keyboardValue));
         }
 
         void Rotacio_Mouse()
