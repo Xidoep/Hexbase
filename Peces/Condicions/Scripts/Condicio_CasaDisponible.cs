@@ -14,7 +14,6 @@ public class Condicio_CasaDisponible : Condicio
     List<Peça> veins;
     List<Peça> veinsAmbCami;
 
-    public override bool AfterWFC => false;
 
     public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
     {

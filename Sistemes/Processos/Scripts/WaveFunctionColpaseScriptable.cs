@@ -47,8 +47,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     [SerializeField] List<TilePotencial> propagables;
 
     System.Action enFinalitzar;
-    Coroutine corutineStep;
-    bool finalitzat;
 
     private void OnEnable()
     {
@@ -73,7 +71,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         colocada = peça;
         this.canviades = canviades;
         enFinalitzar = _enFinalitzar;
-        finalitzat = false;
+
         pendents = new List<TilePotencial>();
 
         if (!reiniciat)
@@ -82,8 +80,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             peça.CrearTilesPotencials();
             peça.AssignarVeinsTiles(peça.Tiles);
         }
-
-
+        
         //Agafar informacio
         AgafarTilesPeça(peça);
         AgafarTilesVeins(peça);
@@ -173,11 +170,12 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
         if (pendents.Count == 0)
         {
+            bool reglesAprovades = true;
             for (int r = 0; r < regles.Length; r++)
             {
                 if (!regles[r].Comprovar(colocada))
                 {
-                    Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.", colocada);
+                    Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.");
                     //NetejarTilesFisicsAlReiniciar();
                     Iniciar_WFC(colocada, canviades, enFinalitzar, true);
                     break;
@@ -187,7 +185,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 {
                     if (!regles[r].Comprovar(canviades[c]))
                     {
-                        Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.", canviades[c]);
+                        Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.");
                         //NetejarTilesFisicsAlReiniciar();
                         Iniciar_WFC(colocada, canviades, enFinalitzar, true);
                         break;
@@ -197,7 +195,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 {
                     if (!regles[r].Comprovar(colocada.VeinsPeça[v]))
                     {
-                        Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.", colocada.VeinsPeça[v]);
+                        Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.");
                         //NetejarTilesFisicsAlReiniciar();
                         Iniciar_WFC(colocada, canviades, enFinalitzar, true);
                         break;
@@ -237,8 +235,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             //En cas que no hi hagui cap element, posen un.
             else lowestEntropy.Add(pendents[i]);
         }
-
-        return lowestEntropy[Random.Range(0, lowestEntropy.Count)];
+        return lowestEntropy[UnityEngine.Random.Range(0, lowestEntropy.Count)];
     }
 
 
@@ -329,8 +326,10 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
 
         //Debug.LogError("PROPAGACIO ACABADA!");
-        corutineStep = XS_Coroutine.StartCoroutine_EndFrame(Step);
-        //XS_Coroutine.StartCoroutine_Update(HaFinalitzat, Step);
+        XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
+
+        //NEW
+
 
         //OLD
         /*Possibilitats novesPossibilitats = TilesPossibles(propagables[0]);
@@ -348,6 +347,10 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         propagables[0].SetPossiblitats(novesPossibilitats);
         propagables.RemoveAt(0);*/
 
+        if (propagables.Count == 0)
+        {
+           
+        }
     }
 
 
@@ -482,10 +485,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
 
         enFinalitzar.Invoke();
-        finalitzat = true;
     }
 
-    bool HaFinalitzat() => finalitzat;
 
 
 }

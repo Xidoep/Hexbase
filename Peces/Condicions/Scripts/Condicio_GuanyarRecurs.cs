@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Condicio/byRecurs")]
 public class Condicio_GuanyarRecurs : Condicio
 {
-    public override bool AfterWFC => false;
     public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
     {
         //Mirar les cases i mirar si una de les cases ha guanyat algun recurs...

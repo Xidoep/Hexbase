@@ -36,6 +36,7 @@ public class Subestat : ScriptableObject
     public virtual Producte[] Produccio() => null;
     public int Punts => punts;
 
+
     //public virtual Subestat Get(Peça peça) => this;
 
 
