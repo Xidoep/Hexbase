@@ -127,25 +127,37 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     }
     void AgafarTilesCanviadesSiNecessari(List<Peça> peces)
     {
+        if (peces.Count == 0)
+            return;
+
         for (int p = 0; p < peces.Count; p++)
         {
-            if (!peces[p].Subestat.TilesPropis)
-                continue;
-
             for (int t = 0; t < peces[p].Tiles.Length; t++)
             {
                 peces[p].Tiles[t].Ambiguo();
+
+                if (peces[p].Tiles[t].Veins[0] == null)
+                    continue;
+
+                peces[p].Tiles[t].Veins[0].Ambiguo();
+                peces[p].Tiles[t].Veins[0].Veins[0] = peces[p].Tiles[t];
+                peces[p].Tiles[t].Veins[0].Veins[1].Ambiguo();
+                peces[p].Tiles[t].Veins[0].Veins[2].Ambiguo();
             }
         }
 
         for (int p = 0; p < peces.Count; p++)
         {
-            if (!peces[p].Subestat.TilesPropis)
-                continue;
-
             for (int t = 0; t < peces[p].Tiles.Length; t++)
             {
                  pendents.Add(peces[p].Tiles[t]);
+
+                if (peces[p].Tiles[t].Veins[0] == null)
+                    continue;
+
+                pendents.Add(peces[p].Tiles[t].Veins[0]);
+                pendents.Add(peces[p].Tiles[t].Veins[0].Veins[1]);
+                pendents.Add(peces[p].Tiles[t].Veins[0].Veins[2]);
             }
         }
     }
@@ -271,7 +283,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             {
                 if(propagables[0].PossibilitatsVirtuals.Count == 0)
                 {
-                    string _debug = $"COLISIO!!!\n";
+                    string _debug = $"COLISIO ({propagables[0].EstatName}.{propagables[0].Orientacio})!!!\n";
                     Connexio[] connexios;
 
                     _debug += "Connexions exteriors = ";
@@ -327,30 +339,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
         //Debug.LogError("PROPAGACIO ACABADA!");
         XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
-
-        //NEW
-
-
-        //OLD
-        /*Possibilitats novesPossibilitats = TilesPossibles(propagables[0]);
-        if (novesPossibilitats.ToArray().Length != propagables[0].Possibilitats.Length)
-        {
-            for (int i = 0; i < propagables[0].Veins.Length; i++)
-            {
-                if (!propagables.Contains(propagables[0].Veins[i])) 
-                {
-                    Debug.Log($"Propagar a {propagables[0].Veins[i].EstatName}");
-                    propagables.Add(propagables[0].Veins[i]);
-                } 
-            }
-        }
-        propagables[0].SetPossiblitats(novesPossibilitats);
-        propagables.RemoveAt(0);*/
-
-        if (propagables.Count == 0)
-        {
-           
-        }
     }
 
 
@@ -441,6 +429,13 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             else
             {
                 _tmp.Clear();
+                if (tile.Peça.Subestat.connexioEspesifica != null && tile.Peça.Subestat.connexioEspesifica.subestats.Contains(vei.Peça.Subestat))
+                {
+                    _tmp.AddRange(tile.Peça.Subestat.connexioEspesifica.connexions);
+                    return _tmp.ToArray();
+                }
+
+                
                 for (int p = 0; p < vei.PossibilitatsVirtuals.Count; p++)
                 {
                     if (!_tmp.Contains(vei.PossibilitatsVirtuals.Tile(p).Exterior(vei.PossibilitatsVirtuals.Orietacio(p))))
@@ -452,17 +447,30 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     if (!_tmp.Contains(vei.PossibilitatsVirtuals.Tile(p).Dreta(vei.PossibilitatsVirtuals.Orietacio(p))))
                         _tmp.Add(vei.PossibilitatsVirtuals.Tile(p).Dreta(vei.PossibilitatsVirtuals.Orietacio(p)));
                 }
-                _tmp.ToArray();
+                return _tmp.ToArray();
+
             }
         }
         else
         {
             //Connexio[] especifics = tile.ConnexionsNules.Invoke(tile);
             //return especifics == null ? tile.Connexions : especifics;
-            return tile.Connexions;
+            //return tile.Connexions;
+            //Si el sub no te connexions nules, agafa les possibles del sub si n'hi ha, i si no
 
+            /*
+            if (tile.Peça.Subestat.TeConnexionsNules)
+                return tile.Peça.Subestat.ConnexionsNules;
+            else return tile.Peça.Subestat.ConnexionsPossibles;
+            */
+            /*if (tile.Peça.Subestat.TeConnexionsNules)
+                return tile.Peça.Subestat.ConnexionsNules;
+            else return tile.Peça.Estat.ConnexionsPossibles;*/
+            if (tile.Peça.Subestat.TeConnexionsNules)
+                return tile.Peça.Subestat.ConnexionsNules;
+            return tile.Peça.Subestat.ConnexionsPossibles;
         }
-        return _tmp.ToArray();
+        //return _tmp.ToArray();
     }
 
 

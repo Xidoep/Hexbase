@@ -7,4 +7,6 @@ public class Connexio_Assimetrica : Connexio
 {
     [SerializeField] Connexio viable;
     public override Connexio Viable => viable;
+    //public override bool EncaixaAmb(Connexio connexio) => connexio == viable;
+
 }

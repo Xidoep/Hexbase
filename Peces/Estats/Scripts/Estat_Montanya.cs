@@ -63,18 +63,12 @@ public class Estat_Montanya : Estat
             tiles[i].Crear();
         }
     }*/
-    public override Connexio[] VeiNull(TilePotencial tile)
+    /*public override Connexio[] VeiNull(TilePotencial tile)
     {
         return nules;
-    }
+    }*/
 
 
-
-    bool VeiMontanya(TilePotencial tile) => tile.Veins[0].Estat == this;
-    //bool AnteriorMontanyos(TilePotencial[] tiles, int i) => !EsVeiNull(tiles[IndexAnterior(i)]) && VeiMontanya(tiles[IndexAnterior(i)]);
-    //bool PosteriorMontanyos(TilePotencial[] tiles, int i) => !EsVeiNull(tiles[IndexPosterior(i)]) && VeiMontanya(tiles[IndexPosterior(i)]);
-    int IndexAnterior(int i) => (i == 0 ? 5 : i - 1);
-    int IndexPosterior(int i) => (i + 1).ClampVeins();
 
 
     /*

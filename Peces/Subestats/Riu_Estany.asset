@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2613b168f763d3244b07ab14774056cc, type: 3}
+  m_Name: Riu_Estany
+  m_EditorClassIdentifier: 
+  punts: 0
+  caminable: 0
+  aquatic: 1
+  condicions:
+  - {fileID: 11400000, guid: 359b61b3565f50e469691c0ac71c3ce3, type: 2}
+  detallsScriptables:
+  - {fileID: 11400000, guid: 4f0599b7f77066542944731ba3260c7e, type: 2}
+  - {fileID: 11400000, guid: 3d554335d4332054a8e8ef607bc0eaa4, type: 2}
+  tiles:
+  - tile: {fileID: 11400000, guid: 9fa1eae8c5a5866439f2c0a486c2cec0, type: 2}
+    pes: 40
+  - tile: {fileID: 11400000, guid: 2d0773c22f9ed91468d13b7ef1487adf, type: 2}
+    pes: 20
+  connexionsNules:
+  - {fileID: 11400000, guid: 6fdc22fa8098d6e48bd30a59e3dc4514, type: 2}
+  connexioEspesifica:
+    subestats: []
+    connexions: []
+  connexionsPossibles:
+  - {fileID: 11400000, guid: 6d3f7aeb2bea21549a9b9c8fe7ea4195, type: 2}
+  - {fileID: 11400000, guid: 3003d7bf47f2de645be86197acfba486, type: 2}
+  - {fileID: 11400000, guid: f5501edd8f42d104585c9471978f595b, type: 2}
+  - {fileID: 11400000, guid: 6fdc22fa8098d6e48bd30a59e3dc4514, type: 2}

@@ -31,12 +31,12 @@ public class Grid : MonoBehaviour
 
     public void Start()
     {
-        inicial.Iniciar();
+        //inicial.Iniciar();
     }
 
     private void Update()
     {
-        XS_InstantiateGPU.RenderUpdate();
+        //XS_InstantiateGPU.RenderUpdate();
     }
 
     //List<Hexagon> gridDebug;

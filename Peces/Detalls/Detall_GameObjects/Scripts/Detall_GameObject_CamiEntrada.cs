@@ -14,7 +14,7 @@ public class Detall_GameObject_CamiEntrada : Detall_GameObject
     {
         if(vei != null)
         {
-            if (!Cohincidieix(tile.Veins[0].Estat))
+            if (!Cohincidieix(tile.Veins[0].Peça.Estat))
                 return null;
         }
 

@@ -27,6 +27,7 @@ public class Estat_Riu : Estat
     int ultimaAigua;
     bool riuEntrat;
     TilePotencial tilePerReordenar;
+
     /*public override void TilesInicials(TilePotencial[] tiles)
     {
         VeinsAcuatics(tiles);
@@ -51,11 +52,11 @@ public class Estat_Riu : Estat
             tiles[i].Crear();
         }
     }*/
-    public override Connexio[] VeiNull(TilePotencial tile)
+   /* public override Connexio[] VeiNull(TilePotencial tile)
     {
         VeinsAcuatics(tile.Peça.Tiles);
         return new Connexio[] { ((veinsAcuatics <= 1) ? cRiu : cTerra), cCostaA, cCostaD };
-    }
+    }*/
 
 
 
@@ -162,7 +163,7 @@ public class Estat_Riu : Estat
             }
         }
     }*/
-    void VeinsAcuatics(TilePotencial[] tiles)
+    /*void VeinsAcuatics(TilePotencial[] tiles)
     {
         veinsAcuatics = 0;
         for (int i = 0; i < tiles.Length; i++)
@@ -173,7 +174,7 @@ public class Estat_Riu : Estat
             if (aigues.Contains(tiles[i].Veins[0].Estat)) veinsAcuatics++;
         }
         Debug.Log($"veins aquatics = {veinsAcuatics}");
-    }
+    }*/
 
 
 /*

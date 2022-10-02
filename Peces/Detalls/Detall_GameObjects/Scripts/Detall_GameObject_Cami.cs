@@ -14,7 +14,6 @@ public class Detall_GameObject_Cami : Detall_GameObject
 
     [SerializeField][Range(0,6)] int caminsMinims = 1;
 
-    int[] bits;
     public string binary;
     int index;
     string codi = "";
@@ -25,11 +24,10 @@ public class Detall_GameObject_Cami : Detall_GameObject
 
     public override GameObject Get(Peça peça, TilePotencial tile)
     {
-        if(peça.VeinsPeça.Count < caminsMinims) 
-            return null;
+       // if(peça.VeinsPeça.Count < caminsMinims) 
+       //     return null;
 
         List<Hexagon> veins = peça.Veins;
-        bits = new int[6];
         binary = "";
         
 
@@ -42,23 +40,8 @@ public class Detall_GameObject_Cami : Detall_GameObject
                     if (!EstaProhibit(peça.Tiles[i]))
                     {
                         binary += ((Peça)veins[i]).Subestat.Caminable ? "1" : "0";
-                        //binary += estatsCaminables.Subestats.Contains(((Peça)veins[i]).Subestat) ? "1" : "0";
                     }
                     else binary += "0";
-                    /*if (estatsCaminables.Estats.Contains(((Peça)veins[i]).Estat))
-                    {
-                        prohibit = true;
-                        for (int p = 0; p < tilesProhibits.Length; p++)
-                        {
-                            if (tilesProhibits[p].Cohincideix(tile))
-                            {
-                                prohibit = false;
-                                break;
-                            }
-                        }
-                        binary += prohibit ? "1" : "0";
-                    }
-                    else binary += "0";*/
 
                 }
                 else binary += ((Peça)veins[i]).EstatIgualA(cami) ? "1" : "0";
@@ -74,14 +57,6 @@ public class Detall_GameObject_Cami : Detall_GameObject
         found = false;
         for (int d = detalls.Length - 1; d >= 0; d--)
         {
-            /*Debug.Log($"Provar Cami: {detalls[d].ToString().Substring(0, 6)} = {detalls[d].ToString().Substring(0, 6).Equals(binary)}");
-            if (detalls[d].ToString().Substring(0, 6).Equals(binary)) 
-            { 
-                index = d;
-                break;
-            } 
-            else
-            {*/
             codi = detalls[d].ToString().Substring(3, 6);
 
             for (int i = 0; i < 6; i++)
@@ -100,7 +75,8 @@ public class Detall_GameObject_Cami : Detall_GameObject
             //}
         }
 
-        detalls[index].transform.GetChild(0).rotation = Quaternion.Euler(0, -60 * rotation, 0);
+        //detalls[index].transform.GetChild(0).rotation = Quaternion.Euler(0, -60 * rotation, 0);
+        //detalls[index].transform.rotation = Quaternion.Euler(0, -60 * rotation, 0);
         return detalls[index];
     }
 

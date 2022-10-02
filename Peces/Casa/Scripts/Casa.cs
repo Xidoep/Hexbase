@@ -76,7 +76,7 @@ public class Casa
     Vector2Int coordenadaProducte;
 
     public bool Disponible => producte == null;
-    public int Grup => peça.Grup;
+    //public int Grup => peça.Grup;
     public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1), producte != null ? producte.Coordenades : new Vector2Int(-1, -1)) : null;
     public void LoadLastStep(Grid grid)
     {

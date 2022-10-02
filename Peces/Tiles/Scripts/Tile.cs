@@ -73,5 +73,7 @@ public class Tile : ScriptableObject
 
     }
 
+
+
     //public virtual bool Comprovar(TilePotencial tile, int orientacioFisica, Connexio exterior, Connexio esquerra, Connexio dreta) => true;
 }

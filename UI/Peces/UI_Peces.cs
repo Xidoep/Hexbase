@@ -16,6 +16,7 @@ public class UI_Peces : MonoBehaviour
     [SerializeField] Transform parent;
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Estat[] peces;
+    [SerializeField] Subestat[] pecesInicials;
 
     //INTERN
     Transform[] childs;
@@ -53,8 +54,11 @@ public class UI_Peces : MonoBehaviour
             rect.anchoredPosition3D = Vector3.zero;
 
             //peça.transform.SetParent(parent.transform);
-            peça.transform.localScale = Vector3.one * 100;
-            peça.AddComponent<AnimacioPerCodi>().Play(transformacio, AnimacioPerCodi_Base.Transicio_Tipus.loop, 4);
+            peça.transform.localScale = new Vector3(100,75,100);
+            peça.transform.localRotation = Quaternion.Euler(-30, 0, 0);
+            //peça.AddComponent<AnimacioPerCodi>().Play(transformacio, AnimacioPerCodi_Base.Transicio_Tipus.loop, 4);
+            
+            
             //AnimacioPerCodi apc = peça.AddComponent<AnimacioPerCodi>().Play(transformacio);
             //apc.Add(transformacio);
             //apc.Play();

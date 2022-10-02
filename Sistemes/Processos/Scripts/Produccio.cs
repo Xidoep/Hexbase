@@ -24,7 +24,7 @@ public class Produccio : ScriptableObject
     Action enFinalitzar;
     int index;
     List<Peça> veins;
-    List<int> connexions;
+    List<string> connexions;
     float stepTime = 0.1f;
     void OnEnable()
     {
@@ -99,11 +99,11 @@ public class Produccio : ScriptableObject
         {
             //proveit = false;
             //proveit = IntentarProveir(poble,proveit,recursos[r]);
-            connexions = grups.Grup[productor.Grup].connexions;
+            connexions = grups.GrupByPeça(productor).connexionsId;
             for (int c = 0; c < connexions.Count; c++)
             {
                 //veins = grups.Grup[connexions[c]].Peces;
-                proveit = IntentarProveir(grups.Grup[connexions[c]].Peces, proveit, recursos[r]);
+                proveit = IntentarProveir(grups.GrupById(connexions[c]).Peces, proveit, recursos[r]);
 
                 if (proveit)
                     break;

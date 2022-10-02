@@ -47,7 +47,8 @@ public abstract class Fase : ScriptableObject
     public System.Action onFinish;
 
     protected object arg;
-    
+
+    public void Iniciar() => Iniciar(null);
     public void Iniciar(object arg = null)
     {
         this.arg = arg;

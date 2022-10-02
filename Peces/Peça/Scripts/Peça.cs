@@ -22,7 +22,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         //this.subestat.Setup(this);
         //if (!this.estat.EsCasa) this.subestat.Productor(this);
         gameObject.name = $"{estat.name}({coordenades})";
-        condicions = this.estat.Condicions(this.subestat);
+        condicions = this.subestat.Condicions;
         ocupat = false;
     }
     /*public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
@@ -42,9 +42,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] Estat estat;
     [SerializeField] protected Subestat subestat;
 
-    [Apartat("GRUP")]
-    [SerializeField] int grup;
-
     [Apartat("CASA")]
     [SerializeField] List<Casa> cases;
 
@@ -57,8 +54,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     protected Condicio[] condicions;
 
     //PROPIETATS
-    public int Grup { set => grup = value; get => grup; }
-
+    //public int Grup { set => grup = value; get => grup; }
+    //public string Grup { set => grupId = value; get => grupId; }
     public override bool EsPeça => true;
     public TilePotencial[] Tiles => tiles;
     public Estat Estat => estat;
@@ -113,7 +110,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         tiles = new TilePotencial[6];
         for (int i = 0; i < 6; i++)
         {
-            tiles[i] = new TilePotencial(Estat, this, i);
+            tiles[i] = new TilePotencial(this, i);
         }
     }
     public void AssignarVeinsTiles(TilePotencial[] tilesPotencials)
@@ -167,7 +164,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         {
             if (tiles[i].TileFisic != null)
             {
-                XS_InstantiateGPU.RemoveGrafic(tiles[i].TileFisic);
+                //XS_InstantiateGPU.RemoveGrafic(tiles[i].TileFisic);
                 Destroy(tiles[i].TileFisic);
             }
 
@@ -184,7 +181,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         this.subestat = subestat.Setup(this);
 
 
-        condicions = estat.Condicions(subestat);
+        condicions = subestat.Condicions;
 
         /*for (int i = 0; i < Tiles.Length; i++)
         {

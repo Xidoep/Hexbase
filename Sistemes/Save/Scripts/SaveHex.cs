@@ -153,7 +153,7 @@ public class SavedPeça
         coordenada = peça.Coordenades;
         esta = peça.Estat;
         subestat = peça.Subestat;
-        grup = peça.Grup;
+        //grup = peça.Grup;
 
         if(peça.CasesCount != 0)
         {
@@ -200,7 +200,7 @@ public class SavedPeça
         peça.CrearTilesFisics();
 
         //PASSAR GRUP
-        peça.Grup = grup;
+        // peça.Grup = grup;
 
         //CASES
         for (int i = 0; i < cases.Length; i++)
@@ -239,7 +239,7 @@ public class SavedPeça
 
     public void Load(Peça peça)
     {
-        peça.Tiles[orientacio] = new TilePotencial(peça.Estat, peça, orientacio);
+        peça.Tiles[orientacio] = new TilePotencial(peça, orientacio);
         peça.Tiles[orientacio].Escollir(tile, orientacioFisica);
         //peça.Tiles[orientacio].Assegurat = true;
     }

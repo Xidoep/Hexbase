@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "Xido Studio/Hex/Condicio/byEstats")]
+public class Condicio_Estats : Condicio
+{
+    [Apartat("CONDICIO ESTAT")]
+    [SerializeField] List<Estat> estats;
+    [SerializeField] [Range(1, 6)] int quantitat = 1;
+
+    //INTERN
+    int _quantitat = 0;
+    List<Peça> myVeins;
+
+    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
+    {
+        if (peça.SubestatIgualA(objectiu))
+            return false;
+
+        _quantitat = 0;
+        myVeins = GetVeinsAcordingToOptions(peça, grups, cami);
+
+        for (int i = 0; i < myVeins.Count; i++)
+        {
+            if (estats.Contains(myVeins[i].Estat)) _quantitat++;
+        }
+
+        if (_quantitat >= quantitat)
+        {
+            Canviar(peça);
+            return true;
+        }
+
+        return false;
+    }
+}

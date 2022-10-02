@@ -7,94 +7,35 @@ using XS_Utils;
 [System.Serializable]
 public class TilePotencial
 {
-    public TilePotencial(Estat estat, Peça peça, int orientacio)
+    public TilePotencial(Peça peça, int orientacio)
     {
         this.peça = peça;
-        this.estat = estat;
-        estatName = estat.name;
         this.orientacio = orientacio;
-        //coordenades = peça.Coordenades;
-        connexions = estat.ConnexionsPossibles;
-        //interaccions = 0;
-        //assegurat = false;
-        //haFallat = false;
 
         GetPossibilitats();
-        /*orientacioFisica = 0;
-
-        if(estat != null)
-        {
-            //ConnexionsNules = estat.VeiNull;
-            //PossibilitatsInicials = estat.Possibilitats;
-            //possibilitats = PossibilitatsInicials.Invoke();
-            possibilitatsVirtuals = estat.PossibilitatsVirutals();
-        }*/
     }
 
     Peça peça;
-    Estat estat;
-    [SerializeField] string estatName;
-    [SerializeField] int orientacio;
-    //Vector2Int coordenades;
-    //Tile[] possibilitats;
-    [SerializeField] Possibilitats possibilitatsVirtuals;
-    Connexio[] connexions;
-    int orientacioFisica = 0;
-    //int interaccions = 0;
-    //bool assegurat;
-    //bool haFallat;
 
+    [SerializeField] int orientacio;
+    [SerializeField] Possibilitats possibilitatsVirtuals;
+    int orientacioFisica = 0;
 
     [SerializeField] GameObject tileFisic;
     GameObject detalls;
     [HideInInspector] TilePotencial[] veins;
     
     
-    
-    //public Func<TilePotencial, Connexio[]> ConnexionsNules;
-    //public Func<Tile[]> PossibilitatsInicials;
-    //public string ID => $"{(estat ? estat.name : "???")}-{orientacio}({(Resolt ? possibilitats[0] : "???")})|{orientacioFisica} {(assegurat ? "(ASSEGURAT)" : "")}";
-    /*public bool Assegurat
-    {
-        get => assegurat;
-        set
-        {
-            assegurat = value;
-            if (tileFisic != null)
-            {
-                //tileFisic.name = ID;
-                tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
-            }
-        }
-    }*/
-    public string EstatName => $"{estatName}-{orientacio}";
+
+    public string EstatName => $"{peça.Subestat.name}-{orientacio}";
     public Peça Peça => peça;
-    public Estat Estat => estat;
-    //public Vector2Int Coordenades => coordenades;
-    //public Tile[] Possibilitats => possibilitats;
     public Possibilitats PossibilitatsVirtuals => possibilitatsVirtuals;
     //public void Interactuar() => interaccions++;
     //public int Interaccions => interaccions;
     public GameObject TileFisic => tileFisic;
     public TilePotencial[] Veins => veins;
-    public Connexio[] Connexions => connexions;
 
 
-    /*public int VeinsResolts
-    {
-        get
-        {
-            int tmp = 0;
-            for (int i = 0; i < Veins.Length; i++)
-            {
-                if (Veins[i] == null)
-                    continue;
-
-                if (Veins[i].Resolt) tmp++;
-            }
-            return tmp;
-        }
-    }*/
     float AngleOrientacioFisica
     {
         get
@@ -122,51 +63,33 @@ public class TilePotencial
 
     public void GetPossibilitats()
     {
-        if (estat == null || peça.Subestat == null)
+        if (peça.Estat == null || peça.Subestat == null)
             return;
         orientacioFisica = 0;
 
-        if (peça.Subestat.TilesPropis) 
-            possibilitatsVirtuals = estat.Possibilitats(peça.Subestat.TilesAlternatius);
-        else possibilitatsVirtuals = estat.Possibilitats();
+        possibilitatsVirtuals = peça.Subestat.Possibilitats();
+        /*if (peça.Subestat.TeTilesAlternatius) 
+            possibilitatsVirtuals = peça.Estat.Possibilitats(peça.Subestat.TilesAlternatius);
+        else possibilitatsVirtuals = peça.Estat.Possibilitats();*/
     }
     //public void SetPossiblitats(Possibilitats possibilitats) => this.possibilitats = possibilitats.ToArray();
 
     public TilePotencial Ambiguo()
     {
-        //??? potser podria anar aixo aqui...
-        //if (Resolt)
-        //    return;
-
-        /*if (inicial) 
-        {
-            interaccions = 0;
-            haFallat = false;
-        } */
-
         #region DEBUG
         if (tileFisic) 
-        {
-            XS_InstantiateGPU.RemoveGrafic(tileFisic);
+            //XS_InstantiateGPU.RemoveGrafic(tileFisic);
             MonoBehaviour.Destroy(tileFisic);
-        } 
         #endregion
 
         GetPossibilitats();
-        //assegurat = false;
-        //interaccions = 0;
-
-        //Debug.Log($"{ID} Ambiguo");
-
         GetVeins(peça);
         for (int i = 0; i < veins.Length; i++)
         {
-            veins[i]?.GetVeins(veins[i]?.Peça);
+            veins[i]?.GetVeins(veins[i]?.peça);
         }
 
         return this;
-        //WaveFunctionColapse.Add(this);
-
     }
 
     public void Escollir()
@@ -224,7 +147,6 @@ public class TilePotencial
         };
     }
     
-
     public Connexio[] GetConnexions(Possibilitat p) => new Connexio[] { p.Tile.Exterior(p.Orientacio), p.Tile.Esquerra(p.Orientacio), p.Tile.Dreta(p.Orientacio) };
     public bool CompararConnexions(Possibilitat possibilitat, Connexio exterior, Connexio esquerra, Connexio dreta) =>
         Igualar(exterior, possibilitat.Tile.Exterior(possibilitat.Orientacio)) &&
@@ -232,27 +154,38 @@ public class TilePotencial
         Igualar(dreta, possibilitat.Tile.Dreta(possibilitat.Orientacio));
 
 
-    bool Igualar(Connexio a, Connexio b) => a.Viable == b && b.Viable == a;
+    //Aixo ha de canviar:
+    //No ha de ser que siguin iguals, sino que es "permetin" mutuament.
+    //Osigui, la connexio A ha de permetre el tipus de connexio B, i la connexio B ha de permetre el Connector A. Només aixi seran "iguals".
+    //Nononono... aixo ha d'anar diferent.
+    //no va de que es permetin mutuament, sinó... que... permetin els mateixos tipus?
+    //nono, perque despes amb les connexions assimetriques no funciona.
+    //Perque les condicions assimetriques, accepten només un tipus, que no son ells.
+    //el problema es que no vull que totes les terres acceptin boscos.. perque despres serà un merder... no?
+    //provem-ho.
+    //bool Igualar(Connexio a, Connexio b) => a.Viable == b && b.Viable == a;
+
+    bool Igualar(Connexio a, Connexio b) => a.EncaixaAmb(b) && b.EncaixaAmb(a);
 
     public void Crear()
     {
         if (tileFisic != null) 
         {
-            XS_InstantiateGPU.RemoveGrafic(tileFisic);
+            //XS_InstantiateGPU.RemoveGrafic(tileFisic);
             MonoBehaviour.Destroy(TileFisic);
         }
 
         //XS_InstantiateGPU.Instantiate(PossibilitatsVirtuals.Get(0).Tile.Prefab);
 
         tileFisic = GameObject.Instantiate(PossibilitatsVirtuals.Get(0).Tile.Prefab, peça.Parent.position, Quaternion.Euler(0, orientacio * 60, 0), peça.Parent);
-        tileFisic.name = $"{estatName}-{orientacio}";
+        tileFisic.name = $"{peça.Subestat.name}-{orientacio}";
 
         tileFisic.transform.localEulerAngles = new Vector3(0, orientacio * 60, 0) + new Vector3(0, AngleOrientacioFisica, 0);
         if (orientacioFisica != 0)
             tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
 
         //tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
-        XS_InstantiateGPU.AddGrafics(tileFisic);
+        //XS_InstantiateGPU.AddGrafics(tileFisic);
         
         tileFisic.AddComponent<TileDebug>().New(veins, orientacioFisica);
 

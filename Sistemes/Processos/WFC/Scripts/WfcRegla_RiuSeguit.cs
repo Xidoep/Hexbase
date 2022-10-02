@@ -5,12 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/WFC Regles/Riu seguit")]
 public class WfcRegla_RiuSeguit : WfcRegla
 {
-    [SerializeField] Subestat riu;
+    [SerializeField] Subestat objectiu;
 
     [SerializeField] bool aquatic;
     [SerializeField] List<Possibilitat> tilesAcceptats;
-    [Tooltip("Es la quantitat de Tiles que pot deixar sense cohincidir")][SerializeField] [Range(0,5)] int minimsEncerts;
+    [SerializeField] List<Possibilitat> tilesConnexio;
 
+
+    [Tooltip("Es la quantitat de Tiles que pot deixar sense cohincidir")]
+    [SerializeField] [Range(0,5)] int minimsEncerts;
     //Intern
     bool complert;
     bool acceptat;
@@ -18,10 +21,37 @@ public class WfcRegla_RiuSeguit : WfcRegla
     int comprovats;
     int ir;
     List<TilePotencial> tiles;
-    public override Subestat Subestat => riu;
+    public override Subestat Subestat => objectiu;
+    bool totConnectat;
 
     protected override bool Comprovacio(Peça peça)
     {
+        totConnectat = true;
+        for (int i = 0; i < peça.Tiles.Length; i++)
+        {
+            if (peça.Tiles[i].Veins[0] == null || !peça.Tiles[i].Veins[0].Peça.Subestat.Aquatic)
+                continue;
+
+            acceptat = false;
+            for (int p = 0; p < tilesConnexio.Count; p++)
+            {
+                if (peça.Tiles[i].PossibilitatsVirtuals.Get(0).EqualsTo(tilesConnexio[p]))
+                {
+                    Debug.Log($"Tile[{i}] ES UN DELS PERMESSOS!");
+                    acceptat = true;
+                    break;
+                }
+            }
+            if (!acceptat)
+            {
+                totConnectat = false;
+                break;
+            }
+        }
+
+        return totConnectat;
+
+
         complert = true;
         encerts = 0;
         comprovats = 0;

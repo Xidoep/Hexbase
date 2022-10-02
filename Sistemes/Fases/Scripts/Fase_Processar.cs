@@ -21,10 +21,10 @@ public class Fase_Processar : Fase
     [Nota("Estats per desbloquejar el WFC")]
     [SerializeField] Estat[] desbloquejadores;
 
-
+    //INTERN
     float startTime;
     Peça peça;
-
+    List<Peça> perComprovar;
     public override void Actualitzar()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();
@@ -46,14 +46,14 @@ public class Fase_Processar : Fase
         grups.Agrupdar(peça, Proximitat);
     }
 
-    void Proximitat(int index)
+    void Proximitat()
     {
-        List<Peça> proximitats = new List<Peça>() { peça };
-        proximitats.AddRange(proximitat.GetPecesToComprovar(peça));
+        perComprovar = new List<Peça>() { peça };
+        perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
 
-        repoblar.Proces(proximitats);
+        repoblar.Proces(perComprovar);
 
-        proximitat.Process(proximitats, Repoblar);
+        proximitat.Process(perComprovar, Repoblar);
     }
 
     void Repoblar(List<Peça> comprovades, List<Peça> canviades)
@@ -68,7 +68,21 @@ public class Fase_Processar : Fase
 
     void WFC(List<Peça> canviades)
     {
-        wfc.Iniciar_WFC(peça, canviades, Produir);
+        wfc.Iniciar_WFC(peça, canviades, Segona_Proximitat);
+    }
+
+    void Segona_Proximitat()
+    {
+        proximitat.Process(perComprovar, Segona_WFC);
+    }
+    void Segona_WFC(List<Peça> comprovades, List<Peça> canviades)
+    {
+        if(canviades.Count == 0)
+        {
+            Produir();
+            return;
+        }
+        wfc.Iniciar_WFC(peça, canviades, Produir,true);
     }
 
     void Produir(/*List<Peça> peces*/)

@@ -13,11 +13,32 @@ MonoBehaviour:
   m_Name: Casa
   m_EditorClassIdentifier: 
   punts: 0
+  caminable: 1
+  aquatic: 0
   condicions:
   - {fileID: 11400000, guid: db94491c74461d34994848629329f00c, type: 2}
+  - {fileID: 11400000, guid: b3c608c0c13179946bc433499c145a55, type: 2}
   detallsScriptables:
   - {fileID: 11400000, guid: 19d6e891da2666c4ea75e1f797556515, type: 2}
   - {fileID: 11400000, guid: 154442a4578494b4baaf6ce53d761bf8, type: 2}
   - {fileID: 11400000, guid: 9eceaf4546ee2a540ada734b6f5afe43, type: 2}
   - {fileID: 11400000, guid: 5d9d0e11c07ccfc418b57f37ea5c96cf, type: 2}
-  caminable: 1
+  tiles:
+  - tile: {fileID: 11400000, guid: b3359720f7c6ed144ba7dfce746603ca, type: 2}
+    pes: 100
+  - tile: {fileID: 11400000, guid: 2d0773c22f9ed91468d13b7ef1487adf, type: 2}
+    pes: 1
+  - tile: {fileID: 11400000, guid: 16f51326daf7a8842aa154023164e09d, type: 2}
+    pes: 1
+  - tile: {fileID: 11400000, guid: 5833a18c10654ae42b4beb24d9526bdd, type: 2}
+    pes: 1
+  connexionsNules: []
+  connexioEspesifica:
+    subestats: []
+    connexions: []
+  connexionsPossibles:
+  - {fileID: 11400000, guid: 6fdc22fa8098d6e48bd30a59e3dc4514, type: 2}
+  - {fileID: 11400000, guid: 3003d7bf47f2de645be86197acfba486, type: 2}
+  - {fileID: 11400000, guid: f5501edd8f42d104585c9471978f595b, type: 2}
+  - {fileID: 11400000, guid: f20eedf3f3538a74382bbf1f778a7661, type: 2}
+  - {fileID: 11400000, guid: 2c3e12337f8b2bc469b074e7aff3b455, type: 2}

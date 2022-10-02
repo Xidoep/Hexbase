@@ -8,9 +8,9 @@ public class Condicio_Subestat : Condicio
     [Apartat("CONDICIO SUBESTAT")]
     [SerializeField] Subestat subestat;
     [SerializeField] [Range(1,6)] int quantitat = 1;
+
     //INTERN
     int _quantitat = 0;
-    bool _cohincidit = false;
     List<Peça> myVeins;
 
     public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
@@ -19,7 +19,6 @@ public class Condicio_Subestat : Condicio
             return false;
 
         _quantitat = 0;
-        _cohincidit = false;
 
         myVeins = peça.VeinsPeça;
 
@@ -28,11 +27,12 @@ public class Condicio_Subestat : Condicio
             if (myVeins[i].SubestatIgualA(subestat)) _quantitat++;
         }
 
-        if (_cohincidit = _quantitat >= quantitat)
+        if (_quantitat >= quantitat)
         {
             Canviar(peça);
+            return true;
         }
 
-        return _cohincidit;
+        return false;
     }
 }
