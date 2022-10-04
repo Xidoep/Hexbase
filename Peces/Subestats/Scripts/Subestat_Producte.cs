@@ -10,4 +10,17 @@ public class Subestat_Producte : Subestat
     [SerializeField] EstrategiaDeProduccio estrategia;
 
     public override Producte[] Produccio() => estrategia.Produir(producte);
+
+    private void OnValidate()
+    {
+        List<Connexio> tmpConnexions = new List<Connexio>();
+        for (int i = 0; i < Tiles.Length; i++)
+        {
+            if (!tmpConnexions.Contains(Tiles[i].tile.Exterior(0))) tmpConnexions.Add(Tiles[i].tile.Exterior(0));
+            if (!tmpConnexions.Contains(Tiles[i].tile.Esquerra(0))) tmpConnexions.Add(Tiles[i].tile.Esquerra(0));
+            if (!tmpConnexions.Contains(Tiles[i].tile.Dreta(0))) tmpConnexions.Add(Tiles[i].tile.Dreta(0));
+        }
+
+        connexionsPossibles = tmpConnexions.ToArray();
+    }
 }
