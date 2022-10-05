@@ -100,10 +100,6 @@ public class Fase_Processar : Fase
 
 
 
-    void CrearPeçaDesbloquejadora(Vector2Int coordenada)
-    {
-        grid.CrearPeça(desbloquejadores[Random.Range(0,desbloquejadores.Length)], coordenada, true);
-    }
 
 
     public override void Finalitzar()

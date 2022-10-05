@@ -22,6 +22,7 @@ public class Grid : MonoBehaviour
     [Apartat("PREFABS")]
     [SerializeField] GameObject prefab_Ranura;
     [SerializeField] GameObject prefab_Peça;
+    [SerializeField] GameObject prefab_Boto;
     //[Linia]
     //[Header("PECES")]
     //[Nota("Això haurà d'anar en una Fase 'Inicial', que s'encarregará de crear el mon abans de tu començar a jugar.", NoteType.Error)]
@@ -31,7 +32,7 @@ public class Grid : MonoBehaviour
 
     public void Start()
     {
-        //inicial.Iniciar();
+        inicial.Iniciar();
     }
 
     private void Update()
@@ -48,6 +49,7 @@ public class Grid : MonoBehaviour
     public Vector2Int Centre => new Vector2Int(GRID_SIZE / 2, GRID_SIZE / 2);
     public void Set(Peça peça) => grid.Set(peça);
     public Hexagon Get(Vector2Int coordenada) => grid.Get(coordenada);
+    public bool EstaBuida(Vector2Int coordenada) => grid.EstaBuida(coordenada);
     /*private void OnEnable()
     {
         CrearGrid();
@@ -75,7 +77,7 @@ public class Grid : MonoBehaviour
     /// <summary>
     /// Crea el prefab peça, declarant la peça i les coordenades.
     /// </summary>
-    public void CrearPeça(Estat tipus, Vector2Int coordenada, bool desbloquejadora = false)
+    public void CrearPeça(Estat tipus, Vector2Int coordenada)
     {
         Peça peçaFisica = Instanciar(prefab_Peça, coordenada.x, coordenada.y).GetComponent<Peça>();
 
@@ -88,28 +90,30 @@ public class Grid : MonoBehaviour
             CrearRanura(coodVei);
         }
 
-        if(!desbloquejadora)
-            processar.Iniciar(peçaFisica);
+        processar.Iniciar(peçaFisica);
     }
     public void CrearRanura(Vector2Int coordenada)
     {
         if (coordenada.IsOutOfRange(GRID_SIZE))
             return;
 
-        if (!grid.Buida(coordenada))
+        if (!grid.EstaBuida(coordenada))
             return;
 
-        //GameObject tile = Instantiate(prefab_Ranura, transform);
-        //tile.transform.localPosition = GridExtensions.GetWorldPosition(coordenada.x, coordenada.y);
-        
         Ranura ranura = Instanciar(prefab_Ranura, coordenada.x, coordenada.y).GetComponent<Ranura>();
-        //Ranura ranura = tile.GetComponent<Ranura>();
         ranura.Setup(this, coordenada, null, null);
         grid.Set(ranura);
-        //ranura.Iniciar();
 
     }
-
+    public void CrearBoto(Vector2Int coordenada)
+    {
+        Hexagon peçaFisica = Instanciar(prefab_Boto, coordenada.x, coordenada.y).GetComponent<Hexagon>();
+        grid.Set(peçaFisica);
+    }
+    public void Buidar(Vector2Int coordenada)
+    {
+        grid.EstaBuida(coordenada);
+    }
 
     GameObject Instanciar(GameObject prefab, int x, int y)
     {

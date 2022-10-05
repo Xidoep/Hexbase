@@ -22,11 +22,13 @@ public class Fase_Iniciar : Fase
 
     public override void Actualitzar()
     {
-        if (grid == null) grid = FindObjectOfType<Grid>();
-
+        if (grid == null) 
+            grid = FindObjectOfType<Grid>();
+         
         grid.CrearGrid();
-        
+
         //AIXO NO HAURA DE FUNCIONAR AIXI. HI HAURÀ VAROS SAVES SLOTS I EN TRIARAS UN.
+         
         if (!save)
         {
             grid.CrearPeça(inicial, grid.Centre);
@@ -36,9 +38,8 @@ public class Fase_Iniciar : Fase
         {
             save.Load();
         }
-        
 
-        //colocar.Iniciar();
+        colocar.Iniciar();
     }
 
 

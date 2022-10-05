@@ -18,6 +18,7 @@ public abstract class Hexagon : MonoBehaviour
         veins = grid.Veins;
         veinsPeça = grid.VeinsPeça;
         this.coordenades = coordenades;
+        buidar = grid.Buidar;
     }
 
     //VARIABLES 
@@ -26,6 +27,7 @@ public abstract class Hexagon : MonoBehaviour
 
     Vector2Int coordenades;
 
+    System.Action<Vector2Int> buidar;
     System.Func<Vector2Int, List<Hexagon>> veins;
     System.Func<Vector2Int, List<Peça>> veinsPeça;
 
@@ -39,6 +41,7 @@ public abstract class Hexagon : MonoBehaviour
     public List<Hexagon> Veins => veins.Invoke(coordenades);
     public List<Peça> VeinsPeça => veinsPeça.Invoke(coordenades);
 
+    protected void Buidar() => buidar.Invoke(coordenades);
 
 
 }
