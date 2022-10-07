@@ -84,7 +84,7 @@ public class Grups : ScriptableObject
 
 
         //TROBAR VEINS DEL GRUP
-        grupActual.TrobarVeins(grups);
+        grupActual.TrobarVeins();
   
 
         //PREPARAR GRUP PER ACTUALITZAR
@@ -98,7 +98,7 @@ public class Grups : ScriptableObject
             Grup grupVei = GrupByPeça(grupActual.Veins[i]);
             if (!grupsPendents.Contains(grupVei)) 
             {
-                grupVei.TrobarVeins(grups);
+                grupVei.TrobarVeins();
                 grupsPendents.Add(grupVei);
             } 
         }
@@ -306,7 +306,7 @@ public class Grups : ScriptableObject
         if(grups == null) grups = new List<Grup>();
 
         Grup tmp = new Grup(peça.Estat, new List<Peça>() { peça }, casa);
-        tmp.TrobarVeins(grups);
+        tmp.TrobarVeins();
         grups.Add(tmp);
 
         //peça.Grup = tmp.Id;
@@ -544,9 +544,36 @@ public class Grups : ScriptableObject
         }
         return tmp;
     }
-    public void CrearGrups_FromLoad(List<Peça> peces)
+    public void CrearGrups_FromLoad(Grup nouGrup, Peça peça)
+    {
+        if (!grups.Contains(nouGrup)) 
+        {
+            nouGrup.Netejar();
+            grups.Add(nouGrup);
+        }
+
+        nouGrup.Load(peça);
+    }
+    public void CrearGrups_FromLoad(List<SavedPeça> peces)
     {
         grups = new List<Grup>();
+
+        for (int p = 0; p < peces.Count; p++)
+        {
+            for (int g = 0; g < grups.Count; g++)
+            {
+                
+            }
+        }
+
+        //Si no hi ha el grup amb la id, es crea (amb: id, poble i connexionsId)
+        //i s'hi afageix la peça a peces.
+
+        //Si ja està creat, s'hi afageix a peces.
+
+        //Quan s'haguin afegit tots, s'agafen les peces veines
+
+
         //pobles = new List<Grup>();
 
         //Comprovar el numero de grups que es necessiten.
@@ -573,7 +600,7 @@ public class Grups : ScriptableObject
 
         for (int i = 0; i < grups.Count; i++)
         {
-            grups[i].TrobarVeins(grups);
+            grups[i].TrobarVeins();
         }
 
     }
@@ -656,7 +683,7 @@ public class Grup : System.Object
     //INTERN
     List<Peça> tmpVeins;
 
-    public void TrobarVeins(List<Grup> grups)
+    public void TrobarVeins()
     {
         pecesVeines = new List<Peça>();
         //grupsVeins = new List<string>();
@@ -678,14 +705,19 @@ public class Grup : System.Object
         }
     }
 
-    public void Load(Peça peça, Estat estat, Estat casa)
+    public void Netejar()
     {
-        //this.estat = estat;
-
+        peces = new List<Peça>();
+        pecesVeines = new List<Peça>();
+        //connexionsId = new List<string>();
+        cases = new List<Peça>();
+        camins = new List<Peça>();
+        ports = new List<Peça>();
+    }
+    public void Load(Peça peça)
+    {
         if (peces == null) peces = new List<Peça>();
-        peces.Add(peça);
-
-        this.poble = estat == casa;
+        if(!peces.Contains(peça)) peces.Add(peça);
     }
 
 }

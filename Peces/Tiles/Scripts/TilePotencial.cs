@@ -76,11 +76,11 @@ public class TilePotencial
 
     public TilePotencial Ambiguo()
     {
-        #region DEBUG
-        if (tileFisic) 
-            //XS_InstantiateGPU.RemoveGrafic(tileFisic);
-            MonoBehaviour.Destroy(tileFisic);
-        #endregion
+        if (Application.isEditor)
+        {
+            if (tileFisic)
+                MonoBehaviour.Destroy(tileFisic);
+        }
 
         GetPossibilitats();
         GetVeins(peça);
@@ -128,10 +128,10 @@ public class TilePotencial
     {
         this.orientacioFisica = orientacioFisica;
         this.possibilitatsVirtuals = new Possibilitats(tile, orientacioFisica, 1000);
-
-        #region DEBUG
-        Crear();
-        #endregion
+        
+        if (Application.isEditor)
+            Crear();
+        
     }
 
     public void GetVeins(Peça peça)
@@ -169,11 +169,12 @@ public class TilePotencial
 
     public void Crear()
     {
-        if (tileFisic != null) 
+        if (Application.isEditor)
         {
-            //XS_InstantiateGPU.RemoveGrafic(tileFisic);
-            MonoBehaviour.Destroy(TileFisic);
+            if (tileFisic != null)
+                MonoBehaviour.Destroy(TileFisic);
         }
+        
 
         //XS_InstantiateGPU.Instantiate(PossibilitatsVirtuals.Get(0).Tile.Prefab);
 
@@ -194,10 +195,12 @@ public class TilePotencial
 
     public void Detalls(Subestat subestat)
     {
-        if(detalls != null)
+        if (Application.isEditor)
         {
-            MonoBehaviour.Destroy(detalls);
+            if (detalls != null)
+                MonoBehaviour.Destroy(detalls);
         }
+
 
         if (subestat.Detalls == null || subestat.Detalls.Length == 0)
             return;

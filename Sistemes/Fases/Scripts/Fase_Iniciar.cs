@@ -36,7 +36,7 @@ public class Fase_Iniciar : Fase
         }
         else
         {
-            save.Load();
+            //save.Load();
         }
 
         colocar.Iniciar();

@@ -7,10 +7,10 @@ using XS_Utils;
 public class SaveHex : ScriptableObject
 {
     [SerializeField] Grups grups;
+    [SerializeField] Fase colocar;
     [Linia]
     [SerializeField] string nom;
     [SerializeField] List<SavedPeça> peçes;
-    //Altres coses relacionades amb la partida.
 
     //INTERN
     int index;
@@ -22,7 +22,7 @@ public class SaveHex : ScriptableObject
     {
         if (peçes == null) peçes = new List<SavedPeça>();
 
-        peçes.Add(new SavedPeça(peça));
+        peçes.Add(new SavedPeça(peça, grups));
     }
 
     [ContextMenu("Save")]
@@ -32,46 +32,50 @@ public class SaveHex : ScriptableObject
         Peça[] tmp = FindObjectsOfType<Peça>();
         for (int i = 0; i < tmp.Length; i++)
         {
-            peçes.Add(new SavedPeça(tmp[i]));
+            peçes.Add(new SavedPeça(tmp[i],grups));
         }
     }
 
     [ContextMenu("Load")]
-    public void Load()
+    void CrearPeces()
     {
         grid = (Grid)GameObject.FindObjectOfType<Grid>();
         creades = new List<Peça>();
 
-        //CREAR PECES INDICIDUALS
-        for (int i = 0; i < peçes.Count; i++)
+        index = peçes.Count -1;
+        XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+    }
+
+    void Step()
+    {
+        creades.Add(peçes[index].Load(grid, grups));
+        index--;
+
+        if (index < 0)
         {
-            creades.Add(peçes[i].Load(grid));
+            Load();
+            return;
         }
+
+        XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+    }
+
+
+    public void Load()
+    {
+        //grid = (Grid)GameObject.FindObjectOfType<Grid>();
+        //creades = new List<Peça>();
+
+        //CREAR PECES INDIVIDUALS
+        /*for (int i = 0; i < peçes.Count; i++)
+        {
+            creades.Add(peçes[i].Load(grid, grups));
+        }*/
 
         //GET VEINS DE TILES
         for (int i = 0; i < creades.Count; i++)
         {
             creades[i].AssignarVeinsTiles(creades[i].Tiles);
-
-        }
-
-        //CASES / TREBALLADORS
-        for (int i = 0; i < creades.Count; i++)
-        {
-            for (int c = 0; c < creades[i].Cases.Count; c++)
-            {
-                creades[i].Cases[c].LoadLastStep(grid);
-            }
-        }
-
-
-        //DETALLS
-        for (int i = 0; i < creades.Count; i++)
-        {
-            for (int t = 0; t < creades[i].Tiles.Length; t++)
-            {
-                creades[i].Tiles[t].Detalls(creades[i].Subestat);
-            }
         }
 
         //CREAR RANURES
@@ -84,63 +88,43 @@ public class SaveHex : ScriptableObject
             }
         }
 
+        //CASES / TREBALLADORS
+        for (int i = 0; i < creades.Count; i++)
+        {
+            for (int c = 0; c < creades[i].Cases.Count; c++)
+            {
+                creades[i].Cases[c].LoadLastStep(grid);
+            }
+        }
+
+        //DETALLS
+        for (int i = 0; i < creades.Count; i++)
+        {
+            for (int t = 0; t < creades[i].Tiles.Length; t++)
+            {
+                creades[i].Tiles[t].Detalls(creades[i].Subestat);
+            }
+        }
+
         //EMPLENAR GRUPS
-        grups.CrearGrups_FromLoad(creades);
+        for (int i = 0; i < grups.Grup.Count; i++)
+        {
+            grups.Grup[i].TrobarVeins();
+        }
+
 
         //DEBUG
-        for (int c = 0; c < creades.Count; c++)
+        /*for (int c = 0; c < creades.Count; c++)
         {
             for (int i = 0; i < creades[c].Tiles.Length; i++)
             {
                 Debug.LogError($"Tile {i} = {creades[c].Tiles[i].Veins.Length} veins");
             }
-        }
+        }*/
 
-        //WaveFunctionColapse.StartPendents();
-        //Fer les accions que s'han de fer al final.
+        colocar.Iniciar();
     }
 
-    void CrearPeces()
-    {
-        index = 0;
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step_CrearPeces);
-    }
-
-    void Step_CrearPeces()
-    {
-        creades.Add(peçes[index].Load(grid));
-
-        index++;
-
-        if (index > peçes.Count)
-        {
-            GetVeins();
-            return;
-        }
-
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step_CrearPeces);
-    }
-
-    void GetVeins()
-    {
-        index = 0;
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step_GetVeins);
-    }
-
-    void Step_GetVeins()
-    {
-        creades[index].AssignarVeinsTiles(creades[index].Tiles);
-
-        index++;
-
-        if (index > creades.Count)
-        {
-            GetVeins();
-            return;
-        }
-
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step_GetVeins);
-    }
 }
 
 
@@ -148,12 +132,12 @@ public class SaveHex : ScriptableObject
 [System.Serializable]
 public class SavedPeça
 {
-    public SavedPeça(Peça peça)
+    public SavedPeça(Peça peça, Grups grups)
     {
         coordenada = peça.Coordenades;
         esta = peça.Estat;
         subestat = peça.Subestat;
-        //grup = peça.Grup;
+        grup = grups.GrupByPeça(peça);
 
         if(peça.CasesCount != 0)
         {
@@ -176,11 +160,13 @@ public class SavedPeça
     [SerializeField] Vector2Int coordenada;
     [SerializeField] Estat esta;
     [SerializeField] Subestat subestat;
-    [SerializeField] int grup;
+    [SerializeField] Grup grup;
     [SerializeField] SavedCasa[] cases;
     [SerializeField] SavedTile[] tiles;
     
-    public Peça Load(Grid grid)
+
+
+    public Peça Load(Grid grid, Grups grups)
     {
         //BASE
         GameObject tmp = MonoBehaviour.Instantiate(grid.Prefab_Peça, grid.transform);
@@ -197,22 +183,23 @@ public class SavedPeça
         {
             tiles[i].Load(peça);
         }
-        peça.CrearTilesFisics();
+        peça.CrearTilesFisics(false);
 
-        //PASSAR GRUP
-        // peça.Grup = grup;
+        //CREAR GRUP si cal
+        grups.CrearGrups_FromLoad(grup, peça);
 
         //CASES
         for (int i = 0; i < cases.Length; i++)
         {
             peça.AddCasa(cases[i].Load());
         }
+
+        grid.Set(peça);
+
         //VEINS
         peça.AssignarVeinsTiles(peça.Tiles);
 
-
-
-        grid.Set(peça);
+        //peça.CrearDetalls();
 
         return peça;
     }
@@ -275,4 +262,3 @@ public class SavedPeça
     //ON LOAD
     //Buscar la peça i la feina despres de crear-les totes.
 }
-

@@ -149,7 +149,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public TilePotencial GetTile(int index) => tiles[index];
 
-    public void CrearTilesFisics()
+    public void CrearTilesFisics(bool detalls = true)
     {
         //***************************************************************
         //Abans d'arribar a aquest punt. s'han hagut d'analitzar els tiles i buscar patrons on quadrin les peces multiples.
@@ -169,9 +169,18 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
             }
 
             tiles[i].Crear();
-            tiles[i].Detalls(subestat);
+            if(detalls)
+                tiles[i].Detalls(subestat);
         }
     }
+
+    /*public void CrearDetalls()
+    {
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            tiles[i].Detalls(subestat);
+        }
+    }*/
 
     public void CanviarSubestat(Subestat subestat)
     {

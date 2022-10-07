@@ -80,8 +80,14 @@ public class Casa
     public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1), producte != null ? producte.Coordenades : new Vector2Int(-1, -1)) : null;
     public void LoadLastStep(Grid grid)
     {
-        peça = (Peça)grid.Get(coordenadaPeça);
-        producte = (Peça)grid.Get(coordenadaProducte);
+        Debug.LogError(coordenadaPeça);
+        Debug.LogError(coordenadaProducte);
+
+        if (coordenadaPeça != null)
+            peça = (Peça)grid.Get(coordenadaPeça);
+
+        if (coordenadaProducte != -Vector2Int.one)
+            producte = (Peça)grid.Get(coordenadaProducte);
 
         //Ocupar(producte);
     }
