@@ -6,21 +6,32 @@ using UnityEngine;
 public class Fase_Menu : Fase
 {
     Grid grid;
+
+    [SerializeField] Grups grups;
+    [SerializeField] Fase colocar;
+    [Space(10)]
+    [SerializeField] SaveHex save;
     public override void Actualitzar()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();
 
         grid.CrearGrid();
 
-        grid.CrearBoto(grid.Centre);
+        
 
+        if (!save.TePeces)
+        {
+            grid.CrearBoto(grid.Centre);
+        }
+        else
+        {
+            save.Load(grups, colocar);
+        }
     }
 
 
     public override void Finalitzar()
     {
-        onFinish?.Invoke();
-
-
+        OnFinish_Invocar();
     }
 }

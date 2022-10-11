@@ -18,6 +18,8 @@ public class Grid : MonoBehaviour
 
     [SerializeField] Fase inicial;
     [SerializeField] Fase processar;
+    [SerializeField] Grups grups;
+    [SerializeField] SaveHex save;
 
     [Apartat("PREFABS")]
     [SerializeField] GameObject prefab_Ranura;
@@ -91,6 +93,8 @@ public class Grid : MonoBehaviour
         }
 
         processar.Iniciar(peçaFisica);
+
+        save.Add(peçaFisica, grups);
     }
     public void CrearRanura(Vector2Int coordenada)
     {
@@ -107,8 +111,9 @@ public class Grid : MonoBehaviour
     }
     public void CrearBoto(Vector2Int coordenada)
     {
-        Hexagon peçaFisica = Instanciar(prefab_Boto, coordenada.x, coordenada.y).GetComponent<Hexagon>();
-        grid.Set(peçaFisica);
+        Hexagon boto = Instanciar(prefab_Boto, coordenada.x, coordenada.y).GetComponent<Hexagon>();
+        boto.Setup(this, coordenada, null, null);
+        grid.Set(boto);
     }
     public void Buidar(Vector2Int coordenada)
     {

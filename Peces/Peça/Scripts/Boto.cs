@@ -13,7 +13,9 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
     public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
         base.Setup(grid, coordenades, estat, null);
+    
     }
+    [SerializeField] Fase menu;
 
     [SerializeField] UnityEvent onEnter;
     [SerializeField] UnityEvent onExit;
@@ -22,6 +24,14 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
 
     public override bool EsPeça => false;
 
+    void OnEnable()
+    {
+        menu.OnFinish += AmagarEnAcabarFase;
+    }
+    void OnDisable()
+    {
+        menu.OnFinish -= AmagarEnAcabarFase;
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -35,7 +45,7 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
         onExit?.Invoke();
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         Buidar();
     }
@@ -45,4 +55,15 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
         onClick?.Invoke();
     }
 
+
+    void AmagarEnAcabarFase()
+    {
+        //Canviar aixo per una animacio
+        Destroy(this.gameObject);
+    }
+
+    void OnValidate()
+    {
+        menu = XS_Editor.LoadAssetAtPath<Fase>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Menu.asset");
+    }
 }

@@ -13,7 +13,7 @@ using UnityEngine.EventSystems;
 [SelectionBase]
 public abstract class Hexagon : MonoBehaviour
 {
-    public virtual void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat = null)
+    public virtual void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
         veins = grid.Veins;
         veinsPeça = grid.VeinsPeça;
@@ -23,7 +23,8 @@ public abstract class Hexagon : MonoBehaviour
 
     //VARIABLES 
     [SerializeField] Transform parent;
-    [SerializeField] protected AnimacioPerCodi animacioPerCodi;
+    //[SerializeField] protected AnimacioPerCodi animacioPerCodi;
+    [SerializeField] public Animacio_Scriptable animacio;
 
     Vector2Int coordenades;
 
@@ -40,6 +41,7 @@ public abstract class Hexagon : MonoBehaviour
 
     public List<Hexagon> Veins => veins.Invoke(coordenades);
     public List<Peça> VeinsPeça => veinsPeça.Invoke(coordenades);
+
 
     protected void Buidar() => buidar.Invoke(coordenades);
 

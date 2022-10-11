@@ -42,7 +42,7 @@ public class PintarCamiFlotant : MonoBehaviour
             if (Physics.OverlapSphere(transform.position + (transform.forward * vertexs[v].z) + (transform.right * vertexs[v].x), 0.12f, layerMask).Length > 0)
                 colors[v] = Color.black;
             else colors[v] = Color.white;
-            Debug.LogError($"Vertex {v} has color { colors[v].ToString()}");
+            //Debug.LogError($"Vertex {v} has color { colors[v].ToString()}");
             //Debug.DrawRay(transform.position + (transform.forward * vertexs[v].z) + (transform.right * vertexs[v].x) + (Vector3.up * 0.2f), Vector3.down, Color.red, 20f);
             
         }

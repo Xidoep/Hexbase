@@ -14,22 +14,21 @@ public class Fase_Iniciar : Fase
     [SerializeField] Estat inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
     [SerializeField] PoolPeces pool;
     [SerializeField] int pecesInicials = 20;
-
-    [Linia]
-    [Header("SAVE")]
-    [Nota("Si hi ha un archiu de guardat, el carregarà. Si no ferà un inici normal.")]
-    [SerializeField] SaveHex save;
+    //[Space(10)]
+    //[SerializeField] SaveHex save;
 
     public override void Actualitzar()
     {
-        if (grid == null) 
-            grid = FindObjectOfType<Grid>();
-         
-        grid.CrearGrid();
+        if (grid == null) grid = FindObjectOfType<Grid>();
+
+        grid.CrearPeça(inicial, grid.Centre);
+        pool.Inicialize(pecesInicials);
+
+        //grid.CrearGrid();
 
         //AIXO NO HAURA DE FUNCIONAR AIXI. HI HAURÀ VAROS SAVES SLOTS I EN TRIARAS UN.
-         
-        if (!save)
+
+        /*if (!save)
         {
             grid.CrearPeça(inicial, grid.Centre);
             pool.Inicialize(pecesInicials);
@@ -37,15 +36,14 @@ public class Fase_Iniciar : Fase
         else
         {
             //save.Load();
-        }
+        }*/
 
         colocar.Iniciar();
     }
 
-
     public override void Finalitzar()
     {
-        onFinish?.Invoke();
+        OnFinish_Invocar();
 
 
     }

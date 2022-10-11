@@ -44,9 +44,17 @@ public class FasesControlador : ScriptableObject
 public abstract class Fase : ScriptableObject
 {
     [SerializeField] FasesControlador controlador;
-    public System.Action onFinish;
+    System.Action onFinish;
 
     protected object arg;
+
+
+
+    public void OnFinish_Invocar() => onFinish?.Invoke();
+    public System.Action OnFinish { get => onFinish; set => onFinish = value; }
+    public void OnFinish_Set(System.Action action) => onFinish = action;
+
+
 
     public void Iniciar() => Iniciar(null);
     public void Iniciar(object arg = null)

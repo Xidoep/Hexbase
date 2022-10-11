@@ -6,27 +6,44 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Save")]
 public class SaveHex : ScriptableObject
 {
-    [SerializeField] Grups grups;
-    [SerializeField] Fase colocar;
     [Linia]
     [SerializeField] string nom;
     [SerializeField] List<SavedPeça> peçes;
 
     //INTERN
     int index;
+    Fase colocar;
+    Grups grups;
     Grid grid;
     List<Peça> creades;
     List<Vector2Int> veins;
 
-    public void Add(Peça peça)
+    public bool TePeces => peçes != null && peçes.Count > 0;
+
+    public void Add(Peça peça, Grups grups)
     {
         if (peçes == null) peçes = new List<SavedPeça>();
 
+        //if(!peçes.Contains(peça))
         peçes.Add(new SavedPeça(peça, grups));
+    }
+    public void Actualitzar(List<Peça> peçes, Grups grups)
+    {
+        for (int p = 0; p < peçes.Count; p++)
+        {
+            for (int tp = 0; tp < this.peçes.Count; tp++)
+            {
+                if(peçes[p].Coordenades == this.peçes[tp].Coordenada)
+                {
+                    this.peçes[tp] = new SavedPeça(peçes[p], grups);
+                    break;
+                } 
+            }
+        }
     }
 
     [ContextMenu("Save")]
-    public void Save()
+    public void Save(Grups grups)
     {
         peçes = new List<SavedPeça>();
         Peça[] tmp = FindObjectsOfType<Peça>();
@@ -37,13 +54,16 @@ public class SaveHex : ScriptableObject
     }
 
     [ContextMenu("Load")]
-    void CrearPeces()
+    public void Load(Grups grups, Fase colocar)
     {
-        grid = (Grid)GameObject.FindObjectOfType<Grid>();
+        if (grid == null) grid = (Grid)GameObject.FindObjectOfType<Grid>();
+        if (this.grups == null) this.grups = grups;
+        if (this.colocar == null) this.colocar = colocar;
+
         creades = new List<Peça>();
 
         index = peçes.Count -1;
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+        Step();
     }
 
     void Step()
@@ -53,15 +73,14 @@ public class SaveHex : ScriptableObject
 
         if (index < 0)
         {
-            Load();
+            LoadSteps();
             return;
         }
 
         XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
     }
 
-
-    public void Load()
+    void LoadSteps()
     {
         //grid = (Grid)GameObject.FindObjectOfType<Grid>();
         //creades = new List<Peça>();
@@ -112,6 +131,11 @@ public class SaveHex : ScriptableObject
             grups.Grup[i].TrobarVeins();
         }
 
+        //PRODUCTES
+        for (int i = 0; i < creades.Count; i++)
+        {
+            creades[i].CoordenadesToProducte(grid);
+        }
 
         //DEBUG
         /*for (int c = 0; c < creades.Count; c++)
@@ -125,18 +149,23 @@ public class SaveHex : ScriptableObject
         colocar.Iniciar();
     }
 
+
+
 }
 
+public class SavedFile
+{
 
+}
 
-[System.Serializable]
-public class SavedPeça
+[System.Serializable] public class SavedPeça
 {
     public SavedPeça(Peça peça, Grups grups)
     {
         coordenada = peça.Coordenades;
         esta = peça.Estat;
         subestat = peça.Subestat;
+        producte = peça.TeProducte ? peça.ProducteCoordenades : -Vector2Int.one;
         grup = grups.GrupByPeça(peça);
 
         if(peça.CasesCount != 0)
@@ -160,11 +189,12 @@ public class SavedPeça
     [SerializeField] Vector2Int coordenada;
     [SerializeField] Estat esta;
     [SerializeField] Subestat subestat;
+    [SerializeField] Vector2Int producte;
     [SerializeField] Grup grup;
     [SerializeField] SavedCasa[] cases;
     [SerializeField] SavedTile[] tiles;
-    
 
+    public Vector2Int Coordenada => coordenada;
 
     public Peça Load(Grid grid, Grups grups)
     {
@@ -199,6 +229,7 @@ public class SavedPeça
         //VEINS
         peça.AssignarVeinsTiles(peça.Tiles);
 
+        if(producte != -Vector2Int.one) peça.SetCoordenadesProducte = producte;
         //peça.CrearDetalls();
 
         return peça;
@@ -241,22 +272,20 @@ public class SavedPeça
 [System.Serializable] public class SavedCasa
 {
 
-    public SavedCasa(Casa.Necessitat[] necessitats, int nivell, Vector2Int coordPeça, Vector2Int coordFeina)
+    public SavedCasa(Casa.Necessitat[] necessitats, int nivell, Vector2Int coordPeça)
     {
         this.necessitats = necessitats;
         this.nivell = nivell;
         this.coordPeça = coordPeça;
-        this.coordFeina = coordFeina;
     }
 
     [SerializeField] Casa.Necessitat[] necessitats;
     [SerializeField] int nivell;
     [SerializeField] Vector2Int coordPeça;
-    [SerializeField] Vector2Int coordFeina;
 
     public Casa Load()
     {
-        return new Casa(coordPeça, coordFeina, nivell, necessitats);
+        return new Casa(coordPeça, nivell, necessitats);
     }
 
     //ON LOAD

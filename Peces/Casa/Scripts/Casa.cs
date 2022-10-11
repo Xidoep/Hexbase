@@ -44,17 +44,15 @@ public class Casa
 
         nivell = 1;
     }
-    public Casa(Vector2Int peça, Vector2Int feina, int nivell, Necessitat[] necessitats)
+    public Casa(Vector2Int peça, int nivell, Necessitat[] necessitats)
     {
         this.coordenadaPeça = peça;
-        this.coordenadaProducte = feina;
         this.nivell = nivell;
         this.necessitats = necessitats;
     }
 
 
     [SerializeField] Peça peça;
-    [SerializeField] Peça producte;
     [SerializeField] int nivell;
     //[SerializeField] Condicio_GuanyarRecurs condicio;
     [SerializeField] Necessitat[] necessitats;
@@ -73,21 +71,15 @@ public class Casa
     //INTERN
     //int index = -1;
     Vector2Int coordenadaPeça;
-    Vector2Int coordenadaProducte;
 
-    public bool Disponible => producte == null;
     //public int Grup => peça.Grup;
-    public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1), producte != null ? producte.Coordenades : new Vector2Int(-1, -1)) : null;
+    public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;
     public void LoadLastStep(Grid grid)
     {
         Debug.LogError(coordenadaPeça);
-        Debug.LogError(coordenadaProducte);
 
         if (coordenadaPeça != null)
             peça = (Peça)grid.Get(coordenadaPeça);
-
-        if (coordenadaProducte != -Vector2Int.one)
-            producte = (Peça)grid.Get(coordenadaProducte);
 
         //Ocupar(producte);
     }

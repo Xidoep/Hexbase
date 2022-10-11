@@ -13,13 +13,10 @@ public class Fase_Processar : Fase
     [SerializeField] Proximitat proximitat;
     [SerializeField] Repoblar repoblar;
     [SerializeField] Produccio produccio;
+    [SerializeField] SaveHex save;
 
     [Apartat("SEGÜENT FASE")]
     [SerializeField] Fase colocar;
-
-    [Linia]
-    [Nota("Estats per desbloquejar el WFC")]
-    [SerializeField] Estat[] desbloquejadores;
 
     //INTERN
     float startTime;
@@ -30,7 +27,7 @@ public class Fase_Processar : Fase
         if (grid == null) grid = FindObjectOfType<Grid>();
 
         peça = (Peça)arg;
-
+        peça.Parent.localPosition = Vector3.up * 20;
         //Debug.LogError(peça);
 
 
@@ -92,6 +89,11 @@ public class Fase_Processar : Fase
 
     void FinalitzarProcessos()
     {
+        save.Add(peça, grups);
+        
+        peça.animacio.Play(peça.Parent);
+        save.Actualitzar(perComprovar, grups);
+
         //repoblar.Proces(peces);
         Debug.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", this);
         colocar.Iniciar();
@@ -104,6 +106,6 @@ public class Fase_Processar : Fase
 
     public override void Finalitzar()
     {
-        onFinish?.Invoke();
+        OnFinish_Invocar();
     }
 }

@@ -42,7 +42,7 @@ public class Fase_Colocar : Fase
 
     public override void Finalitzar()
     {
-        onFinish?.Invoke();
+        OnFinish_Invocar();
 
         permesColoarPeça = false;
     }

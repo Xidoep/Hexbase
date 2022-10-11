@@ -47,11 +47,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     [Apartat("PRODUCTOR/PRODUCTE")]
     [SerializeField] Peça[] producte;
+    Vector2Int[] producteCooerdenada; 
     bool ocupat;
+
 
     //VARIABLES PRIVADES
     [SerializeField] TilePotencial[] tiles;
     protected Condicio[] condicions;
+
 
     //PROPIETATS
     //public int Grup { set => grup = value; get => grup; }
@@ -68,9 +71,21 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public List<Casa> Cases => cases;
 
     public Producte[] ExtreureProducte() => producte[0].Subestat.Produccio();
+    public bool TeProducte => producte.Length > 0;
+    public Vector2Int ProducteCoordenades => producte[0].Coordenades;
     public bool Ocupat => ocupat;
     public bool LLiure => !ocupat;
+    public void CoordenadesToProducte(Grid grid) 
+    {
+        if (producteCooerdenada == null)
+            return;
 
+        if (producteCooerdenada.Length == 0)
+            return;
+
+        producte = new Peça[] { (Peça)grid.Get(producteCooerdenada[0]) };
+    } 
+    public Vector2Int SetCoordenadesProducte { set => producteCooerdenada = new Vector2Int[] { value }; }
     /*public void Actualitzar()
     {
         Debug.Log($"Actualitzar ({estat.name}({Coordenades}))");

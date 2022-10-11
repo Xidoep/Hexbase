@@ -21,7 +21,7 @@ public class Tester : ScriptableObject
     [ContextMenu("Iniciar")]
     void Iniciar()
     {
-        processar.onFinish = StepDelayed;
+        processar.OnFinish = StepDelayed;
         if (grid == null)
         {
             grid = FindObjectOfType<Grid>();

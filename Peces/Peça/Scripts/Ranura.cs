@@ -47,7 +47,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     {
         colocar.CrearPeça(Coordenades);
         //crearPeça.Invoke(Coordenades);
-        animacioPerCodi.Play();
+        //animacioPerCodi.Play();
+        animacio.Play(gameObject);
         Destroy(gameObject, 1);
     }
 

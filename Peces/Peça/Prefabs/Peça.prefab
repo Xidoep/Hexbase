@@ -47,12 +47,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1973165481425570980}
-  animacioPerCodi: {fileID: 5432152250279577587}
+  animacio: {fileID: 11400000, guid: 0c0f849a426605b4997163aa275830d9, type: 2}
   estat: {fileID: 0}
   subestat: {fileID: 0}
-  grup: 0
   cases: []
   producte: []
+  tiles: []
 --- !u!64 &7088656447895351387
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 1973165481425570980}
   - component: {fileID: 6670959373080732483}
   - component: {fileID: 5432152250279577587}
+  - component: {fileID: 1713686662137708112}
   m_Layer: 0
   m_Name: Parent
   m_TagString: Untagged
@@ -134,3 +135,30 @@ MonoBehaviour:
   transformacions:
   - {fileID: 11400000, guid: 6bad18a61ba4b914b9df3e1b0db3184b, type: 2}
   - {fileID: 11400000, guid: 927b7987605ef8e4f8e5ea25948b4a77, type: 2}
+--- !u!114 &1713686662137708112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198892112095210570}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5586e80c5457ed548bc6f202f707b879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  esdeveniment:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 0c0f849a426605b4997163aa275830d9, type: 2}
+        m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
+        m_MethodName: Play
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 7198892112095210570}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
