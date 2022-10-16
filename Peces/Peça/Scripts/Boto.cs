@@ -8,7 +8,7 @@ using XS_Utils;
 
 public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    const string SELECCIONAT_ID = "_Seleccionat";
+ 
 
     public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
@@ -16,11 +16,12 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
     
     }
     [SerializeField] Fase menu;
-
+    [Linia]
     [SerializeField] UnityEvent onEnter;
     [SerializeField] UnityEvent onExit;
     [SerializeField] UnityEvent onClick;
-    [SerializeField] MeshRenderer meshRenderer;
+    [Linia]
+    [SerializeField] MeshRenderer outline;
 
     public override bool EsPeça => false;
 
@@ -35,13 +36,13 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        meshRenderer.material.SetFloat(SELECCIONAT_ID, 1);
+        outline.material.SetFloat(SELECCIONAT_ID, 1);
         onEnter?.Invoke();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        meshRenderer.material.SetFloat(SELECCIONAT_ID, 0);
+        outline.material.SetFloat(SELECCIONAT_ID, 0);
         onExit?.Invoke();
     }
 

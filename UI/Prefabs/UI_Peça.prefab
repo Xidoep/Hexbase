@@ -12,9 +12,7 @@ GameObject:
   - component: {fileID: 5680566157759255769}
   - component: {fileID: 6539438095913385386}
   - component: {fileID: 7225096198920215739}
-  - component: {fileID: 3371957118011580000}
   - component: {fileID: 2327633599960880388}
-  - component: {fileID: -8652938178703499317}
   m_Layer: 5
   m_Name: "UI_Pe\xE7a"
   m_TagString: Untagged
@@ -92,22 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6293e71419ecbff458be2cf5daf3475e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3371957118011580000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708957800589577895}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd3eb595ed7cac46ab8c9d050db3f0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transicio: 1
-  temps: 5
-  transformacions:
-  - {fileID: 11400000, guid: 845df8f10c0a7244fb92c6fc1d2e1ea1, type: 2}
 --- !u!114 &2327633599960880388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,18 +140,3 @@ MonoBehaviour:
   onExit:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-8652938178703499317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708957800589577895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc9828c6701dab8439e41718c5e1f81c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transicio: 0
-  temps: 3
-  transformacions: []

@@ -9,7 +9,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     //VARIABLES
     [Linia]
     [SerializeField] Fase_Colocar colocar;
-
+    [Linia]
+    [SerializeField] MeshRenderer outline;
     System.Action accioCrear;
 
     //Prevé multiples clics.
@@ -18,6 +19,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     private void OnEnable()
     {
+        accioCrear = Crear;
+        
         transform.localEulerAngles = new Vector3(0, Random.Range(-5, 5), 0);
         transform.localScale = new Vector3(Random.Range(1.1f, 0.9f), 1, Random.Range(1.1f, 0.9f));
     }
@@ -55,9 +58,15 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
 
     //INTERACCIO
-    public void OnPointerDown(PointerEventData eventData) => accioCrear = Crear;
+    public void OnPointerDown(PointerEventData eventData) { }
     public void OnPointerUp(PointerEventData eventData) => accioCrear?.Invoke();
 
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {/*Highlight*/ }
-    public void OnPointerExit(PointerEventData eventData) => accioCrear = null;
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
+    {
+        outline.material.SetFloat(SELECCIONAT_ID, 1);
+    }
+    public void OnPointerExit(PointerEventData eventData) 
+    {
+        outline.material.SetFloat(SELECCIONAT_ID, 0);
+    }
 }

@@ -6,6 +6,8 @@ using XS_Utils;
 
 public class UI_Peces : MonoBehaviour
 {
+    const string SELECCIONAT_ID = "_Seleccionat";
+
     const float OFFSET_CAMERA_Y = -2.5f;
     const float OFFSET_CAMERA_Z = 20f;
     const float OFFSET_CAMERA_X = 2f;
@@ -34,6 +36,15 @@ public class UI_Peces : MonoBehaviour
             parent.transform.position = Vector3.zero;
             //parent.transform.rotation = Quaternion.Euler(OFFSET_CAMERA_Rot, 0, 0);
             parent.GetComponent<UI_Seleccio>().Setup(peces[i],colocar);
+            XS_Button button = parent.GetComponent<XS_Button>();
+
+            button.onClick.AddListener(() => colocar.Seleccionar(peces[i]));
+            //PENDENT!
+            //MeshRenderer outline = parent.transform.Find("Outline").GetComponent<MeshRenderer>();
+            //button.onEnter.AddListener(() => outline.material.SetFloat(SELECCIONAT_ID, 1));
+            //button.onExit.AddListener(() => outline.material.SetFloat(SELECCIONAT_ID, 0));
+
+
             RectTransform rect = parent.GetComponent<RectTransform>();
 
             //rect.sizeDelta = Vector2.one * 170;
