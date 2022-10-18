@@ -8,10 +8,14 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 {
     //VARIABLES
     [Linia]
+    [SerializeField] UnityEvent onEnter;
+    [SerializeField] UnityEvent onExit;
+    [Linia]
     [SerializeField] Fase_Colocar colocar;
     [Linia]
-    [SerializeField] MeshRenderer outline;
+    [SerializeField] GameObject outline;
     System.Action accioCrear;
+
 
     //Prevé multiples clics.
     bool autobloquejar = false;
@@ -63,10 +67,13 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
     {
-        outline.material.SetFloat(SELECCIONAT_ID, 1);
+        outline.SetActive(true);
+        onEnter?.Invoke();
+        //outline.material.SetFloat(SELECCIONAT_ID, 1);
     }
     public void OnPointerExit(PointerEventData eventData) 
     {
-        outline.material.SetFloat(SELECCIONAT_ID, 0);
+        onExit?.Invoke();
+        //outline.material.SetFloat(SELECCIONAT_ID, 0);
     }
 }

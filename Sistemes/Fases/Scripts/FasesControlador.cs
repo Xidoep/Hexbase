@@ -21,7 +21,8 @@ public class FasesControlador : ScriptableObject
 
 
 
-    private void OnValidate()
+
+    private void OnDisable()
     {
         actual = null;
     }
@@ -52,8 +53,6 @@ public abstract class Fase : ScriptableObject
 
     public void OnFinish_Invocar() => onFinish?.Invoke();
     public System.Action OnFinish { get => onFinish; set => onFinish = value; }
-    public void OnFinish_Set(System.Action action) => onFinish = action;
-
 
 
     public void Iniciar() => Iniciar(null);

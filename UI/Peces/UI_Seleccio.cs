@@ -4,20 +4,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using XS_Utils;
 
-public class UI_Seleccio : MonoBehaviour, IPointerDownHandler
+public class UI_Seleccio : MonoBehaviour
 {
-    public void Setup(Estat estat, Fase_Colocar colocar)
+    protected const string SELECCIONAT_ID = "_Seleccionat";
+
+    [SerializeField] MeshRenderer outline;
+
+    public void Seleccionar()
     {
-        this.estat = estat;
-        seleccionar = colocar.Seleccionar;
+        outline.material.SetFloat(SELECCIONAT_ID, 1);
     }
 
-    Estat estat;
-    System.Action<Estat> seleccionar;
-
-    public void OnPointerDown(PointerEventData eventData)
+    public void Deseleccionar()
     {
-        seleccionar.Invoke(estat);
+        outline.material.SetFloat(SELECCIONAT_ID, 0);
     }
 
 }

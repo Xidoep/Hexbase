@@ -18,10 +18,15 @@ public class Fase_Processar : Fase
     [Apartat("SEGÜENT FASE")]
     [SerializeField] Fase colocar;
 
+    [Apartat("ANIMACIONS")]
+    [SerializeField] Animacio_Scriptable actualitzar;
+    [SerializeField] Animacio_Scriptable actDetalls;
+
     //INTERN
     float startTime;
     Peça peça;
     List<Peça> perComprovar;
+    List<Peça> canviades; 
     public override void Actualitzar()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();
@@ -74,7 +79,8 @@ public class Fase_Processar : Fase
     }
     void Segona_WFC(List<Peça> comprovades, List<Peça> canviades)
     {
-        if(canviades.Count == 0)
+        this.canviades = canviades;
+        if (canviades.Count == 0)
         {
             Produir();
             return;
@@ -92,6 +98,15 @@ public class Fase_Processar : Fase
         save.Add(peça, grups);
         
         peça.animacio.Play(peça.Parent);
+        new Animacio_Esdeveniment(peça.Detalls).Play(peça.gameObject, 1.5f, Transicio.clamp);
+        for (int i = 0; i < canviades.Count; i++)
+        {
+            if (canviades[i] == peça)
+                continue;
+
+            actualitzar.Play(canviades[i].Parent);
+            new Animacio_Esdeveniment(canviades[i].Detalls).Play(canviades[i].gameObject, 1.5f, Transicio.clamp);
+        }
         save.Actualitzar(perComprovar, grups);
 
         //repoblar.Proces(peces);

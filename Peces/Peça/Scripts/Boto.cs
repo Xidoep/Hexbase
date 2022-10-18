@@ -20,8 +20,8 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
     [SerializeField] UnityEvent onEnter;
     [SerializeField] UnityEvent onExit;
     [SerializeField] UnityEvent onClick;
-    [Linia]
-    [SerializeField] MeshRenderer outline;
+    //[Linia]
+    //[SerializeField] GameObject outline;
 
     public override bool EsPeça => false;
 
@@ -36,13 +36,14 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        outline.material.SetFloat(SELECCIONAT_ID, 1);
+        //outline.SetActive(true);
+        //outline.material.SetFloat(SELECCIONAT_ID, 1);
         onEnter?.Invoke();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        outline.material.SetFloat(SELECCIONAT_ID, 0);
+        //outline.material.SetFloat(SELECCIONAT_ID, 0);
         onExit?.Invoke();
     }
 

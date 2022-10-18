@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: "Pe\xE7a_Update"
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 1.5
+  animacions:
+  - rid: 7484184750431141890
+  - rid: 7484184750431141891
+  references:
+    version: 2
+    RefIds:
+    - rid: 7484184750431141890
+      type: {class: Animacio_RotacioVector, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Rotacio a voltat de vector
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0.75
+            value: 0
+            inSlope: 8.333333
+            outSlope: 8.333333
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.87
+            value: 1
+            inSlope: 0.32051253
+            outSlope: 0.32051253
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -7.692308
+            outSlope: -7.692308
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        eix: {x: 1, y: 0, z: 0}
+        inici: 0
+        final: 180
+    - rid: 7484184750431141891
+      type: {class: Animacio_Posicio, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Posicio
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0.75
+            value: 0
+            inSlope: 8.296296
+            outSlope: 8.296296
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.87
+            value: 0.9955556
+            inSlope: 0.31908798
+            outSlope: 0.31908798
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -7.65812
+            outSlope: -7.65812
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 0}
+        final: {x: 0, y: 2, z: 0}
+        local: 1
+        dinamic: 0

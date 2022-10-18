@@ -30,8 +30,6 @@ public class TilePotencial
     public string EstatName => $"{peça.Subestat.name}-{orientacio}";
     public Peça Peça => peça;
     public Possibilitats PossibilitatsVirtuals => possibilitatsVirtuals;
-    //public void Interactuar() => interaccions++;
-    //public int Interaccions => interaccions;
     public GameObject TileFisic => tileFisic;
     public TilePotencial[] Veins => veins;
 
@@ -68,11 +66,8 @@ public class TilePotencial
         orientacioFisica = 0;
 
         possibilitatsVirtuals = peça.Subestat.Possibilitats();
-        /*if (peça.Subestat.TeTilesAlternatius) 
-            possibilitatsVirtuals = peça.Estat.Possibilitats(peça.Subestat.TilesAlternatius);
-        else possibilitatsVirtuals = peça.Estat.Possibilitats();*/
+
     }
-    //public void SetPossiblitats(Possibilitats possibilitats) => this.possibilitats = possibilitats.ToArray();
 
     public TilePotencial Ambiguo()
     {
@@ -153,18 +148,6 @@ public class TilePotencial
         Igualar(esquerra, possibilitat.Tile.Esquerra(possibilitat.Orientacio)) &&
         Igualar(dreta, possibilitat.Tile.Dreta(possibilitat.Orientacio));
 
-
-    //Aixo ha de canviar:
-    //No ha de ser que siguin iguals, sino que es "permetin" mutuament.
-    //Osigui, la connexio A ha de permetre el tipus de connexio B, i la connexio B ha de permetre el Connector A. Només aixi seran "iguals".
-    //Nononono... aixo ha d'anar diferent.
-    //no va de que es permetin mutuament, sinó... que... permetin els mateixos tipus?
-    //nono, perque despes amb les connexions assimetriques no funciona.
-    //Perque les condicions assimetriques, accepten només un tipus, que no son ells.
-    //el problema es que no vull que totes les terres acceptin boscos.. perque despres serà un merder... no?
-    //provem-ho.
-    //bool Igualar(Connexio a, Connexio b) => a.Viable == b && b.Viable == a;
-
     bool Igualar(Connexio a, Connexio b) => a.EncaixaAmb(b) && b.EncaixaAmb(a);
 
     public void Crear()
@@ -185,9 +168,7 @@ public class TilePotencial
         if (orientacioFisica != 0)
             tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
 
-        //tileFisic.GetComponent<MeshRenderer>().material.color = assegurat ? Color.grey : Color.gray * 0.5f;
-        //XS_InstantiateGPU.AddGrafics(tileFisic);
-        
+
         tileFisic.AddComponent<TileDebug>().New(veins, orientacioFisica);
 
         //Detalls(peça.Subestat);

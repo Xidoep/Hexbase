@@ -17,6 +17,7 @@ MonoBehaviour:
   animacions:
   - rid: 7484184590524088322
   - rid: 233190295782031365
+  - rid: 7484184750431141892
   references:
     version: 2
     RefIds:
@@ -152,11 +153,29 @@ MonoBehaviour:
             time: 0.7
             value: 0
             inSlope: 0
+            outSlope: 0.12923895
+            tangentMode: 1
+            weightedMode: 0
+            inWeight: 0.1823206
+            outWeight: 0.33044648
+          - serializedVersion: 3
+            time: 0.79999995
+            value: 0.0049972534
+            inSlope: 0
             outSlope: 0
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0.1823206
-            outWeight: 0.28252754
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.9001301
+            value: 0
+            inSlope: -0.14085789
+            outSlope: 0
+            tangentMode: 1
+            weightedMode: 0
+            inWeight: 0.35601655
+            outWeight: 0.33333334
           - serializedVersion: 3
             time: 1
             value: 0
@@ -173,3 +192,11 @@ MonoBehaviour:
         final: {x: 0, y: 40, z: 0}
         local: 1
         dinamic: 0
+    - rid: 7484184750431141892
+      type: {class: Animacio_Esdeveniment, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Esdeveniment
+        esdeveniment:
+          m_PersistentCalls:
+            m_Calls: []
+        moment: 0

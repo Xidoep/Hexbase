@@ -19,25 +19,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
             return;
 
         this.subestat = subestat.Setup(this);
-        //this.subestat.Setup(this);
-        //if (!this.estat.EsCasa) this.subestat.Productor(this);
         gameObject.name = $"{estat.name}({coordenades})";
         condicions = this.subestat.Condicions;
         ocupat = false;
     }
-    /*public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
-    {
-        base.Setup(grid, coordenades, estat);
 
-        this.estat = estat;
-
-        this.subestat = this.estat.SubestatInicial;
-        if (!this.estat.EsCasa) subestat.Productor(this);
-
-        condicions = this.estat.Condicions(subestat);
-    }*/
-
-    //VARIABLES PUBLIQUES
     [Apartat("ESTAT")]
     [SerializeField] Estat estat;
     [SerializeField] protected Subestat subestat;
@@ -86,37 +72,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         producte = new Peça[] { (Peça)grid.Get(producteCooerdenada[0]) };
     } 
     public Vector2Int SetCoordenadesProducte { set => producteCooerdenada = new Vector2Int[] { value }; }
-    /*public void Actualitzar()
-    {
-        Debug.Log($"Actualitzar ({estat.name}({Coordenades}))");
-        name = $"{estat.name}({Coordenades})";
-
-        CrearTilesPotencials();
-        AssignarVeinsTiles(tiles);
-        #region DEBUG
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            string _debug = "";
-            _debug += $"ID = {tiles[i].ID} | Potencials = (";
-            for (int p = 0; p < tiles[i].Possibilitats.Length; p++)
-            {
-                _debug += tiles[i].Possibilitats[p].name + ", ";
-            }
-            _debug += ") \n";
-
-            _debug += $"|A- {(tiles[i].Veins[0] != null ? $"{tiles[i].Veins[0].ID}\n" : "NULL\n")}";
-            _debug += $"|E- {(tiles[i].Veins[1] != null ? $"{tiles[i].Veins[1].ID}\n" : "NULL\n")}";
-            _debug += $"|D- {(tiles[i].Veins[2] != null ? $"{tiles[i].Veins[2].ID}\n" : "NULL\n")}";
-            _debug += " ";
-            Debugar.Log(_debug);
-        }
-        Debugar.Log("------------------------");
-        #endregion
-        Estat.TilesInicials(tiles);
-        TornarVeinsAmbiguus();
-        //estat.OnCreate(this);
-    }*/
-
 
 
 
@@ -141,24 +96,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    /*void TornarVeinsAmbiguus()
-    {
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            if (tiles[i].Veins[0] == null)
-                continue;
-
-            //if (tiles[i].Veins[0].Peça.acabadaDeCrear)
-            //    continue;
-
-            tiles[i].Veins[0].Ambiguo(true);
-            tiles[i].Veins[0].Veins[0] = tiles[i];
-            tiles[i].Veins[0].Veins[1].Ambiguo(true);
-            tiles[i].Veins[0].Veins[2].Ambiguo(true);
-        }
-    }
-
-    */
 
 
 
@@ -173,7 +110,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         //if(!acabadaDeCrear)
         //animacioPerCodi.Play();
 
-        XS_InstantiateGPU.Render();
+        //XS_InstantiateGPU.Render();
         
         for (int i = 0; i < tiles.Length; i++)
         {
@@ -184,18 +121,17 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
             }
 
             tiles[i].Crear();
-            if(detalls)
-                tiles[i].Detalls(subestat);
+            //if(detalls)
+            //    tiles[i].Detalls(subestat);
         }
     }
-
-    /*public void CrearDetalls()
+    public void Detalls()
     {
         for (int i = 0; i < tiles.Length; i++)
         {
             tiles[i].Detalls(subestat);
         }
-    }*/
+    }
 
     public void CanviarSubestat(Subestat subestat)
     {
@@ -203,14 +139,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
             return;
 
         this.subestat = subestat.Setup(this);
-
-
         condicions = subestat.Condicions;
-
-        /*for (int i = 0; i < Tiles.Length; i++)
-        {
-            Tiles[i].Detalls(subestat);
-        }*/
 
         ocupat = false;
 
@@ -227,8 +156,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public void AddCasa()
     {
         if (cases == null) cases = new List<Casa>();
-
-        //cases.Add(new Casa(this, 2));
         cases.Add(new Casa(this, ((Estat_Casa)Estat).Necessitats));
     }
     public void AddCasa(Casa casa)
@@ -236,11 +163,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (cases == null) cases = new List<Casa>();
         cases.Add(casa);
     }
-    public void RemoveCasa() 
-    {
-        //cases[cases.Count - 1].Desocupar();
-        cases.RemoveAt(cases.Count - 1);
-    } 
+    public void RemoveCasa() => cases.RemoveAt(cases.Count - 1);
 
     public void Ocupar(Peça productor) 
     {
@@ -248,15 +171,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         productor.producte = new Peça[] { this };
     } 
 
-    //public void AddHabitant(Habitant habitant) => treballador = habitant;
-
-    /*public void AfegirCasa(int habitants)
-    {
-        if (this.cases == null) this.cases = new List<Casa>();
-
-        this.cases.Add(new Casa(this, habitants));
-
-    }*/
 
     //INTERACCIO
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {/*Show info*/ }
