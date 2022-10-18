@@ -68,13 +68,13 @@ MonoBehaviour:
   onExit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 885641713953032641}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 11400000, guid: e9528deefa609994ca1fb847dee03046, type: 2}
+        m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
+        m_MethodName: Play
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 2247224760059510459}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.MeshRenderer, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -360,6 +360,11 @@ PrefabInstance:
 --- !u!1 &885641713953032641 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5477168779303214125, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
+  m_PrefabInstance: {fileID: 4632129848130278892}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2247224760059510459 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6874496948595141463, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
   m_PrefabInstance: {fileID: 4632129848130278892}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7562111856806414814 stripped

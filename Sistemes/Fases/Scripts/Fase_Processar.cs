@@ -61,6 +61,7 @@ public class Fase_Processar : Fase
     void Repoblar(List<Peça> comprovades, List<Peça> canviades)
     //void Repoblar(List<Peça> comprovades)
     {
+        this.canviades = canviades;
         //El segon repoblar és perque les cases es creen segons les peces que tenen al voltant,
         //per tant s'han de mirar despres que aquestes haguin "canviat".
         repoblar.Proces(comprovades);
@@ -79,7 +80,7 @@ public class Fase_Processar : Fase
     }
     void Segona_WFC(List<Peça> comprovades, List<Peça> canviades)
     {
-        this.canviades = canviades;
+        
         if (canviades.Count == 0)
         {
             Produir();
@@ -99,6 +100,14 @@ public class Fase_Processar : Fase
         
         peça.animacio.Play(peça.Parent);
         new Animacio_Esdeveniment(peça.Detalls).Play(peça.gameObject, 1.5f, Transicio.clamp);
+
+        for (int i = 0; i < peça.VeinsPeça.Count; i++)
+        {
+            //((Animacio_RotacioVector)actualitzar.Animacions[0]).SetEix(XS_Utils.XS_Direction.GetDirectionToTarget(peça.VeinsPeça[i].transform, peça.transform));
+            actualitzar.Play(peça.VeinsPeça[i].Parent);
+            new Animacio_Esdeveniment(peça.VeinsPeça[i].Detalls).Play(peça.VeinsPeça[i].gameObject, 1.5f, Transicio.clamp);
+        }
+
         for (int i = 0; i < canviades.Count; i++)
         {
             if (canviades[i] == peça)
@@ -107,7 +116,11 @@ public class Fase_Processar : Fase
             actualitzar.Play(canviades[i].Parent);
             new Animacio_Esdeveniment(canviades[i].Detalls).Play(canviades[i].gameObject, 1.5f, Transicio.clamp);
         }
-        save.Actualitzar(perComprovar, grups);
+
+
+
+
+        //save.Actualitzar(perComprovar, grups);
 
         //repoblar.Proces(peces);
         Debug.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", this);

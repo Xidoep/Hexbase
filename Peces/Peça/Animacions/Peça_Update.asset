@@ -15,41 +15,77 @@ MonoBehaviour:
   transicio: 0
   temps: 1.5
   animacions:
-  - rid: 7484184750431141890
   - rid: 7484184750431141891
+  - rid: 233190346965123075
   references:
     version: 2
     RefIds:
-    - rid: 7484184750431141890
-      type: {class: Animacio_RotacioVector, ns: , asm: AnimacioPerCodi}
+    - rid: 233190346965123075
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Rotacio a voltat de vector
+        nom: Escala
         corba:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
-            time: 0.75
+            time: 0.5003357
             value: 0
-            inSlope: 8.333333
-            outSlope: 8.333333
+            inSlope: 20.135174
+            outSlope: 20.135174
             tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.87
-            value: 1
-            inSlope: 0.32051253
-            outSlope: 0.32051253
+            time: 0.55
+            value: 0.9999997
+            inSlope: 10.046315
+            outSlope: 10.046315
             tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.65
+            value: 0.9957453
+            inSlope: -8.409118
+            outSlope: -8.409118
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.7
+            value: 0
+            inSlope: -13.244468
+            outSlope: -13.244468
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.14610526
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.7942361
+            value: -0.44614604
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.9011395
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
             weightedMode: 0
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
             time: 1
             value: 0
-            inSlope: -7.692308
-            outSlope: -7.692308
+            inSlope: 0
+            outSlope: 0
             tangentMode: 34
             weightedMode: 0
             inWeight: 0.33333334
@@ -57,9 +93,9 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        eix: {x: 1, y: 0, z: 0}
-        inici: 0
-        final: 180
+        inici: {x: 1, y: 1, z: 1}
+        final: {x: 0.9, y: 1.2, z: 0.9}
+        dinamic: 0
     - rid: 7484184750431141891
       type: {class: Animacio_Posicio, ns: , asm: AnimacioPerCodi}
       data:
@@ -98,6 +134,6 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         inici: {x: 0, y: 0, z: 0}
-        final: {x: 0, y: 2, z: 0}
+        final: {x: 0, y: 0, z: 0}
         local: 1
         dinamic: 0

@@ -13,12 +13,18 @@ MonoBehaviour:
   m_Name: Outline_Amagar
   m_EditorClassIdentifier: 
   transicio: 0
-  temps: 0.25
+  temps: 0.5
   animacions:
   - rid: 7484184755968409602
+  - rid: 233190346965123074
   references:
     version: 2
     RefIds:
+    - rid: 233190346965123074
+      type: {class: Animacio_EsdevenimentGeneric, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Esdeveniment Generic
+        esdeveniment: 0
     - rid: 7484184755968409602
       type: {class: Animacio_ShaderFloat, ns: , asm: AnimacioPerCodi}
       data:
@@ -50,4 +56,4 @@ MonoBehaviour:
         propietat: _Seleccionat
         inici: 0
         final: 1
-        dinamic: 0
+        dinamic: 1

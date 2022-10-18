@@ -11,20 +11,51 @@ public class UI_Peca : MonoBehaviour
 
     const string SELECCIONAT_ID = "_Seleccionat";
 
-    [SerializeField] GameObject outline;
+    [SerializeField] UI_Outline outline;
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Estat estat;
-
+    [SerializeField] bool seleccionada;
     Transform[] childs;
 
-    public void Seleccionar() => colocar.Seleccionar(estat);
+    System.Action deseleccionarAltres;
 
+    public System.Action DeseleccionarAltres { set => deseleccionarAltres = value; }
+
+    public void Seleccionar() 
+    {
+        if (seleccionada)
+            return;
+
+        colocar.Seleccionar(estat);
+        deseleccionarAltres.Invoke();
+        seleccionada = true;
+    }
+    public void Deseleccionar()
+    {
+        if (!seleccionada)
+            return;
+
+        seleccionada = false;
+        Amagar();
+    }
     //public void Outline(bool mostrar) => meshRenderer.material.SetFloat(SELECCIONAT_ID, mostrar ? 1 : 0);
     //public void Mostrar() => meshRenderer.material.SetFloat(SELECCIONAT_ID, 1);
     //public void Amagar() => meshRenderer.material.SetFloat(SELECCIONAT_ID, 0);
 
-    public void Mostrar() => outline.SetActive(true);
+    public void Mostrar() 
+    {
+        if (seleccionada)
+            return;
 
+        outline.gameObject.SetActive(true);
+    } 
+    public void Amagar()
+    {
+        if (seleccionada)
+            return;
+
+        outline.Amagar();
+    }
 
 
     private void OnEnable()

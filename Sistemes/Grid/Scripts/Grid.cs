@@ -94,7 +94,7 @@ public class Grid : MonoBehaviour
 
         processar.Iniciar(peçaFisica);
 
-        save.Add(peçaFisica, grups);
+        //save.Add(peçaFisica, grups);
     }
     public void CrearRanura(Vector2Int coordenada)
     {

@@ -14,11 +14,15 @@ public class Fase_Colocar : Fase
     [SerializeField] PoolPeces poolPeces;
     [Linia]
     [Nota("If not null, will take this insead of from pool")]
-    [SerializeField] Estat debug;
+    [SerializeField] Estat seleccionada;
+    
 
 
     public static bool PermesColoarPeça => permesColoarPeça;
     public static bool Bloquejat => bloquejat;
+    public Estat Seleccionada => seleccionada;
+
+
 
     public override void Actualitzar()
     {
@@ -33,11 +37,11 @@ public class Fase_Colocar : Fase
     public void Seleccionar(Estat estat) 
     {
         Debug.LogError($"SELECT {estat.name}");
-        debug = estat;
+        seleccionada = estat;
     } 
     public void CrearPeça(Vector2Int coordenada)
     {
-        grid.CrearPeça(debug == null ? poolPeces.Get : debug, coordenada);
+        grid.CrearPeça(seleccionada == null ? poolPeces.Get : seleccionada, coordenada);
     }
 
     public override void Finalitzar()

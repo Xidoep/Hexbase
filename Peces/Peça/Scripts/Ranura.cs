@@ -18,7 +18,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
 
     //Prevé multiples clics.
-    bool autobloquejar = false;
+    //bool autobloquejar = false;
     public override bool EsPeça => false;
 
     private void OnEnable()
@@ -42,12 +42,20 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         if (!Fase_Colocar.PermesColoarPeça)
             return;
 
-        if (autobloquejar)
+        /*if (autobloquejar)
             return;
 
         autobloquejar = true;
+        */
+        CrearPeça();
 
-        CrearPeça(); 
+        colocar.CrearPeça(Coordenades);
+        //crearPeça.Invoke(Coordenades);
+        //animacioPerCodi.Play();
+        animacio.Play(this.gameObject);
+        Destroy(this.gameObject);
+
+        Debug.Log("Destrur...");
     }
 
     public void CrearPeça() 
@@ -55,8 +63,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         colocar.CrearPeça(Coordenades);
         //crearPeça.Invoke(Coordenades);
         //animacioPerCodi.Play();
-        animacio.Play(gameObject);
-        Destroy(gameObject, 1);
+        animacio.Play(this.gameObject);
+        Destroy(this.gameObject);
     }
 
 
