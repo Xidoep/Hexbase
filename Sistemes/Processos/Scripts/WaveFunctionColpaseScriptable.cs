@@ -190,7 +190,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.");
                     //NetejarTilesFisicsAlReiniciar();
                     Iniciar_WFC(colocada, canviades, enFinalitzar, true);
-                    break;
+                    return;
                 }
 
                 for (int c = 0; c < canviades.Count; c++)
@@ -200,7 +200,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                         Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.");
                         //NetejarTilesFisicsAlReiniciar();
                         Iniciar_WFC(colocada, canviades, enFinalitzar, true);
-                        break;
+                        return;
                     }
                 }
                 for (int v = 0; v < colocada.VeinsPeça.Count; v++)
@@ -210,7 +210,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                         Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.");
                         //NetejarTilesFisicsAlReiniciar();
                         Iniciar_WFC(colocada, canviades, enFinalitzar, true);
-                        break;
+                        return;
                     }
                 }
             }
