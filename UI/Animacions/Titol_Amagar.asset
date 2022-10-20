@@ -16,12 +16,14 @@ MonoBehaviour:
   temps: 3
   animacions:
   - rid: 7484184478026825735
+  - rid: 7484184795682963459
   references:
     version: 2
     RefIds:
     - rid: 7484184478026825735
       type: {class: Animacio_Gradient_Image, ns: , asm: AnimacioPerCodi}
       data:
+        nom: Gradient imatge
         gradient:
           serializedVersion: 2
           key0: {r: 1, g: 1, b: 1, a: 1}
@@ -51,3 +53,8 @@ MonoBehaviour:
           m_Mode: 0
           m_NumColorKeys: 2
           m_NumAlphaKeys: 2
+    - rid: 7484184795682963459
+      type: {class: Animacio_EsdevenimentGeneric, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Esdeveniment Generic
+        esdeveniment: 0
