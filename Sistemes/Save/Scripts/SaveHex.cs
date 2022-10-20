@@ -62,16 +62,16 @@ public class SaveHex : ScriptableObject
 
         creades = new List<Peça>();
 
-        index = peçes.Count -1;
+        index = 0;
         Step();
     }
 
     void Step()
     {
         creades.Add(peçes[index].Load(grid, grups));
-        index--;
+        index++;
 
-        if (index < 0)
+        if (index >= peçes.Count)
         {
             LoadSteps();
             return;
