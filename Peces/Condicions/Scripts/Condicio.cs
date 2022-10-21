@@ -43,7 +43,7 @@ public abstract class Condicio : ScriptableObject
     /// </summary>
     protected void Canviar(Peça peça) 
     {
-        Debug.LogError($"[{peça.Subestat.name}] >>> Changed to >>> [{objectiu.name}]");
+        Debugar.LogError($"[{peça.Subestat.name}] >>> Changed to >>> [{objectiu.name}]");
         peça.CanviarSubestat(objectiu);
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using XS_Utils;
 
 public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -35,7 +36,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     {
         if (Fase_Colocar.Bloquejat)
         {
-            Debug.Log("BLOQUEJAT!!!");
+            Debugar.Log("BLOQUEJAT!!!");
             return;
         }
 
@@ -47,7 +48,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
         autobloquejar = true;
         */
-        CrearPeça();
+        //CrearPeça();
 
         colocar.CrearPeça(Coordenades);
         //crearPeça.Invoke(Coordenades);
@@ -55,7 +56,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         animacio.Play(this.gameObject);
         Destroy(this.gameObject);
 
-        Debug.Log("Destrur...");
+        Debugar.Log("Destruir...");
     }
 
     public void CrearPeça() 

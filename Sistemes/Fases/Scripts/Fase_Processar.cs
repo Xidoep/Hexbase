@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XS_Utils;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Procesar")]
 public class Fase_Processar : Fase
@@ -94,36 +95,48 @@ public class Fase_Processar : Fase
         produccio.Process(FinalitzarProcessos);
     }
 
+    List<Peça> animades;
+
     void FinalitzarProcessos()
     {
-        save.Add(peça, grups);
-        
         peça.animacio.Play(peça.Parent);
         new Animacio_Esdeveniment(peça.Detalls).Play(peça.gameObject, 1.5f, Transicio.clamp);
+        animades = new List<Peça>() { peça };
 
-        for (int i = 0; i < peça.VeinsPeça.Count; i++)
+        for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
-            //((Animacio_RotacioVector)actualitzar.Animacions[0]).SetEix(XS_Utils.XS_Direction.GetDirectionToTarget(peça.VeinsPeça[i].transform, peça.transform));
-            actualitzar.Play(peça.VeinsPeça[i].Parent);
-            new Animacio_Esdeveniment(peça.VeinsPeça[i].Detalls).Play(peça.VeinsPeça[i].gameObject, 1.5f, Transicio.clamp);
+            actualitzar.Play(peça.VeinsPeça[v].Parent);
+            new Animacio_Esdeveniment(peça.VeinsPeça[v].Detalls).Play(peça.VeinsPeça[v].gameObject, 1.5f, Transicio.clamp);
+            animades.Add(peça.VeinsPeça[v]);
         }
 
-        for (int i = 0; i < canviades.Count; i++)
+        for (int c = 0; c < canviades.Count; c++)
         {
-            if (canviades[i] == peça)
+            if (animades.Contains(canviades[c]))
                 continue;
 
-            actualitzar.Play(canviades[i].Parent);
-            new Animacio_Esdeveniment(canviades[i].Detalls).Play(canviades[i].gameObject, 1.5f, Transicio.clamp);
+            actualitzar.Play(canviades[c].Parent);
+            new Animacio_Esdeveniment(canviades[c].Detalls).Play(canviades[c].gameObject, 1.5f, Transicio.clamp);
+            animades.Add(canviades[c]);
         }
 
+        for (int c = 0; c < canviades.Count; c++)
+        {
+            for (int v = 0; v < canviades[c].VeinsPeça.Count; v++)
+            {
+                if (animades.Contains(canviades[c].VeinsPeça[v]))
+                    continue;
 
+                actualitzar.Play(canviades[c].VeinsPeça[v].Parent);
+                new Animacio_Esdeveniment(canviades[c].VeinsPeça[v].Detalls).Play(canviades[c].VeinsPeça[v].gameObject, 1.5f, Transicio.clamp);
+                animades.Add(canviades[c].VeinsPeça[v]);
+            }
+        }
 
+        save.Add(peça, grups);
+        save.Actualitzar(animades, grups);
 
-        //save.Actualitzar(perComprovar, grups);
-
-        //repoblar.Proces(peces);
-        Debug.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", this);
+        Debugar.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", this);
         colocar.Iniciar();
     }
 

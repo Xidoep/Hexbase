@@ -5,15 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class Casa
 {
-    /*public Casa(Peça peça, int habitants)
-    {
-        if (this.habitants == null) this.habitants = new List<Habitant>();
-
-        for (int i = 0; i < habitants; i++)
-        {
-            this.habitants.Add(new Habitant(peça));
-        }
-    }*/
     public Casa(Peça peça, Producte[] recursosNeeded)
     {
         this.peça = peça;
@@ -54,25 +45,15 @@ public class Casa
 
     [SerializeField] Peça peça;
     [SerializeField] int nivell;
-    //[SerializeField] Condicio_GuanyarRecurs condicio;
     [SerializeField] Necessitat[] necessitats;
 
 
     //INTERN
     int index = 0;
-
-
-
-
-
-    /*[Linia]
-    [Header("RECURSOS")]
-    [SerializeField] Recurs[] recursos;*/
-    //INTERN
-    //int index = -1;
     Vector2Int coordenadaPeça;
 
-    //public int Grup => peça.Grup;
+
+
     public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;
     public void LoadLastStep(Grid grid)
     {
@@ -83,20 +64,6 @@ public class Casa
 
         //Ocupar(producte);
     }
-
-
-
-    /*public void Ocupar(Peça feina)
-    {
-        this.producte = feina;
-        feina.AddTreballador(this);
-    }*/
-    /*public void Desocupar()
-    {
-        producte.RemoveTreballador();
-    }*/
-
-
 
     /// <summary>
     /// Aporta un recurs a les necessitats de la casa.
@@ -151,13 +118,11 @@ public class Casa
         public Necessitat(Producte recurs)
         {
             this.recurs = recurs;
-            //proveits = new List<Recurs>();
-            //AddNecessitat();
-            proveits = new Producte[1];
+            proveits = new bool[1];
         }
 
         [SerializeField] Producte recurs;
-        [SerializeField] Producte[] proveits;
+        [SerializeField] bool[] proveits;
         [SerializeField] bool solventat = false;
 
 
@@ -172,7 +137,7 @@ public class Casa
                 complet = true;
                 for (int i = 0; i < proveits.Length; i++)
                 {
-                    if (proveits[i] == null)
+                    if (proveits[i] == false)
                     {
                         complet = false;
                         break;
@@ -187,8 +152,8 @@ public class Casa
         /// </summary>
         public void AddNecessitat() 
         {
-            List<Producte> tmp = new List<Producte>(proveits);
-            tmp.Add(null);
+            List<bool> tmp = new List<bool>(proveits);
+            tmp.Add(false);
             proveits = tmp.ToArray();
         } 
 
@@ -201,9 +166,9 @@ public class Casa
             //Donar recurs
             for (int i = 0; i < proveits.Length; i++)
             {
-                if(proveits[i] == null)
+                if(proveits[i] == false)
                 {
-                    proveits[i] = recurs;
+                    proveits[i] = true;
                     break;
                 }
             }
@@ -227,7 +192,7 @@ public class Casa
         {
             for (int i = 0; i < proveits.Length; i++)
             {
-                proveits[i] = null;
+                proveits[i] = false;
             }
         }
     }

@@ -24,12 +24,11 @@ public class SaveHex : ScriptableObject
     {
         if (peçes == null) peçes = new List<SavedPeça>();
 
-        //if(!peçes.Contains(peça))
         peçes.Add(new SavedPeça(peça, grups));
     }
     public void Actualitzar(List<Peça> peçes, Grups grups)
     {
-        for (int p = 0; p < peçes.Count; p++)
+        for (int p = 1; p < peçes.Count; p++)
         {
             for (int tp = 0; tp < this.peçes.Count; tp++)
             {

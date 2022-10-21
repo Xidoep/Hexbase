@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XS_Utils;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Controller")]
 public class FasesControlador : ScriptableObject
@@ -11,10 +12,10 @@ public class FasesControlador : ScriptableObject
     {
         set
         {
-            if(actual != null) Debug.LogError($"{actual.name.ToUpper()}>>>");
+            if(actual != null) Debugar.LogError($"{actual.name.ToUpper()}>>>");
             actual?.Finalitzar();
             actual = value;
-            Debug.LogError($">>>{actual.name.ToUpper()}");
+            Debugar.LogError($">>>{actual.name.ToUpper()}");
             actual.Actualitzar();
         }
     }

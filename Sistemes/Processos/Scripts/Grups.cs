@@ -74,7 +74,7 @@ public class Grups : ScriptableObject
             if (peça.EstatIgualA(veinsPeça[v].Estat)) veinsIguals.Add(veinsPeça[v]);
             grupsVeinsPeça.Add(GrupByPeça(veinsPeça[v]));
         }
-        Debug.LogError($"Connectar {grupsVeinsPeça.Count} veins iguals");
+        Debugar.LogError($"Connectar {grupsVeinsPeça.Count} veins iguals");
 
 
         //INTENTAR AGRUPAR O CREAR GRUP NOU
@@ -173,7 +173,7 @@ public class Grups : ScriptableObject
     {
         if(grupsPendents.Count == 0)
         {
-            Debug.LogError("FINALITZAT!");
+            Debugar.LogError("FINALITZAT!");
             enFinalitzar.Invoke();
 
             return;
@@ -364,7 +364,7 @@ public class Grups : ScriptableObject
         //AJUNTAR CASES
         for (int i = 0; i < grup.Cases.Count; i++)
         {
-            Debug.LogError("Add - CASA");
+            Debugar.LogError("Add - CASA");
             AddConnexio(grup, grup.Cases[i]);
         }
 
@@ -380,7 +380,7 @@ public class Grups : ScriptableObject
             {
                 if (veinsCami[c].EstatIgualA(casa) && GrupByPeça(veinsCami[c]) != grup) //SI ES UNA CASA, i no pertany al meu grup, EL CONNECTO
                 {
-                    Debug.LogError("CASA >>> CAMI >>> CASA");
+                    Debugar.LogError("CASA >>> CAMI >>> CASA");
                     AddConnexio(grup, veinsCami[c]);
                 }
                
@@ -434,7 +434,7 @@ public class Grups : ScriptableObject
                 {
                     if (veinsAltresPort[vp].EstatIgualA(casa)) 
                     {
-                        Debug.LogError("CASA >>> PORT >>> MAR >>> PORT >>> CASA");
+                        Debugar.LogError("CASA >>> PORT >>> MAR >>> PORT >>> CASA");
                         AddConnexio(grup, veinsAltresPort[vp]);
                     }
                 }
@@ -449,7 +449,7 @@ public class Grups : ScriptableObject
                         {
                             if (veinsCaminsAltresPorts[c].EstatIgualA(casa))
                             {
-                                Debug.LogError("CASA >>> PORT >>> MAR >>> PORT >>> CAMI >>> CASA");
+                                Debugar.LogError("CASA >>> PORT >>> MAR >>> PORT >>> CAMI >>> CASA");
                                 AddConnexio(grup, veinsCaminsAltresPorts[c]);
                             }
                         }
@@ -471,7 +471,7 @@ public class Grups : ScriptableObject
             if (grupObjectiu.Equals(elMeuGrup))
                 return;
 
-            Debug.LogError($"Connectar ({grups[grups.IndexOf(elMeuGrup)].Peces[0].name}) amb  ({objectiu.name}");
+            Debugar.LogError($"Connectar ({grups[grups.IndexOf(elMeuGrup)].Peces[0].name}) amb  ({objectiu.name}");
 
             //CONNECTOR EL MEU GRUP AMB EL GRUP DE L'OBJECTIU
             //if (!elMeuGrup.connexions.Contains(objectiu.Grup)) elMeuGrup.connexions.Add(objectiu.Grup);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XS_Utils;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/Repoblar")]
 public class Repoblar : ScriptableObject
@@ -22,7 +23,7 @@ public class Repoblar : ScriptableObject
 
     public void Proces(List<Peça> peces)
     {
-        Debug.LogError("--------------REPOBLAR---------------");
+        Debugar.LogError("--------------REPOBLAR---------------");
         List<int> cases = new List<int>();
         for (int p = 0; p < peces.Count; p++)
         {

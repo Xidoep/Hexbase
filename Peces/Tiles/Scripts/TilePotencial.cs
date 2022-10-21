@@ -113,7 +113,7 @@ public class TilePotencial
                     //break;
                 }
             }
-            Debug.Log($"RANDOM = {r}");
+            Debugar.Log($"RANDOM = {r}");
         }
        
         Escollir(possibilitatsVirtuals.Tile(r), possibilitatsVirtuals.Orietacio(r));

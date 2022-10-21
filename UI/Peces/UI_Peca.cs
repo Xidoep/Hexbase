@@ -44,9 +44,6 @@ public class UI_Peca : MonoBehaviour
 
     public void Mostrar() 
     {
-        if (seleccionada)
-            return;
-
         outline.gameObject.SetActive(true);
     } 
     public void Amagar()

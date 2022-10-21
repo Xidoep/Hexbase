@@ -40,7 +40,7 @@ public class Produccio : ScriptableObject
 
     public void Process(System.Action enFinalitzar)
     {
-        Debug.LogError("--------------PRODUCCIO---------------");
+        Debugar.LogError("--------------PRODUCCIO---------------");
         index = 0;
         this.enFinalitzar = enFinalitzar;
         CleanAllNeeds();

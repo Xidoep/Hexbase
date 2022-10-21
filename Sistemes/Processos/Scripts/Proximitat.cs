@@ -91,12 +91,12 @@ public class Proximitat : ScriptableObject
     public void Process(List<Peça> peces, System.Action<List<Peça>, List<Peça>> enFinalitzar)
     //public void Process(List<Peça> peces, System.Action<List<Peça>> enFinalitzar)
     {
-        Debug.LogError("--------------PROXIMITAT---------------");
+        Debugar.LogError("--------------PROXIMITAT---------------");
         this.peces = new Queue<Peça>(peces);
         comprovades = new List<Peça>();
         canviades = new List<Peça>();
         this.enFinalitzar = enFinalitzar;
-        Debug.Log("Process");
+        Debugar.Log("Process");
         Step();
     }
 
@@ -107,7 +107,7 @@ public class Proximitat : ScriptableObject
         if(peces.Count == 0)
         {
             //_iniciat = false;
-            Debug.LogError("FINALITZAT!");
+            Debugar.LogError("FINALITZAT!");
             enFinalitzar.Invoke(comprovades, canviades);
             //enFinalitzar.Invoke(comprovades);
             return;
@@ -116,7 +116,7 @@ public class Proximitat : ScriptableObject
         _actual = peces.Dequeue();
         //_canviar = false;
 
-        Debug.LogError(_actual.name);
+        Debugar.LogError(_actual.name);
         for (int i = 0; i < _actual.Condicions.Length; i++)
         {
             if (_actual.Condicions[i].Comprovar(_actual, this, grups, cami))
