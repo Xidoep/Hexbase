@@ -136,7 +136,8 @@ public class Fase_Processar : Fase
         save.Add(peça, grups);
         save.Actualitzar(animades, grups);
 
-        Debugar.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", this);
+
+        Debugar.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", peça);
         colocar.Iniciar();
     }
 

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5919137175624590404}
   - component: {fileID: 2263106621455859969}
   - component: {fileID: 5037952505282740293}
+  - component: {fileID: 3375911988702989792}
   m_Layer: 0
   m_Name: _ranura
   m_TagString: Untagged
@@ -109,6 +110,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!64 &3375911988702989792
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5919137175624590415}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4575734979276873811, guid: 05d249f5ce17f46449f1240f27d65335, type: 3}
 --- !u!1 &8109503095687522456
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +315,7 @@ MeshCollider:
   m_GameObject: {fileID: 8986692009890537509}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
