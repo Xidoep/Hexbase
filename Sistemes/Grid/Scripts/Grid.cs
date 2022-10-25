@@ -20,6 +20,7 @@ public class Grid : MonoBehaviour
     [SerializeField] Fase processar;
     [SerializeField] Grups grups;
     [SerializeField] SaveHex save;
+    [SerializeField] CamaraGestio camaraGestio;
 
     [Apartat("PREFABS")]
     [SerializeField] GameObject prefab_Ranura;
@@ -32,9 +33,29 @@ public class Grid : MonoBehaviour
 
     Hexagon[,] grid;
 
+    [Apartat("DIMENCIONS")]
+    [SerializeField] Vector2Int nord = Vector2Int.one * 100;
+    [SerializeField] Vector2Int sud = Vector2Int.one * 100;
+    [SerializeField] Vector2Int est = Vector2Int.one * 100;
+    [SerializeField] Vector2Int oest = Vector2Int.one * 100;
+
     public void Start()
     {
         inicial.Iniciar();
+    }
+
+    public void Dimensionar(Peça peça)
+    {
+        if (peça.Coordenades.y < nord.y) nord = peça.Coordenades;
+        if (peça.Coordenades.y > sud.y) sud = peça.Coordenades;
+        if (peça.Coordenades.x > est.x) est = peça.Coordenades;
+        if (peça.Coordenades.x < oest.x) oest = peça.Coordenades;
+
+        camaraGestio.SetDimensions(
+            grid[nord.x, nord.y],
+            grid[sud.x, sud.y],
+            grid[est.x, est.y],
+            grid[oest.x, oest.y]);
     }
 
     private void Update()

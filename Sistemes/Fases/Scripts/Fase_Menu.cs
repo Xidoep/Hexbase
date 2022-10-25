@@ -17,6 +17,7 @@ public class Fase_Menu : Fase
     [SerializeField] Mode mode;
     [SerializeField] GameObject prefab_FreeSyle;
     GameObject freeSyle;
+
     public override void Actualitzar()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();

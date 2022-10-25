@@ -5,14 +5,27 @@ using UnityEngine.InputSystem;
 using XS_Utils;
 using Cinemachine;
 
+
 public class CamaraGestio : MonoBehaviour
 {
+    [SerializeField] Transform objectiu;
+
+
+
+    [Space(10)]
+    [SerializeField] Transform nord;
+    [SerializeField] Transform sud;
+    [SerializeField] Transform est;
+    [SerializeField] Transform oest;
+
+    [Linia]
     [SerializeField] Movement movement;
+
     [Linia]
     [SerializeField] Zoom zoom;
+
     [Linia]
     [SerializeField] Rotation rotation;
-
 
     private void OnEnable()
     {
@@ -22,14 +35,14 @@ public class CamaraGestio : MonoBehaviour
     }
     void Start()
     {
-        movement.Start(transform);
+        movement.Start(objectiu);
         zoom.Start();
-        rotation.Start(transform);
+        rotation.Start(objectiu);
     }
     void Update()
     {
-        movement.Update(transform, zoom.Value);
-        rotation.Update(transform);
+        movement.Update(objectiu);
+        rotation.Update(objectiu);
         zoom.Update();
     }
     private void OnDisable()
@@ -39,6 +52,19 @@ public class CamaraGestio : MonoBehaviour
         rotation.Disable();
     }
 
+    public void SetDimensions(Hexagon nord, Hexagon sud, Hexagon est, Hexagon oest)
+    {
+        this.nord = nord.transform;
+        this.sud = sud.transform;
+        this.est = est.transform;
+        this.oest = oest.transform;
+
+        movement.Centrar(this.nord, this.sud, this.est, this.oest);
+        movement.Limits = new Vector4(this.est.position.x, this.nord.position.z, this.oest.position.x, this.sud.position.z);
+        zoom.Dimensions = new Vector2(this.est.position.x - this.oest.position.x, this.nord.position.z - this.sud.position.z);
+    }
+
+
 
 
 
@@ -47,10 +73,16 @@ public class CamaraGestio : MonoBehaviour
     {
         [SerializeField] InputActionReference keyboard;
         [SerializeField] InputActionReference mouse;
+        [SerializeField] CinemachineTargetGroup targetGroup;
+        [SerializeField] Transform centre;
         [Space(10)]
         [SerializeField] float speed;
         [SerializeField] float time;
+        [Space(10)]
+        [SerializeField] Vector4 limits;
         Vector3 movement;
+
+        public Vector4 Limits { set => limits = value; }
 
 
         public void Enable()
@@ -60,7 +92,7 @@ public class CamaraGestio : MonoBehaviour
         }
         public void Start(Transform transform)
         {
-            movement = transform.position;
+            movement = transform.localPosition;
         }
         public void Update(Transform transform, float zoom)
         {
@@ -68,12 +100,39 @@ public class CamaraGestio : MonoBehaviour
             if(!Application.isEditor) 
                 Moviment_Mouse(transform);
 
+            movement = Vector3.Min(movement, new Vector3(limits.x, 0, limits.y));
+            movement = Vector3.Max(movement, new Vector3(limits.z, 0, limits.w));
+
             transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * (((zoom * 3) + 1) * 5));
+        }
+        public void Update(Transform transform)
+        {
+            Moviment_Keyboard(transform);
+            //Moviment_Mouse(transform);
+
+            movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x, 0, limits.y - centre.position.y));
+            movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x, 0, limits.w - centre.position.y));
+
+
+            if(Mathf.Abs(Vector3.Magnitude(targetGroup.transform.position - centre.position)) > 0.1f)
+            {
+                centre.position = Vector3.Lerp(centre.position, targetGroup.transform.position, 1f * Time.deltaTime);
+            }
+            transform.localPosition = Vector3.Lerp(transform.localPosition, movement, Time.deltaTime * time);
         }
         public void Disable()
         {
             keyboard.action.Disable();
             mouse.action.Disable();
+        }
+
+        public void Centrar(Transform nord, Transform sud, Transform est, Transform oest)
+        {
+            targetGroup.transform.position = new Vector3((est.position.x - oest.position.x) * 0.5f, 0, (nord.position.z - sud.position.z) * 0.5f);
+            /*targetGroup.m_Targets[0].target = nord;
+            targetGroup.m_Targets[1].target = sud;
+            targetGroup.m_Targets[2].target = est;
+            targetGroup.m_Targets[3].target = oest;*/
         }
 
 
@@ -183,19 +242,17 @@ public class CamaraGestio : MonoBehaviour
         [SerializeField] InputActionReference keyboard;
         [SerializeField] InputActionReference mouse;
         [Space(10)]
-        [SerializeField] Vector2 close;
-        [SerializeField] Vector2 middle;
-        [SerializeField] Vector2 far;
-        Vector3 fClose;
-        Vector3 fMiddle;
-        Vector3 fFar;
+        [SerializeField] Vector3 aprop;
+        [SerializeField] Vector3 lluny = new Vector3(0, 2, -5);
         [Space(10)]
         [SerializeField] float speed;
         [SerializeField] float time;
 
         CinemachineTransposer transposer;
+        
         float zoom;
         public float Value => zoom;
+        public Vector2 Dimensions { set => lluny = new Vector3(0, Mathf.Max(value.x, value.y) * 1.4f +15, -Mathf.Max(value.x, value.y) * 1.4f -15); }
 
 
         public void Enable()
@@ -206,11 +263,7 @@ public class CamaraGestio : MonoBehaviour
         public void Start()
         {
             transposer = vCamera.GetCinemachineComponent<CinemachineTransposer>();
-            zoom = .25f;
-
-            fClose = new Vector3(0, close.x, close.y);
-            fMiddle = new Vector3(0, middle.x, middle.y);
-            fFar = new Vector3(0, far.x, far.y);
+            zoom = 1f;
 
             transposer.m_FollowOffset = FactorToZoom();
         }
@@ -245,10 +298,7 @@ public class CamaraGestio : MonoBehaviour
 
         Vector3 FactorToZoom()
         {
-            if (zoom <= .5f)
-                return Vector3.Lerp(fClose, fMiddle, (zoom * 2));
-            else
-                return Vector3.Lerp(fMiddle, fFar, ((zoom * 2) - 1));
+            return Vector3.Lerp(aprop, lluny, zoom);
         }
         [System.Serializable] public class ZoomPosition
         {
