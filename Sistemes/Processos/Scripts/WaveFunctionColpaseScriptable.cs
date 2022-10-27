@@ -274,6 +274,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
         Propagar();
     }
+    void Reiniciar() => Iniciar_WFC(colocada, canviades, enFinalitzar, true);
     void Propagar()
     {
         //TilePotencial actual = propagables[0];
@@ -311,7 +312,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     }
 
                     Debugar.LogError(_debug, propagables[0].Peça);
-                    Iniciar_WFC(colocada, canviades, enFinalitzar, true);
+                    XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);
                     return;
                 }
 
@@ -429,12 +430,14 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             else
             {
                 _tmp.Clear();
-                if (tile.Peça.Subestat.connexioEspesifica != null && tile.Peça.Subestat.connexioEspesifica.subestats.Contains(vei.Peça.Subestat))
+                if(vei.Peça != tile.Peça)//Si el vei no es intern
                 {
-                    _tmp.AddRange(tile.Peça.Subestat.connexioEspesifica.connexions);
-                    return _tmp.ToArray();
+                    if (tile.Peça.Subestat.connexioEspesifica != null && tile.Peça.Subestat.connexioEspesifica.subestats.Contains(vei.Peça.Subestat))
+                    {
+                        _tmp.AddRange(tile.Peça.Subestat.connexioEspesifica.connexions);
+                        return _tmp.ToArray();
+                    }
                 }
-
                 
                 for (int p = 0; p < vei.PossibilitatsVirtuals.Count; p++)
                 {

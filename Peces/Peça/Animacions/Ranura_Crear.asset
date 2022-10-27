@@ -9,52 +9,68 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf325f55ec028a940af7aa73ae9f2905, type: 3}
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
   m_Name: Ranura_Crear
   m_EditorClassIdentifier: 
-  tipus: 2
-  corba:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.39999998
-      value: 0
-      inSlope: 2.547335
-      outSlope: 2.547335
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.8277844
-      value: 1.0897102
-      inSlope: -0.11642157
-      outSlope: -0.11642157
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.31771863
-    - serializedVersion: 3
-      time: 0.9400954
-      value: 0.9741818
-      inSlope: -0.043044664
-      outSlope: -0.043044664
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.57791626
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: -0
-      outSlope: -0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.44113
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  iniciDinamic: 0
-  inici: {x: 0, y: 0, z: 0}
-  final: {x: 0.9, y: 0.1, z: 0.9}
+  transicio: 0
+  temps: 3
+  animacions:
+  - rid: 233190295782031360
+  - rid: 7484184956029632517
+  references:
+    version: 2
+    RefIds:
+    - rid: 233190295782031360
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Escala
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0.75
+            value: 0
+            inSlope: 6.0539455
+            outSlope: 6.0539455
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.93
+            value: 1.0897102
+            inSlope: -0.11642157
+            outSlope: -0.11642157
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.31771863
+          - serializedVersion: 3
+            time: 0.97499996
+            value: 0.9741818
+            inSlope: -0.043044664
+            outSlope: -0.043044664
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.57791626
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.44113
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 0}
+        final: {x: 0.9, y: 1, z: 0.9}
+        dinamic: 0
+    - rid: 7484184956029632517
+      type: {class: Animacio_GPU, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: GPU
+        accio: 0

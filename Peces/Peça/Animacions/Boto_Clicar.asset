@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
-  m_Name: Ranura_Clicar
+  m_Name: Boto_Clicar
   m_EditorClassIdentifier: 
   transicio: 0
   temps: 1
@@ -18,7 +18,8 @@ MonoBehaviour:
   - rid: 233190295782031363
   - rid: 233190295782031364
   - rid: 7484184956029632518
-  - rid: 7484184956029632519
+  - rid: 7484184956029632520
+  - rid: 7484184956029632521
   references:
     version: 2
     RefIds:
@@ -110,15 +111,35 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         inici: {x: 0.9, y: 0.1, z: 0.9}
-        final: {x: 0, y: 0.1, z: 0}
+        final: {x: 0, y: 0.01, z: 0}
         dinamic: 0
     - rid: 7484184956029632518
       type: {class: Animacio_GPU, ns: , asm: AnimacioPerCodi}
       data:
         nom: GPU
         accio: 1
-    - rid: 7484184956029632519
-      type: {class: Animacio_GPU, ns: , asm: AnimacioPerCodi}
+    - rid: 7484184956029632520
+      type: {class: Animacio_Esdeveniment, ns: , asm: AnimacioPerCodi}
       data:
-        nom: GPU
-        accio: 0
+        nom: Esdeveniment
+        esdeveniment:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 11400000, guid: 84ef15b16868c154a8a02c39eda89c9b, type: 2}
+              m_TargetAssemblyTypeName: Fase, Assembly-CSharp
+              m_MethodName: Iniciar
+              m_Mode: 1
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        moment: 0
+    - rid: 7484184956029632521
+      type: {class: Animacio_EsdevenimentGeneric, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Esdeveniment Generic
+        esdeveniment: 1

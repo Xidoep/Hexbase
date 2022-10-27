@@ -169,7 +169,7 @@ public class TilePotencial
             tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
 
 
-        tileFisic.AddComponent<TileDebug>().New(veins, orientacioFisica);
+        //tileFisic.AddComponent<TileDebug>().New(veins, orientacioFisica);
 
         //Detalls(peça.Subestat);
     }

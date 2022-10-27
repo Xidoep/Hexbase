@@ -33,12 +33,14 @@ public class Grid : MonoBehaviour
 
     Hexagon[,] grid;
 
+
     [Apartat("DIMENCIONS")]
     [SerializeField] Vector2Int nord = Vector2Int.one * 100;
     [SerializeField] Vector2Int sud = Vector2Int.one * 100;
     [SerializeField] Vector2Int est = Vector2Int.one * 100;
     [SerializeField] Vector2Int oest = Vector2Int.one * 100;
 
+    [SerializeField] List<XS_InstantiateGPU.Grafic> grafics;
     public void Start()
     {
         inicial.Iniciar();
@@ -58,9 +60,10 @@ public class Grid : MonoBehaviour
             grid[oest.x, oest.y]);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        //XS_InstantiateGPU.RenderUpdate();
+        XS_InstantiateGPU.Render();
+        grafics = XS_InstantiateGPU.grafics;
     }
 
     //List<Hexagon> gridDebug;

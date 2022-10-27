@@ -17,6 +17,8 @@ MonoBehaviour:
   animacions:
   - rid: 7484184750431141891
   - rid: 233190346965123075
+  - rid: 7484184956029632515
+  - rid: 7484184956029632516
   references:
     version: 2
     RefIds:
@@ -137,3 +139,13 @@ MonoBehaviour:
         final: {x: 0, y: 0, z: 0}
         local: 1
         dinamic: 0
+    - rid: 7484184956029632515
+      type: {class: Animacio_GPU, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: GPU
+        accio: 1
+    - rid: 7484184956029632516
+      type: {class: Animacio_GPU, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: GPU
+        accio: 0

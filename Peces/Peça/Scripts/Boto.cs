@@ -27,11 +27,11 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
 
     void OnEnable()
     {
-        menu.OnFinish += AmagarEnAcabarFase;
+        //menu.OnFinish += AmagarEnAcabarFase;
     }
     void OnDisable()
     {
-        menu.OnFinish -= AmagarEnAcabarFase;
+        //menu.OnFinish -= AmagarEnAcabarFase;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
