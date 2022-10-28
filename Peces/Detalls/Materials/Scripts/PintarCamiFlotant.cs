@@ -73,7 +73,7 @@ public class PintarCamiFlotant : MonoBehaviour
 
             Gizmos.color = Physics.OverlapSphere(transform.position + (transform.forward * vertexs[v].z) + (transform.right * vertexs[v].x), 0.03f, layerMask).Length > 0 ? Color.red : Color.green;
             //Gizmos.DrawCube(transform.position + (transform.forward * vertexs[v].z) + (transform.right * vertexs[v].x), Vector3.one * 0.2f);
-            Gizmos.DrawSphere(transform.position + (transform.forward * vertexs[v].z) + (transform.right * vertexs[v].x), 0.15f);
+            Gizmos.DrawSphere(transform.position + (transform.forward * vertexs[v].z) + (transform.right * vertexs[v].x), 0.05f);
         }
     }
 }
