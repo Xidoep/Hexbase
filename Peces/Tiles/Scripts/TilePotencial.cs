@@ -74,7 +74,10 @@ public class TilePotencial
         if (Application.isEditor)
         {
             if (tileFisic)
+            {
+                XS_InstantiateGPU.RemoveGrafic(tileFisic);
                 MonoBehaviour.Destroy(tileFisic);
+            }
         }
 
         GetPossibilitats();

@@ -17,9 +17,9 @@ public class Boto : Hexagon, IPointerEnterHandler, IPointerExitHandler, IPointer
     }
     [SerializeField] Fase menu;
     [Linia]
+    [SerializeField] UnityEvent onClick;
     [SerializeField] UnityEvent onEnter;
     [SerializeField] UnityEvent onExit;
-    [SerializeField] UnityEvent onClick;
     //[Linia]
     //[SerializeField] GameObject outline;
 

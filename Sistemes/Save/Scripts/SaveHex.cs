@@ -7,7 +7,52 @@ using XS_Utils;
 public class SaveHex : ScriptableObject
 {
     [Linia]
-    [SerializeField] string nom;
+
+    [SerializeField] int current = 0;
+    [SerializeField] List<SavedFile> files;
+
+
+    public List<SavedFile> Files => files;
+    public void NovaPartida()
+    {
+        files.Add(new SavedFile());
+        current = files.Count - 1;
+    }
+    public void BorrarPartida()
+    {
+        files.RemoveAt(current);
+        if (files.Count == 0) files.Add(new SavedFile());
+        current = Mathf.Clamp(current - 1, 0, files.Count - 1);
+    }
+    public int Current => current;
+    public SavedFile CurrentSavedFile => files[current];
+    public bool TePeces 
+    {
+        get 
+        {
+            if (files == null || files.Count == 0) files = new List<SavedFile>() {new SavedFile() };
+            if (current > files.Count - 1) current = 0;
+            return files[current].TePeces;
+        
+        }
+    } 
+
+    public void Add(Peça peça, Grups grups) => files[current].Add(peça, grups);
+
+    public void Actualitzar(List<Peça> peçes, Grups grups) => files[current].Actualitzar(peçes, grups);
+
+
+    [ContextMenu("Save")]
+    public void Save(Grups grups) => files[current].Save(grups, FindObjectsOfType<Peça>());
+
+    [ContextMenu("Load")]
+    public void Load(Grups grups, Fase colocar) => files[current].Load(grups, colocar);
+}
+
+[System.Serializable]
+public class SavedFile
+{
+    [SerializeField] List<string> captures;
     [SerializeField] List<SavedPeça> peçes;
 
     //INTERN
@@ -20,6 +65,16 @@ public class SaveHex : ScriptableObject
 
     public bool TePeces => peçes != null && peçes.Count > 0;
 
+    public List<string> Captures { get => captures; }
+    public void AddCaptura(string path)
+    {
+        if (captures == null) captures = new List<string>();
+        captures.Add(path);
+    }
+    public void RemoveCaptura(string path)
+    {
+        captures.Remove(path);
+    }
     public void Add(Peça peça, Grups grups)
     {
         if (peçes == null) peçes = new List<SavedPeça>();
@@ -32,23 +87,22 @@ public class SaveHex : ScriptableObject
         {
             for (int tp = 0; tp < this.peçes.Count; tp++)
             {
-                if(peçes[p].Coordenades == this.peçes[tp].Coordenada)
+                if (peçes[p].Coordenades == this.peçes[tp].Coordenada)
                 {
                     this.peçes[tp] = new SavedPeça(peçes[p], grups);
                     break;
-                } 
+                }
             }
         }
     }
 
     [ContextMenu("Save")]
-    public void Save(Grups grups)
+    public void Save(Grups grups, Peça[] peces)
     {
         peçes = new List<SavedPeça>();
-        Peça[] tmp = FindObjectsOfType<Peça>();
-        for (int i = 0; i < tmp.Length; i++)
+        for (int i = 0; i < peces.Length; i++)
         {
-            peçes.Add(new SavedPeça(tmp[i],grups));
+            peçes.Add(new SavedPeça(peces[i], grups));
         }
     }
 
@@ -148,13 +202,6 @@ public class SaveHex : ScriptableObject
         colocar.Iniciar();
     }
 
-
-
-}
-
-public class SavedFile
-{
-
 }
 
 [System.Serializable] public class SavedPeça
@@ -162,8 +209,8 @@ public class SavedFile
     public SavedPeça(Peça peça, Grups grups)
     {
         coordenada = peça.Coordenades;
-        esta = peça.Estat;
-        subestat = peça.Subestat;
+        esta = peça.Estat.name;
+        subestat = peça.Subestat.name;
         producte = peça.TeProducte ? peça.ProducteCoordenades : -Vector2Int.one;
         grup = grups.GrupByPeça(peça);
 
@@ -185,9 +232,12 @@ public class SavedFile
         };
     }
 
+    [SerializeField] string subestat;
+    [SerializeField] string esta;
     [SerializeField] Vector2Int coordenada;
-    [SerializeField] Estat esta;
-    [SerializeField] Subestat subestat;
+    //[SerializeField] Estat esta;
+    //[SerializeField] Subestat subestat;
+
     [SerializeField] Vector2Int producte;
     [SerializeField] Grup grup;
     [SerializeField] SavedCasa[] cases;
@@ -203,7 +253,7 @@ public class SavedFile
 
         //PEÇA
         Peça peça = tmp.GetComponent<Peça>();
-        peça.Setup(grid, coordenada, esta, subestat);
+        peça.Setup(grid, coordenada, grid.Estat(esta), grid.Subestat(subestat));
         peça.name = $"{peça.Estat.name}({peça.Coordenades})";
 
         //CREAR TILES

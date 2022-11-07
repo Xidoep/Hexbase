@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/XidoStudio/Hexbase/UI/BotoPe%C3%A7a.uss?fileID=7433441132597879392&amp;guid=bab5eb5cba291e9458be4db68539f70f&amp;type=3#BotoPeça" />
-    <ui:VisualElement style="flex-grow: 1; justify-content: flex-end;">
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; justify-content: flex-end; align-items: stretch;">
         <ui:VisualElement name="Container" style="flex-basis: 20%; flex-direction: row; margin-left: 10%; margin-right: 10%; background-color: rgba(0, 0, 0, 0.1); justify-content: space-around; align-items: flex-end; top: -2%;">
             <ui:Button text="Button" display-tooltip-when-elided="true" usage-hints="None" />
             <ui:Button text="Button" display-tooltip-when-elided="true" style="-unity-text-align: middle-center;" />
@@ -11,4 +11,8 @@
             <ui:Button text="Button" display-tooltip-when-elided="true" />
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:VisualElement name="Fotos" style="position: absolute; flex-shrink: 1; flex-grow: 0; top: 10px; bottom: 30%; right: 0; left: auto; opacity: 1; background-color: rgba(0, 0, 0, 0.36); align-items: flex-end; width: 20%;">
+        <ui:GroupBox style="background-color: rgba(0, 0, 0, 0.84); right: 0; width: 20px; left: 0; height: 20px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Configuracio" style="position: absolute; flex-shrink: 1; flex-grow: 0; top: 10px; bottom: 30%; left: auto; opacity: 1; background-color: rgba(0, 0, 0, 0.36); align-items: flex-start; width: 20%;" />
 </ui:UXML>

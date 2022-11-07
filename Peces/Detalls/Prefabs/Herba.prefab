@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5850607048043097190}
   - component: {fileID: 5850607048043097186}
   - component: {fileID: 5850607048043097185}
-  - component: {fileID: 5850607048043097191}
   - component: {fileID: 1815940448461151256}
+  - component: {fileID: 1307863927419426192}
   m_Layer: 0
   m_Name: Herba
   m_TagString: Untagged
@@ -85,23 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5850607048043097191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5850607048043097189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88dccfa7ec698474d8ce1416886a57e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshFilter: {fileID: 5850607048043097186}
-  meshRenderer: {fileID: 5850607048043097185}
-  horizontalStackSize: 20
-  altura: 20
-  sombra: 0
 --- !u!114 &1815940448461151256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,3 +100,20 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &1307863927419426192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5850607048043097189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3392469b38b7cdf43bf9bb3ec13a680e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshFilter: {fileID: 5850607048043097186}
+  meshRenderer: {fileID: 5850607048043097185}
+  horizontalStackSize: 10
+  altura: 0.15
+  sombra: 0

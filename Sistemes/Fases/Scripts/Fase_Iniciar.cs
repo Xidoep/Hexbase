@@ -19,24 +19,15 @@ public class Fase_Iniciar : Fase
 
     public override void Actualitzar()
     {
+        PosarPrimeraPeça();
+    }
+
+    public void PosarPrimeraPeça()
+    {
         if (grid == null) grid = FindObjectOfType<Grid>();
 
         grid.CrearPeça(inicial, grid.Centre);
         pool.Inicialize(pecesInicials);
-
-        //grid.CrearGrid();
-
-        //AIXO NO HAURA DE FUNCIONAR AIXI. HI HAURÀ VAROS SAVES SLOTS I EN TRIARAS UN.
-
-        /*if (!save)
-        {
-            grid.CrearPeça(inicial, grid.Centre);
-            pool.Inicialize(pecesInicials);
-        }
-        else
-        {
-            //save.Load();
-        }*/
 
         colocar.Iniciar();
     }

@@ -11,7 +11,6 @@ public class Fase_Menu : Fase
 
     [SerializeField] Grups grups;
     [SerializeField] Fase colocar;
-    [Linia]
     [SerializeField] SaveHex save;
     [Linia]
     [SerializeField] Mode mode;
@@ -28,12 +27,18 @@ public class Fase_Menu : Fase
 
         if (!save.TePeces)
         {
-            grid.CrearBoto(grid.Centre);
+            IniciarNet();
         }
         else
         {
             save.Load(grups, colocar);
         }
+    }
+
+    public void IniciarNet()
+    {
+        grid.Resetejar();
+        grid.CrearBoto(grid.Centre);
     }
 
 
@@ -47,7 +52,10 @@ public class Fase_Menu : Fase
     {
         freeSyle = Instantiate(prefab_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
         freeSyle.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
-    } 
+    }
+    public void Sortir()
+    {
+        Application.Quit();
+    }
 
-    
 }

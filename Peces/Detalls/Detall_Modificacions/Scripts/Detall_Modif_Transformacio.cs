@@ -9,7 +9,8 @@ public class Detall_Modif_Transformacio : Detall_Modificacio
     public enum Accio
     {
         Posicio,
-        Rotacio
+        Rotacio,
+        Escala
     }
 
     [SerializeField] Accio accio;
@@ -57,6 +58,9 @@ public class Detall_Modif_Transformacio : Detall_Modificacio
                     else detall.transform.rotation = RotacioAditiva(detall);
                 } 
                 break;
+            case Accio.Escala:
+                detall.transform.localScale = Escala();
+                break;
         }
     }
 
@@ -75,4 +79,8 @@ public class Detall_Modif_Transformacio : Detall_Modificacio
     Quaternion Rotacio() => Quaternion.Euler(XS_Rotation.RandomRotation(valor, valorRandom));
     Quaternion RotacioAditiva(GameObject detall) => Quaternion.Euler(detall.transform.localEulerAngles + XS_Rotation.RandomRotation(valor, valorRandom));
 
+    Vector3 Escala() => new Vector3(
+        Random.Range(valor.x, valorRandom.x), 
+        Random.Range(valor.y, valorRandom.y), 
+        Random.Range(valor.z, valorRandom.z));
 }

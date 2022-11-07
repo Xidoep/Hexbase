@@ -10,11 +10,11 @@ public class UI_Peca : MonoBehaviour
     }
 
     const string SELECCIONAT_ID = "_Seleccionat";
-
     [SerializeField] UI_Outline outline;
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Estat estat;
     [SerializeField] bool seleccionada;
+    [SerializeField] LayerMask capaBorrarCami;
     Transform[] childs;
 
     System.Action deseleccionarAltres;
@@ -60,7 +60,8 @@ public class UI_Peca : MonoBehaviour
         childs = transform.GetComponentsInChildren<Transform>();
         for (int i = 0; i < childs.Length; i++)
         {
-            childs[i].gameObject.layer = 5;
+            if(childs[i].gameObject.layer != 7)
+                childs[i].gameObject.layer = 5;
         }
     }
 }

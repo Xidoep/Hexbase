@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using XS_Utils;
 
 //FALTA:
@@ -26,6 +27,13 @@ public class Grid : MonoBehaviour
     [SerializeField] GameObject prefab_Ranura;
     [SerializeField] GameObject prefab_Peça;
     [SerializeField] GameObject prefab_Boto;
+
+    [Apartat("ESTATS")]
+    [SerializeField] Estat[] estats;
+
+    [Apartat("SUBESTATS")]
+    [SerializeField] Subestat[] subestats;
+
     //[Linia]
     //[Header("PECES")]
     //[Nota("Això haurà d'anar en una Fase 'Inicial', que s'encarregará de crear el mon abans de tu començar a jugar.", NoteType.Error)]
@@ -41,6 +49,40 @@ public class Grid : MonoBehaviour
     [SerializeField] Vector2Int oest = Vector2Int.one * 100;
 
     [SerializeField] List<XS_InstantiateGPU.Grafic> grafics;
+
+    //INTERN
+    Estat eTrobat;
+    Subestat sTrobat;
+
+    public Estat Estat(string nom) 
+    {
+        eTrobat = null;
+        for (int i = 0; i < estats.Length; i++)
+        {
+            if(estats[i].name == nom)
+            {
+                eTrobat = estats[i];
+                break;
+            }
+        }
+        return eTrobat;
+        //return (Estat)estats.Where<Estat>(x => x.name == nom) as Estat;
+    }
+    public Subestat Subestat(string nom) 
+    {
+        sTrobat = null;
+        for (int i = 0; i < subestats.Length; i++)
+        {
+            if (subestats[i].name == nom)
+            {
+                sTrobat = subestats[i];
+                break;
+            }
+        }
+        return sTrobat;
+        //return (Subestat)estats.Where<Estat>(x => x.name == nom);
+    } 
+
     public void Start()
     {
         inicial.Iniciar();
@@ -144,6 +186,23 @@ public class Grid : MonoBehaviour
         grid.EstaBuida(coordenada);
     }
 
+    public void Resetejar()
+    {
+        Vector2Int coordenada = new Vector2Int(0,0);
+        for (var x = 0; x < grid.GetLength(0); x++)
+        {
+            for (var y = 0; y < grid.GetLength(1); y++)
+            {
+                coordenada = new Vector2Int(x, y);
+                if(grid[x,y] != null)
+                {
+                    Destroy(grid[x, y].gameObject);
+                }
+                Buidar(coordenada);
+            }
+        }
+    }
+
     GameObject Instanciar(GameObject prefab, int x, int y)
     {
         GameObject tmp = Instantiate(prefab, transform);
@@ -155,6 +214,9 @@ public class Grid : MonoBehaviour
     {
         if (prefab_Ranura == null) prefab_Ranura = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Ranura.prefab");
         if (prefab_Peça == null) prefab_Peça = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Peça.prefab");
+
+        estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
+        subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
     }
 
 }
