@@ -48,7 +48,7 @@ public class Grid : MonoBehaviour
     [SerializeField] Vector2Int est = Vector2Int.one * 100;
     [SerializeField] Vector2Int oest = Vector2Int.one * 100;
 
-    [SerializeField] List<XS_InstantiateGPU.Grafic> grafics;
+    [SerializeField] List<XS_GPU.Grafic> grafics;
 
     //INTERN
     Estat eTrobat;
@@ -104,8 +104,8 @@ public class Grid : MonoBehaviour
 
     private void LateUpdate()
     {
-        XS_InstantiateGPU.Render();
-        grafics = XS_InstantiateGPU.grafics;
+        XS_GPU.Render();
+        grafics = XS_GPU.grafics;
     }
 
     //List<Hexagon> gridDebug;

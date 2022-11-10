@@ -18,6 +18,8 @@ public class CamaraGestio : MonoBehaviour
     [SerializeField] Transform est;
     [SerializeField] Transform oest;
 
+
+
     [Linia]
     [SerializeField] Movement movement;
 
@@ -61,10 +63,20 @@ public class CamaraGestio : MonoBehaviour
 
         movement.Centrar(this.nord, this.sud, this.est, this.oest);
         movement.Limits = new Vector4(this.est.position.x, this.nord.position.z, this.oest.position.x, this.sud.position.z);
-        zoom.Dimensions = new Vector2(this.est.position.x - this.oest.position.x, this.nord.position.z - this.sud.position.z);
+        zoom.Dimensions = new Vector2(this.oest.position.x - this.oest.position.x, this.nord.position.z - this.sud.position.z);
     }
 
+    private void OnDrawGizmos()
+    {
+        if (nord == null)
+            return;
+        Gizmos.color = Color.red + (Color.black * .5f);
 
+        Gizmos.DrawCube(new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f),
+            new Vector3(oest.transform.position.x - est.transform.position.x, 1, sud.transform.position.z - nord.transform.position.z)
+            );
+
+    }
 
 
 
@@ -128,7 +140,7 @@ public class CamaraGestio : MonoBehaviour
 
         public void Centrar(Transform nord, Transform sud, Transform est, Transform oest)
         {
-            targetGroup.transform.position = new Vector3((est.position.x - oest.position.x) * 0.5f, 0, (nord.position.z - sud.position.z) * 0.5f);
+            targetGroup.transform.position = new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f);
             /*targetGroup.m_Targets[0].target = nord;
             targetGroup.m_Targets[1].target = sud;
             targetGroup.m_Targets[2].target = est;

@@ -8,8 +8,22 @@ public class SaveHex : ScriptableObject
 {
     [Linia]
 
+    [SerializeField] CapturarPantalla capturarPantalla;
     [SerializeField] int current = 0;
     [SerializeField] List<SavedFile> files;
+
+
+    
+    void OnEnable()
+    {
+        capturarPantalla.OnCapturatRegistrar(AddCaptura);
+    }
+
+    void OnDisable()
+    {
+        capturarPantalla.OnCapturatDesregistrar(AddCaptura);
+    }
+
 
 
     public List<SavedFile> Files => files;
@@ -47,6 +61,8 @@ public class SaveHex : ScriptableObject
 
     [ContextMenu("Load")]
     public void Load(Grups grups, Fase colocar) => files[current].Load(grups, colocar);
+
+    public void AddCaptura(string path) => files[current].AddCaptura(path);
 }
 
 [System.Serializable]
@@ -122,6 +138,7 @@ public class SavedFile
     void Step()
     {
         creades.Add(peçes[index].Load(grid, grups));
+        grid.Dimensionar(creades[index]);
         index++;
 
         if (index >= peçes.Count)

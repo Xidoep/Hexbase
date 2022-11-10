@@ -8,7 +8,7 @@ public class ProvaGPU : MonoBehaviour
     public GameObject prefab;
     [Space(10)]
     public ComputeBuffer graphicsBuffer;
-    public List<XS_InstantiateGPU.Grafic> grafics;
+    public List<XS_GPU.Grafic> grafics;
 
     GameObject tmp2;
 
@@ -36,6 +36,6 @@ public class ProvaGPU : MonoBehaviour
 
     private void Update()
     {
-        XS_InstantiateGPU.Render();
+        XS_GPU.Render();
     }
 }

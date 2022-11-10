@@ -10,101 +10,117 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
-  m_Name: Fotos_Petit
+  m_Name: Foto_Amagar
   m_EditorClassIdentifier: 
   transicio: 0
-  temps: 1
+  temps: 0.6
   animacions:
-  - rid: 1438039246674591747
-  - rid: 1438039246674591752
+  - rid: 1642964175903522826
+  - rid: 1642964175903522829
+  - rid: 1642964175903522831
   references:
     version: 2
     RefIds:
-    - rid: 1438039246674591747
-      type: {class: Animacio_RectEscala, ns: , asm: AnimacioPerCodi}
+    - rid: 1642964175903522826
+      type: {class: Animacio_RectPosicio, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Rect escala
+        nom: Rect posicio
         corba:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
-            outSlope: 0
+            inSlope: -0.9082966
+            outSlope: -0.9082966
             tangentMode: 0
             weightedMode: 0
             inWeight: 0
-            outWeight: 0
+            outWeight: 0.093368895
+          - serializedVersion: 3
+            time: 0.4615277
+            value: 0.025053784
+            inSlope: 1.5031132
+            outSlope: 1.5031132
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.17589186
+            outWeight: 0.06756382
           - serializedVersion: 3
             time: 1
             value: 1
-            inSlope: 0
-            outSlope: 0
+            inSlope: 1.8551103
+            outSlope: 1.8551103
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0
+            inWeight: 0.06454285
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        inici: {x: 400, y: 0}
-        final: {x: 150, y: 250}
-        dinamic: 1
-    - rid: 1438039246674591752
-      type: {class: Animacio_RectAncor, ns: , asm: AnimacioPerCodi}
+        inici: {x: 0, y: 0}
+        final: {x: 1600, y: 0}
+        dinamic: 0
+    - rid: 1642964175903522829
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Rect ancor
-        min:
+        nom: Escala
+        corba:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
             time: 1
             value: 1
-            inSlope: 2
-            outSlope: 2
-            tangentMode: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        max:
+        inici: {x: 1, y: 1, z: 1}
+        final: {x: 1.24, y: 0.5, z: 0.5}
+        dinamic: 0
+    - rid: 1642964175903522831
+      type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Rotacio
+        corba:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
             time: 1
             value: 1
-            inSlope: 2
-            outSlope: 2
-            tangentMode: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        iniciMin: {x: 1, y: 0}
-        iniciMax: {x: 1, y: 1}
-        finalMin: {x: 1, y: 1}
-        finalMax: {x: 1, y: 1}
-        dinamic: 1
+        inici: {x: 0, y: 0, z: 15}
+        final: {x: 0, y: 0, z: -5}
+        local: 0
+        dinamic: 0
