@@ -22,7 +22,7 @@ public class UI_Foto : MonoBehaviour
     {
         UI_Foto tmp = Instantiate(fotoZoom).GetComponent<UI_Foto>();
         tmp.Foto = foto;
-        tmp.RectTransform.sizeDelta = new Vector2(tmp.RectTransform.sizeDelta.y, tmp.RectTransform.sizeDelta.x * (foto.texelSize.x / foto.texelSize.y));
+        tmp.RectTransform.sizeDelta = new Vector2(tmp.RectTransform.sizeDelta.y, tmp.RectTransform.sizeDelta.x * (foto.texelSize.x / foto.texelSize.y) + 140f);
         tmp.Image.texture = foto;
     }
 }
