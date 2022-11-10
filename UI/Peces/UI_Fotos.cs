@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class UI_Fotos : MonoBehaviour
     [SerializeField] CapturarPantalla capturarPantalla;
     [SerializeField] GameObject foto;
     [SerializeField] Transform parent;
+    [SerializeField] SaveHex save;
 
     RawImage[] fotos = new RawImage[0];
 
@@ -25,7 +27,8 @@ public class UI_Fotos : MonoBehaviour
             Destroy(fotos[i]);
         }
 
-        Texture2D[] captures = capturarPantalla.CapturesGuardades();
+        CapturarPantalla.Captura[] captures = capturarPantalla.CapturesGuardades();
+        //Texture2D[] captures = capturarPantalla.CapturesGuardades();
         fotos = new RawImage[captures.Length];
 
         for (int i = 0; i < captures.Length; i++)
@@ -33,16 +36,26 @@ public class UI_Fotos : MonoBehaviour
             GameObject tmp = Instantiate(foto, parent);
 
             fotos[i] = tmp.GetComponentInChildren<RawImage>();
-            fotos[i].texture = captures[i];
+            fotos[i].texture = captures[i].texture;
             RectTransform rectTransform = tmp.GetComponent<RectTransform>();
 
-            rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captures[i].texelSize.x / captures[i].texelSize.y));
+            rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captures[i].texture.texelSize.x / captures[i].texture.texelSize.y));
 
-            tmp.GetComponent<UI_Foto>().Foto = captures[i];
+            int indexPartida = save.ExisteixCaptura(captures[i].path);
+            tmp.GetComponent<UI_Foto>().Setup(
+                captures[i].texture, 
+                captures[i].path,
+                indexPartida,
+                save.Load,
+                EliminarCaptura
+                );
         }
     }
 
-
+    public void EliminarCaptura(string path, int index)
+    {
+        //Eliminar de l'ordinador i dels arxius de guardat.
+    }
 
     public void HabilitarFotos()
     {

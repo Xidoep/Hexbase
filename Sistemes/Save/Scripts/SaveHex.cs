@@ -6,8 +6,9 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Save")]
 public class SaveHex : ScriptableObject
 {
+    [SerializeField] Grups grups;
+    [SerializeField] Fase colocar;
     [Linia]
-
     [SerializeField] CapturarPantalla capturarPantalla;
     [SerializeField] int current = 0;
     [SerializeField] List<SavedFile> files;
@@ -62,7 +63,31 @@ public class SaveHex : ScriptableObject
     [ContextMenu("Load")]
     public void Load(Grups grups, Fase colocar) => files[current].Load(grups, colocar);
 
+    public void Load(int index)
+    {
+        current = index;
+        Load(grups, colocar);
+    }
     public void AddCaptura(string path) => files[current].AddCaptura(path);
+
+    public int ExisteixCaptura(string path)
+    {
+        int trobat = -1;
+        for (int f = 0; f < files.Count; f++)
+        {
+            for (int c = 0; c < files[f].Captures.Count; c++)
+            {
+                if(files[f].Captures[c] == path)
+                {
+                    trobat = f;
+                    break;
+                }
+            }
+            if (trobat != -1)
+                break;
+        }
+        return trobat;
+    }
 }
 
 [System.Serializable]
