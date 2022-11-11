@@ -1,18 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Foto : MonoBehaviour
 {
-    public void Setup(Texture2D textura, string path, int indexPartida, Action<int> carregar, Action<string, int> eliminar)
+    public void Setup(Texture2D textura, string path, int indexPartida, System.Action<int> carregar, System.Action<string, int> borrar)
     {
         this.textura = textura;
         this.path = path;
-        this.carregable = indexPartida != -1;
+        this.indexPartida = indexPartida;
         this.carregar = carregar;
-        this.eliminar = eliminar;
+        this.borrar = borrar;
     }
 
     [SerializeField] GameObject fotoZoom;
@@ -20,16 +17,15 @@ public class UI_Foto : MonoBehaviour
 
     Texture2D textura;
     string path;
-    bool carregable;
+    int indexPartida;
     System.Action<int> carregar;
-    System.Action<string, int> eliminar;
+    System.Action<string, int> borrar;
 
 
     public void Zoom()
     {
-        UI_FotoZoom tmp = Instantiate(fotoZoom).GetComponent<UI_FotoZoom>();
-        tmp.RectTransform.sizeDelta = new Vector2(tmp.RectTransform.sizeDelta.y, tmp.RectTransform.sizeDelta.x * (textura.texelSize.x / textura.texelSize.y) + 140f);
-        tmp.Image.texture = textura;
+        Instantiate(fotoZoom).GetComponent<UI_FotoZoom>().Setup(textura,path,indexPartida,carregar,borrar);
+        
 
         //******************************************************************************************
         //Mostrar o amagar el boto de carrear

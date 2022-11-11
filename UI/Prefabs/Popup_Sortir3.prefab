@@ -160,21 +160,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 5da5cfdf15cde6c49ba1941948bbb490, type: 2}
-        m_TargetAssemblyTypeName: SaveHex, Assembly-CSharp
-        m_MethodName: NovaPartida
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 84ef15b16868c154a8a02c39eda89c9b, type: 2}
-        m_TargetAssemblyTypeName: Fase_Iniciar, Assembly-CSharp
-        m_MethodName: "PosarPrimeraPe\xE7a"
+      - m_Target: {fileID: 11400000, guid: 52c2d0aec9828df429cf838c2f727adf, type: 2}
+        m_TargetAssemblyTypeName: Fase_Menu, Assembly-CSharp
+        m_MethodName: Sortir
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -362,9 +350,9 @@ GameObject:
   - component: {fileID: 2595396798660922852}
   - component: {fileID: 3764537067321518178}
   - component: {fileID: 5610609289139273297}
-  - component: {fileID: -7452876204873259805}
+  - component: {fileID: 2548939475972522801}
   m_Layer: 5
-  m_Name: UI_Nou
+  m_Name: Popup_Sortir3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -465,7 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   temps: 0
---- !u!114 &-7452876204873259805
+--- !u!114 &2548939475972522801
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -543,7 +531,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Are you sure you want to start a new map?
+  m_text: Ok... If you want to leave...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

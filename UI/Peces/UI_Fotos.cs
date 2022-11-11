@@ -8,15 +8,24 @@ using UnityEngine.UI;
 public class UI_Fotos : MonoBehaviour
 {
     [SerializeField] CapturarPantalla capturarPantalla;
+    [SerializeField] SaveHex save;
+    [SerializeField] Grups grups;
+    [SerializeField] Fase colocar;
+    [Linia]
     [SerializeField] GameObject foto;
     [SerializeField] Transform parent;
-    [SerializeField] SaveHex save;
 
     RawImage[] fotos = new RawImage[0];
-
+    CapturarPantalla.Captura[] captures;
     void OnEnable()
     {
         ActualitzarFotos();
+        capturarPantalla.OnCapturatRegistrar(save.AddCaptura);
+    }
+
+    private void OnDisable()
+    {
+        capturarPantalla.OnCapturatDesregistrar(save.AddCaptura);
     }
 
     [ContextMenu("Captures Guardades")]
@@ -27,7 +36,7 @@ public class UI_Fotos : MonoBehaviour
             Destroy(fotos[i]);
         }
 
-        CapturarPantalla.Captura[] captures = capturarPantalla.CapturesGuardades();
+        captures = capturarPantalla.CapturesGuardades();
         //Texture2D[] captures = capturarPantalla.CapturesGuardades();
         fotos = new RawImage[captures.Length];
 
@@ -46,15 +55,21 @@ public class UI_Fotos : MonoBehaviour
                 captures[i].texture, 
                 captures[i].path,
                 indexPartida,
-                save.Load,
+                Load,
                 EliminarCaptura
                 );
         }
     }
 
+
+    public void Load(int index)
+    {
+        save.Load(index, grups, colocar);
+    }
     public void EliminarCaptura(string path, int index)
     {
-        //Eliminar de l'ordinador i dels arxius de guardat.
+        capturarPantalla.EliminarCaptura(path);
+        save.RemoveCaptura(index, path);
     }
 
     public void HabilitarFotos()
