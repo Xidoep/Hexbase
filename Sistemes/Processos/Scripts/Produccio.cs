@@ -28,14 +28,17 @@ public class Produccio : ScriptableObject
     float stepTime = 0.1f;
     void OnEnable()
     {
-        productors = new List<Peça>();
+        Resetejar();
     }
     public void AddProductor(Peça peça)
     {
         if (!productors.Contains(peça)) productors.Add(peça);
     }
 
-
+    public void Resetejar()
+    {
+        productors = new List<Peça>();
+    }
 
 
     public void Process(System.Action enFinalitzar)

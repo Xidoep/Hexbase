@@ -20,6 +20,7 @@ public class Grid : MonoBehaviour
     [SerializeField] Fase inicial;
     [SerializeField] Fase processar;
     [SerializeField] Grups grups;
+    [SerializeField] Produccio produccio;
     [SerializeField] SaveHex save;
     [SerializeField] CamaraGestio camaraGestio;
 
@@ -183,11 +184,19 @@ public class Grid : MonoBehaviour
     }
     public void Buidar(Vector2Int coordenada)
     {
-        grid.EstaBuida(coordenada);
+        if (!grid.EstaBuida(coordenada))
+        {
+            grid.Set(null, coordenada.x, coordenada.y);
+        }
     }
 
+    [ContextMenu("Resetejar")]
     public void Resetejar()
     {
+        grups.Resetejar();
+        produccio.Resetejar();
+
+        Debugar.Log("Resetejar");
         Vector2Int coordenada = new Vector2Int(0,0);
         for (var x = 0; x < grid.GetLength(0); x++)
         {
@@ -201,6 +210,13 @@ public class Grid : MonoBehaviour
                 Buidar(coordenada);
             }
         }
+
+        nord = Vector2Int.one * 100;
+        sud = Vector2Int.one * 100;
+        est = Vector2Int.one * 100;
+        oest = Vector2Int.one * 100;
+
+        //camaraGestio.ResetDimensions(transform);
     }
 
     GameObject Instanciar(GameObject prefab, int x, int y)

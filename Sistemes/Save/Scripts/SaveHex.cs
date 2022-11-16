@@ -65,12 +65,14 @@ public class SaveHex : ScriptableObject
     }
     public int ExisteixCaptura(string path)
     {
+        Debugar.Log($"Existeix {path}?");
         int trobat = -1;
         for (int f = 0; f < files.Count; f++)
         {
             for (int c = 0; c < files[f].Captures.Count; c++)
             {
-                if(files[f].Captures[c] == path)
+                Debugar.Log($"{files[f].Captures[c]} =? {path}");
+                if(files[f].Captures[c] == path.Replace(@"\","/"));
                 {
                     trobat = f;
                     break;
@@ -304,10 +306,14 @@ public class SavedFile
         grups.CrearGrups_FromLoad(grup, peça);
 
         //CASES
-        for (int i = 0; i < cases.Length; i++)
+        if(cases != null)
         {
-            peça.AddCasa(cases[i].Load());
+            for (int i = 0; i < cases.Length; i++)
+            {
+                peça.AddCasa(cases[i].Load());
+            }
         }
+       
 
         grid.Set(peça);
 

@@ -19,11 +19,13 @@ public class Fase_Iniciar : Fase
 
     public override void Actualitzar()
     {
+        Debug.Log("Fase_Iniciar > Actualitzar");
         PosarPrimeraPeça();
     }
 
     public void PosarPrimeraPeça()
     {
+        Debug.Log("PosarPrimeraPeça");
         if (grid == null) grid = FindObjectOfType<Grid>();
 
         grid.CrearPeça(inicial, grid.Centre);

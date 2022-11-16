@@ -54,8 +54,18 @@ public class CamaraGestio : MonoBehaviour
         rotation.Disable();
     }
 
+    public void ResetDimensions(Transform transform)
+    {
+        nord = transform;
+        sud = transform;
+        est = transform;
+        oest = transform;
+    }
     public void SetDimensions(Hexagon nord, Hexagon sud, Hexagon est, Hexagon oest)
     {
+        if (nord == null)
+            return;
+
         this.nord = nord.transform;
         this.sud = sud.transform;
         this.est = est.transform;
@@ -70,7 +80,7 @@ public class CamaraGestio : MonoBehaviour
     {
         if (nord == null)
             return;
-        Gizmos.color = Color.red + (Color.black * .5f);
+        Gizmos.color = Color.red - (Color.black * .5f);
 
         Gizmos.DrawCube(new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f),
             new Vector3(oest.transform.position.x - est.transform.position.x, 1, sud.transform.position.z - nord.transform.position.z)
@@ -122,8 +132,8 @@ public class CamaraGestio : MonoBehaviour
             Moviment_Keyboard(transform);
             //Moviment_Mouse(transform);
 
-            movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x, 0, limits.y - centre.position.y));
-            movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x, 0, limits.w - centre.position.y));
+            movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x, 0, limits.y - centre.position.z));
+            movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x, 0, limits.w - centre.position.z));
 
 
             if(Mathf.Abs(Vector3.Magnitude(targetGroup.transform.position - centre.position)) > 0.1f)
@@ -141,6 +151,7 @@ public class CamaraGestio : MonoBehaviour
         public void Centrar(Transform nord, Transform sud, Transform est, Transform oest)
         {
             targetGroup.transform.position = new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f);
+            centre.transform.position = new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f);
             /*targetGroup.m_Targets[0].target = nord;
             targetGroup.m_Targets[1].target = sud;
             targetGroup.m_Targets[2].target = est;

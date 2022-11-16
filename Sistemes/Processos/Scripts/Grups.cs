@@ -46,7 +46,7 @@ public class Grups : ScriptableObject
 
     void OnEnable()
     {
-        grups = new List<Grup>();
+        Resetejar();
         //pobles = new List<Grup>();
         //Setup();
     }
@@ -313,7 +313,10 @@ public class Grups : ScriptableObject
         return tmp;
     }
 
-    
+    public void Resetejar()
+    {
+        grups = new List<Grup>();
+    }
 
     
 

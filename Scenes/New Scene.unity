@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.6018156, g: 0.73417187, b: 0.7924528, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -2258,8 +2258,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7911b037774278241b44b76bf79ae0af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hierarchyBackgrounds: []
   bookmarks: []
+  hierarchyBackgrounds: []
 --- !u!4 &59779996
 Transform:
   m_ObjectHideFlags: 1
@@ -4488,7 +4488,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7462686, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4504,8 +4504,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107775024}
-  m_LocalRotation: {x: 0.38268346, y: -1e-45, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 15, z: -15}
+  m_LocalRotation: {x: 0.38268346, y: -0, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 55.01037, z: -55.01037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5002,7 +5002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &120378191
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16564,7 +16564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 15, z: -15}
+  m_FollowOffset: {x: 0, y: 55.01037, z: -55.01037}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -54389,7 +54389,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 646286194}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999992
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -56322,8 +56322,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402657198}
-  m_LocalRotation: {x: 0.38268346, y: -1e-45, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: -3e-45, y: 14.292893, z: -14.292893}
+  m_LocalRotation: {x: 0.38268346, y: -0, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 54.30326, z: -54.30326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69173,7 +69173,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 6dcc26075bcace94b8d2749e085355f1, type: 2}
         m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
-        m_MethodName: 
+        m_MethodName: Play
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 2017190953}
@@ -77758,7 +77758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 14.49939}
+  m_AnchoredPosition: {x: 0, y: 14.499329}
   m_SizeDelta: {x: 800, y: 400}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2017190953
@@ -83328,6 +83328,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grid
       objectReference: {fileID: 0}
+    - target: {fileID: 805383729190451881, guid: 732e6a987ea1317468b13ec838209c58, type: 3}
+      propertyPath: produccio
+      value: 
+      objectReference: {fileID: 11400000, guid: 4612355e8425b0e458828e56a2562f9d, type: 2}
     - target: {fileID: 805383729190451881, guid: 732e6a987ea1317468b13ec838209c58, type: 3}
       propertyPath: camaraGestio
       value: 
