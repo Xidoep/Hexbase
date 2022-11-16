@@ -15,52 +15,66 @@ public class UI_Fotos : MonoBehaviour
     [SerializeField] GameObject foto;
     [SerializeField] Transform parent;
 
-    RawImage[] fotos = new RawImage[0];
+    //RawImage[] fotos = new RawImage[0];
+    UI_Foto[] fotos = new UI_Foto[0];
     CapturarPantalla.Captura[] captures;
     void OnEnable()
     {
         ActualitzarFotos();
         capturarPantalla.OnCapturatRegistrar(save.AddCaptura);
+        capturarPantalla.OnCapturatRegistrar(ActualitzarFotos);
     }
 
     private void OnDisable()
     {
         capturarPantalla.OnCapturatDesregistrar(save.AddCaptura);
+        capturarPantalla.OnCapturatDesregistrar(ActualitzarFotos);
     }
+
 
     [ContextMenu("Captures Guardades")]
     void ActualitzarFotos()
     {
         for (int i = 0; i < fotos.Length; i++)
         {
-            Destroy(fotos[i]);
+            Destroy(fotos[i].gameObject);
         }
 
         captures = capturarPantalla.CapturesGuardades();
         //Texture2D[] captures = capturarPantalla.CapturesGuardades();
-        fotos = new RawImage[captures.Length];
+        //fotos = new RawImage[captures.Length];
+        fotos = new UI_Foto[captures.Length];
 
         for (int i = 0; i < captures.Length; i++)
         {
-            GameObject tmp = Instantiate(foto, parent);
+            /*GameObject tmp = Instantiate(foto, parent);
 
             fotos[i] = tmp.GetComponentInChildren<RawImage>();
             fotos[i].texture = captures[i].texture;
-            RectTransform rectTransform = tmp.GetComponent<RectTransform>();
 
+            RectTransform rectTransform = tmp.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captures[i].texture.texelSize.x / captures[i].texture.texelSize.y));
 
-            int indexPartida = save.ExisteixCaptura(captures[i].path);
             tmp.GetComponent<UI_Foto>().Setup(
-                captures[i].texture, 
-                captures[i].path,
+                captures[i],
                 indexPartida,
                 Load,
                 EliminarCaptura
                 );
+            */
+
+            fotos[i] = Instantiate(foto, parent).GetComponent<UI_Foto>();
+            int indexPartida = save.ExisteixCaptura(captures[i].path);
+
+            fotos[i].Setup(
+               captures[i],
+               indexPartida,
+               Load,
+               EliminarCaptura
+               );
         }
     }
-
+    public void ActualitzarFotos(string path) => ActualitzarFotos();
 
     public void Load(int index)
     {
@@ -70,20 +84,21 @@ public class UI_Fotos : MonoBehaviour
     {
         capturarPantalla.EliminarCaptura(path);
         save.RemoveCaptura(index, path);
+        ActualitzarFotos();
     }
 
     public void HabilitarFotos()
     {
         for (int i = 0; i < fotos.Length; i++)
         {
-            fotos[i].raycastTarget = true;
+            fotos[i].Habilitar();
         }
     }
     public void DeshabilitarFotos()
     {
         for (int i = 0; i < fotos.Length; i++)
         {
-            fotos[i].raycastTarget = false;
+            fotos[i].Deshabilitar();
         }
     }
 }
