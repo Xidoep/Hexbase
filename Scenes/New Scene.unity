@@ -4504,8 +4504,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107775024}
-  m_LocalRotation: {x: 0.38268346, y: 0.000000015896623, z: -0.0000000065845964, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 18.63731, z: -18.63731}
+  m_LocalRotation: {x: 0.38268346, y: 1e-45, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 21.06217, z: -21.06217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16564,7 +16564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 18.63731, z: -18.63731}
+  m_FollowOffset: {x: 0, y: 21.06217, z: -21.06217}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -56310,8 +56310,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402657198}
-  m_LocalRotation: {x: 0.38268346, y: 0.000000015896623, z: -0.0000000065845964, w: 0.92387956}
-  m_LocalPosition: {x: 0.000000024333497, y: 17.930202, z: -17.930202}
+  m_LocalRotation: {x: 0.38268346, y: 1e-45, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 3e-45, y: 20.355062, z: -20.355062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84498,6 +84498,7 @@ GameObject:
   - component: {fileID: 2263000582263778016}
   - component: {fileID: 2263000582263777823}
   - component: {fileID: 2263000582263777822}
+  - component: {fileID: 2263000582263778018}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -84591,6 +84592,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2263000582263778018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2263000582263777821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e84a1f254d1aa7428b95594e165a188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capturarPantalla: {fileID: 11400000, guid: c398dd49969f0d548a9d82efac5328eb, type: 2}
 --- !u!1 &2263000583568476988
 GameObject:
   m_ObjectHideFlags: 0
