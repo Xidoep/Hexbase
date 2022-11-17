@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XS_Utils;
+     
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Menu")]
 public class Fase_Menu : Fase
@@ -12,6 +14,7 @@ public class Fase_Menu : Fase
     [SerializeField] Grups grups;
     [SerializeField] Fase colocar;
     [SerializeField] SaveHex save;
+    [SerializeField] CapturarPantalla capturarPantalla;
     [Linia]
     [SerializeField] Mode mode;
     [SerializeField] GameObject prefab_FreeSyle;
@@ -55,7 +58,21 @@ public class Fase_Menu : Fase
     }
     public void Sortir()
     {
-        Application.Quit();
+        if (!save.TeCaptures)
+        {
+            capturarPantalla.Capturar();
+            XS_Coroutine.StartCoroutine(SortirTemps(3));
+        }
+        else
+        {
+            XS_Coroutine.StartCoroutine(SortirTemps(1));
+        }
     }
 
+    IEnumerator SortirTemps(float temps)
+    {
+        yield return new WaitForSeconds(temps);
+        Debugar.Log("SORTIR");
+        Application.Quit();
+    }
 }

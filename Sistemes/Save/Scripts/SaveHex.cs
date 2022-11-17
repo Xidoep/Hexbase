@@ -35,7 +35,9 @@ public class SaveHex : ScriptableObject
             return files[current].TePeces;
         
         }
-    } 
+    }
+    public bool TeCaptures => files[current].Captures != null && files[current].Captures.Count > 0;
+
 
     public void Add(Peça peça, Grups grups) => files[current].Add(peça, grups);
 
@@ -63,6 +65,7 @@ public class SaveHex : ScriptableObject
         if(files[index].Captures.Contains(path))
             files[index].Captures.Remove(path);
     }
+
     public int ExisteixCaptura(string path)
     {
         Debugar.Log($"Existeix {path}?");
