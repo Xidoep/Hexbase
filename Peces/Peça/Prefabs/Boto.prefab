@@ -50,6 +50,21 @@ MonoBehaviour:
   parent: {fileID: 1973165481425570980}
   animacio: {fileID: 0}
   menu: {fileID: 11400000, guid: 52c2d0aec9828df429cf838c2f727adf, type: 2}
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 51eb9c4d7625a42498ef6d6e3bd9b6a8, type: 2}
+        m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
+        m_MethodName: Play
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1973165481425570980}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onEnter:
     m_PersistentCalls:
       m_Calls:
@@ -75,21 +90,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 2247224760059510459}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.MeshRenderer, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 51eb9c4d7625a42498ef6d6e3bd9b6a8, type: 2}
-        m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
-        m_MethodName: Play
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1973165481425570980}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -261,7 +261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05d249f5ce17f46449f1240f27d65335, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05d249f5ce17f46449f1240f27d65335, type: 3}

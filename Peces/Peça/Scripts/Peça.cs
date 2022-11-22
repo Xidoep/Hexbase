@@ -101,7 +101,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public TilePotencial GetTile(int index) => tiles[index];
 
-    public void CrearTilesFisics(bool detalls = true)
+    public void CrearTilesFisics()
     {
         //***************************************************************
         //Abans d'arribar a aquest punt. s'han hagut d'analitzar els tiles i buscar patrons on quadrin les peces multiples.

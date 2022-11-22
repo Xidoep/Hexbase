@@ -182,7 +182,7 @@ public class Grups : ScriptableObject
         Connectar(grupsPendents[0]);
         grupsPendents.RemoveAt(0);
 
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+        XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
     }
 
     //AGRUPA 

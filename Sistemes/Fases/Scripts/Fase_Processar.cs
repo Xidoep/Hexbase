@@ -66,6 +66,8 @@ public class Fase_Processar : Fase
     //void Repoblar(List<Peça> comprovades)
     {
         this.canviades = canviades;
+        
+
         //El segon repoblar és perque les cases es creen segons les peces que tenen al voltant,
         //per tant s'han de mirar despres que aquestes haguin "canviat".
         repoblar.Proces(comprovades);
@@ -75,10 +77,10 @@ public class Fase_Processar : Fase
 
     void WFC(List<Peça> canviades)
     {
-        wfc.Iniciar_WFC(peça, canviades, Segona_Proximitat);
+        wfc.Iniciar_WFC(peça, canviades, Produir);
     }
 
-    void Segona_Proximitat()
+    /*void Segona_Proximitat()
     {
         proximitat.Process(perComprovar, Segona_WFC);
     }
@@ -92,25 +94,24 @@ public class Fase_Processar : Fase
         }
         wfc.Iniciar_WFC(peça, canviades, Produir,true);
     }
-
+    */
     void Produir(/*List<Peça> peces*/)
     {
+        Animar();
         produccio.Process(FinalitzarProcessos);
     }
 
     List<Peça> animades;
 
-    void FinalitzarProcessos()
-    {
-        //Això també hauria de ser un proces.
+    void Animar() {
         peça.animacio.Play(peça.Parent);
-        new Animacio_Esdeveniment(peça.Detalls).Play(peça.gameObject, 1.5f, Transicio.clamp);
+        //new Animacio_Esdeveniment(peça.Detalls).Play(peça.gameObject, 1.5f, Transicio.clamp);
         animades = new List<Peça>() { peça };
 
         for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
             actualitzar.Play(peça.VeinsPeça[v].Parent);
-            new Animacio_Esdeveniment(peça.VeinsPeça[v].Detalls).Play(peça.VeinsPeça[v].gameObject, 1.5f, Transicio.clamp);
+            //new Animacio_Esdeveniment(peça.VeinsPeça[v].Detalls).Play(peça.VeinsPeça[v].gameObject, 1.5f, Transicio.clamp);
             animades.Add(peça.VeinsPeça[v]);
         }
 
@@ -120,7 +121,7 @@ public class Fase_Processar : Fase
                 continue;
 
             actualitzar.Play(canviades[c].Parent);
-            new Animacio_Esdeveniment(canviades[c].Detalls).Play(canviades[c].gameObject, 1.5f, Transicio.clamp);
+            //new Animacio_Esdeveniment(canviades[c].Detalls).Play(canviades[c].gameObject, 1.5f, Transicio.clamp);
             animades.Add(canviades[c]);
         }
 
@@ -132,10 +133,16 @@ public class Fase_Processar : Fase
                     continue;
 
                 actualitzar.Play(canviades[c].VeinsPeça[v].Parent);
-                new Animacio_Esdeveniment(canviades[c].VeinsPeça[v].Detalls).Play(canviades[c].VeinsPeça[v].gameObject, 1.5f, Transicio.clamp);
+                //new Animacio_Esdeveniment(canviades[c].VeinsPeça[v].Detalls).Play(canviades[c].VeinsPeça[v].gameObject, 1.5f, Transicio.clamp);
                 animades.Add(canviades[c].VeinsPeça[v]);
             }
         }
+    }
+
+    void FinalitzarProcessos()
+    {
+        //Això també hauria de ser un proces.
+
 
         save.Add(peça, grups);
         save.Actualitzar(animades, grups);

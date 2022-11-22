@@ -48,6 +48,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     System.Action enFinalitzar;
 
+    public static bool veureProces = false;
+
+
     private void OnEnable()
     {
         step.action.Enable();
@@ -174,7 +177,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         TilePotencial actual = TileWithTheLowestEntropy();
 
         pendents.Remove(actual);
-        Debugar.Log($"WFC step (tries to solve {actual.EstatName})");
+        //Debugar.Log($"WFC step (tries to solve {actual.EstatName})");
         actual.Escollir();
         //RandomTile(actual);
 
@@ -334,7 +337,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             }
             propagables.RemoveAt(0);
 
-            XS_Coroutine.StartCoroutine_Ending(0.001f, Propagar);
+            Propagar();
+            //XS_Coroutine.StartCoroutine_Ending(0.001f, Propagar);
             return;
         }
 
@@ -485,14 +489,22 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         Debugar.LogError("WFC ACABAT!");
 
         colocada.CrearTilesFisics();
+        XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.Detalls);
         for (int i = 0; i < colocada.VeinsPeça.Count; i++)
         {
-            colocada.VeinsPeça[i].CrearTilesFisics();
+            XS_Coroutine.StartCoroutine_Ending(.5f, colocada.VeinsPeça[i].CrearTilesFisics);
+            XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.VeinsPeça[i].Detalls);
+            //colocada.VeinsPeça[i].CrearTilesFisics();
         }
 
         for (int i = 0; i < canviades.Count; i++)
         {
-            canviades[i].CrearTilesFisics();
+            if (canviades[i] == colocada)
+                continue;
+
+            XS_Coroutine.StartCoroutine_Ending(.5f, canviades[i].CrearTilesFisics);
+            XS_Coroutine.StartCoroutine_Ending(1.5f, canviades[i].Detalls);
+            //canviades[i].CrearTilesFisics();
         }
 
         enFinalitzar.Invoke();

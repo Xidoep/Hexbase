@@ -47,7 +47,7 @@ public class Produccio : ScriptableObject
         index = 0;
         this.enFinalitzar = enFinalitzar;
         CleanAllNeeds();
-        stepTime = 0.1f;
+        stepTime = 0.001f;
         Step();
     }
 

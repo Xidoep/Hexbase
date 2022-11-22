@@ -82,7 +82,7 @@ public class CamaraGestio : MonoBehaviour
             return;
         Gizmos.color = Color.red - (Color.black * .5f);
 
-        Gizmos.DrawCube(new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f),
+        Gizmos.DrawWireCube(new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f),
             new Vector3(oest.transform.position.x - est.transform.position.x, 1, sud.transform.position.z - nord.transform.position.z)
             );
 

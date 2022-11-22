@@ -58,6 +58,9 @@ public class Fase_Menu : Fase
     }
     public void Sortir()
     {
+        if (!save.TePeces)
+            return;
+
         if (!save.TeCaptures)
         {
             capturarPantalla.Capturar();

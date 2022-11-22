@@ -71,7 +71,7 @@ public class TilePotencial
 
     public TilePotencial Ambiguo()
     {
-        if (Application.isEditor)
+        if (WaveFunctionColpaseScriptable.veureProces)
         {
             if (tileFisic)
             {
@@ -116,7 +116,7 @@ public class TilePotencial
                     //break;
                 }
             }
-            Debugar.Log($"RANDOM = {r}");
+            //Debugar.Log($"RANDOM = {r}");
         }
        
         Escollir(possibilitatsVirtuals.Tile(r), possibilitatsVirtuals.Orietacio(r));
@@ -127,7 +127,7 @@ public class TilePotencial
         this.orientacioFisica = orientacioFisica;
         this.possibilitatsVirtuals = new Possibilitats(tile, orientacioFisica, 1000);
         
-        if (Application.isEditor)
+        if (WaveFunctionColpaseScriptable.veureProces)
             Crear();
         
     }
@@ -155,7 +155,7 @@ public class TilePotencial
 
     public void Crear()
     {
-        if (Application.isEditor)
+        if (WaveFunctionColpaseScriptable.veureProces)
         {
             if (tileFisic != null)
                 MonoBehaviour.Destroy(TileFisic);
@@ -179,7 +179,7 @@ public class TilePotencial
 
     public void Detalls(Subestat subestat)
     {
-        if (Application.isEditor)
+        if (WaveFunctionColpaseScriptable.veureProces)
         {
             if (detalls != null)
                 MonoBehaviour.Destroy(detalls);

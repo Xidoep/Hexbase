@@ -303,7 +303,7 @@ public class SavedFile
         {
             tiles[i].Load(peça);
         }
-        peça.CrearTilesFisics(false);
+        peça.CrearTilesFisics();
 
         //CREAR GRUP si cal
         grups.CrearGrups_FromLoad(grup, peça);
