@@ -96,6 +96,28 @@ public class TilePotencial
 
         if (possibilitatsVirtuals.Count > 1)
         {
+            int highestPriority = 0;
+
+            //Trobar la prioritat mes alta
+            for (int i = 0; i < possibilitatsVirtuals.Count; i++)
+            {
+                if (possibilitatsVirtuals.Get(i).Pes > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).Pes;
+            }
+
+            List<Possibilitat> possibilitats;
+            possibilitats = new List<Possibilitat>();
+            for (int i = 0; i < possibilitatsVirtuals.Count; i++)
+            {
+                if(possibilitatsVirtuals.Get(i).Pes == highestPriority)
+                {
+                    possibilitats.Add(possibilitatsVirtuals.Get(i));
+                }
+            }
+
+            Escollir(possibilitats[UnityEngine.Random.Range(0, possibilitats.Count)]);
+
+            //----------------------------------------------------
+            /*
             int randomMax = 0;
 
             List<Random> randoms = new List<Random>();
@@ -117,11 +139,16 @@ public class TilePotencial
                 }
             }
             //Debugar.Log($"RANDOM = {r}");
+            */
         }
-       
-        Escollir(possibilitatsVirtuals.Tile(r), possibilitatsVirtuals.Orietacio(r));
+        else
+        {
+            Escollir(possibilitatsVirtuals.Get(0));
+        }
+        
+        //Escollir(possibilitatsVirtuals.Tile(r), possibilitatsVirtuals.Orietacio(r));
     }
-
+    void Escollir(Possibilitat possibilitat) => Escollir(possibilitat.Tile, possibilitat.Orientacio);
     public void Escollir(Tile tile, int orientacioFisica)
     {
         this.orientacioFisica = orientacioFisica;
@@ -165,7 +192,7 @@ public class TilePotencial
         //XS_InstantiateGPU.Instantiate(PossibilitatsVirtuals.Get(0).Tile.Prefab);
 
         tileFisic = GameObject.Instantiate(PossibilitatsVirtuals.Get(0).Tile.Prefab, peça.Parent.position, Quaternion.Euler(0, orientacio * 60, 0), peça.Parent);
-        tileFisic.name = $"{peça.Subestat.name}-{orientacio}";
+        tileFisic.name = $"{orientacio}.-{PossibilitatsVirtuals.Get(0).Tile.name}({orientacio})";
 
         tileFisic.transform.localEulerAngles = new Vector3(0, orientacio * 60, 0) + new Vector3(0, AngleOrientacioFisica, 0);
         if (orientacioFisica != 0)

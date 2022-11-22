@@ -33,7 +33,7 @@ public class Subestat : ScriptableObject
     public bool Caminable => caminable;
     public bool Aquatic => aquatic;
     public bool TeConnexionsNules => connexionsNules.Length > 0;
-    public TilesPossibles[] Tiles => tiles;
+    protected TilesPossibles[] Tiles => tiles;
     public Connexio[] ConnexionsPossibles => connexionsPossibles;
     public int Punts => punts;
 
@@ -79,7 +79,7 @@ public class Subestat : ScriptableObject
     public class TilesPossibles
     {
         public Tile tile;
-        [Range(1, 100)] public int pes;
+        [Range(1, 10)] public int pes;
     }
 
     [System.Serializable]

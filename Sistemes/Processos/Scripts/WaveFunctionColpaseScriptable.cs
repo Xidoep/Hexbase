@@ -49,10 +49,13 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     System.Action enFinalitzar;
 
     public static bool veureProces = false;
+    //public static System.Random random;
 
 
     private void OnEnable()
     {
+        //random = new System.Random(1);
+        Random.InitState(1);
         step.action.Enable();
         step.OnPerformedAdd(StepManual);
         propagar.action.Enable();
