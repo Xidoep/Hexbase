@@ -178,7 +178,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     void Step()
     {
         TilePotencial actual = TileWithTheLowestEntropy();
-
+        Debugar.Log($"I choose {actual.EstatName}");
         pendents.Remove(actual);
         //Debugar.Log($"WFC step (tries to solve {actual.EstatName})");
         actual.Escollir();
@@ -236,6 +236,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     TilePotencial TileWithTheLowestEntropy()
     {
+        
         List<TilePotencial> lowestEntropy = new List<TilePotencial>();
         for (int i = 0; i < pendents.Count; i++)
         {
@@ -252,6 +253,11 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             }
             //En cas que no hi hagui cap element, posen un.
             else lowestEntropy.Add(pendents[i]);
+        }
+        Debugar.Log("The ones with lowst entropy are:");
+        for (int i = 0; i < lowestEntropy.Count; i++)
+        {
+            Debugar.Log($"{lowestEntropy[i].EstatName}");
         }
         return lowestEntropy[UnityEngine.Random.Range(0, lowestEntropy.Count)];
     }

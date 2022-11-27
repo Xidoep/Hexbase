@@ -132,7 +132,8 @@ public class Proximitat : ScriptableObject
 
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
 
-        XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
+        Step();
+        //XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
     }
 
 }

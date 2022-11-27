@@ -11,6 +11,7 @@ public class WfcRegla_SubstituirTile : WfcRegla
     [SerializeField] Substitucio[] substitucions;
     [Space(10)]
     [SerializeField] bool evitarVeinsIguals;
+    [SerializeField] bool permetreVeins;
 
     //INTERN
     bool substituit;
@@ -25,6 +26,33 @@ public class WfcRegla_SubstituirTile : WfcRegla
         substituit = false;
 
         tiles = new List<TilePotencial>(peça.Tiles);
+
+        substituit = Comprovar(tiles);
+
+        if (!substituit)
+        {
+            if (permetreVeins)
+            {
+                List<TilePotencial> veins = new List<TilePotencial>();
+                for (int i = 0; i < tiles.Count; i++)
+                {
+                    if (tiles[i].Veins[0] != null)
+                        veins.Add(tiles[i].Veins[0]);
+                }
+                Comprovar(veins);
+            }
+        }
+
+        return substituit;
+    }
+
+
+    bool TileIgualABuscat(List<TilePotencial> tiles, int t, int s) => tiles[t].PossibilitatsVirtuals.Get(0).Tile == substitucions[s].buscat;
+    bool TileVeiIgualASubstitucio(List<TilePotencial> tiles,int t, int v, int s) => tiles[t].Veins[v] != null && tiles[t].Veins[v].PossibilitatsVirtuals.Get(0).Tile == substitucions[s].substitucio;
+    void Substituir(List<TilePotencial> tiles, int t, int s) => tiles[t].Escollir(substitucions[s].substitucio, tiles[t].PossibilitatsVirtuals.Get(0).Orientacio);
+
+    bool Comprovar(List<TilePotencial> tiles)
+    {
         for (int t = 0; t < tiles.Count; t++)
         {
             for (int s = 0; s < substitucions.Length; s++)
@@ -48,18 +76,18 @@ public class WfcRegla_SubstituirTile : WfcRegla
         {
             for (int s = 0; s < substitucions.Length; s++)
             {
-                if(TileIgualABuscat(t, s))
+                if (TileIgualABuscat(tiles, t, s))
                 {
                     if (evitarVeinsIguals)
                     {
                         for (int v = 0; v < tiles[t].Veins.Length; v++)
                         {
-                            if (TileVeiIgualASubstitucio(t, v, s))
+                            if (TileVeiIgualASubstitucio(tiles, t, v, s))
                                 continue;
                         }
                     }
 
-                    Substituir(t, s);
+                    Substituir(tiles, t, s);
 
                     substituit = true;
                     break;
@@ -67,17 +95,9 @@ public class WfcRegla_SubstituirTile : WfcRegla
             }
             if (substituit)
                 break;
-
         }
-
         return substituit;
     }
-
-
-    bool TileIgualABuscat(int t, int s) => tiles[t].PossibilitatsVirtuals.Get(0).Tile == substitucions[s].buscat;
-    bool TileVeiIgualASubstitucio(int t, int v, int s) => tiles[t].Veins[v] != null && tiles[t].Veins[v].PossibilitatsVirtuals.Get(0).Tile == substitucions[s].substitucio;
-    void Substituir(int t, int s) => tiles[t].Escollir(substitucions[s].substitucio, tiles[t].PossibilitatsVirtuals.Get(0).Orientacio);
-
 
     [System.Serializable] protected class Substitucio
     {
