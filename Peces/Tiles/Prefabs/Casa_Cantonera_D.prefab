@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8597614969933954245}
   - component: {fileID: 5336082350027030813}
   - component: {fileID: 8923595170118058133}
-  - component: {fileID: 6102202803326191143}
   m_Layer: 0
   m_Name: Detall.003
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6102202803326191143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1091890254929077219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e32587623ed4e954f87cb1afa69b5483, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  alternatives: []
 --- !u!1 &2468285488496388116
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +94,7 @@ GameObject:
   - component: {fileID: 2957400678838071982}
   - component: {fileID: 2208197214942756107}
   - component: {fileID: 4125826000094988737}
+  - component: {fileID: 4722375652403124725}
   m_Layer: 0
   m_Name: Casa_Cantonera_D
   m_TagString: Untagged
@@ -185,6 +172,45 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4722375652403124725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2468285488496388116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5586e80c5457ed548bc6f202f707b879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  esdeveniment:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 13c1a8905db59844c81e5838c49b1895, type: 2}
+        m_TargetAssemblyTypeName: Substituible, Assembly-CSharp
+        m_MethodName: Substituir
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 5333835878191376871}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 8be1dc329bdf631488581e7f1a3c6bb1, type: 2}
+        m_TargetAssemblyTypeName: Substituible, Assembly-CSharp
+        m_MethodName: Substituir
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8597614969933954245}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7777256598937738980
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +222,6 @@ GameObject:
   - component: {fileID: 5333835878191376871}
   - component: {fileID: 5133337981924575457}
   - component: {fileID: 599577427687421587}
-  - component: {fileID: 6201171543769083609}
   m_Layer: 0
   m_Name: Detall.002
   m_TagString: Untagged
@@ -269,22 +294,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6201171543769083609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7777256598937738980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e32587623ed4e954f87cb1afa69b5483, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  alternatives:
-  - {fileID: 8979194511074921718, guid: 907bd2db487225b45a6dfd14eec28919, type: 3}
-  - {fileID: 9222095551169368033, guid: e81bae1d6f87c1841879eebde156eaa9, type: 3}
-  - {fileID: 6117232993739001361, guid: 905baaf5df4118849be0786f6ec5e5b6, type: 3}
-  - {fileID: 3286444904629738143, guid: 05bfb58b39659fe4d97b8472757c8a4c, type: 3}
-  - {fileID: 8397103129137567101, guid: fa4dfc9a47be8414a820c15c4452ced6, type: 3}
-  - {fileID: 3531474884639815450, guid: 68b22d8e78b98c94792d36761cf7eb44, type: 3}
