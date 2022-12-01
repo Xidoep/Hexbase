@@ -10,7 +10,7 @@ public class Substituible : ScriptableObject
 
     public void Substituir(Transform transform)
     {
-        MonoBehaviour.Instantiate(alternatives[Random.Range(0, alternatives.Length)], transform.position, transform.rotation, transform.parent);
+        alternatives[Random.Range(0, alternatives.Length)].Instantiate(transform.position, transform.rotation, transform.localScale, transform.parent);
         Destroy(transform.gameObject);
     }
 }
