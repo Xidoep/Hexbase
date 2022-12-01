@@ -23,6 +23,9 @@ public class UI_Peces : MonoBehaviour
 
     private void OnEnable()
     {
+        if (creades != null)
+            return;
+
         creades = new List<UI_Peca>();
         for (int i = 0; i < peces.Length; i++)
         {
