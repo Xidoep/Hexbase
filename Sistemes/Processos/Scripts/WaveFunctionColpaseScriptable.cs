@@ -88,8 +88,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
         
         //Agafar informacio
-        AgafarTilesPeça(peça);
-        AgafarTilesVeins(peça);
+        AgafarTilesPeçaMesVeins(peça);
         AgafarTilesCanviadesSiNecessari(canviades);
 
         //Propacació inial on mirem les possiblitats de totes les peces.
@@ -97,21 +96,12 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     }
 
 
-    void AgafarTilesPeça(Peça peça)
+    void AgafarTilesPeçaMesVeins(Peça peça)
     {
         for (int i = 0; i < peça.Tiles.Length; i++)
         {
             peça.Tiles[i].Ambiguo();
-        }
-        for (int i = 0; i < peça.Tiles.Length; i++)
-        {
-            pendents.Add(peça.Tiles[i]);
-        }
-    }
-    void AgafarTilesVeins(Peça peça)
-    {
-        for (int i = 0; i < peça.Tiles.Length; i++)
-        {
+
             if (peça.Tiles[i].Veins[0] == null)
                 continue;
 
@@ -122,6 +112,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
         for (int i = 0; i < peça.Tiles.Length; i++)
         {
+            pendents.Add(peça.Tiles[i]);
+
             if (peça.Tiles[i].Veins[0] == null)
                 continue;
 
@@ -131,6 +123,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
 
     }
+
+
     void AgafarTilesCanviadesSiNecessari(List<Peça> peces)
     {
         if (peces.Count == 0)
@@ -138,33 +132,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
         for (int p = 0; p < peces.Count; p++)
         {
-            for (int t = 0; t < peces[p].Tiles.Length; t++)
-            {
-                peces[p].Tiles[t].Ambiguo();
-
-                if (peces[p].Tiles[t].Veins[0] == null)
-                    continue;
-
-                peces[p].Tiles[t].Veins[0].Ambiguo();
-                peces[p].Tiles[t].Veins[0].Veins[0] = peces[p].Tiles[t];
-                peces[p].Tiles[t].Veins[0].Veins[1].Ambiguo();
-                peces[p].Tiles[t].Veins[0].Veins[2].Ambiguo();
-            }
-        }
-
-        for (int p = 0; p < peces.Count; p++)
-        {
-            for (int t = 0; t < peces[p].Tiles.Length; t++)
-            {
-                 pendents.Add(peces[p].Tiles[t]);
-
-                if (peces[p].Tiles[t].Veins[0] == null)
-                    continue;
-
-                pendents.Add(peces[p].Tiles[t].Veins[0]);
-                pendents.Add(peces[p].Tiles[t].Veins[0].Veins[1]);
-                pendents.Add(peces[p].Tiles[t].Veins[0].Veins[2]);
-            }
+            AgafarTilesPeçaMesVeins(peces[p]);
         }
     }
 
