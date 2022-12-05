@@ -17,9 +17,7 @@ MonoBehaviour:
   animacions:
   - rid: 233190295782031363
   - rid: 233190295782031364
-  - rid: 7484184956029632518
   - rid: 7484184956029632520
-  - rid: 7484184956029632521
   references:
     version: 2
     RefIds:
@@ -113,11 +111,6 @@ MonoBehaviour:
         inici: {x: 0.9, y: 0.1, z: 0.9}
         final: {x: 0, y: 0.01, z: 0}
         dinamic: 0
-    - rid: 7484184956029632518
-      type: {class: Animacio_GPU, ns: , asm: AnimacioPerCodi}
-      data:
-        nom: GPU
-        accio: 1
     - rid: 7484184956029632520
       type: {class: Animacio_Esdeveniment, ns: , asm: AnimacioPerCodi}
       data:
@@ -138,8 +131,3 @@ MonoBehaviour:
                 m_BoolArgument: 0
               m_CallState: 2
         moment: 0
-    - rid: 7484184956029632521
-      type: {class: Animacio_EsdevenimentGeneric, ns: , asm: AnimacioPerCodi}
-      data:
-        nom: Esdeveniment Generic
-        esdeveniment: 1

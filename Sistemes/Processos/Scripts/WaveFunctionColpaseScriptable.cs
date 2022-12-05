@@ -413,9 +413,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 _tmp.Clear();
                 if(vei.Peça != tile.Peça)//Si el vei no es intern
                 {
-                    if (tile.Peça.Subestat.connexioEspesifica != null && tile.Peça.Subestat.connexioEspesifica.subestats.Contains(vei.Peça.Subestat))
+                    if (tile.Peça.Subestat.ConnexionsEspesifica != null && tile.Peça.Subestat.ConnexionsEspesifica.subestats.Contains(vei.Peça.Subestat))
                     {
-                        _tmp.AddRange(tile.Peça.Subestat.connexioEspesifica.connexions);
+                        _tmp.AddRange(tile.Peça.Subestat.ConnexionsEspesifica.connexions);
                         return _tmp.ToArray();
                     }
                 }

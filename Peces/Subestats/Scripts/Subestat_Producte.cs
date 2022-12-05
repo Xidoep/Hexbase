@@ -9,18 +9,26 @@ public class Subestat_Producte : Subestat
     [SerializeField] Producte producte;
     [SerializeField] EstrategiaDeProduccio estrategia;
 
+    [Apartat("INFROMACIO")]
+    [SerializeField] GameObject uiProducte_prefab;
+
+    List<GameObject> productes;
+
     public override Producte[] Produccio() => estrategia.Produir(producte);
 
-    private void OnValidate()
+    public override GameObject[] MostrarInformacio(Peça peça)
     {
-        List<Connexio> tmpConnexions = new List<Connexio>();
-        for (int i = 0; i < Tiles.Length; i++)
+        productes = new List<GameObject>();
+        for (int i = 0; i < estrategia.Numero; i++)
         {
-            if (!tmpConnexions.Contains(Tiles[i].tile.Exterior(0))) tmpConnexions.Add(Tiles[i].tile.Exterior(0));
-            if (!tmpConnexions.Contains(Tiles[i].tile.Esquerra(0))) tmpConnexions.Add(Tiles[i].tile.Esquerra(0));
-            if (!tmpConnexions.Contains(Tiles[i].tile.Dreta(0))) tmpConnexions.Add(Tiles[i].tile.Dreta(0));
+            productes.Add(Instantiate(uiProducte_prefab, peça.transform.position, Quaternion.identity, peça.transform).GetComponent<UI_Producte>().Setup(this, producte));
         }
+        return productes.ToArray();
+    }
 
-        connexionsPossibles = tmpConnexions.ToArray();
+
+    new void OnValidate()
+    {
+        base.OnValidate();
     }
 }

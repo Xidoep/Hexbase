@@ -19,6 +19,10 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
             return;
 
         this.subestat = subestat.Setup(this);
+
+        mostrarInformacio += subestat.MostrarInformacio;
+        amagarInformacio += subestat.AmagarInformacio;
+
         gameObject.name = $"{estat.name}({coordenades})";
         condicions = this.subestat.Condicions;
         ocupat = false;
@@ -40,7 +44,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //VARIABLES PRIVADES
     [SerializeField] TilePotencial[] tiles;
     protected Condicio[] condicions;
-
+    [SerializeField] GameObject[] informacio;
 
     //PROPIETATS
     //public int Grup { set => grup = value; get => grup; }
@@ -73,6 +77,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     } 
     public Vector2Int SetCoordenadesProducte { set => producteCooerdenada = new Vector2Int[] { value }; }
 
+    public System.Func<Peça, GameObject[]> mostrarInformacio;
+    public System.Action<GameObject[]> amagarInformacio;
 
 
     public void CrearTilesPotencials()
@@ -169,12 +175,12 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     {
         ocupat = true;
         productor.producte = new Peça[] { this };
-    } 
+    }
 
 
     //INTERACCIO
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {/*Show info*/ }
-    public void OnPointerExit(PointerEventData eventData) {/*Hide info*/ }
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => informacio = mostrarInformacio?.Invoke(this);
+    public void OnPointerExit(PointerEventData eventData) => amagarInformacio?.Invoke(informacio);
 
 
 

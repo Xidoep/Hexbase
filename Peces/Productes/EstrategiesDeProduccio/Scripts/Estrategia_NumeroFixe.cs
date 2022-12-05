@@ -20,4 +20,6 @@ public class Estrategia_NumeroFixe : EstrategiaDeProduccio
         }
         return recursos.ToArray();
     }
+
+    public override int Numero => produccio;
 }

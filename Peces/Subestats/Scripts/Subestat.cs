@@ -21,7 +21,7 @@ public class Subestat : ScriptableObject
     [Apartat("TILES")]
     [SerializeField] TilesPossibles[] tiles;
     [SerializeField] Connexio[] connexionsNules;
-    public ConnexioEspesifica connexioEspesifica;
+    [SerializeField] ConnexioEspesifica connexioEspesifica;
 
     [Tooltip("S'emplena automaticament")] 
     [SerializeField] protected Connexio[] connexionsPossibles;
@@ -39,7 +39,16 @@ public class Subestat : ScriptableObject
 
     public virtual Producte[] Produccio() => null;
     public virtual Connexio[] ConnexionsNules => connexionsNules;
-    //public ConnexioEspesifica ConnexioEspesifica => connexioEspesifica;
+    public ConnexioEspesifica ConnexionsEspesifica => connexioEspesifica;
+    public virtual GameObject[] MostrarInformacio(Peça peça) => null;
+    public virtual void AmagarInformacio(GameObject[] elements)
+    {
+        for (int i = 0; i < elements.Length; i++)
+        {
+            Destroy(elements[i]);
+        }
+        elements = new GameObject[0];
+    }
 
     //public virtual Subestat Get(Peça peça) => this;
 
@@ -61,7 +70,11 @@ public class Subestat : ScriptableObject
     }
 
 
-    private void OnValidate()
+
+
+
+
+    protected void OnValidate()
     {
         List<Connexio> tmpConnexions = new List<Connexio>();
         for (int i = 0; i < Tiles.Length; i++)
@@ -73,6 +86,7 @@ public class Subestat : ScriptableObject
 
         connexionsPossibles = tmpConnexions.ToArray();
     }
+
 
 
     [System.Serializable]

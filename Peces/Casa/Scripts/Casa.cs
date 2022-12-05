@@ -15,7 +15,7 @@ public class Casa
             index = -1;
             for (int n = 0; n < _tmpNeeds.Count; n++)
             {
-                if (recursosNeeded[r] == _tmpNeeds[n].Recurs)
+                if (recursosNeeded[r] == _tmpNeeds[n].Producte)
                 {
                     index = n;
                     break;
@@ -52,6 +52,7 @@ public class Casa
     int index = 0;
     Vector2Int coordenadaPeça;
 
+    public Necessitat[] Necessitats => necessitats;
 
 
     public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;
@@ -74,7 +75,7 @@ public class Casa
         bool proveit = false;
         for (int i = 0; i < necessitats.Length; i++)
         {
-            if (!necessitats[i].Recurs.Equals(recurs))
+            if (!necessitats[i].Producte.Equals(recurs))
                 continue;
 
             if(!necessitats[i].Complet)
@@ -117,11 +118,11 @@ public class Casa
     {
         public Necessitat(Producte recurs)
         {
-            this.recurs = recurs;
+            this.producte = recurs;
             proveits = new bool[1];
         }
 
-        [SerializeField] Producte recurs;
+        [SerializeField] Producte producte;
         [SerializeField] bool[] proveits;
         [SerializeField] bool solventat = false;
 
@@ -129,7 +130,7 @@ public class Casa
         //INTERN
         bool complet = false;
 
-        public Producte Recurs => recurs;
+        public Producte Producte => producte;
         public bool Complet
         {
             get
