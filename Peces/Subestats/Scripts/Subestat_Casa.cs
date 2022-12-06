@@ -41,7 +41,8 @@ public class Subestat_Casa : Subestat
 
     Vector3 DesplaçamentLateral(int i)
     {
-        return ((Vector3.right * (((i + 1) / 2) * 0.5f)) * (i % 2 == 0 ? 1 : -1)) 
+        
+        return ((Camera.main.transform.right * (((i + 1) / 2) * 0.5f)) * (i % 2 == 0 ? 1 : -1)) 
             + (Vector3.down * (i * i * 0.025f));
     }
     float Rotacio(int i)

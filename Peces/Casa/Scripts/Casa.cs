@@ -25,7 +25,7 @@ public class Casa
 
             if (index == -1)
             {
-                _tmpNeeds.Add(new Necessitat(recursosNeeded[r]));
+                _tmpNeeds.Add(new Necessitat(recursosNeeded[r],peça));
             }
             else
             {
@@ -57,7 +57,7 @@ public class Casa
             proveit = true;
             for (int i = 0; i < necessitats.Length; i++)
             {
-                if(!necessitats[i].TeProveidor)
+                if(!necessitats[i].proveit)
                 {
                     proveit = false;
                     break;
@@ -145,23 +145,29 @@ public class Casa
 
 
 
+
+
     [System.Serializable]
     public class Necessitat : System.Object
     {
-        public Necessitat(Producte recurs)
+        public Necessitat(Producte recurs, Peça peça)
         {
             this.producte = recurs;
+            this.peça = peça;
             //proveits = new bool[1];
         }
 
         [SerializeField] Producte producte;
+        [SerializeField] Peça peça;
         [SerializeField] Vector2Int proveidor = -Vector2Int.one;
         //[SerializeField] bool[] proveits;
+        [SerializeField] public bool proveit;
         [SerializeField] bool comprovat = false;
 
         public bool TeProveidor => proveidor != -Vector2Int.one;
         public Vector2Int Proveidor => proveidor;
         public bool Comprovat { get => comprovat; set => comprovat = value; }
+        public Peça Peça => peça;
 
         //INTERN
         bool complet = false;

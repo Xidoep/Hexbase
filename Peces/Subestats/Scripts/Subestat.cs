@@ -43,6 +43,9 @@ public class Subestat : ScriptableObject
     public virtual GameObject[] MostrarInformacio(Peça peça) => null;
     public virtual GameObject[] AmagarInformacio(GameObject[] elements)
     {
+        if(elements.Length == 0)
+            return new GameObject[0];
+
         for (int i = 0; i < elements.Length; i++)
         {
             Destroy(elements[i]);

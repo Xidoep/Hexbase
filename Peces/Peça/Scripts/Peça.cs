@@ -38,8 +38,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] List<Casa> cases;
 
     [Apartat("PRODUCTOR/PRODUCTE")]
-    [SerializeField] Peça[] producte;
-    Vector2Int[] producteCooerdenada; 
+    [SerializeField] Peça producte;
+    [SerializeField] public List<Casa.Necessitat> necessitatsCovertes;
+    Vector2Int producteCooerdenada; 
     bool ocupat;
 
 
@@ -62,10 +63,10 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public int CasesCount => cases != null ? cases.Count : 0;
     public List<Casa> Cases => cases;
 
-    public Producte[] ExtreureProducte() => producte[0].Subestat.Produccio();
-    public bool TeProducte => producte.Length > 0;
-    public Vector2Int ProducteCoordenades => producte[0].Coordenades;
-    public Peça Producte => producte[0];
+    public Producte[] ExtreureProducte() => producte.Subestat.Produccio();
+    public bool TeProducte => producte != null;
+    public Vector2Int ProducteCoordenades => producte.Coordenades;
+    public Peça Producte => producte;
 
     public bool Ocupat => ocupat;
     public bool LLiure => !ocupat;
@@ -74,12 +75,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (producteCooerdenada == null)
             return;
 
-        if (producteCooerdenada.Length == 0)
-            return;
-
-        producte = new Peça[] { (Peça)grid.Get(producteCooerdenada[0]) };
+        producte = (Peça)grid.Get(producteCooerdenada);
     } 
-    public Vector2Int SetCoordenadesProducte { set => producteCooerdenada = new Vector2Int[] { value }; }
+    public Vector2Int SetCoordenadesProducte { set => producteCooerdenada = value; }
 
     public System.Func<Peça, GameObject[]> mostrarInformacio;
     public System.Func<GameObject[], GameObject[]> amagarInformacio;
@@ -183,7 +181,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public void Ocupar(Peça productor) 
     {
         ocupat = true;
-        productor.producte = new Peça[] { this };
+        productor.producte = this;
     }
 
 

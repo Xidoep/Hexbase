@@ -69,9 +69,46 @@ public class Produccio : ScriptableObject
             return;
         }
 
+        //Comprovar les necessitats covertes
+        Producte[] recursos = productors[index].ExtreureProducte();
+        if (productors[index].necessitatsCovertes == null)
+        {
+            productors[index].necessitatsCovertes = new List<Casa.Necessitat>();
+        }
+
+        //Comprovar necessitats eliminades
+        for (int i = 0; i < productors[index].necessitatsCovertes.Count; i++)
+        {
+            if (productors[index].necessitatsCovertes[i] == null || productors[index].necessitatsCovertes[i].Peça.Subestat != casa) 
+            {
+                productors[index].necessitatsCovertes.RemoveAt(i);
+                i--;
+            } 
+        }
+
+        //Buscar a on distribuir, si cal
+        if (productors[index].necessitatsCovertes.Count < recursos.Length)
+        {
+            for (int r = 0; r < recursos.Length - productors[index].necessitatsCovertes.Count; r++)
+            {
+                BuscarCasaDesproveida(productors[index], recursos[0]);
+            }
+        }
+
         
 
-        RepartimentEquitatiu(productors[index]);
+
+        //Produir
+        for (int i = 0; i < productors[index].necessitatsCovertes.Count; i++)
+        {
+            XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(productors[index],productors[index].necessitatsCovertes[i].Peça.transform, i));
+        }
+        //
+
+
+
+
+        //RepartimentEquitatiu(productors[index]);
         //productors[index].Produir();
 
         index++;
@@ -95,7 +132,39 @@ public class Produccio : ScriptableObject
             
         }
     }
+    void BuscarCasaDesproveida(Peça productor, Producte producte)
+    {
+        bool trobat = false;
+        connexions = grups.GrupByPeça(productor).connexionsId;
+        for (int con = 0; con < connexions.Count; con++)
+        {
+            List<Peça> poble = grups.GrupById(connexions[con]).Peces;
 
+            for (int p = 0; p < poble.Count; p++)
+            {
+                for (int c = 0; c < poble[p].CasesCount; c++)
+                {
+                    for (int n = 0; n < poble[p].Cases[c].Necessitats.Length; n++)
+                    {
+                        if (poble[p].Cases[c].Necessitats[n].Producte == producte && !poble[p].Cases[c].Necessitats[n].proveit)
+                        {
+                            productor.necessitatsCovertes.Add(poble[p].Cases[c].Necessitats[n]);
+                            poble[p].Cases[c].Necessitats[n].proveit = true;
+                            trobat = true;
+                        }
+
+                        if (trobat)
+                            break;
+                    }
+                    if (trobat)
+                        break;
+                }
+                if (trobat)
+                    break;
+            }
+        
+        }
+    }
     void RepartimentEquitatiu(Peça productor)
     {
         bool proveit = false;
