@@ -41,13 +41,13 @@ public class Subestat : ScriptableObject
     public virtual Connexio[] ConnexionsNules => connexionsNules;
     public ConnexioEspesifica ConnexionsEspesifica => connexioEspesifica;
     public virtual GameObject[] MostrarInformacio(Peça peça) => null;
-    public virtual void AmagarInformacio(GameObject[] elements)
+    public virtual GameObject[] AmagarInformacio(GameObject[] elements)
     {
         for (int i = 0; i < elements.Length; i++)
         {
             Destroy(elements[i]);
         }
-        elements = new GameObject[0];
+        return new GameObject[0];
     }
 
     //public virtual Subestat Get(Peça peça) => this;

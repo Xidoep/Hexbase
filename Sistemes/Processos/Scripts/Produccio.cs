@@ -26,6 +26,9 @@ public class Produccio : ScriptableObject
     List<Peça> veins;
     List<string> connexions;
     float stepTime = 0.1f;
+
+    List<Casa> casesProveides;
+
     void OnEnable()
     {
         Resetejar();
@@ -46,8 +49,8 @@ public class Produccio : ScriptableObject
         Debugar.LogError("--------------PRODUCCIO---------------");
         index = 0;
         this.enFinalitzar = enFinalitzar;
+        casesProveides = new List<Casa>();
         CleanAllNeeds();
-        stepTime = 0.001f;
         Step();
     }
 
@@ -56,6 +59,13 @@ public class Produccio : ScriptableObject
         if (productors.Count == 0 || Finalitzat)
         {
             enFinalitzar.Invoke();
+            for (int c = 0; c < casesProveides.Count; c++)
+            {
+                for (int n = 0; n < casesProveides[c].Necessitats.Length; n++)
+                {
+                    casesProveides[c].Necessitats[n].Comprovat = false;
+                }
+            }
             return;
         }
 
@@ -68,7 +78,7 @@ public class Produccio : ScriptableObject
         XS_Coroutine.StartCoroutine_Ending(stepTime, Step);
     }
 
-    private void CleanAllNeeds()
+    void CleanAllNeeds()
     {
         for (int po = 0; po < grups.Grup.Count; po++)
         {
@@ -88,62 +98,28 @@ public class Produccio : ScriptableObject
 
     void RepartimentEquitatiu(Peça productor)
     {
-        //*********************************************************************************************
-        //Canviar el sistema de produccio.
-        //*********************************************************************************************
-
-        //List<Peça> poble = grups.Peces(productor);
         bool proveit = false;
 
+        //Extreure productes
         Producte[] recursos = productor.ExtreureProducte();
         Debug.LogError($"Donar {recursos.Length} Recursos");
 
         for (int r = 0; r < recursos.Length; r++)
         {
-            //proveit = false;
-            //proveit = IntentarProveir(poble,proveit,recursos[r]);
+            //Agafa les connexions que te el proveidor
             connexions = grups.GrupByPeça(productor).connexionsId;
             for (int c = 0; c < connexions.Count; c++)
             {
-                //veins = grups.Grup[connexions[c]].Peces;
-                proveit = IntentarProveir(grups.GrupById(connexions[c]).Peces, proveit, recursos[r]);
+                //Per cada connexio que te, intenta proveir el producte extret
+                proveit = IntentarProveir(productor,grups.GrupById(connexions[c]).Peces, recursos[r]);
 
-                if (proveit)
+                //Si l'ha aconseguit proveir, no ho continua intentant.
+                if (proveit) 
                     break;
             }
 
             if (!proveit)
             {
-                //OLD
-                /*veins = grups.Veins(poble[0]);
-                for (int v = 0; v < veins.Count; v++)
-                {
-                    if (veins[v].EstatIgualA(cami))
-                    {
-                        List<Peça> camiVeins = grups.Veins(veins[v]);
-                        for (int c = 0; c < camiVeins.Count; c++)
-                        {
-                            if (poble.Contains(camiVeins[c]) || !camiVeins[c].EstatIgualA(poble[0].Estat))
-                                continue;
-
-                            List<Peça> altrePoble = grups.Peces(camiVeins[c]);
-                            proveit = IntentarProveir(altrePoble, proveit, recursos[r]);
-                        }
-                    }
-                }*/
-
-                //LESS NEW
-                /*veins = grups.VeinsAmbCami(productor);
-                for (int i = 0; i < veins.Count; i++)
-                {
-                    if (poble.Contains(veins[i]) || !veins[i].SubestatIgualA(casa))
-                        continue;
-
-                    proveit = IntentarProveir(grups.Peces(veins[i]), proveit, recursos[r]);
-                }*/
-
-                //NEW
-                
 
                 Debug.LogError("Sobra aquest recurs. haig de buscar un poble connectat per enviar els recursos.");
             }
@@ -151,29 +127,76 @@ public class Produccio : ScriptableObject
        
     }
 
-    bool IntentarProveir(List<Peça> poble, bool proveit, Producte recurs)
+    bool IntentarProveir(Peça productor, List<Peça> poble, Producte producte)
     {
-        proveit = false;
+        bool proveit = false;
         for (int p = 0; p < poble.Count; p++)
         {
             for (int c = 0; c < poble[p].CasesCount; c++)
             {
-                if (poble[p].Cases[c].Proveir(recurs, TempsDeVisualitzacio))
+                for (int n = 0; n < poble[p].Cases[c].Necessitats.Length; n++)
                 {
-                    proveit = true;
-                    //pool.Add(1);
+                    if (poble[p].Cases[c].Necessitats[n].Comprovat)
+                        continue;
+
+                    if (poble[p].Cases[c].Necessitats[n].Producte != producte)
+                        continue;
+
+                    if (poble[p].Cases[c].Necessitats[n].TeProveidor)
+                    {
+                        if(poble[p].Cases[c].Necessitats[n].Proveidor == productor.Coordenades)
+                        {
+                            poble[p].Cases[c].Necessitats[n].Comprovat = true;
+
+                            Debug.LogError($"Recuros ja donat a la casa {c} de la peça {poble[p].gameObject.name}", poble[p].gameObject);
+                            XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(productor, poble[p].Cases[c].Peça.transform, c + n));
+                            casesProveides.Add(poble[p].Cases[c]);
+                            proveit = true;
+                            break;
+                        }
+                        continue;
+                    }
+                   
+                    poble[p].Cases[c].Necessitats[n].Proveir(productor.Coordenades);
+                    poble[p].Cases[c].Necessitats[n].Comprovat = true;
+
                     Debug.LogError($"Donat un recuros a la casa {c} de la peça {poble[p].gameObject.name}", poble[p].gameObject);
-                    return proveit;
+                    XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(productor, poble[p].Cases[c].Peça.transform, c + n));
+                    casesProveides.Add(poble[p].Cases[c]);
+                    proveit = true;
+
+                    if (proveit)
+                        break;
                 }
+                if (proveit)
+                    break;
             }
-            if (proveit) //???
+            if (proveit) 
                 break;
         }
 
-        ResetStepTime();
+        //ResetStepTime();
         return proveit;
     }
 
-    void TempsDeVisualitzacio() => stepTime = 3;
-    void ResetStepTime() => stepTime = 0.1f;
+    //void TempsDeVisualitzacio() { }
+    //void TempsDeVisualitzacio() => stepTime = 1;
+    //void ResetStepTime() => stepTime = 0.1f;
+
+    IEnumerator Animacio_ProductesExtrets(Peça productor, Transform casa, float index)
+    {
+        GameObject producte = productor.Producte.Subestat.MostrarInformacio(productor.Producte)[0];
+        yield return new WaitForSeconds(0.55f + (index * 0.3f));
+        new Animacio_Posicio(productor.Producte.transform.position, productor.transform.position, false, false).Play(producte, 0.5f, Transicio.clamp);
+
+        XS_Coroutine.StartCoroutine(Animacio_EnviarProducteACasa(producte, productor.transform, casa));
+    }
+
+    IEnumerator Animacio_EnviarProducteACasa(GameObject producte, Transform productor, Transform casa)
+    {
+        yield return new WaitForSeconds(0.75f);
+        new Animacio_Posicio(productor.position, casa.position, false, false).Play(producte, 0.5f, Transicio.clamp);
+
+        Destroy(producte, 2);
+    }
 }

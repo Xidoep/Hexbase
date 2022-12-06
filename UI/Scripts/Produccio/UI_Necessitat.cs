@@ -5,19 +5,20 @@ using UnityEngine.UI;
 
 public class UI_Necessitat : MonoBehaviour
 {
-    const string ICONE_NOM = "Icone";
-    public GameObject Setup(Casa casa)
+    const string ICONE_NOM = "_Icone";
+    public GameObject Setup(Casa casa, float rotacio)
     {
         this.casa = casa;
         this.producte = casa.Necessitats[0].Producte;
 
         meshRenderer.material.SetTexture(ICONE_NOM, producte.Icone);
+        meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotacio);
         return this.gameObject;
     }
 
     [SerializeField] MeshRenderer meshRenderer;
 
     //Debug
-    public Casa casa;
-    public Producte producte;
+    Casa casa;
+    Producte producte;
 }

@@ -366,20 +366,18 @@ public class SavedFile
 [System.Serializable] public class SavedCasa
 {
 
-    public SavedCasa(Casa.Necessitat[] necessitats, int nivell, Vector2Int coordPeça)
+    public SavedCasa(Casa.Necessitat[] necessitats, Vector2Int coordPeça)
     {
         this.necessitats = necessitats;
-        this.nivell = nivell;
         this.coordPeça = coordPeça;
     }
 
     [SerializeField] Casa.Necessitat[] necessitats;
-    [SerializeField] int nivell;
     [SerializeField] Vector2Int coordPeça;
 
     public Casa Load()
     {
-        return new Casa(coordPeça, nivell, necessitats);
+        return new Casa(coordPeça, necessitats);
     }
 
     //ON LOAD

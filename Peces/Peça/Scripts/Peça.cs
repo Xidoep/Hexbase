@@ -22,6 +22,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         mostrarInformacio += subestat.MostrarInformacio;
         amagarInformacio += subestat.AmagarInformacio;
+        informacio = subestat.MostrarInformacio(this);
+
 
         gameObject.name = $"{estat.name}({coordenades})";
         condicions = this.subestat.Condicions;
@@ -63,6 +65,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Producte[] ExtreureProducte() => producte[0].Subestat.Produccio();
     public bool TeProducte => producte.Length > 0;
     public Vector2Int ProducteCoordenades => producte[0].Coordenades;
+    public Peça Producte => producte[0];
+
     public bool Ocupat => ocupat;
     public bool LLiure => !ocupat;
     public void CoordenadesToProducte(Grid grid) 
@@ -78,7 +82,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Vector2Int SetCoordenadesProducte { set => producteCooerdenada = new Vector2Int[] { value }; }
 
     public System.Func<Peça, GameObject[]> mostrarInformacio;
-    public System.Action<GameObject[]> amagarInformacio;
+    public System.Func<GameObject[], GameObject[]> amagarInformacio;
 
 
     public void CrearTilesPotencials()
@@ -144,17 +148,21 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (condicions == null)
             return;
 
+        mostrarInformacio -= subestat.MostrarInformacio;
+        amagarInformacio -= subestat.AmagarInformacio;
+
         this.subestat = subestat.Setup(this);
         condicions = subestat.Condicions;
 
         ocupat = false;
 
-        for (int i = 0; i < cases.Count; i++)
-        {
-            RemoveCasa();
-        }
+        RemoveAllCases();
 
         gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
+
+        mostrarInformacio += subestat.MostrarInformacio;
+        amagarInformacio += subestat.AmagarInformacio;
+        informacio = subestat.MostrarInformacio(this);
     }
 
 
@@ -170,6 +178,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         cases.Add(casa);
     }
     public void RemoveCasa() => cases.RemoveAt(cases.Count - 1);
+    void RemoveAllCases() => cases.Clear();
 
     public void Ocupar(Peça productor) 
     {
@@ -179,8 +188,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
     //INTERACCIO
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => informacio = mostrarInformacio?.Invoke(this);
-    public void OnPointerExit(PointerEventData eventData) => amagarInformacio?.Invoke(informacio);
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
+    {
+        if (informacio.Length > 0)
+            return;
+
+        informacio = mostrarInformacio?.Invoke(this);
+    } 
+    public void OnPointerExit(PointerEventData eventData) => informacio = amagarInformacio?.Invoke(informacio);
 
 
 

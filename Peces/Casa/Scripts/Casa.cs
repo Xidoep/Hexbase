@@ -9,6 +9,7 @@ public class Casa
     {
         this.peça = peça;
 
+        //Crea necessitats per la casa
         List<Necessitat> _tmpNeeds = new List<Necessitat>();
         for (int r = 0; r < recursosNeeded.Length; r++)
         {
@@ -32,30 +33,44 @@ public class Casa
             }
         }
         this.necessitats = _tmpNeeds.ToArray();
-
-        nivell = 1;
     }
-    public Casa(Vector2Int peça, int nivell, Necessitat[] necessitats)
+    public Casa(Vector2Int peça, Necessitat[] necessitats)
     {
         this.coordenadaPeça = peça;
-        this.nivell = nivell;
         this.necessitats = necessitats;
     }
 
 
     [SerializeField] Peça peça;
-    [SerializeField] int nivell;
     [SerializeField] Necessitat[] necessitats;
 
 
     //INTERN
     int index = 0;
     Vector2Int coordenadaPeça;
+    bool proveit;
 
+    public bool Proveit
+    {
+        get
+        {
+            proveit = true;
+            for (int i = 0; i < necessitats.Length; i++)
+            {
+                if(!necessitats[i].TeProveidor)
+                {
+                    proveit = false;
+                    break;
+                }
+            }
+            return proveit;
+        }
+        
+    }
     public Necessitat[] Necessitats => necessitats;
 
-
-    public SavedCasa Save => peça != null ? new SavedCasa(necessitats, nivell, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;
+    public Peça Peça => peça;
+    public SavedCasa Save => peça != null ? new SavedCasa(necessitats, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;
     public void LoadLastStep(Grid grid)
     {
         Debug.LogError(coordenadaPeça);
@@ -66,40 +81,57 @@ public class Casa
         //Ocupar(producte);
     }
 
-    /// <summary>
-    /// Aporta un recurs a les necessitats de la casa.
-    /// </summary>
-    /// <returns>Retorna si el recurs s'ha pogut entregar o no, si es que no, s'ha d'entregar a una altre casa.</returns>
-    public bool Proveir(Producte recurs, System.Action onPujarNivell)
+    public bool ProveitPerMi(Peça productor)
     {
         bool proveit = false;
         for (int i = 0; i < necessitats.Length; i++)
         {
-            if (!necessitats[i].Producte.Equals(recurs))
-                continue;
-
-            if(!necessitats[i].Complet)
+            if (necessitats[i].TeProveidor)
             {
-                proveit = true;
-                if (necessitats[i].Proveir())
+                if (necessitats[i].Proveidor == productor.Coordenades) 
                 {
-                    PujarNivell();
-                    onPujarNivell.Invoke();
-                    //**********************************
-                    //Pos un callback
-                    //**********************************
-                }
-                break;
+                    proveit = true;
+                    break;
+                } 
             }
         }
         return proveit;
     }
 
-    void PujarNivell()
+    /// <summary>
+    /// Aporta un recurs a les necessitats de la casa.
+    /// </summary>
+    /// <returns>Retorna si el recurs s'ha pogut entregar o no, si es que no, s'ha d'entregar a una altre casa.</returns>
+    public bool Proveir(Producte recurs, Peça productor, out bool haEstatProveit)
     {
-        nivell++;
-        Debug.LogError($"DONAR 1 PUNT!");
+        bool proveit = false;
+        bool visualitzar = false;
+        for (int i = 0; i < necessitats.Length; i++)
+        {
+            if (necessitats[i].TeProveidor)
+            {
+                if (necessitats[i].Proveidor == productor.Coordenades) 
+                {
+                    visualitzar = true;
+                    proveit = false;
+                }
+                continue;
+            }
+
+            if (!necessitats[i].Producte.Equals(recurs))
+                continue;
+
+            if (necessitats[i].Proveir(productor.Coordenades))
+            {
+                visualitzar = true;
+                proveit = true;
+            }
+
+        }
+        haEstatProveit = proveit;
+        return visualitzar;
     }
+
 
     public void Clean()
     {
@@ -119,19 +151,23 @@ public class Casa
         public Necessitat(Producte recurs)
         {
             this.producte = recurs;
-            proveits = new bool[1];
+            //proveits = new bool[1];
         }
 
         [SerializeField] Producte producte;
-        [SerializeField] bool[] proveits;
-        [SerializeField] bool solventat = false;
+        [SerializeField] Vector2Int proveidor = -Vector2Int.one;
+        //[SerializeField] bool[] proveits;
+        [SerializeField] bool comprovat = false;
 
+        public bool TeProveidor => proveidor != -Vector2Int.one;
+        public Vector2Int Proveidor => proveidor;
+        public bool Comprovat { get => comprovat; set => comprovat = value; }
 
         //INTERN
         bool complet = false;
 
         public Producte Producte => producte;
-        public bool Complet
+        /*public bool Complet
         {
             get
             {
@@ -146,25 +182,28 @@ public class Casa
                 }
                 return complet;
             }
-        }
+        }*/
+
 
         /// <summary>
         /// Utilitzat només a la iniciació de la casa.
         /// </summary>
         public void AddNecessitat() 
         {
-            List<bool> tmp = new List<bool>(proveits);
+            /*List<bool> tmp = new List<bool>(proveits);
             tmp.Add(false);
-            proveits = tmp.ToArray();
+            proveits = tmp.ToArray();*/
         } 
 
         /// <summary>
         /// Dona un recurs per cubrir la necessitat.
         /// </summary>
         /// <returns>Retorna si la necessitat està complerta, i per tant s'ha de pujar un nivell.</returns>
-        public bool Proveir()
+        public bool Proveir(Vector2Int proveidor)
         {
-            //Donar recurs
+            this.proveidor = proveidor;
+            return true;
+            /*//Donar recurs
             for (int i = 0; i < proveits.Length; i++)
             {
                 if(proveits[i] == false)
@@ -179,22 +218,22 @@ public class Casa
                 return false;
 
             //Comprovar complet
-            if (Complet)
+            if (TeProveidor)
             {
-                //Pujar nivell
                 solventat = true;
                 return true;
             }
-            else return false;
+            else return false;*/
 
         }
 
         public void Clean()
         {
-            for (int i = 0; i < proveits.Length; i++)
+            comprovat = false;
+            /*for (int i = 0; i < proveits.Length; i++)
             {
                 proveits[i] = false;
-            }
+            }*/
         }
     }
 }

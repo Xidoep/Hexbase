@@ -12,17 +12,20 @@ public class Subestat_Producte : Subestat
     [Apartat("INFROMACIO")]
     [SerializeField] GameObject uiProducte_prefab;
 
+    public Producte Producte => producte;
+
     List<GameObject> productes;
 
     public override Producte[] Produccio() => estrategia.Produir(producte);
 
+
     public override GameObject[] MostrarInformacio(Peça peça)
     {
         productes = new List<GameObject>();
-        for (int i = 0; i < estrategia.Numero; i++)
-        {
-            productes.Add(Instantiate(uiProducte_prefab, peça.transform.position, Quaternion.identity, peça.transform).GetComponent<UI_Producte>().Setup(this, producte));
-        }
+        //for (int i = 0; i < estrategia.Numero; i++)
+        //{
+            productes.Add(Instantiate(uiProducte_prefab, peça.transform.position, Quaternion.identity, peça.transform).GetComponent<UI_Producte>().Setup(this));
+        //}
         return productes.ToArray();
     }
 
