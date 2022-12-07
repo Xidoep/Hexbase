@@ -116,7 +116,7 @@ public class Proximitat : ScriptableObject
         _actual = peces.Dequeue();
         //_canviar = false;
 
-        Debugar.LogError(_actual.name);
+        //Debugar.LogError(_actual.name);
         for (int i = 0; i < _actual.Condicions.Length; i++)
         {
             if (_actual.Condicions[i].Comprovar(_actual, this, grups, cami))

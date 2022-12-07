@@ -21,7 +21,7 @@ public class Repoblar : ScriptableObject
         cases = new List<Peça>();
     }
 
-    public void Proces(List<Peça> peces)
+    public void Proces(List<Peça> peces, System.Action enFinalitzar)
     {
         Debugar.LogError("--------------REPOBLAR---------------");
         List<int> cases = new List<int>();
@@ -39,9 +39,10 @@ public class Repoblar : ScriptableObject
             }
 
             //Afegeix la seva Casa, i utilitza del DETALL_TILES de les cases veines per afegir mes cases.
-            //AfegirCasa(peces[p], 1 + detall_Tiles.Get(peces[p]).Length);
             AfegirCasa(peces[p], 1 + casesVeines);
         }
+
+        if (enFinalitzar != null) enFinalitzar.Invoke();
     }
 
     public void AfegirCasa(Peça peça, int cases)
@@ -51,7 +52,6 @@ public class Repoblar : ScriptableObject
             for (int i = peça.CasesCount; i < cases; i++)
             {
                 peça.AddCasa();
-                //Crear
             }
         }
         else if(cases < peça.CasesCount)
@@ -59,7 +59,6 @@ public class Repoblar : ScriptableObject
             for (int i = cases; i < peça.CasesCount; i++)
             {
                 peça.RemoveCasa();
-                //Remove
             }
         } //S'han de borrar tantes cases com faci falta;
 

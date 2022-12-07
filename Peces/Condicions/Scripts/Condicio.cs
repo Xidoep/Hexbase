@@ -74,7 +74,7 @@ public abstract class Condicio : ScriptableObject
 
         connectatsACami.AddRange(veins);
 
-        Debug.LogError("UTILITZAR CAMI");
+        //Debug.LogError("UTILITZAR CAMI");
         for (int v = 0; v < veins.Count; v++)
         {
             if (veins[v].EstatIgualA(_cami))

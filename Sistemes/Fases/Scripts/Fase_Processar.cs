@@ -52,50 +52,37 @@ public class Fase_Processar : Fase
         grups.Agrupdar(peça, Proximitat);
     }
 
+    void Repoblacio_Primera()//Inicials
+    {
+        perComprovar = new List<Peça>() { peça };
+        perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
+
+        repoblar.Proces(perComprovar, Proximitat);
+    }
+
     void Proximitat()
     {
         perComprovar = new List<Peça>() { peça };
         perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
 
-        repoblar.Proces(perComprovar);
-
-        proximitat.Process(perComprovar, Repoblar);
+        proximitat.Process(perComprovar, Repoblacio);
     }
 
-    void Repoblar(List<Peça> comprovades, List<Peça> canviades)
-    //void Repoblar(List<Peça> comprovades)
+
+    void Repoblacio(List<Peça> comprovades, List<Peça> canviades)
     {
         this.canviades = canviades;
-        
-
-        //El segon repoblar és perque les cases es creen segons les peces que tenen al voltant,
-        //per tant s'han de mirar despres que aquestes haguin "canviat".
-        repoblar.Proces(comprovades);
-        WFC(canviades);
-        //WFC(comprovades);
+        repoblar.Proces(comprovades, WFC);
     }
 
-    void WFC(List<Peça> canviades)
+
+
+    void WFC()
     {
         wfc.Iniciar_WFC(peça, canviades, Produir);
     }
 
-    /*void Segona_Proximitat()
-    {
-        proximitat.Process(perComprovar, Segona_WFC);
-    }
-    void Segona_WFC(List<Peça> comprovades, List<Peça> canviades)
-    {
-        
-        if (canviades.Count == 0)
-        {
-            Produir();
-            return;
-        }
-        wfc.Iniciar_WFC(peça, canviades, Produir,true);
-    }
-    */
-    void Produir(/*List<Peça> peces*/)
+    void Produir()
     {
         Animar();
         produccio.Process(FinalitzarProcessos);
@@ -105,13 +92,11 @@ public class Fase_Processar : Fase
 
     void Animar() {
         peça.animacio.Play(peça.Parent);
-        //new Animacio_Esdeveniment(peça.Detalls).Play(peça.gameObject, 1.5f, Transicio.clamp);
         animades = new List<Peça>() { peça };
 
         for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
             actualitzar.Play(peça.VeinsPeça[v].Parent);
-            //new Animacio_Esdeveniment(peça.VeinsPeça[v].Detalls).Play(peça.VeinsPeça[v].gameObject, 1.5f, Transicio.clamp);
             animades.Add(peça.VeinsPeça[v]);
         }
 
@@ -121,7 +106,6 @@ public class Fase_Processar : Fase
                 continue;
 
             actualitzar.Play(canviades[c].Parent);
-            //new Animacio_Esdeveniment(canviades[c].Detalls).Play(canviades[c].gameObject, 1.5f, Transicio.clamp);
             animades.Add(canviades[c]);
         }
 
@@ -133,7 +117,6 @@ public class Fase_Processar : Fase
                     continue;
 
                 actualitzar.Play(canviades[c].VeinsPeça[v].Parent);
-                //new Animacio_Esdeveniment(canviades[c].VeinsPeça[v].Detalls).Play(canviades[c].VeinsPeça[v].gameObject, 1.5f, Transicio.clamp);
                 animades.Add(canviades[c].VeinsPeça[v]);
             }
         }

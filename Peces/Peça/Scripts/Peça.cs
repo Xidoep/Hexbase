@@ -1,11 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-using XS_Utils;
-
-
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
@@ -20,10 +15,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         this.subestat = subestat.Setup(this);
 
-        mostrarInformacio += subestat.MostrarInformacio;
-        amagarInformacio += subestat.AmagarInformacio;
-        informacio = subestat.MostrarInformacio(this);
-
+        mostrarInformacio += subestat.InformacioMostrar;
+        amagarInformacio += subestat.InformacioAmagar;
+        informacio = subestat.InformacioMostrar(this);
 
         gameObject.name = $"{estat.name}({coordenades})";
         condicions = this.subestat.Condicions;
@@ -50,8 +44,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] GameObject[] informacio;
 
     //PROPIETATS
-    //public int Grup { set => grup = value; get => grup; }
-    //public string Grup { set => grupId = value; get => grupId; }
     public override bool EsPeça => true;
     public TilePotencial[] Tiles => tiles;
     public Estat Estat => estat;
@@ -59,7 +51,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public bool EstatIgualA(Estat altreEstat) => estat.Equals(altreEstat);
     public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
     public Condicio[] Condicions => condicions;
-    //public bool TeCases => cases != null || cases.Count > 0;
     public int CasesCount => cases != null ? cases.Count : 0;
     public List<Casa> Cases => cases;
 
@@ -111,15 +102,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void CrearTilesFisics()
     {
-        //***************************************************************
-        //Abans d'arribar a aquest punt. s'han hagut d'analitzar els tiles i buscar patrons on quadrin les peces multiples.
-        //***************************************************************
-
-        //if(!acabadaDeCrear)
-        //animacioPerCodi.Play();
-
         //XS_InstantiateGPU.Render();
-        
         for (int i = 0; i < tiles.Length; i++)
         {
             if (tiles[i].TileFisic != null)
@@ -146,8 +129,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (condicions == null)
             return;
 
-        mostrarInformacio -= subestat.MostrarInformacio;
-        amagarInformacio -= subestat.AmagarInformacio;
+        mostrarInformacio -= subestat.InformacioMostrar;
+        amagarInformacio -= subestat.InformacioAmagar;
 
         this.subestat = subestat.Setup(this);
         condicions = subestat.Condicions;
@@ -158,9 +141,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
 
-        mostrarInformacio += subestat.MostrarInformacio;
-        amagarInformacio += subestat.AmagarInformacio;
-        informacio = subestat.MostrarInformacio(this);
+        mostrarInformacio += subestat.InformacioMostrar;
+        amagarInformacio += subestat.InformacioAmagar;
+        informacio = subestat.InformacioMostrar(this);
     }
 
 
@@ -188,6 +171,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //INTERACCIO
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
     {
+        if (informacio == null)
+            return;
+
         if (informacio.Length > 0)
             return;
 

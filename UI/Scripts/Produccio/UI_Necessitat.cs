@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Necessitat : MonoBehaviour
+public class UI_Necessitat : UI_InformacioPeça
 {
-    const string ICONE_NOM = "_Icone";
-    public GameObject Setup(Casa casa, float rotacio)
+
+    public override GameObject Setup(Peça peça, int index)
     {
-        this.casa = casa;
+        this.casa = peça.Cases[index];
         this.producte = casa.Necessitats[0].Producte;
 
-        meshRenderer.material.SetTexture(ICONE_NOM, producte.Icone);
-        meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotacio);
-        return this.gameObject;
+        MeshRenderer.material.SetTexture(ICONE_NOM, producte.Icone);
+        MeshRenderer.material.SetFloat(COVERTA_NOM, casa.Necessitats[0].Proveit ? 1 : 0);
+        MeshRenderer.transform.localRotation = Quaternion.Euler(0, 0, Rotacio(index));
+
+        return gameObject;
     }
 
-    [SerializeField] MeshRenderer meshRenderer;
+    float Rotacio(int i) => (((i + 1) / 2) * 12f) * (i % 2 == 0 ? -1 : 1);
+
 
     //Debug
     Casa casa;

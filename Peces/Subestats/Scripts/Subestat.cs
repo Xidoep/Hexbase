@@ -13,47 +13,82 @@ public class Subestat : ScriptableObject
     [Tooltip("Que s'ha de crear un cami cap a ell")]
     [SerializeField] bool caminable;
     [SerializeField] bool aquatic;
+    public bool Caminable => caminable;
+    public bool Aquatic => aquatic;
+
+
+
+
 
     [Apartat("CONDICIONS")]
     [SerializeField] Condicio[] condicions;
     [SerializeField] DetallScriptable[] detallsScriptables;
+
+    public Condicio[] Condicions => condicions;
+    public DetallScriptable[] Detalls => detallsScriptables;
+
+
+
+
 
     [Apartat("TILES")]
     [SerializeField] TilesPossibles[] tiles;
     [SerializeField] Connexio[] connexionsNules;
     [SerializeField] ConnexioEspesifica connexioEspesifica;
 
-    [Tooltip("S'emplena automaticament")] 
-    [SerializeField] protected Connexio[] connexionsPossibles;
-
-
-
-    public Condicio[] Condicions => condicions;
-    public DetallScriptable[] Detalls => detallsScriptables;
-    public bool Caminable => caminable;
-    public bool Aquatic => aquatic;
-    public bool TeConnexionsNules => connexionsNules.Length > 0;
     protected TilesPossibles[] Tiles => tiles;
-    public Connexio[] ConnexionsPossibles => connexionsPossibles;
-    public int Punts => punts;
-
-    public virtual Producte[] Produccio() => null;
+    public bool TeConnexionsNules => connexionsNules.Length > 0;
     public virtual Connexio[] ConnexionsNules => connexionsNules;
     public ConnexioEspesifica ConnexionsEspesifica => connexioEspesifica;
-    public virtual GameObject[] MostrarInformacio(Peça peça) => null;
-    public virtual GameObject[] AmagarInformacio(GameObject[] elements)
-    {
-        if(elements.Length == 0)
-            return new GameObject[0];
 
-        for (int i = 0; i < elements.Length; i++)
-        {
-            Destroy(elements[i]);
-        }
-        return new GameObject[0];
+
+
+
+
+    [Apartat("PRODUCTE")]
+    [SerializeField] Producte producte;
+    [SerializeField] EstrategiaDeProduccio estrategia;
+
+    public Producte Producte => producte;
+    public Producte[] Produccio() => estrategia.Produir(producte);
+    public EstrategiaDeProduccio Estrategia => estrategia;
+
+
+
+
+
+    [Apartat("INFORMACIO")]
+    [SerializeField] Informacio informacio;
+
+
+
+
+
+    [Tooltip("S'emplena automaticament")] 
+    [SerializeField] protected Connexio[] connexionsPossibles;
+    public Connexio[] ConnexionsPossibles => connexionsPossibles;
+
+
+
+
+
+    public GameObject[] InformacioMostrar(Peça peça) 
+    {
+        if (informacio == null)
+            return null;
+
+        return informacio.Mostrar(peça);
+    }
+    public GameObject[] InformacioAmagar(GameObject[] elements)
+    {
+        if (informacio == null)
+            return null;
+
+        return informacio.Amagar(elements);
     }
 
-    //public virtual Subestat Get(Peça peça) => this;
+
+
 
 
     public Possibilitats Possibilitats()

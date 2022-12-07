@@ -9,38 +9,19 @@ public class UI_Peca : MonoBehaviour
         this.estat = estat;
     }
 
-    const string SELECCIONAT_ID = "_Seleccionat";
     [SerializeField] UI_Outline outline;
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Estat estat;
-    [SerializeField] bool seleccionada;
-    [SerializeField] LayerMask capaBorrarCami;
     Transform[] childs;
 
-    System.Action deseleccionarAltres;
 
-    public System.Action DeseleccionarAltres { set => deseleccionarAltres = value; }
+    public bool Seleccionada => estat == colocar.Seleccionada;
+
 
     public void Seleccionar() 
     {
-        if (seleccionada)
-            return;
-
         colocar.Seleccionar(estat);
-        deseleccionarAltres.Invoke();
-        seleccionada = true;
     }
-    public void Deseleccionar()
-    {
-        if (!seleccionada)
-            return;
-
-        seleccionada = false;
-        Amagar();
-    }
-    //public void Outline(bool mostrar) => meshRenderer.material.SetFloat(SELECCIONAT_ID, mostrar ? 1 : 0);
-    //public void Mostrar() => meshRenderer.material.SetFloat(SELECCIONAT_ID, 1);
-    //public void Amagar() => meshRenderer.material.SetFloat(SELECCIONAT_ID, 0);
 
     public void Mostrar() 
     {
@@ -48,12 +29,17 @@ public class UI_Peca : MonoBehaviour
     } 
     public void Amagar()
     {
-        if (seleccionada)
+        if (Seleccionada)
             return;
 
         outline.Amagar();
     }
-
+    public void MostrarOAmagar(Estat seleccionat)
+    {
+        if(estat == seleccionat)
+            outline.gameObject.SetActive(true);
+        else outline.Amagar();
+    }
 
     private void OnEnable()
     {

@@ -7,31 +7,20 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/Grups")]
 public class Grups : ScriptableObject
 {
-    //*************************************************************************************************
-    //FALTA: Que al buscar grups, agafi els grups de les peces adjacents a la peça que proves. No tots
-    //*************************************************************************************************
-
-  
-
-
     [SerializeField] List<Grup> grups;
-    //[SerializeField] List<Grup> pobles;
 
     [Apartat("ESTATS NECESSARIS")]
     [SerializeField] Estat casa;
     [SerializeField] Estat cami;
     [SerializeField] Subestat port;
     [SerializeField] Estat aigua;
-    //System.Action enFinalitzar;
 
-    //public List<Grup> Pobles => pobles;
     public List<Grup> Grup => grups;
 
     //INTERN
     List<Grup> grupsPendents;
     List<string> idsPobles;
 
-    //Queue<Grup> pendents;
     System.Action enFinalitzar;
     List<Peça> veinsIguals;
     List<Peça> veinsCaminables;
@@ -44,12 +33,7 @@ public class Grups : ScriptableObject
     List<Grup> grupsVeinsPeça;
     Grup buscat;
 
-    void OnEnable()
-    {
-        Resetejar();
-        //pobles = new List<Grup>();
-        //Setup();
-    }
+    void OnEnable() => Resetejar();
 
     //AGRUPA LA PEÇA QUE AS COLOCAT
     public void Agrupdar(Peça peça, System.Action enFinalitzar)
@@ -64,8 +48,6 @@ public class Grups : ScriptableObject
         if (grupsVeinsPeça == null) grupsVeinsPeça = new List<Grup>();
         else grupsVeinsPeça.Clear();
 
-
-
         //BUSCAR VEINS DE LA PEÇA IGUALS
         veinsPeça = peça.VeinsPeça;
         
@@ -76,21 +58,16 @@ public class Grups : ScriptableObject
         }
         Debugar.LogError($"Connectar {grupsVeinsPeça.Count} veins iguals");
 
-
         //INTENTAR AGRUPAR O CREAR GRUP NOU
         if (veinsIguals.Count > 0)
             grupActual = IntentarAgrupar(peça, veinsIguals);
         else grupActual = CrearNouGrup(peça);
 
-
         //TROBAR VEINS DEL GRUP
         grupActual.TrobarVeins();
   
-
         //PREPARAR GRUP PER ACTUALITZAR
         grupsPendents = new List<Grup>() { grupActual };
-
-
 
         //AFGEIR A LA LLISTA ELS GRUPS VEINS
         for (int i = 0; i < grupActual.Veins.Count; i++)
@@ -127,46 +104,6 @@ public class Grups : ScriptableObject
 
         //POROCES DE CONNEXIO
         Step();
-
-        //CONNECTAR
-        /*for (int i = 0; i < pendents.Count; i++)
-        {
-            Connexions(pendents[i]);
-        }*/
-
-        //enFinalitzar.Invoke();
-
-        //Old...
-        /*
-        //TROBAR VEINS DEL GRUP DE LA PEÇA ACABADA DE COLOCAR
-        Grup grupActual = grups[peça.Grup];
-        grupActual.TrobarVeins(grups);
-
-
-        //TROBAR ELS VEINS DELS GRUPS VEINS
-        for (int i = 0; i < grupActual.Veins.Count; i++)
-        {
-            Grup grupVei = grups[grupActual.Veins[i].Grup];
-            grupVei.TrobarVeins(grups);
-            if (!perActualitzar.Contains(grupVei)) perActualitzar.Add(grupVei);
-        }
-
-        //
-        List<Grup> perConnectar = new List<Grup>() { grupActual };
-        //PER CADA GRUP VEI POBLE, CONNECTAR.
-        for (int i = 0; i < grupActual.GrupVeins.Count; i++)
-        {
-            Grup g = GrupFromId(grupActual.GrupVeins[i]);
-            if (!perActualitzar.Contains(g)) perActualitzar.Add(g);
-        }
-        */
-
-        //CONNECTAR
-
-        //
-
-
-        //XS_Coroutine.StartCoroutine_Ending(0.1f, AgruparVeins);
     }
 
     void Step()
@@ -185,29 +122,9 @@ public class Grups : ScriptableObject
         XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
     }
 
-    //AGRUPA 
-    /*void AgruparVeins()
-    {
-        //SET VEINS I CONNEXIONS DEL MEUS VEINS
-        
-
-        //ESTABLIR CONNEXIONS.
-        for (int i = 0; i < grups.Count; i++)
-        {
-            Connexions(grups[i]);
-        }
-
-        enFinalitzar.Invoke();
-    }
-    void Connectar()
-    {
-
-    }*/
-
     Grup IntentarAgrupar(Peça peça, List<Peça> veinsIguals)
     {
         agrupada = false;
-        //primerGrup = 0;
         Grup elMeuGrup = null;
 
         for (int i = 0; i < veinsIguals.Count; i++)
@@ -228,61 +145,11 @@ public class Grups : ScriptableObject
         }
 
         return elMeuGrup;
-
-        /*for (int g = 0; g < grups.Count; g++)
-        {
-            if (grups[g].Peces.Contains((Peça)veinsIguals[0]))
-            {
-                //aquest es el grup del primer vei igual.
-                AfegirAGrup(peça, grups[g]);
-                agrupada = true;
-                //primerGrup = g;
-                veinsIguals.RemoveAt(0);
-                elMeuGrup = grups[g];
-                break;
-            }
-        }
-
-
-        if (agrupada)
-        {
-            if (veinsIguals.Count > 0)
-            {
-                for (int g = 0; g < grups.Count; g++)//Per cada grup
-                {
-                    for (int v = 0; v < veinsIguals.Count; v++)//Per cada vei.
-                    {
-                        if(g >= grups.Count)
-                        {
-                            Debug.Log("He ajuntat l'ultim grup de la llista, aixi que no cal que continui.");
-                            continue;
-                        }
-                        //Aquest son els grups dels altres veins iguals
-                        if (grups[g].Peces.Contains(veinsIguals[v]))//mira si el vei es part del grup.
-                        {
-                            if (primerGrup.Equals(g))
-                                continue;
-
-                            Debug.LogError($"Juntar grup {primerGrup} i {g}");
-                            primerGrup = AjuntarGrups(grups[primerGrup], grups[g]);
-                        }
-                    }
-                }
-            }
-
-        }
-
-        return elMeuGrup;
-
-        */
         
         void AfegirAGrup(Peça peça, Grup grup)
         {
             if (!grup.Peces.Contains(peça))
-            {
                 grup.Peces.Add(peça);
-                //peça.Grup = grup.Id;
-            }
 
         }
         int AjuntarGrups(Grup desti, Grup seleccionat)
@@ -290,13 +157,6 @@ public class Grups : ScriptableObject
             desti.Peces.AddRange(seleccionat.Peces);
             grups.Remove(seleccionat);
 
-            /*for (int g = 0; g < grups.Count; g++)
-            {
-                for (int p = 0; p < grups[g].Peces.Count; p++)
-                {
-                    grups[g].Peces[p].Grup = g;
-                }
-            }*/
             return grups.IndexOf(desti);
         }
     }
@@ -309,16 +169,12 @@ public class Grups : ScriptableObject
         tmp.TrobarVeins();
         grups.Add(tmp);
 
-        //peça.Grup = tmp.Id;
         return tmp;
     }
 
-    public void Resetejar()
-    {
-        grups = new List<Grup>();
-    }
+    public void Resetejar() => grups = new List<Grup>();
 
-    
+
 
 
 
@@ -332,9 +188,6 @@ public class Grups : ScriptableObject
             return;
 
         //NETEJA GRUPS
-        //if (grup.connexions == null) grup.connexions = new List<int>() { };
-        //if (!grup.connexions.Contains(grups.IndexOf(grup))) grup.connexions.Add(grups.IndexOf(grup));
-        //grup.connexions = new List<int>() { grups.IndexOf(grup) };
         grup.connexionsId = new List<string>() { grup.Id };
 
 
@@ -358,21 +211,12 @@ public class Grups : ScriptableObject
                 if (!grup.Ports.Contains(grup.Veins[i])) grup.Ports.Add(grup.Veins[i]);
             } 
         }
-
-
-        //****************************************
-        //NO TE SENTIT! Si has d'ajuntar 2 cases de costat, ja s'hauran agrupat previementa abans i formaran part del mateix grup,
-        //per tant aixo no podrà passar mai!!!
-        //****************************************
         //AJUNTAR CASES
         for (int i = 0; i < grup.Cases.Count; i++)
         {
             Debugar.LogError("Add - CASA");
             AddConnexio(grup, grup.Cases[i]);
         }
-
-
-
         //AJUNTA POBLES CONNECTATS PER CAMINS I GUARDA PORTS
         List<Peça> veinsCami;
         for (int i = 0; i < grup.Camins.Count; i++)
@@ -459,14 +303,7 @@ public class Grups : ScriptableObject
                     }
                 }
             }
-
-            
-
-           
         }
-
-
-
 
         void AddConnexio(Grup elMeuGrup, Peça objectiu)
         {
@@ -477,35 +314,13 @@ public class Grups : ScriptableObject
             Debugar.LogError($"Connectar ({grups[grups.IndexOf(elMeuGrup)].Peces[0].name}) amb  ({objectiu.name}");
 
             //CONNECTOR EL MEU GRUP AMB EL GRUP DE L'OBJECTIU
-            //if (!elMeuGrup.connexions.Contains(objectiu.Grup)) elMeuGrup.connexions.Add(objectiu.Grup);
             if (!elMeuGrup.connexionsId.Contains(grupObjectiu.Id)) elMeuGrup.connexionsId.Add(grupObjectiu.Id);
 
             //SI L'OBJECTIU NO EM TE A MI, S'ENVÀ A PENDENTS
-            //if (grups[objectiu.Grup].connexions == null) grups[objectiu.Grup].connexions = new List<int>();
-            //if (!grups[objectiu.Grup].connexions.Contains(grups.IndexOf(elMeuGrup))) grupsPendents.Add(grups[objectiu.Grup]);
-
             if (grupObjectiu.connexionsId == null) grupObjectiu.connexionsId = new List<string>();
             if (!grupObjectiu.connexionsId.Contains(elMeuGrup.Id)) grupsPendents.Add(grupObjectiu);
-
-
-
         }
 
-
-        /*List<Peça> MarIVoltants(List<Peça> voltantPort)
-        {
-            List<Peça> mar = new List<Peça>();
-            for (int vp = 0; vp < voltantPort.Count; vp++)
-            {
-                if (voltantPort[vp].EstatIgualA(aigua))  //He trobat el mar 
-                {
-                    mar.AddRange(grups[voltantPort[vp].Grup].Peces);
-                    mar.AddRange(grups[voltantPort[vp].Grup].Veins);
-                    break;
-                }
-            }
-            return mar;
-        }*/
     }
 
 
@@ -568,28 +383,12 @@ public class Grups : ScriptableObject
                 
             }
         }
-
-        //Si no hi ha el grup amb la id, es crea (amb: id, poble i connexionsId)
-        //i s'hi afageix la peça a peces.
-
-        //Si ja està creat, s'hi afageix a peces.
-
-        //Quan s'haguin afegit tots, s'agafen les peces veines
-
-
-        //pobles = new List<Grup>();
-
         //Comprovar el numero de grups que es necessiten.
         int indexMesAlt = 0;
         for (int i = 0; i < peces.Count; i++)
         {
             //if (indexMesAlt < peces[i].Grup) indexMesAlt = peces[i].Grup;
         }
-
-        //Crear tots els grups de cop;
-        //Grup[] tmp = new Grup[indexMesAlt + 1];
-        //grups = new List<Grup>(tmp);
-        //Debug.LogError($"{grups.Count} grups");
 
         for (int i = 0; i < indexMesAlt + 1; i++)
         {
@@ -658,12 +457,9 @@ public class Grup : System.Object
         this.peces = peces;
     }
     [SerializeField] string id;
-    //[SerializeField] Estat estat;
     [SerializeField] bool poble;
     [SerializeField] List<Peça> peces;
     [SerializeField] List<Peça> pecesVeines;
-    //[SerializeField] List<string> grupsVeins;
-    //public List<int> connexions;
     public List<string> connexionsId;
 
     List<Peça> cases;
@@ -672,7 +468,6 @@ public class Grup : System.Object
 
 
     public string Id => id;
-    //public bool IdIgual(string id) => string.Equals(this.id, id);
     public List<Peça> Peces => peces;
     public bool EsPoble => poble;
     public List<Peça> Veins => pecesVeines;
@@ -689,8 +484,6 @@ public class Grup : System.Object
     public void TrobarVeins()
     {
         pecesVeines = new List<Peça>();
-        //grupsVeins = new List<string>();
-
         //Per cada una de les peces del grup
         for (int g = 0; g < peces.Count; g++)
         {
@@ -701,7 +494,6 @@ public class Grup : System.Object
                 if (!peces.Contains(tmpVeins[v]) && !pecesVeines.Contains(tmpVeins[v])) //Si no forma part del meu grup
                 {
                     pecesVeines.Add(tmpVeins[v]);
-                    //if (!grupsVeins.Contains(grups[tmpVeins[v].Grup].id)) grupsVeins.Add(grups[tmpVeins[v].Grup].id);
                 }
             }
 
@@ -712,7 +504,6 @@ public class Grup : System.Object
     {
         peces = new List<Peça>();
         pecesVeines = new List<Peça>();
-        //connexionsId = new List<string>();
         cases = new List<Peça>();
         camins = new List<Peça>();
         ports = new List<Peça>();

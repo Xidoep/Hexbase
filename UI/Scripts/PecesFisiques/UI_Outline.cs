@@ -5,26 +5,19 @@ using UnityEngine;
 public class UI_Outline : MonoBehaviour
 {
     [SerializeField] MeshRenderer meshRenderer;
-    //[SerializeField] Canal_Void amagarEvent;
     [SerializeField] Animacio_Scriptable animacio;
 
-    private void OnEnable()
-    {
-        //Registrar();
-    }
 
-    //void Amagar() => gameObject.SetActive(false);
     public void Amagar() 
     {
+        if (!meshRenderer.gameObject.activeSelf)
+            return;
+
         animacio.Play(meshRenderer);
-        //Desregistrar();
     }
-
-    private void OnDestroy()
+    public void Mostrar()
     {
-        //Desregistrar();
+        gameObject.SetActive(true);
     }
 
-    //public void Registrar() => amagarEvent.Registrar(Amagar);
-    //public void Desregistrar() => amagarEvent.Desregistrar(Amagar);
 }

@@ -45,9 +45,9 @@ public class UI_Peces : MonoBehaviour
             XS_Button button = parent.GetComponent<XS_Button>();
             UI_Peca uiPeca = peça.GetComponent<UI_Peca>();
             button.onClick.AddListener(uiPeca.Seleccionar);
+            button.onClick.AddListener(MostrarSeleccionada);
             button.onEnter.AddListener(uiPeca.Mostrar);
             button.onExit.AddListener(uiPeca.Amagar);
-            uiPeca.DeseleccionarAltres = DesseleccionarAltres;
 
             if(peces[i] == colocar.Seleccionada)
             {
@@ -61,11 +61,33 @@ public class UI_Peces : MonoBehaviour
 
     }
 
+
+    void MostrarSeleccionada()
+    {
+        for (int i = 0; i < creades.Count; i++)
+        {
+            if (creades[i].Seleccionada)
+            {
+                creades[i].Mostrar();
+                continue;
+            }
+
+            creades[i].Amagar();
+        }
+    }
+
     void DesseleccionarAltres()
     {
         for (int i = 0; i < creades.Count; i++)
         {
-            creades[i].Deseleccionar();
+            if (creades[i].Seleccionada)
+            {
+                creades[i].Mostrar();
+                continue;
+            }
+
+            creades[i].Amagar();
         }
     }
+
 }
