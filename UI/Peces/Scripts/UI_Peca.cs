@@ -43,11 +43,11 @@ public class UI_Peca : MonoBehaviour
 
     private void OnEnable()
     {
-        childs = transform.GetComponentsInChildren<Transform>();
+        childs = transform.GetComponentsInChildren<Transform>(true);
         for (int i = 0; i < childs.Length; i++)
         {
             if(childs[i].gameObject.layer != 7)
-                childs[i].gameObject.layer = 5;
+                childs[i].gameObject.layer = 10;
         }
     }
 }

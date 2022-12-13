@@ -17,6 +17,9 @@ public class Menu_Pila : MonoBehaviour
     [SerializeField] Animacio_Scriptable colocarPeça;
     [SerializeField] Animacio_Scriptable colocarPeçaParent;
 
+    [Apartat("EVENTS")]
+    [SerializeField] Canal_Integre EnPujarNivell;
+
     [Apartat("Proves")]
     public Estat prova;
 
@@ -37,10 +40,19 @@ public class Menu_Pila : MonoBehaviour
         SepararSuperiors();
 
         colocar.OnFinish += RemovePeça;
+        EnPujarNivell.Registrar(AddPecesPerNivell);
     }
 
     [ContextMenu("Add")]
     void Add() => AddPeça(prova);
+
+    public void AddPecesPerNivell(int nivell)
+    {
+        for (int i = 0; i < (nivell / 2) * 10; i++)
+        {
+            AddPeça(disponibles[Random.Range(0, disponibles.Length)]);
+        }
+    }
 
     public void AddPeça(Estat estat)
     {

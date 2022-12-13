@@ -15,7 +15,7 @@ public class Informacio : ScriptableObject
     public virtual GameObject[] Mostrar(Peça peça) => null;
     public GameObject[] Amagar(GameObject[] elements)
     {
-        if (elements.Length == 0)
+        if (elements == null || elements.Length == 0)
             return new GameObject[0];
 
         for (int i = 0; i < elements.Length; i++)

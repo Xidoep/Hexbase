@@ -57,10 +57,6 @@ MonoBehaviour:
   outline: {fileID: 697888035709830854}
   colocar: {fileID: 11400000, guid: 654453b3a7c2ac04ca426e406df64e16, type: 2}
   estat: {fileID: 11400000, guid: 7b66f56410916424694dc53056412deb, type: 2}
-  seleccionada: 0
-  capaBorrarCami:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1001 &4645651388779249394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -320,6 +316,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4645651390351942777}
     m_Modifications:
+    - target: {fileID: 2649778738420651054, guid: 354cab8098ba4644581eeebf97855efe, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6156547640271649401, guid: 354cab8098ba4644581eeebf97855efe, type: 3}
       propertyPath: m_Name
       value: Casa
@@ -705,6 +705,10 @@ PrefabInstance:
     - target: {fileID: 5477168779303214125, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
       propertyPath: m_Name
       value: Outline (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5477168779303214125, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}

@@ -17,7 +17,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
-        informacio = subestat.InformacioMostrar(this);
+        //informacio = subestat.InformacioMostrar(this);
 
         gameObject.name = $"{estat.name}({coordenades})";
         condicions = this.subestat.Condicions;
@@ -143,7 +143,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
-        informacio = subestat.InformacioMostrar(this);
+        //informacio = subestat.InformacioMostrar(this);
     }
 
 

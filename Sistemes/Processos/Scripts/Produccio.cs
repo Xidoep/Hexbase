@@ -91,9 +91,13 @@ public class Produccio : ScriptableObject
         }
 
         //Visualitzar
-        for (int i = 0; i < productors[index].necessitatsCovertes.Count; i++)
+        GameObject[] productes = productors[index].Producte.Subestat.InformacioMostrar(productors[index].Producte);
+        for (int i = 0; i < productes.Length; i++)
         {
-            XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(productors[index],productors[index].necessitatsCovertes[i].Peça.transform, i));
+            if(i < productors[index].necessitatsCovertes.Count)
+                XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(productes[i], productors[index],productors[index].necessitatsCovertes[i].Peça.transform, i));
+            else
+                XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(productes[i], productors[index], productors[index].necessitatsCovertes[i].Peça.transform, i));
         }
 
 
@@ -142,10 +146,15 @@ public class Produccio : ScriptableObject
         Debugar.LogError(debug);
     }
 
-
-    IEnumerator Animacio_ProductesExtrets(Peça productor, Transform casa, float index)
+    IEnumerator Animacio_ProductesExtrets(GameObject producte, Peça productor, float index)
     {
-        GameObject producte = productor.Producte.Subestat.InformacioMostrar(productor.Producte)[0];
+        yield return new WaitForSeconds(0.55f + (index * 0.3f));
+        new Animacio_Posicio(productor.Producte.transform.position, productor.transform.position, false, false).Play(producte, 0.5f, Transicio.clamp);
+        Destroy(producte, 2);
+    }
+    IEnumerator Animacio_ProductesExtrets(GameObject producte, Peça productor, Transform casa, float index)
+    {
+        //GameObject producte = productor.Producte.Subestat.InformacioMostrar(productor.Producte)[0];
         yield return new WaitForSeconds(0.55f + (index * 0.3f));
         new Animacio_Posicio(productor.Producte.transform.position, productor.transform.position, false, false).Play(producte, 0.5f, Transicio.clamp);
 
