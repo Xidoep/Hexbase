@@ -7,7 +7,7 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Menu")]
 public class Fase_Menu : Fase
 {
-    enum Mode { FreeSyle }
+    enum Mode { FreeSyle, pila }
 
     Grid grid;
 
@@ -18,7 +18,10 @@ public class Fase_Menu : Fase
     [Linia]
     [SerializeField] Mode mode;
     [SerializeField] GameObject prefab_FreeSyle;
-    GameObject freeSyle;
+    [SerializeField] GameObject prefab_Pila;
+
+
+    GameObject menu;
 
     public override void Actualitzar()
     {
@@ -53,8 +56,17 @@ public class Fase_Menu : Fase
 
     void FreeSyle() 
     {
-        freeSyle = Instantiate(prefab_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
-        freeSyle.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
+        switch (mode)
+        {
+            case Mode.FreeSyle:
+                menu = Instantiate(prefab_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
+                break;
+            case Mode.pila:
+                menu = Instantiate(prefab_Pila, UI_CameraMenu_Access.CameraMenu.transform);
+                break;
+        }
+        menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
+        
     }
     public void Sortir()
     {
