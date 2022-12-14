@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
 
+/// <summary>
+/// Analitza el grid.
+/// </summary>
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Procesar")]
 public class Fase_Processar : Fase
 {
-    Grid grid;
-
     [Apartat("PROCESSOS")]
     [SerializeField] WaveFunctionColpaseScriptable wfc;
     [SerializeField] Grups grups;
@@ -22,16 +23,15 @@ public class Fase_Processar : Fase
     [Apartat("ANIMACIONS")]
     [SerializeField] Animacio_Scriptable actualitzar;
 
-
-
-    //INTERN
+    //PRIVADES
+    Grid grid;
     float startTime;
     Peça peça;
     List<Peça> perComprovar;
     List<Peça> canviades;
 
 
-    public override void Actualitzar()
+    public override void Inicialitzar()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();
 
@@ -152,8 +152,8 @@ public class Fase_Processar : Fase
 
 
 
-    public override void Finalitzar()
+    /*public override void Finalitzar()
     {
         OnFinish_Invocar();
-    }
+    }*/
 }

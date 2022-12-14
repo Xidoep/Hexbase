@@ -6,52 +6,45 @@ public class Menu_Pila : MonoBehaviour
 {
     [SerializeField] GameObject prefab;
     [SerializeField] Transform parent;
-    [SerializeField] Fase_Colocar colocar;
-    [SerializeField] Estat[] disponibles;
-    [SerializeField] int quantitatInicial;
+    [Apartat("POOL")]
+    [SerializeField] PoolPeces pool;
+    //[Apartat("FASES")]
+    //[SerializeField] Fase_Colocar colocar;
+    //[SerializeField] Fase_Resoldre nivell;
+    //[SerializeField] Estat[] disponibles;
+    //[SerializeField] int quantitatInicial;
 
-    [Apartat("Animacions")]
+    [Apartat("ANIMACIONS")]
     [SerializeField] Animacio_Scriptable primeraPosicio;
     [SerializeField] Animacio_Scriptable segonaPosicio;
     [SerializeField] Animacio_Scriptable segonaPosicioParent;
     [SerializeField] Animacio_Scriptable colocarPeça;
     [SerializeField] Animacio_Scriptable colocarPeçaParent;
 
-    [Apartat("EVENTS")]
-    [SerializeField] Canal_Integre EnPujarNivell;
-
-    [Apartat("Proves")]
-    public Estat prova;
-
     List<UI_Peca> creades;
 
-    private void OnEnable()
+    void OnEnable()
     {
         if (creades != null)
             return;
 
+        pool.EnAfegir += AddPeça;
+        pool.EnTreure += RemovePeça;
+
+        //Crear les peces que hi ha al pool, ja que aquest s'haurà creat abans que el menu.
         creades = new List<UI_Peca>();
-        for (int i = 0; i < quantitatInicial; i++)
+        for (int i = 0; i < pool.Quantitat; i++)
         {
-            AddPeça(disponibles[Random.Range(0, disponibles.Length)]);
+            AddPeça(pool.Peça(i));
         }
 
-        ResaltarSuperior();
-        SepararSuperiors();
-
-        colocar.OnFinish += RemovePeça;
-        EnPujarNivell.Registrar(AddPecesPerNivell);
+        ResaltarISepararSuperior();
     }
 
-    [ContextMenu("Add")]
-    void Add() => AddPeça(prova);
-
-    public void AddPecesPerNivell(int nivell)
+    void OnDisable()
     {
-        for (int i = 0; i < (nivell / 2) * 10; i++)
-        {
-            AddPeça(disponibles[Random.Range(0, disponibles.Length)]);
-        }
+        pool.EnAfegir -= AddPeça;
+        pool.EnTreure -= RemovePeça;
     }
 
     public void AddPeça(Estat estat)
@@ -82,7 +75,7 @@ public class Menu_Pila : MonoBehaviour
         StartCoroutine(RemovePeçaTemps(creades[0]));
         
         creades.RemoveAt(0);
-        ResaltarSuperior();
+        ResaltarISepararSuperior();
     }
 
     IEnumerator RemovePeçaTemps(UI_Peca peça)
@@ -91,7 +84,7 @@ public class Menu_Pila : MonoBehaviour
         Destroy(peça.transform.parent.gameObject);
     }
 
-    void ResaltarSuperior()
+    void ResaltarISepararSuperior()
     {
         if (creades.Count > 0)
         {
@@ -106,10 +99,4 @@ public class Menu_Pila : MonoBehaviour
         }
     }
 
-    void SepararSuperiors()
-    {
-        /*if(creades.Count > 0)
-            creades[0].transform.position = new Vector3()
-        if(creades.Count > 1)*/
-    }
 }

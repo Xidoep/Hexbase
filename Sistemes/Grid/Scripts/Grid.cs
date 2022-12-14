@@ -146,7 +146,7 @@ public class Grid : MonoBehaviour
     /// <summary>
     /// Crea el prefab peça, declarant la peça i les coordenades.
     /// </summary>
-    public void CrearPeça(Estat tipus, Vector2Int coordenada)
+    public void CrearPeça(Estat tipus, Vector2Int coordenada, bool analitzar = true)
     {
         Peça peçaFisica = Instanciar(prefab_Peça, coordenada.x, coordenada.y).GetComponent<Peça>();
 
@@ -159,7 +159,8 @@ public class Grid : MonoBehaviour
             CrearRanura(coodVei);
         }
 
-        processar.Iniciar(peçaFisica);
+        if(analitzar)
+            processar.Iniciar(peçaFisica);
 
         //save.Add(peçaFisica, grups);
     }

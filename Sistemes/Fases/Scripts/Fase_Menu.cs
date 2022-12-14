@@ -3,33 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
      
-
+/// <summary>
+/// Fase inicial del joc. On esculles el mode de joc, la partida i les opcions.
+/// </summary>
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Menu")]
 public class Fase_Menu : Fase
 {
-    enum Mode { FreeSyle, pila }
+   
 
-    Grid grid;
-
-    [SerializeField] Grups grups;
-    [SerializeField] Fase colocar;
+    [Apartat("GUARDAT")]
     [SerializeField] SaveHex save;
+    [SerializeField] Grups grups;
     [SerializeField] CapturarPantalla capturarPantalla;
-    [Linia]
+
+    [Apartat("MENUS")]
     [SerializeField] Mode mode;
     [SerializeField] GameObject prefab_FreeSyle;
     [SerializeField] GameObject prefab_Pila;
 
+    [Apartat("PECES")]
+    [SerializeField] PoolPeces pool;
 
+    [Apartat("SEGÜENT FASE")]
+    [SerializeField] Fase colocar;
+
+    Grid grid;
     GameObject menu;
 
-    public override void Actualitzar()
+    public override void Inicialitzar()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();
 
         grid.CrearGrid();
 
-        OnFinish += FreeSyle;
+        OnFinish += SetupModes;
 
         if (!save.TePeces)
         {
@@ -48,13 +55,13 @@ public class Fase_Menu : Fase
     }
 
 
-    public override void Finalitzar()
+    /*public override void Finalitzar()
     {
         OnFinish_Invocar();
-        OnFinish -= FreeSyle;
-    }
+        OnFinish -= MostrarMenu;
+    }*/
 
-    void FreeSyle() 
+    void SetupModes() 
     {
         switch (mode)
         {
@@ -62,12 +69,15 @@ public class Fase_Menu : Fase
                 menu = Instantiate(prefab_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
                 break;
             case Mode.pila:
+                pool.Iniciar();
                 menu = Instantiate(prefab_Pila, UI_CameraMenu_Access.CameraMenu.transform);
                 break;
         }
         menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
-        
+
+        OnFinish -= SetupModes;
     }
+
     public void Sortir()
     {
         if (!save.TePeces)

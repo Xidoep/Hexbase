@@ -94,10 +94,11 @@ public class Produccio : ScriptableObject
         GameObject[] productes = productors[index].Producte.Subestat.InformacioMostrar(productors[index].Producte);
         for (int i = 0; i < productes.Length; i++)
         {
-            if(i < productors[index].necessitatsCovertes.Count)
-                XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(productes[i], productors[index],productors[index].necessitatsCovertes[i].Peça.transform, i));
-            else
-                XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(productes[i], productors[index], productors[index].necessitatsCovertes[i].Peça.transform, i));
+            XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(
+                                productes[i],
+                                productors[index],
+                                i,
+                                i < productors[index].necessitatsCovertes.Count ? productors[index].necessitatsCovertes[i].Peça.transform : null));
         }
 
 
@@ -146,19 +147,16 @@ public class Produccio : ScriptableObject
         Debugar.LogError(debug);
     }
 
-    IEnumerator Animacio_ProductesExtrets(GameObject producte, Peça productor, float index)
-    {
-        yield return new WaitForSeconds(0.55f + (index * 0.3f));
-        new Animacio_Posicio(productor.Producte.transform.position, productor.transform.position, false, false).Play(producte, 0.5f, Transicio.clamp);
-        Destroy(producte, 2);
-    }
-    IEnumerator Animacio_ProductesExtrets(GameObject producte, Peça productor, Transform casa, float index)
+    IEnumerator Animacio_ProductesExtrets(GameObject producte, Peça productor, float index, Transform casa = null)
     {
         //GameObject producte = productor.Producte.Subestat.InformacioMostrar(productor.Producte)[0];
         yield return new WaitForSeconds(0.55f + (index * 0.3f));
         new Animacio_Posicio(productor.Producte.transform.position, productor.transform.position, false, false).Play(producte, 0.5f, Transicio.clamp);
 
-        XS_Coroutine.StartCoroutine(Animacio_EnviarProducteACasa(producte, productor.transform, casa));
+        if(casa != null)
+            XS_Coroutine.StartCoroutine(Animacio_EnviarProducteACasa(producte, productor.transform, casa));
+        else
+            Destroy(producte, 2);
     }
 
     IEnumerator Animacio_EnviarProducteACasa(GameObject producte, Transform productor, Transform casa)

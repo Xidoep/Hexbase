@@ -6,44 +6,88 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Pool")]
 public class PoolPeces : ScriptableObject
 {
+    [SerializeField] Fase_Colocar colocar;
+    [SerializeField] Fase_Resoldre resoldre;
+
     [SerializeField] List<Estat> peces;
     [Linia]
-    [SerializeField] Estat[] estats;
+    [SerializeField] Estat[] disponibles;
+    [SerializeField] int inicial;
+
+    bool iniciat = false;
+
+    System.Action<Estat> enAfegir;
+    System.Action enTreure;
+
+    public int Quantitat => peces.Count;
+    public Estat Peça(int index) => peces[index];
+    public bool Iniciat => iniciat;
+    public System.Action<Estat> EnAfegir { get => enAfegir; set => enAfegir = value; }
+    public System.Action EnTreure { get => enTreure; set => enTreure = value; }
 
 
-    public void Inicialize(int peces)
+
+    public void Iniciar()
     {
-        this.peces = new List<Estat>();
+        if (peces == null) peces = new List<Estat>();
+
+        peces = new List<Estat>();
+
+        AddPeces(inicial);
+
+        iniciat = true;
+
+        colocar.Seleccionar(peces[0]);
+
+        colocar.OnFinish += RemovePeça;
+        resoldre.EnPujarNivell += AddPecesPerNivell;
+
+    }
+
+    //(nivell / 2) * 10
+    void AddPeces(int peces)
+    {
         for (int i = 0; i < peces; i++)
         {
-            this.peces.Add(estats[Random.Range(0, estats.Length)]);
+            AddPeça();
         }
     }
-    public void Inicialize(List<Estat> peces)
+    public void AddPecesPerNivell(int nivell)
     {
-        this.peces = peces;
+        for (int i = 0; i < (nivell / 2) * 10; i++)
+        {
+            AddPeça();
+        }
     }
 
-    public void Add(int quantitat) 
+    Estat AddPeça()
     {
-        for (int i = 0; i < quantitat; i++)
-        {
-            Add(estats[Random.Range(0, estats.Length)]);
-        }       
+        //FALTA: Assegurar X cases?
+        Estat seleccionat = disponibles[Random.Range(0, disponibles.Length)];
+        peces.Add(seleccionat);
+        enAfegir?.Invoke(seleccionat);
+        return seleccionat;
     }
-    public void Add(Estat estat) => peces.Add(estat);
-    public Estat Get
+
+    public void RemovePeça()
     {
-        get
-        {
-            Estat estat = peces[0];
-            peces.RemoveAt(0);
-            return estat;
-        }
+        peces.RemoveAt(0);
+        colocar.Seleccionar(peces[0]);
+        enTreure?.Invoke();
+    }
+
+
+
+    private void OnDisable()
+    {
+        peces = new List<Estat>();
+        iniciat = false;
+        enAfegir = null;
+        enTreure = null;
     }
 
     private void OnValidate()
     {
-        estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
+        disponibles = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
     }
 }
