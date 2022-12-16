@@ -18,7 +18,7 @@ public class Fase_Processar : Fase
     [SerializeField] SaveHex save;
 
     [Apartat("SEGÜENT FASE")]
-    [SerializeField] Fase colocar;
+    [SerializeField] Fase resoldre;
 
     [Apartat("ANIMACIONS")]
     [SerializeField] Animacio_Scriptable actualitzar;
@@ -147,7 +147,7 @@ public class Fase_Processar : Fase
 
 
         Debugar.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", peça);
-        colocar.Iniciar();
+        resoldre.Iniciar();
     }
 
 

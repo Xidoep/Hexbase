@@ -17,7 +17,7 @@ public class Condicio_Estat : Condicio
     bool _cohincidit = false;
     List<Peça> myVeins;
 
-    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami)
+    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<int> enCanviar)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
@@ -34,7 +34,7 @@ public class Condicio_Estat : Condicio
 
         if(_cohincidit = _quantitat >= quantitat)
         {
-            Canviar(peça);
+            Canviar(peça, enCanviar);
         }
         
         return _cohincidit;

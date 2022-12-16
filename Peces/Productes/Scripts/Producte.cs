@@ -13,6 +13,4 @@ public class Producte : ScriptableObject
 public abstract class EstrategiaDeProduccio : ScriptableObject
 {
     public abstract Producte[] Produir(Producte recurs);
-
-    public abstract int Numero { get; }
 }

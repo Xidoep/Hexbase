@@ -40,7 +40,7 @@ public class PoolPeces : ScriptableObject
         colocar.Seleccionar(peces[0]);
 
         colocar.OnFinish += RemovePeça;
-        resoldre.EnPujarNivell += AddPecesPerNivell;
+        resoldre.Nivell.EnPujarNivell += AddPecesPerNivell;
 
     }
 
@@ -52,7 +52,7 @@ public class PoolPeces : ScriptableObject
             AddPeça();
         }
     }
-    public void AddPecesPerNivell(int nivell)
+    public void AddPecesPerNivell(int nivell, int experiencia)
     {
         for (int i = 0; i < (nivell / 2) * 10; i++)
         {
@@ -72,6 +72,7 @@ public class PoolPeces : ScriptableObject
     public void RemovePeça()
     {
         peces.RemoveAt(0);
+
         colocar.Seleccionar(peces[0]);
         enTreure?.Invoke();
     }

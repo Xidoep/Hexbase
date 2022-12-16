@@ -14,10 +14,10 @@ public class Informacio_Necessitats : Informacio
             necessitats = new List<GameObject>();
         else necessitats.Clear();
 
-        if (peça.CasesCount == 0)
+        if (!peça.TeCasa)
             return necessitats.ToArray();
 
-        for (int i = 0; i < peça.Cases.Count; i++)
+        for (int i = 0; i < peça.Casa.Necessitats.Length; i++)
         {
             necessitats.Add(Instantiate(Prefab, peça.transform.position + DesplaçamentLateral(i), Quaternion.identity, peça.transform).GetComponent<UI_InformacioPeça>().Setup(peça, i));
         }

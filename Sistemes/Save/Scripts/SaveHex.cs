@@ -204,10 +204,10 @@ public class SavedFile
         //CASES / TREBALLADORS
         for (int i = 0; i < creades.Count; i++)
         {
-            for (int c = 0; c < creades[i].Cases.Count; c++)
+            /*for (int c = 0; c < creades[i].Cases.Count; c++)
             {
                 creades[i].Cases[c].LoadLastStep(grid);
-            }
+            }*/
         }
 
         //DETALLS
@@ -252,14 +252,14 @@ public class SavedFile
         coordenada = peça.Coordenades;
         esta = peça.Estat.name;
         subestat = peça.Subestat.name;
-        producte = peça.TeProducte ? peça.ProducteCoordenades : -Vector2Int.one;
+        producte = peça.Extraccio != null ? peça.Extraccio.Coordenades : -Vector2Int.one;
         grup = grups.GrupByPeça(peça);
 
-        if(peça.CasesCount != 0)
+       /* if(peça.CasesCount != 0)
         {
             cases = new SavedCasa[peça.CasesCount];
             for (int i = 0; i < peça.CasesCount; i++) { cases[i] = peça.Cases[i].Save; }
-        }
+        }*/
 
 
         tiles = new SavedTile[]
@@ -311,10 +311,10 @@ public class SavedFile
         //CASES
         if(cases != null)
         {
-            for (int i = 0; i < cases.Length; i++)
+           /* for (int i = 0; i < cases.Length; i++)
             {
                 peça.AddCasa(cases[i].Load());
-            }
+            }*/
         }
        
 

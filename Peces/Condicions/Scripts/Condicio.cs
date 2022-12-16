@@ -16,15 +16,15 @@ public abstract class Condicio : ScriptableObject
     [SerializeField] protected bool cami;
     [SerializeField] protected bool grup;
 
-   // [Apartat("REFERENCIES (autosetting)")]
-   // [SerializeField] protected Estat refCami;
-   // [SerializeField] protected Grups refGrups;
+    [Apartat("OPCIONS")]
+    [SerializeField] protected int punts;
+    // [Apartat("REFERENCIES (autosetting)")]
+    // [SerializeField] protected Estat refCami;
+    // [SerializeField] protected Grups refGrups;
 
     //INTERN
     List<Peça> veins;
     List<Peça> connectatsACami;
-
-
 
     private void OnEnable() => Setup();
     private void OnValidate() => Setup();
@@ -35,15 +35,16 @@ public abstract class Condicio : ScriptableObject
     /// 
     /// IMPORTANT: Les funcions subscrites han de cridar Canviar quan el resultat sigui positiu.
     /// </summary>
-    public abstract bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami);
+    public abstract bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<int> enCanviar);
 
 
     /// <summary>
     /// Canviar es la funcio comuna que es crida a al confirmar la condicio, a la funcio Comprovar.
     /// </summary>
-    protected void Canviar(Peça peça) 
+    protected void Canviar(Peça peça, System.Action<int> enCanviar) 
     {
         Debugar.LogError($"[{peça.Subestat.name}] >>> Changed to >>> [{objectiu.name}]");
+        enCanviar.Invoke(punts);
         peça.CanviarSubestat(objectiu);
     }
 

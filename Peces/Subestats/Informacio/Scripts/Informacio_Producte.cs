@@ -13,7 +13,7 @@ public class Informacio_Producte : Informacio
         if (productes == null)
             productes = new List<GameObject>();
         else productes.Clear();
-        for (int i = 0; i < peça.Subestat.Estrategia.Numero; i++)
+        for (int i = 0; i < peça.productesExtrets.Length; i++)
         {
             productes.Add(Instantiate(Prefab, peça.transform.position + DesplaçamentLateral(i), Quaternion.Euler(0, 0, Rotacio(i)), peça.transform).GetComponent<UI_InformacioPeça>().Setup(peça,0));
         }

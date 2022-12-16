@@ -14,12 +14,11 @@ public class Casa
         Debugar.LogError($"CASA {peça.Coordenades}");
 
         //Crea necessitats per la casa
-        List<Necessitat> _tmpNeeds = new List<Necessitat>();
-        for (int r = 0; r < recursosNeeded.Length; r++)
+        necessitats = new Necessitat[0];
+        for (int i = 0; i < recursosNeeded.Length; i++)
         {
-            _tmpNeeds.Add(new Necessitat(recursosNeeded[r], peça));
+            AfegirNecessitat(recursosNeeded[i]);
         }
-        this.necessitats = _tmpNeeds.ToArray();
     }
     public Casa(Vector2Int peça, Necessitat[] necessitats)
     {
@@ -54,6 +53,18 @@ public class Casa
         }
     }
     public Necessitat[] Necessitats => necessitats;
+    public void AfegirNecessitat(Producte producte)
+    {
+        List<Necessitat> tmp = new List<Necessitat>(necessitats);
+        tmp.Add(new Necessitat(producte, peça));
+        necessitats = tmp.ToArray();
+    }
+    public void TreureNecessitat()
+    {
+        List<Necessitat> tmp = new List<Necessitat>(necessitats);
+        tmp.RemoveAt(tmp.Count - 1);
+        necessitats = tmp.ToArray();
+    }
 
     public SavedCasa Save => peça != null ? new SavedCasa(necessitats, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;
     public void LoadLastStep(Grid grid)
@@ -90,10 +101,6 @@ public class Casa
         public bool Proveit => proveit;
         public Producte Producte => producte;
 
-        public void Proveir() 
-        {
-            proveit = true;
-            Debugar.LogError("+1 PUNT!");
-        } 
+        public void Proveir() => proveit = true;
     }
 }

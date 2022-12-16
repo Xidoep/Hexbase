@@ -29,14 +29,20 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] protected Subestat subestat;
 
     [Apartat("CASA")]
-    [SerializeField] List<Casa> cases;
+    [SerializeField] Casa[] cases;
 
-    [Apartat("PRODUCTOR/PRODUCTE")]
-    [SerializeField] Peça producte;
-    [SerializeField] public List<Casa.Necessitat> necessitatsCovertes;
-    Vector2Int producteCooerdenada; 
+    [Apartat("EXTRACCIO")]
+    [SerializeField] Peça extraccio;
+    //[SerializeField] public List<Casa.Necessitat> necessitatsCovertes;
     bool ocupat;
+    [Apartat("PRDUCTES")]
+    [SerializeField] public ProducteExtret[] productesExtrets;
 
+    [System.Serializable] public struct ProducteExtret
+    {
+        public Producte producte;
+        public bool gastat;
+    }
 
     //VARIABLES PRIVADES
     [SerializeField] TilePotencial[] tiles;
@@ -51,24 +57,27 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public bool EstatIgualA(Estat altreEstat) => estat.Equals(altreEstat);
     public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
     public Condicio[] Condicions => condicions;
-    public int CasesCount => cases != null ? cases.Count : 0;
-    public List<Casa> Cases => cases;
+    public Casa Casa => cases[0];
+    public bool TeCasa => cases.Length > 0;
 
-    public Producte[] ExtreureProducte() => producte.Subestat.Produccio();
-    public bool TeProducte => producte != null;
-    public Vector2Int ProducteCoordenades => producte.Coordenades;
-    public Peça Producte => producte;
+
+    //public Producte[] ExtreureProducte() => extraccio.Subestat.Produccio();
+    public ProducteExtret[] ExtreureProducte() => productesExtrets;
+
+
+    public Peça Extraccio => extraccio;
+
 
     public bool Ocupat => ocupat;
     public bool LLiure => !ocupat;
     public void CoordenadesToProducte(Grid grid) 
     {
-        if (producteCooerdenada == null)
+        /*if (producteCooerdenada == null)
             return;
 
-        producte = (Peça)grid.Get(producteCooerdenada);
+        extraccio = (Peça)grid.Get(producteCooerdenada);*/
     } 
-    public Vector2Int SetCoordenadesProducte { set => producteCooerdenada = value; }
+    public Vector2Int SetCoordenadesProducte { set => extraccio = null; /*set => producteCooerdenada = value;*/ } //Canviat només perque no molesti
 
     public System.Func<Peça, GameObject[]> mostrarInformacio;
     public System.Func<GameObject[], GameObject[]> amagarInformacio;
@@ -137,7 +146,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         ocupat = false;
 
-        RemoveAllCases();
+        TreureCasa();
 
         gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
 
@@ -146,25 +155,16 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         //informacio = subestat.InformacioMostrar(this);
     }
 
-
-
-    public void AddCasa()
+    public void CrearCasa(Producte producte)
     {
-        if (cases == null) cases = new List<Casa>();
-        cases.Add(new Casa(this, ((Estat_Casa)Estat).Necessitats));
+        cases = new Casa[] { new Casa(this, new Producte[] { producte }) }; 
     }
-    public void AddCasa(Casa casa)
-    {
-        if (cases == null) cases = new List<Casa>();
-        cases.Add(casa);
-    }
-    public void RemoveCasa() => cases.RemoveAt(cases.Count - 1);
-    void RemoveAllCases() => cases.Clear();
+    void TreureCasa() => cases = new Casa[0];
 
     public void Ocupar(Peça productor) 
     {
         ocupat = true;
-        productor.producte = this;
+        productor.extraccio = this;
     }
 
 

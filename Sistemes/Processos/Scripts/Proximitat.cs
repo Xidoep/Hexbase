@@ -11,19 +11,16 @@ public class Proximitat : ScriptableObject
     //1.- Si estas aprop d'1 o + peces d'un tipus. i d'un nivell concret o de qualsevol.
     //2.- Si formen part d'un grup de X o +.
     //3.- Com l'1, pero en tot el grup.
-    [SerializeField] Queue<Peça> peces;
     [SerializeField] Grups grups;
     [SerializeField] Estat cami;
+    [SerializeField] Fase_Resoldre resoldre;
+    
+    //INTERN
+    Queue<Peça> peces;
     List<Peça> comprovades;
     List<Peça> canviades;
     System.Action<List<Peça>, List<Peça>> enFinalitzar;
-    //System.Action<List<Peça>> enFinalitzar;
-
-    //INTERN
-    //bool _iniciat;
     Peça _actual;
-    //bool _canviar;
-    List<Peça> veins;
 
     void OnEnable()
     {
@@ -119,13 +116,10 @@ public class Proximitat : ScriptableObject
         //Debugar.LogError(_actual.name);
         for (int i = 0; i < _actual.Condicions.Length; i++)
         {
-            if (_actual.Condicions[i].Comprovar(_actual, this, grups, cami))
+            if (_actual.Condicions[i].Comprovar(_actual, this, grups, cami, resoldre.Nivell.GuanyarExperiencia))
             {
-
-                //pool.Add(_actual.Subestat.Punts);
                 Add(_actual);
                 canviades.Add(_actual);
-                //_canviar = true;
                 break;
             }
         }

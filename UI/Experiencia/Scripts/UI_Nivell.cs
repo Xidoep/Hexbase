@@ -15,13 +15,14 @@ public class UI_Nivell : MonoBehaviour
 
     private void OnEnable()
     {
-        resoldre.EnGuanyarExperiencia += ActualitarUI;
+        resoldre.Nivell.EnGuanyarExperiencia += ActualitarUI;
+        resoldre.Nivell.EnPujarNivell += ActualitarUI;
     }
 
     void ActualitarUI(int nivell, int experiencia)
     {
-        uiCercle.fillAmount = resoldre.FactorExperienciaNivellActual;
+        uiCercle.fillAmount = resoldre.Nivell.FactorExperienciaNivellActual;
         uiNivell.text = nivell.ToString();
-        uiExperencia.text = $"{experiencia} / {resoldre.ProximNivell(nivell)}";
+        uiExperencia.text = $"{experiencia} / {resoldre.Nivell.ProximNivell(nivell)}";
     }
 }

@@ -8,6 +8,7 @@ public class Repoblar : ScriptableObject
 {
     [SerializeField] Subestat casa;
     [SerializeField] Detall_Tiles_Estat detall_Tiles;
+    [SerializeField] Producte necessitatInicial;
 
     [Nota("Només per debugging",NoteType.Warning)]
     [SerializeField] List<Peça> cases;
@@ -15,6 +16,8 @@ public class Repoblar : ScriptableObject
     //INTERN
     List<Peça> veins;
     int casesVeines = 0;
+
+    public Producte NecessitatInicial => necessitatInicial;
 
     private void OnEnable()
     {
@@ -39,26 +42,26 @@ public class Repoblar : ScriptableObject
             }
 
             //Afegeix la seva Casa, i utilitza del DETALL_TILES de les cases veines per afegir mes cases.
-            AfegirCasa(peces[p], 1 + casesVeines);
+            CanviarNecessitats(peces[p], 1 + casesVeines);
         }
 
         if (enFinalitzar != null) enFinalitzar.Invoke();
     }
 
-    public void AfegirCasa(Peça peça, int cases)
+    public void CanviarNecessitats(Peça peça, int necessitats)
     {
-        if (cases > peça.CasesCount) //S'han de crear tantes cases com fagi falta
+        if (necessitats > peça.Casa.Necessitats.Length) //S'han de crear tantes cases com fagi falta
         {
-            for (int i = peça.CasesCount; i < cases; i++)
+            for (int i = peça.Casa.Necessitats.Length; i < necessitats; i++)
             {
-                peça.AddCasa();
+                peça.Casa.AfegirNecessitat(necessitatInicial);
             }
         }
-        else if(cases < peça.CasesCount)
+        else if(necessitats < peça.Casa.Necessitats.Length)
         {
-            for (int i = cases; i < peça.CasesCount; i++)
+            for (int i = necessitats; i < peça.Casa.Necessitats.Length; i++)
             {
-                peça.RemoveCasa();
+                peça.Casa.TreureNecessitat();
             }
         } //S'han de borrar tantes cases com faci falta;
 
