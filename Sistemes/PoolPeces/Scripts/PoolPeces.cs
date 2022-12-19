@@ -73,7 +73,9 @@ public class PoolPeces : ScriptableObject
     {
         peces.RemoveAt(0);
 
-        colocar.Seleccionar(peces[0]);
+        if(peces.Count == 0)
+            colocar.Seleccionar(peces[0]);
+
         enTreure?.Invoke();
     }
 

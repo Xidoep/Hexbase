@@ -29,6 +29,7 @@ public class Produccio : ScriptableObject
     List<Peça> casesProveides;
     List<Peça> productorsActualitzables;
     List<Visualitzacio> visualitzacions;
+    Vector3 offset;
 
     void OnEnable()
     {
@@ -81,28 +82,29 @@ public class Produccio : ScriptableObject
 
         //if (!buid)
         //{
-        Debug.Log($"{productes.Length} productes");
-            for (int i = 0; i < productes.Length; i++)
-            {
-                if (productes[i].gastat)
-                {
-                    visualitzacions.Add(new Visualitzacio(productors[index].Extraccio, productors[index], null));
-                    continue;
-                }
+        GameObject[] infoProductes = productors[index].Extraccio.Subestat.InformacioMostrar(productors[index].Extraccio);
 
-                Peça proveida = BuscarCasaDesproveida(productors[index], productes[i].producte);
-                if (proveida != null)
-                {
-                    resoldre.Nivell.GuanyarExperiencia(1);
-                    casesProveides.Add(proveida);
-                    productes[i].gastat = true;
-                }
-                visualitzacions.Add(new Visualitzacio(productors[index].Extraccio, productors[index], proveida));
+        Debug.Log($"{productes.Length} productes");
+        for (int i = 0; i < productes.Length; i++)
+        {
+            if (productes[i].gastat)
+            {
+                visualitzacions.Add(new Visualitzacio(null, null, null));
+                continue;
             }
 
+            Peça proveida = BuscarCasaDesproveida(productors[index], productes[i].producte);
+            if (proveida != null)
+            {
+                resoldre.Nivell.GuanyarExperiencia(1);
+                casesProveides.Add(proveida);
+                productes[i].gastat = true;
+            }
+            visualitzacions.Add(new Visualitzacio(productors[index].Extraccio, productors[index], proveida));
+        }
 
-            //Crear icones
-            GameObject[] infoProductes = productors[index].Extraccio.Subestat.InformacioMostrar(productors[index].Extraccio);
+
+        //Crear icones
         Debug.Log($"{visualitzacions.Count} visualitzacions");
         //Animar
         for (int i = 0; i < visualitzacions.Count; i++)
@@ -180,13 +182,27 @@ public class Produccio : ScriptableObject
     {
         //GameObject producte = productor.Producte.Subestat.InformacioMostrar(productor.Producte)[0];
         yield return new WaitForSeconds(0.55f + (index * 0.3f));
-        new Animacio_Posicio(productor.Extraccio.transform.position, productor.transform.position, false, false).Play(producte, 0.5f, Transicio.clamp);
-
-        if(casa != null)
-            XS_Coroutine.StartCoroutine(Animacio_EnviarProducteACasa(producte, productor.transform, casa.transform));
+        if(productor == null)
+        {
+            producte.GetComponent<UI_Producte>().Destruir(1f);
+            Destroy(producte, 2f);
+        }
         else
-            Destroy(producte, 2);
+        {
+            offset = producte.transform.localPosition;
+            new Animacio_Posicio(productor.Extraccio.transform.position + offset, productor.transform.position + offset, false, false).Play(producte, 0.5f, Transicio.clamp);
+
+            if (casa != null)
+                XS_Coroutine.StartCoroutine(Animacio_EnviarProducteACasa(producte, productor.transform, casa.transform));
+            else
+            {
+                producte.GetComponent<UI_Producte>().Destruir(1.5f);
+                Destroy(producte, 2.5f);
+            }
+        }
+        
     }
+
 
     IEnumerator Animacio_EnviarProducteACasa(GameObject producte, Transform productor, Transform casa)
     {

@@ -18,8 +18,8 @@ public class Fase_Menu : Fase
 
     [Apartat("MENUS")]
     [SerializeField] Mode mode;
-    [SerializeField] GameObject prefab_FreeSyle;
-    [SerializeField] GameObject prefab_Pila;
+    [SerializeField] GameObject[] prefabs_FreeSyle;
+    [SerializeField] GameObject[] prefabs_Pila;
 
     [Apartat("PECES")]
     [SerializeField] PoolPeces pool;
@@ -30,6 +30,11 @@ public class Fase_Menu : Fase
     Grid grid;
     GameObject menu;
 
+    //PORPIETATS
+    public Mode Mode => mode;
+
+
+    //OVERRIDES
     public override void Inicialitzar()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();
@@ -48,36 +53,7 @@ public class Fase_Menu : Fase
         }
     }
 
-    public void IniciarNet()
-    {
-        grid.Resetejar();
-        grid.CrearBoto(grid.Centre);
-    }
-
-
-    /*public override void Finalitzar()
-    {
-        OnFinish_Invocar();
-        OnFinish -= MostrarMenu;
-    }*/
-
-    void SetupModes() 
-    {
-        switch (mode)
-        {
-            case Mode.FreeSyle:
-                menu = Instantiate(prefab_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
-                break;
-            case Mode.pila:
-                pool.Iniciar();
-                menu = Instantiate(prefab_Pila, UI_CameraMenu_Access.CameraMenu.transform);
-                break;
-        }
-        menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
-
-        OnFinish -= SetupModes;
-    }
-
+    //PUBLIQUES
     public void Sortir()
     {
         if (!save.TePeces)
@@ -93,6 +69,42 @@ public class Fase_Menu : Fase
             XS_Coroutine.StartCoroutine(SortirTemps(1));
         }
     }
+
+    //PRIVADES
+    void IniciarNet()
+    {
+        grid.Resetejar();
+        grid.CrearBoto(grid.Centre);
+    }
+
+    void SetupModes() 
+    {
+        switch (mode)
+        {
+            case Mode.FreeSyle:
+                for (int i = 0; i < prefabs_FreeSyle.Length; i++)
+                {
+                    menu = Instantiate(prefabs_FreeSyle[i], UI_CameraMenu_Access.CameraMenu.transform);
+                    SetupMenuCanvasWorldCamera();
+                }
+               
+                break;
+            case Mode.pila:
+                pool.Iniciar();
+                for (int i = 0; i < prefabs_Pila.Length; i++)
+                {
+                    menu = Instantiate(prefabs_Pila[i], UI_CameraMenu_Access.CameraMenu.transform);
+                    SetupMenuCanvasWorldCamera();
+                }
+                    
+                break;
+        }
+        void SetupMenuCanvasWorldCamera() => menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
+
+        OnFinish -= SetupModes;
+    }
+
+    
 
     IEnumerator SortirTemps(float temps)
     {

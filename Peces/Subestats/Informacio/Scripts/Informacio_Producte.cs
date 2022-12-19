@@ -5,18 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Informacio/Producte")]
 public class Informacio_Producte : Informacio
 {
-    //INTERN
-    List<GameObject> productes;
 
     public override GameObject[] Mostrar(Peça peça)
     {
-        if (productes == null)
-            productes = new List<GameObject>();
-        else productes.Clear();
+        if (ui == null)
+            ui = new List<GameObject>();
+        else ui.Clear();
         for (int i = 0; i < peça.productesExtrets.Length; i++)
         {
-            productes.Add(Instantiate(Prefab, peça.transform.position + DesplaçamentLateral(i), Quaternion.Euler(0, 0, Rotacio(i)), peça.transform).GetComponent<UI_InformacioPeça>().Setup(peça,0));
+            ui.Add(Instantiate(Prefab, peça.transform.position + DesplaçamentLateral(i), Quaternion.Euler(0, 0, Rotacio(i)), peça.transform).GetComponent<UI_InformacioPeça>().Setup(peça,i));
         }
-        return productes.ToArray();
+        return ui.ToArray();
     }
+
 }

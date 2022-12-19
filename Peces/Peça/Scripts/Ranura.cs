@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using XS_Utils;
 
 public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
@@ -13,10 +13,31 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     [SerializeField] UnityEvent onExit;
     [Linia]
     [SerializeField] Fase_Colocar colocar;
-    [Linia]
+    
+    [Apartat("OUTLINE")]
     [SerializeField] GameObject outline;
+    [SerializeField] Animacio_Scriptable clickDown;
+    [SerializeField] Animacio_Scriptable clickUp;
+    Coroutine compteEnrerra;
     System.Action accioCrear;
 
+    [SerializeField] bool seleccionada;
+
+    bool Seleccionada
+    {
+        set
+        {
+            seleccionada = value;
+            if (seleccionada)
+            {
+                clickDown.Play(gameObject);
+            }
+            else
+            {
+                clickUp.Play(gameObject);
+            }
+        }
+    }
 
     //Prevé multiples clics.
     //bool autobloquejar = false;
@@ -68,11 +89,31 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         Destroy(this.gameObject);
     }
 
+    IEnumerator Deseleccionar()
+    {
+        yield return new WaitForSeconds(3);
+        Seleccionada = false;
+        compteEnrerra = null;
+    }
 
 
     //INTERACCIO
-    public void OnPointerDown(PointerEventData eventData) { }
-    public void OnPointerUp(PointerEventData eventData) => accioCrear?.Invoke();
+    public void OnPointerDown(PointerEventData eventData) 
+    {
+        if (seleccionada)
+            return;
+
+        Seleccionada = true;
+        
+        compteEnrerra = StartCoroutine(Deseleccionar());
+    }
+    public void OnPointerUp(PointerEventData eventData) 
+    {
+        if (!seleccionada)
+            return;
+
+        accioCrear?.Invoke();
+    } 
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
     {
@@ -82,6 +123,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     }
     public void OnPointerExit(PointerEventData eventData) 
     {
+        Seleccionada = false;
+        if (compteEnrerra != null) StopCoroutine(compteEnrerra);
         onExit?.Invoke();
         //outline.material.SetFloat(SELECCIONAT_ID, 0);
     }

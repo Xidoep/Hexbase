@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
-  m_Name: Ranura_Crear
+  m_Name: Outline_ClickDown
   m_EditorClassIdentifier: 
   transicio: 0
-  temps: 3
+  temps: 2.5
   animacions:
-  - rid: 233190295782031360
+  - rid: 4560690007746019328
   references:
     version: 2
     RefIds:
-    - rid: 233190295782031360
+    - rid: 4560690007746019328
       type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
       data:
         nom: Escala
@@ -27,44 +27,35 @@ MonoBehaviour:
           serializedVersion: 2
           m_Curve:
           - serializedVersion: 3
-            time: 0.75
+            time: 0
             value: 0
-            inSlope: 6.0539455
-            outSlope: 6.0539455
-            tangentMode: 34
+            inSlope: 15.050339
+            outSlope: 15.050339
+            tangentMode: 0
             weightedMode: 0
             inWeight: 0
-            outWeight: 0.33333334
+            outWeight: 0.09422851
           - serializedVersion: 3
-            time: 0.93
-            value: 1.0897102
-            inSlope: -0.11642157
-            outSlope: -0.11642157
+            time: 0.094034255
+            value: 0.6761121
+            inSlope: 0.93114763
+            outSlope: 0.93114763
             tangentMode: 0
             weightedMode: 0
             inWeight: 0.33333334
-            outWeight: 0.31771863
+            outWeight: 0.044360325
           - serializedVersion: 3
-            time: 0.97499996
-            value: 0.9741818
-            inSlope: -0.043044664
-            outSlope: -0.043044664
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.57791626
-          - serializedVersion: 3
-            time: 1
+            time: 0.9991455
             value: 1
-            inSlope: 0
-            outSlope: 0
+            inSlope: 0.115100995
+            outSlope: 0.115100995
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0.44113
-            outWeight: 0
+            inWeight: 0.052839614
+            outWeight: 0.33333334
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        inici: {x: 0, y: 0, z: 0}
-        final: {x: 0.9, y: 1, z: 0.9}
+        inici: {x: 0.9, y: 1, z: 0.9}
+        final: {x: 1.3, y: 1, z: 1.3}
         dinamic: 0

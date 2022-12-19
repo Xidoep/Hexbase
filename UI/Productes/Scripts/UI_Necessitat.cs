@@ -11,8 +11,8 @@ public class UI_Necessitat : UI_InformacioPeça
         this.necessitat = peça.Casa.Necessitats[index];
         this.producte = necessitat.Producte;
 
-        MeshRenderer.material.SetTexture(ICONE_NOM, producte.Icone);
-        MeshRenderer.material.SetFloat(COVERTA_NOM, necessitat.Proveit ? 1 : 0);
+        MeshRenderer.material.SetTexture(ICONE, producte.Icone);
+        MeshRenderer.material.SetFloat(COVERTA, necessitat.Proveit ? 1 : 0);
         MeshRenderer.transform.localRotation = Quaternion.Euler(0, 0, Rotacio(index));
 
         return gameObject;

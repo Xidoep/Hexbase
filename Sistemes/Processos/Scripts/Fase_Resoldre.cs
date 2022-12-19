@@ -20,6 +20,7 @@ public class Fase_Resoldre : Fase
     //-etc...
     //S'han de guardar i carregar el nivell i l'experiencia guardades per la partida.
     [Apartat("POSSIBLES FASES")]
+    [SerializeField] Fase_Menu menu;
     [SerializeField] Fase continuar;
     [SerializeField] Fase perdre;
 
@@ -40,15 +41,21 @@ public class Fase_Resoldre : Fase
     //OVERRIDES
     public override void Inicialitzar()
     {
-        if (!nivell.PujarDeNivell())
+        switch (menu.Mode)
         {
-            if (!peces.QuedenPeces())
-            {
-                perdre.Iniciar();
-            }
+            case Mode.FreeSyle:
+                break;
+            case Mode.pila:
+                if (!nivell.PujarDeNivell())
+                {
+                    if (!peces.QuedenPeces())
+                    {
+                        perdre.Iniciar();
+                    }
+                }
+                break;
         }
-
-
+        
         continuar.Iniciar();
     }
 

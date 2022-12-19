@@ -4,8 +4,10 @@ using UnityEngine;
 
 public abstract class UI_InformacioPeça : MonoBehaviour
 {
-    protected const string ICONE_NOM = "_Icone";
-    protected const string COVERTA_NOM = "_Coverta";
+    protected const string ICONE = "_Icone";
+    protected const string COVERTA = "_Coverta";
+    protected const string GASTADA = "_Gastada";
+    protected const string START_TIME = "_StartTime";
     public abstract GameObject Setup(Peça peça, int index);
 
     [SerializeField] MeshRenderer meshRenderer;
