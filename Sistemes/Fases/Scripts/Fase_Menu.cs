@@ -54,6 +54,10 @@ public class Fase_Menu : Fase
                 save.Load(grups, colocar);
             }
         }
+        else
+        {
+            //Instanciar la UI amb els punts guanyats i les opcions 
+        }
         
     }
 

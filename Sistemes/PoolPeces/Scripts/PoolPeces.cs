@@ -71,9 +71,12 @@ public class PoolPeces : ScriptableObject
 
     public void RemovePeça()
     {
+        Debug.Log($"Abans {peces.Count}");
         peces.RemoveAt(0);
 
-        if(peces.Count == 0)
+        Debug.Log($"Despres {peces.Count}");
+
+        if (peces.Count > 0)
             colocar.Seleccionar(peces[0]);
 
         enTreure?.Invoke();

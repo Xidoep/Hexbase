@@ -48,7 +48,11 @@ public class Fase_Resoldre : Fase
             case Mode.pila:
                 if (!nivell.PujarDeNivell())
                 {
-                    if (!peces.QuedenPeces())
+                    if (peces.QuedenPeces())
+                    {
+                        continuar.Iniciar();
+                    }
+                    else
                     {
                         perdre.Iniciar();
                     }
@@ -56,7 +60,6 @@ public class Fase_Resoldre : Fase
                 break;
         }
         
-        continuar.Iniciar();
     }
 
     [System.Serializable] public class ClasseNivell
