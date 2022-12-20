@@ -13,7 +13,7 @@ public class Grid : MonoBehaviour
     //***************************************************
     //Potser aixo també es podria convertir en un Scriptable. Així l'escena queda neta.
     //***************************************************
-
+    [SerializeField] GridLayout gridLayout;
 
     const int GRID_SIZE = 200;
 
@@ -54,6 +54,18 @@ public class Grid : MonoBehaviour
     //INTERN
     Estat eTrobat;
     Subestat sTrobat;
+
+    [ContextMenu("Prova")]
+    void ProvaGridLayout()
+    {
+        for (int x = -2; x < 5; x++)
+        {
+            for (int y = -2; y < 5; y++)
+            {
+                Instantiate(prefab_Boto, gridLayout.CellToLocal(new Vector3Int(x, y, 0)), Quaternion.identity);
+            }
+        }
+    }
 
     public Estat Estat(string nom) 
     {
@@ -127,6 +139,9 @@ public class Grid : MonoBehaviour
 
     public void CrearGrid()
     {
+        if (grid != null)
+            return;
+
         //Posiciona el grid perque la pece central sigui al centre del mon.
         transform.position = -GridExtensions.GetWorldPosition(GRID_SIZE / 2, GRID_SIZE / 2);
         #region DEBUG

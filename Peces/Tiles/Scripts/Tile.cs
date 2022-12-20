@@ -20,8 +20,8 @@ public class Tile : ScriptableObject
     [Linia]
     [Header("Connexions")]
     [SerializeField] Connexio exterior;
-    [SerializeField] Connexio esquerra;
     [SerializeField] Connexio dreta;
+    [SerializeField] Connexio esquerra;
 
     [SerializeField] Posicions[] posicions;
     //[Header("Punta")]

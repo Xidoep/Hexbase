@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 805383729190451882}
   - component: {fileID: 805383729190451881}
+  - component: {fileID: 102032722}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -44,9 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad2ad4a637bcb34993b12f2933e3ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridLayout: {fileID: 102032722}
   inicial: {fileID: 11400000, guid: 52c2d0aec9828df429cf838c2f727adf, type: 2}
   processar: {fileID: 11400000, guid: f2d436848ee166e4990558ea697eb516, type: 2}
   grups: {fileID: 11400000, guid: a6b0bf4c5c6796f4ab520777a6b34466, type: 2}
+  produccio: {fileID: 11400000, guid: 4612355e8425b0e458828e56a2562f9d, type: 2}
   save: {fileID: 11400000, guid: 5da5cfdf15cde6c49ba1941948bbb490, type: 2}
   camaraGestio: {fileID: 0}
   prefab_Ranura: {fileID: 5919137175624590415, guid: 7e1ce3baa2f85474a96ab7d98575e488, type: 3}
@@ -70,6 +73,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae0293e9e307b6f428b6d496e07f34b2, type: 2}
   - {fileID: 11400000, guid: 367b3f520be81c0499d2097928e3b305, type: 2}
   - {fileID: 11400000, guid: 845f6cd0cf5c37f49b87fad19d6a1ab2, type: 2}
+  - {fileID: 11400000, guid: 345d74624efd49d428fb28216a816c7d, type: 2}
   - {fileID: 11400000, guid: 2f5e33c353b078e45aeaa46bfb701140, type: 2}
   - {fileID: 11400000, guid: d8b022f8e46a62146814dc09ace0414f, type: 2}
   - {fileID: 11400000, guid: c280b0af2a40f00458e2c28ba13d4582, type: 2}
@@ -85,3 +89,15 @@ MonoBehaviour:
   est: {x: 100, y: 100}
   oest: {x: 100, y: 100}
   grafics: []
+--- !u!156049354 &102032722
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805383729190451542}
+  m_Enabled: 1
+  m_CellSize: {x: 3, y: 1.1546665, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 1
+  m_CellSwizzle: 1

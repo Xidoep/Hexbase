@@ -12,28 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb6062aa98a13642ace3e219c1ab1b7, type: 3}
   m_Name: Granja
   m_EditorClassIdentifier: 
-  punts: 0
+  punts: 1
   caminable: 1
   aquatic: 0
   condicions: []
   detallsScriptables:
-  - {fileID: 11400000, guid: 29431605803b0d749a0737be1d3221e5, type: 2}
   - {fileID: 11400000, guid: 9eceaf4546ee2a540ada734b6f5afe43, type: 2}
   - {fileID: 11400000, guid: 5d9d0e11c07ccfc418b57f37ea5c96cf, type: 2}
   tiles:
-  - tile: {fileID: 11400000, guid: b3359720f7c6ed144ba7dfce746603ca, type: 2}
+  - tile: {fileID: 11400000, guid: 75016e64462183141b63245111f7e80c, type: 2}
     pes: 2
-  - tile: {fileID: 11400000, guid: 2d0773c22f9ed91468d13b7ef1487adf, type: 2}
+  - tile: {fileID: 11400000, guid: 915b84f8683666c4fa9fe692fa60925e, type: 2}
     pes: 1
-  - tile: {fileID: 11400000, guid: 5833a18c10654ae42b4beb24d9526bdd, type: 2}
+  - tile: {fileID: 11400000, guid: b8d391dd2af593d419678f63754af9a4, type: 2}
     pes: 1
-  connexionsNules: []
+  - tile: {fileID: 11400000, guid: 02d4c87081a037a449301cad8bddf737, type: 2}
+    pes: 1
+  - tile: {fileID: 11400000, guid: f54d1e7eff6447b4cbf1ef80d9e04668, type: 2}
+    pes: 4
+  connexionsNules:
+  - {fileID: 11400000, guid: 6fdc22fa8098d6e48bd30a59e3dc4514, type: 2}
   connexioEspesifica:
     subestats: []
     connexions: []
+  producte: {fileID: 0}
+  estrategia: {fileID: 0}
+  informacio: {fileID: 0}
   connexionsPossibles:
   - {fileID: 11400000, guid: 6fdc22fa8098d6e48bd30a59e3dc4514, type: 2}
-  - {fileID: 11400000, guid: 3003d7bf47f2de645be86197acfba486, type: 2}
-  - {fileID: 11400000, guid: f5501edd8f42d104585c9471978f595b, type: 2}
-  - {fileID: 11400000, guid: 2c3e12337f8b2bc469b074e7aff3b455, type: 2}
+  - {fileID: 11400000, guid: d3a8d55573fa9e64a84db7113c68234f, type: 2}
+  - {fileID: 11400000, guid: c11c76cf1a28108409e25ca9629f4f6b, type: 2}
+  - {fileID: 11400000, guid: 5616303e154ac264680b1b78e62c89d2, type: 2}
+  - {fileID: 11400000, guid: 75a65b57e692f1943bfc5fd57ba200c5, type: 2}
+  - {fileID: 11400000, guid: 3d4f69a141a66124cb77893154ff5213, type: 2}
+  - {fileID: 11400000, guid: 11979605754677c479f097dc48e070d5, type: 2}
+  - {fileID: 11400000, guid: 37af793a87d95c6438a01d7ba73de25b, type: 2}
+  - {fileID: 11400000, guid: 6a40ffbc76cf56e4399e6112a720bff4, type: 2}
   produccio: {fileID: 11400000, guid: 4612355e8425b0e458828e56a2562f9d, type: 2}

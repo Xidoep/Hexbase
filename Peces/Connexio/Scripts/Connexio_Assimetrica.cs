@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Connexions/Assimetrica")]
 public class Connexio_Assimetrica : Connexio
 {
-    [SerializeField] Connexio viable;
-    public override Connexio Viable => viable;
+    //[SerializeField] Connexio viable;
+    //public override Connexio Viable => viable;
     //public override bool EncaixaAmb(Connexio connexio) => connexio == viable;
 
 }

@@ -29,6 +29,7 @@ public class Fase_Menu : Fase
 
     Grid grid;
     GameObject menu;
+    bool inici = true;
 
     //PORPIETATS
     public Mode Mode => mode;
@@ -37,20 +38,23 @@ public class Fase_Menu : Fase
     //OVERRIDES
     public override void Inicialitzar()
     {
+        OnFinish += ConfigurarMode;
+        
         if (grid == null) grid = FindObjectOfType<Grid>();
-
         grid.CrearGrid();
 
-        OnFinish += SetupModes;
-
-        if (!save.TePeces)
+        if (inici)
         {
-            IniciarNet();
+            if (!save.TePeces)
+            {
+                IniciarNet();
+            }
+            else
+            {
+                save.Load(grups, colocar);
+            }
         }
-        else
-        {
-            save.Load(grups, colocar);
-        }
+        
     }
 
     //PUBLIQUES
@@ -68,6 +72,13 @@ public class Fase_Menu : Fase
         {
             XS_Coroutine.StartCoroutine(SortirTemps(1));
         }
+
+        IEnumerator SortirTemps(float temps)
+        {
+            yield return new WaitForSeconds(temps);
+            Debugar.Log("SORTIR");
+            Application.Quit();
+        }
     }
 
     //PRIVADES
@@ -77,7 +88,7 @@ public class Fase_Menu : Fase
         grid.CrearBoto(grid.Centre);
     }
 
-    void SetupModes() 
+    void ConfigurarMode() 
     {
         switch (mode)
         {
@@ -99,17 +110,19 @@ public class Fase_Menu : Fase
                     
                 break;
         }
+
+        inici = false;
+
+        OnFinish -= ConfigurarMode;
+        
         void SetupMenuCanvasWorldCamera() => menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
-
-        OnFinish -= SetupModes;
     }
 
-    
-
-    IEnumerator SortirTemps(float temps)
+    new void OnDisable()
     {
-        yield return new WaitForSeconds(temps);
-        Debugar.Log("SORTIR");
-        Application.Quit();
+        base.OnDisable();
+        inici = true;
     }
+
+  
 }
