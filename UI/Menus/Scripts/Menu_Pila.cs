@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Menu_Pila : MonoBehaviour
 {
+    [Apartat("FROM PROJECT")]
     [SerializeField] GameObject prefab;
+    [Apartat("FROM HIERARCHY")]
+    [SerializeField] Fase_Resoldre resoldre;
     [SerializeField] Transform parent;
-    [Apartat("POOL")]
     [SerializeField] PoolPeces pool;
     //[Apartat("FASES")]
     //[SerializeField] Fase_Colocar colocar;
@@ -30,6 +32,9 @@ public class Menu_Pila : MonoBehaviour
 
         pool.EnAfegir += AddPeça;
         pool.EnTreure += RemovePeça;
+        resoldre.EnTornar += Amagar;
+        resoldre.EnRepetir += Amagar;
+        resoldre.EnContinuar += Amagar;
 
         //Crear les peces que hi ha al pool, ja que aquest s'haurà creat abans que el menu.
         creades = new List<UI_Peca>();
@@ -45,6 +50,16 @@ public class Menu_Pila : MonoBehaviour
     {
         pool.EnAfegir -= AddPeça;
         pool.EnTreure -= RemovePeça;
+        resoldre.EnTornar -= Amagar;
+        resoldre.EnRepetir -= Amagar;
+        resoldre.EnContinuar -= Amagar;
+
+        pool.Reset();
+    }
+
+    public void Amagar()
+    {
+        Destroy(this.gameObject);
     }
 
     public void AddPeça(Estat estat)

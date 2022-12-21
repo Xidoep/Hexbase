@@ -21,23 +21,23 @@ public class Tester : ScriptableObject
     [ContextMenu("Iniciar")]
     void Iniciar()
     {
-        processar.OnFinish = StepDelayed;
-        if (grid == null)
+        //processar.OnFinish = StepDelayed;
+        /*if (grid == null)
         {
             grid = FindObjectOfType<Grid>();
         }
 
-        StepDelayed();
+        StepDelayed();*/
     }
 
     void StepDelayed()
     {
-        proces = XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+        //proces = XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
     }
 
     void Step()
     {
-        ranures = grid.GetComponentsInChildren<Ranura>();
+        //ranures = grid.GetComponentsInChildren<Ranura>();
         /*hexagons = grid.GetComponentsInChildren<Hexagon>();
         viables = new List<Hexagon>();
         for (int i = 0; i < hexagons.Length; i++)

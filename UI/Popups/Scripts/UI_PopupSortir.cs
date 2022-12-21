@@ -22,7 +22,7 @@ public class UI_PopupSortir : MonoBehaviour
 
     private void OnEnable()
     {
-        segonaPartida = (bool)guardat.Get("SegonaPartida", false);
+        segonaPartida = (bool)guardat.Get(Fase_Menu.SEGONA_PARTIDA, false);
 
         if (segonaPartida)
         {

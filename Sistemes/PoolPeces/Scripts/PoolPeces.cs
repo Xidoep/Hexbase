@@ -31,6 +31,9 @@ public class PoolPeces : ScriptableObject
     {
         if (peces == null) peces = new List<Estat>();
 
+        colocar.OnFinish += RemovePeça;
+        resoldre.Nivell.EnPujarNivell += AddPecesPerNivell;
+        
         peces = new List<Estat>();
 
         AddPeces(inicial);
@@ -39,8 +42,6 @@ public class PoolPeces : ScriptableObject
 
         colocar.Seleccionar(peces[0]);
 
-        colocar.OnFinish += RemovePeça;
-        resoldre.Nivell.EnPujarNivell += AddPecesPerNivell;
 
     }
 
@@ -82,7 +83,11 @@ public class PoolPeces : ScriptableObject
         enTreure?.Invoke();
     }
 
-
+    public void Reset()
+    {
+        colocar.OnFinish -= RemovePeça;
+        resoldre.Nivell.EnPujarNivell -= AddPecesPerNivell;
+    }
 
     private void OnDisable()
     {

@@ -8,16 +8,18 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Iniciar")]
 public class Fase_Iniciar : Fase
 {
-    [Linia]
-    [Apartat("INICIAL")]
     [SerializeField] Fase colocar;
-    [SerializeField] Estat inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
+    [SerializeField] Modes modes;
+    [SerializeField] Estat inicial;
 
     Grid grid;
 
-    public override void Inicialitzar()
+    public override void FaseStart()
     {
         Debug.Log("Fase_Iniciar > Actualitzar");
+
+        modes.ConfigurarModes();
+
         PosarPrimeraPeça();
     }
 
@@ -26,10 +28,10 @@ public class Fase_Iniciar : Fase
         Debug.Log("PosarPrimeraPeça");
         if (grid == null) grid = FindObjectOfType<Grid>();
 
+        //Aqui potser hi aniran diferents tipus de inici o de colocacio de peces segons el mode o el dia de l'any, etc..
         grid.CrearPeça(inicial, grid.Centre);
 
-        colocar.Iniciar();
+        //colocar.Iniciar();
     }
 }
 
-public enum Mode { FreeSyle, pila }

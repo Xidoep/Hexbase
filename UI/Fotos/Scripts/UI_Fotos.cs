@@ -77,14 +77,16 @@ public class UI_Fotos : MonoBehaviour
                );
         }
     }
-    public void ActualitzarFotos(string path) => ActualitzarFotos();
+
+
+    void ActualitzarFotos(string path) => ActualitzarFotos();
 
     public void Load(int index)
     {
         Debugar.Log("Load");
         grid.Resetejar();
         save.Load(index, grups, colocar);
-        //StartCoroutine(LoadFile(index));
+        StartCoroutine(LoadFile(index));
     }
     IEnumerator LoadFile(int index)
     {

@@ -239,9 +239,9 @@ GameObject:
   - component: {fileID: 6166247637533351541}
   - component: {fileID: 8522019560599247632}
   - component: {fileID: 8522019560599247634}
-  - component: {fileID: 7752938405584022799}
+  - component: {fileID: 4896770936425756527}
   m_Layer: 5
-  m_Name: Nivell
+  m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: 1}
   m_UseGraphicAlpha: 1
---- !u!114 &7752938405584022799
+--- !u!114 &4896770936425756527
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -332,13 +332,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6166247637533351528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 329df889f278ed544bb1dd548cf85790, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e84a1f254d1aa7428b95594e165a188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resoldre: {fileID: 11400000, guid: 48945bddc88abd84bacb9e6f674dde72, type: 2}
-  uiCercle: {fileID: 6166247635992500589}
-  uiNivell: {fileID: 8522019560604509043}
-  uiExperencia: {fileID: 6166247637295354189}
+  capturarPantalla: {fileID: 11400000, guid: c398dd49969f0d548a9d82efac5328eb, type: 2}
 --- !u!1 &6166247637544969743
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +348,7 @@ GameObject:
   - component: {fileID: 5829325033629657114}
   - component: {fileID: 443647341473068127}
   - component: {fileID: 7924019847939635917}
-  - component: {fileID: 4777848550104070507}
+  - component: {fileID: 2596406294528580377}
   m_Layer: 5
   m_Name: UI_Nivell
   m_TagString: Untagged
@@ -441,7 +438,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4777848550104070507
+--- !u!114 &2596406294528580377
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -450,10 +447,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6166247637544969743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e84a1f254d1aa7428b95594e165a188, type: 3}
+  m_Script: {fileID: 11500000, guid: 329df889f278ed544bb1dd548cf85790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  capturarPantalla: {fileID: 11400000, guid: c398dd49969f0d548a9d82efac5328eb, type: 2}
+  resoldre: {fileID: 11400000, guid: 48945bddc88abd84bacb9e6f674dde72, type: 2}
+  uiCercle: {fileID: 6166247635992500589}
+  uiNivell: {fileID: 8522019560604509043}
+  uiExperencia: {fileID: 6166247637295354189}
 --- !u!1 &8522019560604509041
 GameObject:
   m_ObjectHideFlags: 0

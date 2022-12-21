@@ -3,6 +3,7 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Controller")]
 public class FasesControlador : ScriptableObject
 {
+    [Nota("Només per debug")]
     [SerializeField] Fase actual;
     public Fase Actual
     {
@@ -11,7 +12,7 @@ public class FasesControlador : ScriptableObject
             actual?.Finalitzar();
             actual = value;
             Debugar.LogError($">>>{actual.name.ToUpper()}");
-            actual.Inicialitzar();
+            actual.FaseStart();
         }
     }
     private void OnDisable() => actual = null;
@@ -33,7 +34,7 @@ public abstract class Fase : ScriptableObject
         this.arg = arg;
         controlador.Actual = this;
     }
-    public abstract void Inicialitzar();
+    public abstract void FaseStart();
     public void Finalitzar() => OnFinish_Invocar();
     protected void OnDisable() => onFinish = null;
 }

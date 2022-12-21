@@ -17,6 +17,19 @@ public class UI_Nivell : MonoBehaviour
     {
         resoldre.Nivell.EnGuanyarExperiencia += ActualitarUI;
         resoldre.Nivell.EnPujarNivell += ActualitarUI;
+        resoldre.EnTornar += Amagar;
+        resoldre.EnRepetir += Amagar;
+        resoldre.EnContinuar += Amagar;
+        ActualitarUI(1, 0);
+    }
+
+    void OnDisable()
+    {
+        resoldre.Nivell.EnGuanyarExperiencia -= ActualitarUI;
+        resoldre.Nivell.EnPujarNivell -= ActualitarUI;
+        resoldre.EnTornar -= Amagar;
+        resoldre.EnRepetir -= Amagar;
+        resoldre.EnContinuar -= Amagar;
     }
 
     void ActualitarUI(int nivell, int experiencia)
@@ -25,4 +38,10 @@ public class UI_Nivell : MonoBehaviour
         uiNivell.text = nivell.ToString();
         uiExperencia.text = $"{experiencia} / {resoldre.Nivell.ProximNivell(nivell)}";
     }
+
+    public void Amagar()
+    {
+        Destroy(this.gameObject);
+    }
+
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Fase_Sortir : Fase
 {
     [SerializeField]
-    public override void Inicialitzar()
+    public override void FaseStart()
     {
         //Guardar quan es premi el boto.
         //pero pots apretar el boto a mitg procesar.

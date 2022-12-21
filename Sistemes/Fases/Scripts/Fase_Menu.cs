@@ -9,55 +9,39 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Menu")]
 public class Fase_Menu : Fase
 {
-   
+    public const string SEGONA_PARTIDA = "SegonaPartida";
 
     [Apartat("GUARDAT")]
     [SerializeField] SaveHex save;
+    [SerializeField] Guardat guardat;
     [SerializeField] Grups grups;
     [SerializeField] CapturarPantalla capturarPantalla;
-
-    [Apartat("MENUS")]
-    [SerializeField] Mode mode;
-    [SerializeField] GameObject[] prefabs_FreeSyle;
-    [SerializeField] GameObject[] prefabs_Pila;
-
-    [Apartat("PECES")]
-    [SerializeField] PoolPeces pool;
 
     [Apartat("SEGÜENT FASE")]
     [SerializeField] Fase colocar;
 
     Grid grid;
-    GameObject menu;
     bool inici = true;
-
-    //PORPIETATS
-    public Mode Mode => mode;
 
 
     //OVERRIDES
-    public override void Inicialitzar()
+    public override void FaseStart()
     {
-        OnFinish += ConfigurarMode;
-        
+        OnFinish += MarcarComIniciat;
+
         if (grid == null) grid = FindObjectOfType<Grid>();
+
         grid.CrearGrid();
 
         if (inici)
         {
-            if (!save.TePeces)
-            {
-                IniciarNet();
-            }
-            else
-            {
+            if (save.TePeces)
                 save.Load(grups, colocar);
-            }
+            else
+                Opcions();
         }
         else
-        {
-            //Instanciar la UI amb els punts guanyats i les opcions 
-        }
+            Opcions();
         
     }
 
@@ -77,6 +61,8 @@ public class Fase_Menu : Fase
             XS_Coroutine.StartCoroutine(SortirTemps(1));
         }
 
+        guardat.SetLocal(SEGONA_PARTIDA, true);
+
         IEnumerator SortirTemps(float temps)
         {
             yield return new WaitForSeconds(temps);
@@ -85,8 +71,14 @@ public class Fase_Menu : Fase
         }
     }
 
+    void MarcarComIniciat()
+    {
+        inici = true;
+        OnFinish -= MarcarComIniciat;
+    }
+
     //PRIVADES
-    void IniciarNet()
+    void Opcions()
     {
         grid.Resetejar();
         grid.CrearBoto(grid.Centre);
@@ -94,39 +86,18 @@ public class Fase_Menu : Fase
 
     void ConfigurarMode() 
     {
-        switch (mode)
-        {
-            case Mode.FreeSyle:
-                for (int i = 0; i < prefabs_FreeSyle.Length; i++)
-                {
-                    menu = Instantiate(prefabs_FreeSyle[i], UI_CameraMenu_Access.CameraMenu.transform);
-                    SetupMenuCanvasWorldCamera();
-                }
-               
-                break;
-            case Mode.pila:
-                pool.Iniciar();
-                for (int i = 0; i < prefabs_Pila.Length; i++)
-                {
-                    menu = Instantiate(prefabs_Pila[i], UI_CameraMenu_Access.CameraMenu.transform);
-                    SetupMenuCanvasWorldCamera();
-                }
-                    
-                break;
-        }
-
         inici = false;
-
-        OnFinish -= ConfigurarMode;
-        
-        void SetupMenuCanvasWorldCamera() => menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
     }
 
+    
     new void OnDisable()
     {
         base.OnDisable();
         inici = true;
     }
 
-  
+    private void OnValidate()
+    {
+        if (guardat == null) guardat = XS_Editor.LoadGuardat<Guardat>();
+    }
 }

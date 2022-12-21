@@ -31,7 +31,7 @@ public class Fase_Processar : Fase
     List<Peça> canviades;
 
 
-    public override void Inicialitzar()
+    public override void FaseStart()
     {
         if (grid == null) grid = FindObjectOfType<Grid>();
 
