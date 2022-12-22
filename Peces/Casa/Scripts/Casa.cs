@@ -8,7 +8,7 @@ using XS_Utils;
 [System.Serializable]
 public class Casa
 {
-    public Casa(Peça peça, Producte[] recursosNeeded)
+    public Casa(Peça peça, Producte[] recursosNeeded, System.Action enModificarNecessitats)
     {
         this.peça = peça;
         Debugar.LogError($"CASA {peça.Coordenades}");
@@ -19,6 +19,8 @@ public class Casa
         {
             AfegirNecessitat(recursosNeeded[i]);
         }
+
+        this.enModificarNecessitats = enModificarNecessitats;
     }
     public Casa(Vector2Int peça, Necessitat[] necessitats)
     {
@@ -29,6 +31,9 @@ public class Casa
 
     [SerializeField] Peça peça;
     [SerializeField] Necessitat[] necessitats;
+
+    System.Action enModificarNecessitats;
+
 
 
     //INTERN
@@ -58,12 +63,16 @@ public class Casa
         List<Necessitat> tmp = new List<Necessitat>(necessitats);
         tmp.Add(new Necessitat(producte, peça));
         necessitats = tmp.ToArray();
+
+        enModificarNecessitats?.Invoke();
     }
     public void TreureNecessitat()
     {
         List<Necessitat> tmp = new List<Necessitat>(necessitats);
         tmp.RemoveAt(tmp.Count - 1);
         necessitats = tmp.ToArray();
+
+        enModificarNecessitats?.Invoke();
     }
 
     public SavedCasa Save => peça != null ? new SavedCasa(necessitats, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;

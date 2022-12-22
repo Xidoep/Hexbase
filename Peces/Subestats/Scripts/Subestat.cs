@@ -72,14 +72,17 @@ public class Subestat : ScriptableObject
 
 
 
-    public GameObject[] InformacioMostrar(Peça peça) 
+    public Informacio.Unitat[] InformacioMostrar(Informacio.Unitat[] elements, Peça peça, bool proveides) 
     {
         if (informacio == null)
             return null;
 
-        return informacio.Mostrar(peça);
+        if(elements != null)
+            informacio.Amagar(elements);
+
+        return informacio.Mostrar(peça, proveides);
     }
-    public GameObject[] InformacioAmagar(GameObject[] elements)
+    public Informacio.Unitat[] InformacioAmagar(Informacio.Unitat[] elements)
     {
         if (informacio == null)
             return null;

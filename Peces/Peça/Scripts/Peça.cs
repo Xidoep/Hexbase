@@ -17,6 +17,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
+        informacio = subestat.InformacioMostrar(informacio, this, false);
         //informacio = subestat.InformacioMostrar(this);
 
         gameObject.name = $"{estat.name}({coordenades})";
@@ -47,7 +48,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //VARIABLES PRIVADES
     [SerializeField] TilePotencial[] tiles;
     protected Condicio[] condicions;
-    [SerializeField] GameObject[] informacio;
+    [SerializeField] Informacio.Unitat[] informacio;
 
     //PROPIETATS
     public override bool EsPeça => true;
@@ -60,6 +61,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Casa Casa => cases[0];
     public bool TeCasa => cases.Length > 0;
 
+    public Informacio.Unitat[] Informacio => informacio;
 
     //public Producte[] ExtreureProducte() => extraccio.Subestat.Produccio();
     public ProducteExtret[] ExtreureProducte() => productesExtrets;
@@ -79,8 +81,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     } 
     public Vector2Int SetCoordenadesProducte { set => extraccio = null; /*set => producteCooerdenada = value;*/ } //Canviat només perque no molesti
 
-    public System.Func<Peça, GameObject[]> mostrarInformacio;
-    public System.Func<GameObject[], GameObject[]> amagarInformacio;
+    public System.Func<Informacio.Unitat[], Peça, bool, Informacio.Unitat[]> mostrarInformacio;
+    public System.Func<Informacio.Unitat[], Informacio.Unitat[]> amagarInformacio;
 
 
     public void CrearTilesPotencials()
@@ -138,6 +140,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (condicions == null)
             return;
 
+        informacio = amagarInformacio?.Invoke(informacio);
+        
         mostrarInformacio -= subestat.InformacioMostrar;
         amagarInformacio -= subestat.InformacioAmagar;
 
@@ -157,7 +161,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void CrearCasa(Producte producte)
     {
-        cases = new Casa[] { new Casa(this, new Producte[] { producte }) }; 
+        cases = new Casa[] { new Casa(this, new Producte[] { producte }, () => informacio = mostrarInformacio?.Invoke(informacio, this, false)), }; 
     }
     void TreureCasa() => cases = new Casa[0];
 
@@ -168,18 +172,26 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
 
 
+    public void InformacioDestroy(int index, float temps)
+    {
+        Destroy(this.informacio[index].gameObject, temps);
+
+        List<Informacio.Unitat> informacio = new List<Informacio.Unitat>(this.informacio);
+        informacio.RemoveAt(index);
+        this.informacio = informacio.ToArray();
+
+    }
+
     //INTERACCIO
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
     {
-        if (informacio == null)
-            return;
-
-        if (informacio.Length > 0)
-            return;
-
-        informacio = mostrarInformacio?.Invoke(this);
+        informacio = mostrarInformacio?.Invoke(informacio, this, true);
+    }
+    public void OnPointerExit(PointerEventData eventData) 
+    {
+        informacio = mostrarInformacio?.Invoke(informacio, this, false);
+        //informacio = amagarInformacio?.Invoke(informacio);
     } 
-    public void OnPointerExit(PointerEventData eventData) => informacio = amagarInformacio?.Invoke(informacio);
 
 
 

@@ -160,6 +160,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: -7834046933554190528}
+        m_TargetAssemblyTypeName: Utils_EsdevenimentDelegatBool, XS.Utils
+        m_MethodName: Esdevenir
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 11400000, guid: 8e09c79a4b3c528459dc401f0c95667b, type: 2}
         m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
         m_MethodName: Play
@@ -340,7 +352,7 @@ GameObject:
   - component: {fileID: 5610609289139273297}
   - component: {fileID: -2861510721257117348}
   - component: {fileID: -4284665107701976557}
-  - component: {fileID: 2208354494137566821}
+  - component: {fileID: -7834046933554190528}
   m_Layer: 5
   m_Name: Popup_Sortir
   m_TagString: Untagged
@@ -468,7 +480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capturarPantalla: {fileID: 11400000, guid: c398dd49969f0d548a9d82efac5328eb, type: 2}
---- !u!114 &2208354494137566821
+--- !u!114 &-7834046933554190528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -477,14 +489,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4224293230431529238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 255b2ca82b511bc49a9a98c09188d776, type: 3}
+  m_Script: {fileID: 11500000, guid: 29e0705ad92ca9c46816039566abf278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: {fileID: 11400000, guid: 52c2d0aec9828df429cf838c2f727adf, type: 2}
-  fadeOut: {fileID: -1907010861836720828, guid: 94efaa56815f7e34aa5ec82e48d0022f, type: 3}
-  sortir2: {fileID: -4492176627084711249, guid: a542827c9a1dfc0488c2727130cd43e7, type: 3}
-  button: {fileID: 2216287138342353326}
-  guardat: {fileID: 11400000, guid: d8ba27ffe88b6fc4cb63b16236c5a60f, type: 2}
 --- !u!1 &6276772455473853965
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,6 +749,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: -7834046933554190528}
+        m_TargetAssemblyTypeName: Utils_EsdevenimentDelegatBool, XS.Utils
+        m_MethodName: Esdevenir
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 11400000, guid: 8e09c79a4b3c528459dc401f0c95667b, type: 2}
         m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
         m_MethodName: Play

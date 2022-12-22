@@ -13,6 +13,9 @@ public class Fase_Iniciar : Fase
     [SerializeField] Estat inicial;
 
     Grid grid;
+    bool gridNet = true;
+
+    
 
     public override void FaseStart()
     {
@@ -20,7 +23,14 @@ public class Fase_Iniciar : Fase
 
         modes.ConfigurarModes();
 
-        PosarPrimeraPeça();
+        if (gridNet)
+        {
+            PosarPrimeraPeça();
+        }
+        else
+        {
+            colocar.Iniciar();
+        }
     }
 
     public void PosarPrimeraPeça()
@@ -30,8 +40,20 @@ public class Fase_Iniciar : Fase
 
         //Aqui potser hi aniran diferents tipus de inici o de colocacio de peces segons el mode o el dia de l'any, etc..
         grid.CrearPeça(inicial, grid.Centre);
-
+        gridNet = false;
         //colocar.Iniciar();
+    }
+
+    public void Reset()
+    {
+        gridNet = true;
+    }
+
+
+    new void OnDisable()
+    {
+        base.OnDisable();
+        Reset();
     }
 }
 

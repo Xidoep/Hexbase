@@ -82,25 +82,25 @@ public class Produccio : ScriptableObject
 
         //if (!buid)
         //{
-        GameObject[] infoProductes = productors[index].Extraccio.Subestat.InformacioMostrar(productors[index].Extraccio);
+        Informacio.Unitat[] infoProductes = productors[index].Extraccio.Subestat.InformacioMostrar(null, productors[index].Extraccio, true);
 
         Debug.Log($"{productes.Length} productes");
         for (int i = 0; i < productes.Length; i++)
         {
             if (productes[i].gastat)
             {
-                visualitzacions.Add(new Visualitzacio(null, null, null));
+                visualitzacions.Add(new Visualitzacio(null, null, null, -1));
                 continue;
             }
 
-            Peça proveida = BuscarCasaDesproveida(productors[index], productes[i].producte);
+            Peça proveida = BuscarCasaDesproveida(productors[index], productes[i].producte, out int indexNecessitat);
             if (proveida != null)
             {
                 resoldre.Nivell.GuanyarExperiencia(1);
                 casesProveides.Add(proveida);
                 productes[i].gastat = true;
             }
-            visualitzacions.Add(new Visualitzacio(productors[index].Extraccio, productors[index], proveida));
+            visualitzacions.Add(new Visualitzacio(productors[index].Extraccio, productors[index], proveida, indexNecessitat));
         }
 
 
@@ -112,10 +112,11 @@ public class Produccio : ScriptableObject
                 //les que ho tenen tot, han d'apareixre de l'extractor, anar cap al productor i cap a la casa
                 //Els que tenen extractor i productor pero no casa. Han de sortir de l'extractor i tornar a entrar.
                 XS_Coroutine.StartCoroutine(Animacio_ProductesExtrets(
-                                    infoProductes[i],
+                                    infoProductes[i].gameObject,
                                     visualitzacions[i].productor,
                                     i,
-                                    visualitzacions[i].casa));
+                                    visualitzacions[i].casa,
+                                    visualitzacions[i].indexNecessitat));
             }
         //}
 
@@ -128,21 +129,24 @@ public class Produccio : ScriptableObject
 
     struct Visualitzacio
     {
-        public Visualitzacio(Peça extractor, Peça productor, Peça casa)
+        public Visualitzacio(Peça extractor, Peça productor, Peça casa, int indexNecessitat)
         {
             this.extractor = extractor;
             this.productor = productor;
             this.casa = casa;
+            this.indexNecessitat = indexNecessitat;
         }
         public Peça extractor;
         public Peça productor;
         public Peça casa;
+        public int indexNecessitat;
     }
 
 
-    Peça BuscarCasaDesproveida(Peça productor, Producte producte)
+    Peça BuscarCasaDesproveida(Peça productor, Producte producte, out int index)
     {
         Peça casa = null;
+        int _index = -1;
         string debug = "PRODUCCIO DEBUG\n";
         connexions = grups.GrupByPeça(productor).connexionsId;
         for (int con = 0; con < connexions.Count; con++)
@@ -162,6 +166,7 @@ public class Produccio : ScriptableObject
                     {
                         debug += $" ***No estava proveida, per tant la proveixo***";
                         poble[p].Casa.Necessitats[n].Proveir();
+                        _index = n;
                         casa = poble[p];
                     }
                     debug += $"\n";
@@ -174,14 +179,16 @@ public class Produccio : ScriptableObject
             if (casa != null)
                 break;
         }
-        return casa;
+        index = _index;
         Debugar.LogError(debug);
+        return casa;
     }
 
-    IEnumerator Animacio_ProductesExtrets(GameObject producte, Peça productor, float index, Peça casa)
+
+    IEnumerator Animacio_ProductesExtrets(GameObject producte, Peça productor, float indexProducte, Peça casa, int indexNecessitat)
     {
         //GameObject producte = productor.Producte.Subestat.InformacioMostrar(productor.Producte)[0];
-        yield return new WaitForSeconds(0.55f + (index * 0.3f));
+        yield return new WaitForSeconds(0.55f + (indexProducte * 0.3f));
         if(productor == null)
         {
             producte.GetComponent<UI_Producte>().Destruir(1f);
@@ -193,7 +200,7 @@ public class Produccio : ScriptableObject
             new Animacio_Posicio(productor.Extraccio.transform.position + offset, productor.transform.position + offset, false, false).Play(producte, 0.5f, Transicio.clamp);
 
             if (casa != null)
-                XS_Coroutine.StartCoroutine(Animacio_EnviarProducteACasa(producte, productor.transform, casa.transform));
+                XS_Coroutine.StartCoroutine(Animacio_EnviarProducteACasa(producte, productor.transform, casa, indexNecessitat));
             else
             {
                 producte.GetComponent<UI_Producte>().Destruir(1.5f);
@@ -204,11 +211,18 @@ public class Produccio : ScriptableObject
     }
 
 
-    IEnumerator Animacio_EnviarProducteACasa(GameObject producte, Transform productor, Transform casa)
+    IEnumerator Animacio_EnviarProducteACasa(GameObject producte, Transform productor, Peça casa, int indexNecessitat)
     {
         yield return new WaitForSeconds(0.75f);
-        new Animacio_Posicio(productor.position, casa.position, false, false).Play(producte, 0.5f, Transicio.clamp);
+        new Animacio_Posicio(productor.position, casa.transform.position, false, false).Play(producte, TempsProces(), Transicio.clamp);
 
-        Destroy(producte, 2);
+        //Canviar el destuir per una animacio que el fagi desapareixre.
+        //Quan es torni a crear la informacio aquests ja estaran marcats com a proveits.
+        casa.InformacioDestroy(indexNecessitat, TempsProces() + 1.5f);
+
+        //Falta animacio proveir, 1 segon abans de destruir-ho.
+        Destroy(producte, TempsProces() + 1.5f);
+
+        float TempsProces() => Vector3.Distance(productor.position, casa.transform.position) * 0.5f;
     }
 }

@@ -6,14 +6,20 @@ using UnityEngine;
 public class Informacio_Producte : Informacio
 {
 
-    public override GameObject[] Mostrar(Peça peça)
+    public override Unitat[] Mostrar(Peça peça, bool mostrarProveides = false)
     {
         if (ui == null)
-            ui = new List<GameObject>();
+            ui = new List<Unitat>();
         else ui.Clear();
-        for (int i = 0; i < peça.productesExtrets.Length; i++)
+
+        quantitat = peça.productesExtrets.Length;
+        for (int i = 0; i < quantitat; i++)
         {
-            ui.Add(Instantiate(Prefab, peça.transform.position + DesplaçamentLateral(i), Quaternion.Euler(0, 0, Rotacio(i)), peça.transform).GetComponent<UI_InformacioPeça>().Setup(peça,i));
+            GameObject tmp = Instantiate(Prefab, peça.transform.position, Quaternion.identity, peça.transform);
+            tmp.GetComponent<UI_InformacioPeça>().Setup(peça, i);
+            tmp.transform.GetChild(0).transform.position = peça.transform.position + DesplaçamentLateral(quantitat, i);
+
+            ui.Add(new Unitat(tmp, i));
         }
         return ui.ToArray();
     }

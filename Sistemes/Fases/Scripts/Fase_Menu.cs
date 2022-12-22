@@ -18,7 +18,13 @@ public class Fase_Menu : Fase
     [SerializeField] CapturarPantalla capturarPantalla;
 
     [Apartat("SEGÜENT FASE")]
+    [SerializeField] Fase_Iniciar iniciar;
     [SerializeField] Fase colocar;
+
+    [Apartat("UI")]
+    [SerializeField] Utils_InstantiableFromProject sortir1;
+    [SerializeField] Utils_InstantiableFromProject sortir2;
+    [SerializeField] Utils_InstantiableFromProject fadeOut;
 
     Grid grid;
     bool inici = true;
@@ -46,7 +52,7 @@ public class Fase_Menu : Fase
     }
 
     //PUBLIQUES
-    public void Sortir()
+    void Sortir()
     {
         if (!save.TePeces)
             return;
@@ -71,6 +77,8 @@ public class Fase_Menu : Fase
         }
     }
 
+
+
     void MarcarComIniciat()
     {
         inici = true;
@@ -82,6 +90,7 @@ public class Fase_Menu : Fase
     {
         grid.Resetejar();
         grid.CrearBoto(grid.Centre);
+        iniciar.Reset();
     }
 
     void ConfigurarMode() 
@@ -90,6 +99,32 @@ public class Fase_Menu : Fase
     }
 
     
+
+
+    public void PopupSortir() => sortir1.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(BromaSortir);
+    void BromaSortir(bool sortir)
+    {
+        if (sortir)
+        {
+            bool segonaPartida = (bool)guardat.Get(Fase_Menu.SEGONA_PARTIDA, false);
+
+            if (segonaPartida)
+            {
+                Sortir();
+                fadeOut.Instantiate();
+            }
+            else
+            {
+                sortir2.Instantiate();
+            }
+        }
+    }
+
+
+
+
+
+
     new void OnDisable()
     {
         base.OnDisable();
