@@ -171,16 +171,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         productor.extraccio = this;
     }
 
-
-    public void InformacioDestroy(int index, float temps)
+    public GameObject Get_UINecessitat(int index)
     {
-        Destroy(this.informacio[index].gameObject, temps);
-
-        List<Informacio.Unitat> informacio = new List<Informacio.Unitat>(this.informacio);
-        informacio.RemoveAt(index);
-        this.informacio = informacio.ToArray();
-
+        return this.informacio[index].gameObject;
     }
+
 
     //INTERACCIO
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 

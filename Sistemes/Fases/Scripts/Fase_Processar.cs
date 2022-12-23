@@ -21,7 +21,8 @@ public class Fase_Processar : Fase
     [SerializeField] Fase resoldre;
 
     [Apartat("ANIMACIONS")]
-    [SerializeField] Animacio_Scriptable actualitzar;
+    [SerializeField] Visualitzacions visualitzacions;
+    [SerializeField] Animacio_Scriptable actualitzar; //Aixo hauria de dirse: Veines
 
     //PRIVADES
     Grid grid;
@@ -29,6 +30,7 @@ public class Fase_Processar : Fase
     Peça peça;
     List<Peça> perComprovar;
     List<Peça> canviades;
+    List<Peça> animades;
 
 
     public override void FaseStart()
@@ -49,19 +51,35 @@ public class Fase_Processar : Fase
 
     void Agrupar()
     {
-        grups.Agrupdar(peça, Proximitat);
+        //grups.Agrupdar(peça, Proximitat);
+        grups.Agrupdar(peça, WFC_Inicial);
     }
 
-    void Repoblacio_Primera()//Inicials
+    /*void Repoblacio_Primera()//Inicials
     {
         perComprovar = new List<Peça>() { peça };
         perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
 
         repoblar.Proces(perComprovar, Proximitat);
+    }*/
+
+    
+    void WFC_Inicial() //Primer WFC per la peça inicial.
+    {
+        wfc.Iniciar_WFC(peça, new List<Peça>(), Proximitat);
     }
 
     void Proximitat()
     {
+        peça.animacio.Play(peça.Parent);
+        animades = new List<Peça>() { peça };
+
+        for (int v = 0; v < peça.VeinsPeça.Count; v++)
+        {
+            actualitzar.Play(peça.VeinsPeça[v].Parent);
+            animades.Add(peça.VeinsPeça[v]);
+        }
+
         perComprovar = new List<Peça>() { peça };
         perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
 
@@ -79,7 +97,14 @@ public class Fase_Processar : Fase
 
     void WFC()
     {
-        wfc.Iniciar_WFC(peça, canviades, Produir);
+        if(canviades != null && canviades.Count > 0)
+        {
+            wfc.Iniciar_WFC(peça, canviades, Produir);
+        }
+        else
+        {
+            Produir();
+        }
     }
 
     void Produir()
@@ -88,16 +113,15 @@ public class Fase_Processar : Fase
         produccio.Process(FinalitzarProcessos);
     }
 
-    List<Peça> animades;
 
     void Animar() {
-        peça.animacio.Play(peça.Parent);
-        animades = new List<Peça>() { peça };
-
-        for (int v = 0; v < peça.VeinsPeça.Count; v++)
+        if (canviades.Contains(peça))
         {
-            actualitzar.Play(peça.VeinsPeça[v].Parent);
-            animades.Add(peça.VeinsPeça[v]);
+            visualitzacions.CanviarEstat(peça);
+            for (int v = 0; v < peça.VeinsPeça.Count; v++)
+            {
+                actualitzar.Play(peça.VeinsPeça[v].Parent);
+            }
         }
 
         for (int c = 0; c < canviades.Count; c++)
@@ -120,6 +144,8 @@ public class Fase_Processar : Fase
                 animades.Add(canviades[c].VeinsPeça[v]);
             }
         }
+
+        visualitzacions.GuanyarPunts(1.5f);
     }
 
     void FinalitzarProcessos()

@@ -11,7 +11,7 @@ public class Condicio_Producte : Condicio
     //INTERN
     List<Peça> myVeins;
 
-    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<int> enCanviar)
+    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<Peça, int> enCanviar)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;

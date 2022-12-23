@@ -22,6 +22,7 @@ public class UI_Producte : UI_InformacioPeça
     public void Destruir(float time)
     {
         MeshRenderer.material.SetFloat(START_TIME, Time.time + time);
+        Destroy(gameObject, time + .5f);
     }
 
     //Debug

@@ -10,18 +10,7 @@ public class Menu_Pila : MonoBehaviour
     [SerializeField] Fase_Resoldre resoldre;
     [SerializeField] Transform parent;
     [SerializeField] PoolPeces pool;
-    //[Apartat("FASES")]
-    //[SerializeField] Fase_Colocar colocar;
-    //[SerializeField] Fase_Resoldre nivell;
-    //[SerializeField] Estat[] disponibles;
-    //[SerializeField] int quantitatInicial;
-
-    [Apartat("ANIMACIONS")]
-    [SerializeField] Animacio_Scriptable primeraPosicio;
-    [SerializeField] Animacio_Scriptable segonaPosicio;
-    [SerializeField] Animacio_Scriptable segonaPosicioParent;
-    [SerializeField] Animacio_Scriptable colocarPeça;
-    [SerializeField] Animacio_Scriptable colocarPeçaParent;
+    [SerializeField] Visualitzacions visualitzacions;
 
     List<UI_Peca> creades;
 
@@ -85,8 +74,7 @@ public class Menu_Pila : MonoBehaviour
     [ContextMenu("Remove")]
     void RemovePeça()
     {
-        colocarPeça.Play(creades[0].transform);
-        colocarPeçaParent.Play(creades[0].transform.parent.GetComponent<RectTransform>());
+        visualitzacions.ColocarPeça(creades[0].transform);
         StartCoroutine(RemovePeçaTemps(creades[0]));
         
         creades.RemoveAt(0);
@@ -105,12 +93,11 @@ public class Menu_Pila : MonoBehaviour
         {
             creades[0].Mostrar();
             creades[0].Seleccionar();
-            primeraPosicio.Play(creades[0].transform);
+            visualitzacions.PrimeraPosicio(creades[0].transform);
         }
         if(creades.Count > 1)
         {
-            segonaPosicio.Play(creades[1].transform);
-            segonaPosicioParent.Play(creades[1].transform.parent.GetComponent<RectTransform>());
+            visualitzacions.SegonaPosicio(creades[1].transform);
         }
     }
 

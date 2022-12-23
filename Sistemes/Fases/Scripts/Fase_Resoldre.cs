@@ -9,17 +9,6 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Resoldre")]
 public class Fase_Resoldre : Fase
 {
-    //MIRAR-HO BE AIXO
-    //Aquesta fase comprovarà el nivell que has pujat, el peces que et queden i tota la resta.
-    //Gestionarà el passa al seguent torn:
-    //-donar necessitats
-    //-pujar de nivell si cal
-    //-donar peces
-    //-donar la opcio per desbloquejar
-    //-anunciar la fi del joc si s'acaben les peces
-    //-donar la opcio de continguar jugant en mode infinit
-    //-etc...
-    //S'han de guardar i carregar el nivell i l'experiencia guardades per la partida.
     [Apartat("FASES")]
     [SerializeField] Fase menu;
     [SerializeField] Fase iniciar;
@@ -75,22 +64,7 @@ public class Fase_Resoldre : Fase
 
     void ResoldrePila()
     {
-        //Si pujes de nivell, no passarà res, continues jugant
-        //Si no pujes de nivell, es miren les peces que et queden, si te'n quen prous, continues jugant també.
-        //Si no te'n queden és on comença lo interessant d'aquesta fase:
-        //Pausa el joc. (està bloquejat el proces de posar peces, aixi que no en pots posar)
-        ///T'ensenya una UI, amb els punts aconseguits, les combinacions fetes, les cases creades, els pobles creats i les necessitats cobertes.
-        ///Et dona 3 opcions:
-        //-Tornar:
-        //Abans et pregunta si vols guardar aquest mapa o no.
-        //De totes maneres es carrega tot el mon i torna a la Fase_Menu amb el botó inicial (Si guardes el mon, en fà una foto abans de carregarsel)
-        //Repetir:
-        //Abans et pregunta si vols guardar aquest mapa o no.
-        //De totes maneres es carrega tot el mon, i en aquest cas, va a la Fase_Inciar, on coloca la peça inicial (Si guardes el mon, en fa una foto abans de carregarsel).
-        //Continuar:
-        //En aquest cas, l'unic que es fa es treure la ui de pila i el nivell, canviar el mode i posar la UI freeStyle.
-
-        if (!nivell.PujarDeNivell())
+        if (!nivell.PujarDeNivell)
         {
 
             if (!peces.QuedenPeces())
@@ -128,7 +102,6 @@ public class Fase_Resoldre : Fase
                     break;
             }
         }
-
         void PopupTornar(bool guardar)
         {
             enTornar?.Invoke();
@@ -142,7 +115,6 @@ public class Fase_Resoldre : Fase
             GuardarSiCal(guardar);
             XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 3 : 0.1f, iniciar));
         }
-
         IEnumerator CanviarMenu(float temps, Fase fase)
         {
             yield return new WaitForSeconds(temps);
@@ -150,7 +122,6 @@ public class Fase_Resoldre : Fase
             Nivell.Reset();
             fase.Iniciar();
         }
-
         void GuardarSiCal(bool guardar)
         {
             if (guardar)
@@ -183,6 +154,23 @@ public class Fase_Resoldre : Fase
         System.Action<int, int> enGuanyarExperiencia;
         System.Action<int, int> enPujarNivell;
 
+        //PROPIETATS
+        public bool PujarDeNivell
+        {
+            get
+            {
+                if (this.experiencia >= ProximNivell(nivell))
+                {
+                    nivell++;
+                    enPujarNivell?.Invoke(nivell, experiencia);
+                    return true;
+                }
+                return false;
+            }
+        }
+        public float FactorExperienciaNivellActual => (experiencia - (ProximNivell(nivell - 1))) / (float)((ProximNivell(nivell) - ProximNivell(nivell - 1)));
+        public System.Action<int, int> EnGuanyarExperiencia { get => enGuanyarExperiencia; set => enGuanyarExperiencia = value; }
+        public System.Action<int, int> EnPujarNivell { get => enPujarNivell; set => enPujarNivell = value; }
 
 
         //FUNCIONS PUBLIQUES
@@ -192,23 +180,8 @@ public class Fase_Resoldre : Fase
             this.experiencia += experiencia;
             enGuanyarExperiencia?.Invoke(nivell, this.experiencia);
         }
-        public float FactorExperienciaNivellActual => (experiencia - (ProximNivell(nivell - 1))) / (float)((ProximNivell(nivell) - ProximNivell(nivell - 1)));
-        public System.Action<int, int> EnGuanyarExperiencia { get => enGuanyarExperiencia; set => enGuanyarExperiencia = value; }
-        public System.Action<int, int> EnPujarNivell { get => enPujarNivell; set => enPujarNivell = value; }
 
 
-
-        //GENERICS
-        public bool PujarDeNivell()
-        {
-            if (this.experiencia >= ProximNivell(nivell))
-            {
-                nivell++;
-                enPujarNivell?.Invoke(nivell, experiencia);
-                return true;
-            }
-            return false;
-        }
 
         public void Reset()
         {

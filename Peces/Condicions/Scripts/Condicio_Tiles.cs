@@ -12,7 +12,7 @@ public class Condicio_Tiles : Condicio
     [Tooltip("En comptes de complirse quan troba algun dels tiles, es complirà quan no en trobi cap.")]
     [SerializeField] bool invertit;
 
-    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<int> enCanviar)
+    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<Peça, int> enCanviar)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;

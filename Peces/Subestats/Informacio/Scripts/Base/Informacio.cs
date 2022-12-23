@@ -7,7 +7,7 @@ public class Informacio : ScriptableObject
 {
     [Apartat("INFROMACIO")]
     [SerializeField] UI_InformacioPeça prefab;
-    [SerializeField] Animacio_Scriptable animacioAmagar;
+    [SerializeField] Visualitzacions visualitzacions;
 
     protected List<Unitat> ui;
 
@@ -22,7 +22,6 @@ public class Informacio : ScriptableObject
 
         for (int i = 0; i < elements.Length; i++)
         {
-            animacioAmagar.Play(elements[i].gameObject);
             Destroy(elements[i].gameObject, 0.51f);
         }
         return new Unitat[0];

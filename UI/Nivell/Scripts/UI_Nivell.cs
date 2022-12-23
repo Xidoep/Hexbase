@@ -7,8 +7,10 @@ using TMPro;
 public class UI_Nivell : MonoBehaviour
 {
     [SerializeField] Fase_Resoldre resoldre;
+    [SerializeField] Visualitzacions visualitzacions;
 
     [Apartat("UI")]
+    [SerializeField] Transform pivot;
     [SerializeField] Image uiCercle;
     [SerializeField] TMP_Text uiNivell;
     [SerializeField] TMP_Text uiExperencia;
@@ -20,6 +22,7 @@ public class UI_Nivell : MonoBehaviour
         resoldre.EnTornar += Amagar;
         resoldre.EnRepetir += Amagar;
         resoldre.EnContinuar += Amagar;
+
         ActualitarUI(1, 0);
     }
 
@@ -34,6 +37,7 @@ public class UI_Nivell : MonoBehaviour
 
     void ActualitarUI(int nivell, int experiencia)
     {
+        visualitzacions.GuanyarExperiencia(pivot);
         uiCercle.fillAmount = resoldre.Nivell.FactorExperienciaNivellActual;
         uiNivell.text = nivell.ToString();
         uiExperencia.text = $"{experiencia} / {resoldre.Nivell.ProximNivell(nivell)}";

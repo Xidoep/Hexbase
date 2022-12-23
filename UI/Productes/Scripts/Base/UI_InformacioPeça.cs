@@ -12,5 +12,6 @@ public abstract class UI_InformacioPeça : MonoBehaviour
 
     [SerializeField] MeshRenderer meshRenderer;
 
+
     protected MeshRenderer MeshRenderer => meshRenderer;
 }

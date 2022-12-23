@@ -35,16 +35,16 @@ public abstract class Condicio : ScriptableObject
     /// 
     /// IMPORTANT: Les funcions subscrites han de cridar Canviar quan el resultat sigui positiu.
     /// </summary>
-    public abstract bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<int> enCanviar);
+    public abstract bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<Peça, int> enCanviar);
 
 
     /// <summary>
     /// Canviar es la funcio comuna que es crida a al confirmar la condicio, a la funcio Comprovar.
     /// </summary>
-    protected void Canviar(Peça peça, System.Action<int> enCanviar) 
+    protected void Canviar(Peça peça, System.Action<Peça, int> enCanviar) 
     {
         Debugar.LogError($"[{peça.Subestat.name}] >>> Changed to >>> [{objectiu.name}]");
-        enCanviar.Invoke(punts);
+        enCanviar.Invoke(peça, punts);
         peça.CanviarSubestat(objectiu);
     }
 

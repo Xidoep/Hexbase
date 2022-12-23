@@ -46,8 +46,7 @@ public class UI_Peca : MonoBehaviour
         childs = transform.GetComponentsInChildren<Transform>(true);
         for (int i = 0; i < childs.Length; i++)
         {
-            if(childs[i].gameObject.layer != 7)
-                childs[i].gameObject.layer = 10;
+            childs[i].SetCapa_UIPeces();
         }
     }
 }
