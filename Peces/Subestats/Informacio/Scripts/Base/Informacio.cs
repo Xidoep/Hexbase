@@ -22,16 +22,16 @@ public class Informacio : ScriptableObject
 
         for (int i = 0; i < elements.Length; i++)
         {
-            Destroy(elements[i].gameObject, 0.51f);
+            Destroy(elements[i].gameObject, 0.1f);
         }
         return new Unitat[0];
     }
 
     //protected Vector3 DesplaçamentLateral(int all, int i) => ((Camera.main.transform.right * (((i + 1) / 2) * 0.5f)) * (i % 2 == 0 ? 1 : -1)) + (Vector3.down * (i * i * 0.025f));
-    protected Vector3 DesplaçamentLateral(int all, int i) => X(all, i);
+    protected Vector3 DesplaçamentLateral(Transform parent, int all, int i) => X(parent, all, i) + Z(all,i);
 
-    Vector3 X(int all, int i) => Camera.main.transform.right * -(Mathf.Max((all - 1),0) * 0.25f) + Camera.main.transform.right * (i * 0.5f);
-    Vector3 Z(int all, int i) => Vector3.down * (i * i * 0.025f);
+    Vector3 X(Transform parent, int all, int i) => parent.right * -(Mathf.Max((all - 1),0) * 0.125f) + parent.right * (i * 0.25f);
+    Vector3 Z(int all, int i) => Vector3.down * (0.25f) + Vector3.down * (Mathf.Min((Mathf.Min(i,(all-1)-i)),2) * 0.125f);
     protected float Rotacio(int i) => (((i + 1) / 2) * 12f) * (i % 2 == 0 ? -1 : 1);
 
 

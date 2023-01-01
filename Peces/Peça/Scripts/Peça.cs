@@ -39,6 +39,12 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [Apartat("PRDUCTES")]
     [SerializeField] public ProducteExtret[] productesExtrets;
 
+    [Apartat("INFORMACIO")]
+    [SerializeField] Informacio.Unitat[] informacio;
+    public bool blocarInformacio;
+
+    public bool BlocarInformacio { set => blocarInformacio = value; }
+
     [System.Serializable] public struct ProducteExtret
     {
         public Producte producte;
@@ -48,7 +54,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //VARIABLES PRIVADES
     [SerializeField] TilePotencial[] tiles;
     protected Condicio[] condicions;
-    [SerializeField] Informacio.Unitat[] informacio;
 
     //PROPIETATS
     public override bool EsPeça => true;
@@ -61,7 +66,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Casa Casa => cases[0];
     public bool TeCasa => cases.Length > 0;
 
-    public Informacio.Unitat[] Informacio => informacio;
+    public Informacio.Unitat[] Informacio { get => informacio; set => informacio = value; }
 
     //public Producte[] ExtreureProducte() => extraccio.Subestat.Produccio();
     public ProducteExtret[] ExtreureProducte() => productesExtrets;
@@ -87,11 +92,22 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void CrearTilesPotencials()
     {
-        tiles = new TilePotencial[6];
-        for (int i = 0; i < 6; i++)
+        if(tiles == null || tiles.Length == 0)
         {
-            tiles[i] = new TilePotencial(this, i);
+            tiles = new TilePotencial[6];
+            for (int i = 0; i < 6; i++)
+            {
+                tiles[i] = new TilePotencial(this, i);
+            }
         }
+        else
+        {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                tiles[i].Ambiguo();
+            }
+        }
+        
     }
     public void AssignarVeinsTiles(TilePotencial[] tilesPotencials)
     {
@@ -156,7 +172,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
-        //informacio = subestat.InformacioMostrar(this);
+
+        
+        informacio = subestat.InformacioMostrar(informacio, this, true);
     }
 
     public void CrearCasa(Producte producte)
@@ -171,19 +189,29 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         productor.extraccio = this;
     }
 
-    public GameObject Get_UINecessitat(int index)
+    public GameObject Get_UINecessitat(int index) 
     {
-        return this.informacio[index].gameObject;
-    }
+        if(informacio.Length == 0)
+        {
+            informacio = mostrarInformacio?.Invoke(informacio, this, true);
+        }
+        return informacio[index].gameObject;
+    } 
 
 
     //INTERACCIO
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
     {
+        if (blocarInformacio)
+            return;
+
         informacio = mostrarInformacio?.Invoke(informacio, this, true);
     }
     public void OnPointerExit(PointerEventData eventData) 
     {
+        if (blocarInformacio)
+            return;
+
         informacio = mostrarInformacio?.Invoke(informacio, this, false);
         //informacio = amagarInformacio?.Invoke(informacio);
     } 

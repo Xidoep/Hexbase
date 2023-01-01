@@ -15,9 +15,12 @@ public class Informacio_Producte : Informacio
         quantitat = peça.productesExtrets.Length;
         for (int i = 0; i < quantitat; i++)
         {
+            if (!mostrarProveides && peça.productesExtrets[i].gastat)
+                continue;
+
             GameObject tmp = Instantiate(Prefab, peça.transform.position, Quaternion.identity, peça.transform);
             tmp.GetComponent<UI_InformacioPeça>().Setup(peça, i);
-            tmp.transform.GetChild(0).transform.position = peça.transform.position + DesplaçamentLateral(quantitat, i);
+            tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
 
             ui.Add(new Unitat(tmp, i));
         }

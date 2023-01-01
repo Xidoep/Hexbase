@@ -43,7 +43,7 @@ public class Modes : ScriptableObject
 
     void OnDisable()
     {
-        mode = Mode.Pila;
+        //mode = Mode.Pila;
     }
 }
 

@@ -13,7 +13,7 @@ public class UI_Necessitat : UI_InformacioPeça
 
         MeshRenderer.material.SetTexture(ICONE, producte.Icone);
         MeshRenderer.material.SetFloat(COVERTA, necessitat.Proveit ? 1 : 0);
-        MeshRenderer.transform.localRotation = Quaternion.Euler(0, 0, Rotacio(index));
+        //MeshRenderer.transform.localRotation = Quaternion.Euler(0, 0, Rotacio(index));
 
         return gameObject;
     }

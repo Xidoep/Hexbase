@@ -196,8 +196,11 @@ public class TilePotencial
 
         tileFisic.transform.localEulerAngles = new Vector3(0, orientacio * 60, 0) + new Vector3(0, AngleOrientacioFisica, 0);
         if (orientacioFisica != 0)
-            tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
-
+        {
+            peça.Parent.localScale = Vector3.one;
+            //tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * GridExtensions.GetWorldPosition(0, 0).z + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
+            tileFisic.transform.position = peça.Parent.position - tileFisic.transform.forward * .866f + (tileFisic.transform.right * 0.5f) * (orientacioFisica == 1 ? 1 : -1);
+        }
 
         //tileFisic.AddComponent<TileDebug>().New(veins, orientacioFisica);
 

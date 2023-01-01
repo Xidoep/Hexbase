@@ -101,16 +101,16 @@ public class Visualitzacions : ScriptableObject
         {
             if (productor == null)
             {
-                DestruirProducte(producte);
+                DestruirProducte(productor, producte);
             }
             else
             {
                 ExtreureProducte(producte, productor);
 
                 if (casa != null)
-                    RepartirProducte(producte, productor.transform, casa, indexNecessitat);
+                    RepartirProducte(producte, productor, casa, indexNecessitat);
                 else
-                    DestruirProducte(producte);
+                    DestruirProducte(productor, producte);
             }
         }
 
@@ -119,32 +119,34 @@ public class Visualitzacions : ScriptableObject
             Vector3 offset = producte.transform.localPosition;
             new Animacio_Posicio(productor.Extraccio.transform.position + offset, productor.transform.position + offset, false, false).Play(producte, 0.5f, Transicio.clamp);
         }
-        void RepartirProducte(GameObject producte, Transform productor, Peça casa, int indexNecessitat)
+        void RepartirProducte(GameObject producte, Peça productor, Peça casa, int indexNecessitat)
         {
             XS_Coroutine.StartCoroutine_Ending(0.75f, Animacio);
 
             void Animacio()
             {
-                float temps = Vector3.Distance(productor.position, casa.transform.position) * 0.5f;
+                float temps = Vector3.Distance(productor.transform.position, casa.transform.position) * 0.25f;
 
-                new Animacio_Posicio(productor.position, casa.transform.position, false, false).Play(producte, temps, Transicio.clamp);
+                new Animacio_Posicio(productor.transform.position, casa.transform.position, false, false).Play(producte, temps, Transicio.clamp);
 
-                ProducteProveir(producte, temps + 1);
-                NecessitatProveida(casa.Get_UINecessitat(indexNecessitat), temps + 1);
+                ProducteProveir(productor, producte, temps + 1);
+                NecessitatProveida(casa, casa.Get_UINecessitat(indexNecessitat), temps + 1);
             }
         }
-        void ProducteProveir(GameObject gameObject, float delay)
+        void ProducteProveir(Peça productor, GameObject gameObject, float delay)
         {
             XS_Coroutine.StartCoroutine_Ending(delay, Animacio);
 
             void Animacio()
             {
                 animacions.producteProveir.Play(gameObject);
-                Destroy(gameObject, 1.5f);
+                //Destroy(gameObject, 1.5f);
+                productor.Extraccio.BlocarInformacio = false;
+                //productor.Extraccio.mostrarInformacio?.Invoke(productor.Extraccio.Informacio, productor.Extraccio, false);
             }
         }
 
-        void NecessitatProveida(GameObject gameObject, float delay)
+        void NecessitatProveida(Peça casa, GameObject gameObject, float delay)
         {
             XS_Coroutine.StartCoroutine_Ending(delay, Animacio);
 
@@ -152,6 +154,7 @@ public class Visualitzacions : ScriptableObject
             {
                 animacions.necessitatProveida.Play(gameObject);
                 GuanyarPunts(gameObject.transform.position);
+                casa.BlocarInformacio = false;
             }
         }
 
@@ -161,7 +164,19 @@ public class Visualitzacions : ScriptableObject
             particules.guanyarPunts.Instantiate(posicio, Quaternion.Euler(camera.forward));
         }
     }
-    
 
-    public void DestruirProducte(GameObject producte) => producte.GetComponent<UI_Producte>().Destruir(1.5f);
+
+    public void DestruirProducte(Peça productor, GameObject producte) 
+    {
+        producte.GetComponent<UI_Producte>().Destruir(1.5f);
+        if(productor != null)
+            XS_Coroutine.StartCoroutine_Ending(1.6f, RemostrarLaInformacio);
+
+        void RemostrarLaInformacio()
+        {
+            productor.Extraccio.BlocarInformacio = false;
+            //productor.Extraccio.mostrarInformacio?.Invoke(productor.Extraccio.Informacio, productor, false);
+        }
+        
+    }
 }

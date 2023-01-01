@@ -24,6 +24,9 @@ public class Fase_Processar : Fase
     [SerializeField] Visualitzacions visualitzacions;
     [SerializeField] Animacio_Scriptable actualitzar; //Aixo hauria de dirse: Veines
 
+    [Apartat("RIU")]
+    [SerializeField] Estat riu;
+
     //PRIVADES
     Grid grid;
     float startTime;
@@ -66,18 +69,23 @@ public class Fase_Processar : Fase
     
     void WFC_Inicial() //Primer WFC per la peça inicial.
     {
-        wfc.Iniciar_WFC(peça, new List<Peça>(), Proximitat);
+        if (!peça.EstatIgualA(riu))
+            wfc.Iniciar_WFC(peça, new List<Peça>(), Proximitat);
+        else
+            Proximitat();
+
     }
 
     void Proximitat()
     {
         peça.animacio.Play(peça.Parent);
-        animades = new List<Peça>() { peça };
+        //animades = new List<Peça>() { peça };
+        animades = new List<Peça>();
 
         for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
             actualitzar.Play(peça.VeinsPeça[v].Parent);
-            animades.Add(peça.VeinsPeça[v]);
+            //animades.Add(peça.VeinsPeça[v]);
         }
 
         perComprovar = new List<Peça>() { peça };
@@ -97,7 +105,7 @@ public class Fase_Processar : Fase
 
     void WFC()
     {
-        if(canviades != null && canviades.Count > 0)
+        if (canviades != null && canviades.Count > 0 || peça.EstatIgualA(riu))
         {
             wfc.Iniciar_WFC(peça, canviades, Produir);
         }
@@ -115,21 +123,24 @@ public class Fase_Processar : Fase
 
 
     void Animar() {
-        if (canviades.Contains(peça))
+        /*if (canviades.Contains(peça))
         {
             visualitzacions.CanviarEstat(peça);
             for (int v = 0; v < peça.VeinsPeça.Count; v++)
             {
                 actualitzar.Play(peça.VeinsPeça[v].Parent);
             }
-        }
+        }*/
 
         for (int c = 0; c < canviades.Count; c++)
         {
+            Debug.LogError($"Canviada: {canviades[c]}");
             if (animades.Contains(canviades[c]))
                 continue;
 
-            actualitzar.Play(canviades[c].Parent);
+
+            visualitzacions.CanviarEstat(canviades[c]);
+            //actualitzar.Play(canviades[c].Parent);
             animades.Add(canviades[c]);
         }
 

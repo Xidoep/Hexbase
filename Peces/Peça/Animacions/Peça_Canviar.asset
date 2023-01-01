@@ -17,9 +17,41 @@ MonoBehaviour:
   animacions:
   - rid: 7484184750431141891
   - rid: 4560690097998790660
+  - rid: 2914006605935935490
   references:
     version: 2
     RefIds:
+    - rid: 2914006605935935490
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Escala
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1, y: 1, z: 1}
+        final: {x: 1, y: 1, z: 1}
+        dinamic: 0
     - rid: 4560690097998790660
       type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
       data:

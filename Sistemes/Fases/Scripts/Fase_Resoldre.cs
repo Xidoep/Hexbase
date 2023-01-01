@@ -78,6 +78,8 @@ public class Fase_Resoldre : Fase
         }
         else
         {
+            Debugar.Log("PUJAR DE NIVELL!");
+            colocar.Iniciar();
             //Agregar needs
             //Desbloquejar peces
         }

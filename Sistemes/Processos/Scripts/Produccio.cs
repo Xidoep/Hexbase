@@ -64,7 +64,12 @@ public class Produccio : ScriptableObject
         Debugar.LogError("--------------PRODUCCIO---------------");
         index = 0;
         this.enFinalitzar = enFinalitzar;
-        if (casesProveides == null) casesProveides = new List<Peça>();
+
+        if (casesProveides == null) 
+            casesProveides = new List<Peça>();
+        else 
+            casesProveides.Clear();
+
         if (visualitzacioProducte == null) visualitzacioProducte = new List<VisualitzacioProducte>();
         //CleanAllNeeds();
         Step();
@@ -77,11 +82,13 @@ public class Produccio : ScriptableObject
             enFinalitzar.Invoke();
             return;
         }
-        casesProveides.Clear();
         Peça.ProducteExtret[] productes = productors[index].Extraccio.productesExtrets;
         visualitzacioProducte.Clear();
 
-        Informacio.Unitat[] infoProductes = productors[index].Extraccio.Subestat.InformacioMostrar(null, productors[index].Extraccio, true);
+        bool calVisualitzar = false;
+        productors[index].Extraccio.BlocarInformacio = false;
+        productors[index].Extraccio.Informacio = productors[index].Extraccio.mostrarInformacio?.Invoke(productors[index].Extraccio.Informacio, productors[index].Extraccio, true);
+        //Informacio.Unitat[] infoProductes = productors[index].Extraccio.Subestat.InformacioMostrar(null, productors[index].Extraccio, true);
 
         Debug.Log($"{productes.Length} productes");
         for (int i = 0; i < productes.Length; i++)
@@ -92,11 +99,13 @@ public class Produccio : ScriptableObject
                 continue;
             }
 
+            calVisualitzar = true;
             Peça proveida = BuscarCasaDesproveida(productors[index], productes[i].producte, out int indexNecessitat);
             if (proveida != null)
             {
                 resoldre.Nivell.GuanyarExperiencia(1);
                 casesProveides.Add(proveida);
+                proveida.BlocarInformacio = true;
                 productes[i].gastat = true;
             }
             visualitzacioProducte.Add(new VisualitzacioProducte(productors[index].Extraccio, productors[index], proveida, indexNecessitat));
@@ -106,14 +115,17 @@ public class Produccio : ScriptableObject
         //Crear icones
         Debug.Log($"{visualitzacioProducte.Count} visualitzacions");
         //Animar
-        for (int i = 0; i < visualitzacioProducte.Count; i++)
+        if (calVisualitzar)
         {
-            visualitzacions.Produccio(
-                                    infoProductes[i].gameObject,
-                                    visualitzacioProducte[i].productor,
-                                    i,
-                                    visualitzacioProducte[i].casa,
-                                    visualitzacioProducte[i].indexNecessitat);
+            for (int i = 0; i < visualitzacioProducte.Count; i++)
+            {
+                visualitzacions.Produccio(
+                                        productors[index].Extraccio.Informacio[i].gameObject,
+                                        visualitzacioProducte[i].productor,
+                                        i,
+                                        visualitzacioProducte[i].casa,
+                                        visualitzacioProducte[i].indexNecessitat);
+            }
         }
 
         index++;
@@ -144,6 +156,7 @@ public class Produccio : ScriptableObject
                     if (poble[p].Casa.Necessitats[n].Producte == producte && !poble[p].Casa.Necessitats[n].Proveit)
                     {
                         //debug += $" ***No estava proveida, per tant la proveixo***";
+                        poble[p].Informacio = poble[p].mostrarInformacio?.Invoke(poble[p].Informacio, poble[p], true);
                         poble[p].Casa.Necessitats[n].Proveir();
                         _index = n;
                         casa = poble[p];
@@ -170,7 +183,7 @@ public class Produccio : ScriptableObject
 
 
 
-
+    [System.Serializable]
     struct VisualitzacioProducte
     {
         public VisualitzacioProducte(Peça extractor, Peça productor, Peça casa, int indexNecessitat)

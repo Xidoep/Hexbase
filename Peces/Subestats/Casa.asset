@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a9858291d3aafd409f72d8560c643c9, type: 3}
+  m_Script: {fileID: 11500000, guid: d11bf59e740f733408a01847179c414f, type: 3}
   m_Name: Casa
   m_EditorClassIdentifier: 
   punts: 0
@@ -118,11 +118,13 @@ MonoBehaviour:
     pes: 2
   - tile: {fileID: 11400000, guid: 85a4cab337e4369469aaa2ddcb8c88c0, type: 2}
     pes: 2
+  - tile: {fileID: 11400000, guid: 2cf511d5ba9840b4da4787d5c6f194f7, type: 2}
+    pes: 1
   connexionsNules:
   - {fileID: 11400000, guid: 6fdc22fa8098d6e48bd30a59e3dc4514, type: 2}
   connexioEspesifica:
     subestats:
-    - {fileID: 11400000}
+    - {fileID: 11400000, guid: 845f6cd0cf5c37f49b87fad19d6a1ab2, type: 2}
     connexions:
     - {fileID: 11400000, guid: 84002b30789421a43ac00370c8aa1a72, type: 2}
     - {fileID: 11400000, guid: eac56fa45148e3443b9d158a83159f1e, type: 2}
@@ -138,3 +140,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eac56fa45148e3443b9d158a83159f1e, type: 2}
   - {fileID: 11400000, guid: 60c33ce3bdea40341b59c28ce6dd5374, type: 2}
   - {fileID: 11400000, guid: 92b8c87cb7bdd944c80dac5a90d746be, type: 2}
+  - {fileID: 11400000, guid: 2c3e12337f8b2bc469b074e7aff3b455, type: 2}
+  repoblar: {fileID: 11400000, guid: f4de767ca3ffdbe4aa1fd084ce4742e8, type: 2}

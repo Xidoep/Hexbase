@@ -23,17 +23,13 @@ public class Informacio_Necessitats : Informacio
 
             GameObject tmp = Instantiate(Prefab, peça.transform.position, Quaternion.identity, peça.transform);
             tmp.GetComponent<UI_InformacioPeça>().Setup(peça, i);
-            tmp.transform.GetChild(0).transform.position = peça.transform.position + DesplaçamentLateral(quantitat, i);
+            tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
+            //Debug.LogError(tmp.transform.GetChild(0).name);
 
             ui.Add(new Unitat(tmp,i));
         }
 
         return ui.ToArray();
     }
-
-    //S'ha de mostrar quan?
-    //Quan les necessitats es modifiquen de qualsevol manera.
-    //Quan una casa es proveida. Desapareix amb una animacio xula.
-    //Quan se'n crea una de nova ha de tenir una animacio especial i potser un so
 
 }
