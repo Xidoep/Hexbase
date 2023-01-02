@@ -93,68 +93,82 @@ public class Visualitzacions : ScriptableObject
 
     public void GuanyarExperiencia(Transform transform) => animacions.guanyarExperiencia.Play(transform);
 
-    public void Produccio(GameObject producte, Peça productor, float indexProducte, Peça casa, int indexNecessitat)
+    public void Produccio(Visualitzacions.Producte v, bool ultima, System.Action enFinalitzar)
     {
-        XS_Coroutine.StartCoroutine_Ending(0.55f + (indexProducte * 0.3f), Animacio);
+        XS_Coroutine.StartCoroutine_Ending(0.55f + (v.indexProducte * 0.3f), Animacio);
+        //v.productor.Extraccio.mostrarInformacio?.Invoke(v.productor, true);
+        //v.productor.Extraccio.BlocarInformacio = true;
 
         void Animacio()
         {
-            if (productor == null)
+            
+            if (v.productor == null)
             {
-                DestruirProducte(productor, producte);
+                DestruirProducte(v.productor, v.indexProducte, ultima, enFinalitzar);
             }
             else
             {
-                ExtreureProducte(producte, productor);
+                ExtreureProducte(v.productor, v.indexProducte);
 
-                if (casa != null)
-                    RepartirProducte(producte, productor, casa, indexNecessitat);
+                if (v.casa != null)
+                    RepartirProducte(v.productor, v.indexProducte, v.casa, v.indexNecessitat, ultima, enFinalitzar);
                 else
-                    DestruirProducte(productor, producte);
+                    DestruirProducte(v.productor, v.indexProducte, ultima, enFinalitzar);
             }
         }
 
-        void ExtreureProducte(GameObject producte, Peça productor)
+        void ExtreureProducte(Peça p, int i)
         {
+            GameObject producte = p.Extraccio.productesExtrets[i].informacio.gameObject;
+
             Vector3 offset = producte.transform.localPosition;
-            new Animacio_Posicio(productor.Extraccio.transform.position + offset, productor.transform.position + offset, false, false).Play(producte, 0.5f, Transicio.clamp);
+            new Animacio_Posicio(p.Extraccio.transform.position + offset, p.transform.position + offset, false, false).Play(producte, 0.5f, Transicio.clamp);
         }
-        void RepartirProducte(GameObject producte, Peça productor, Peça casa, int indexNecessitat)
+        void RepartirProducte(Peça p, int iProd, Peça c, int iNeed, bool ultima, System.Action enFinalitzar)
         {
             XS_Coroutine.StartCoroutine_Ending(0.75f, Animacio);
 
             void Animacio()
             {
-                float temps = Vector3.Distance(productor.transform.position, casa.transform.position) * 0.25f;
+                //c.mostrarInformacio?.Invoke(c, true);
+                //c.BlocarInformacio = true;
 
-                new Animacio_Posicio(productor.transform.position, casa.transform.position, false, false).Play(producte, temps, Transicio.clamp);
+                GameObject producte = p.Extraccio.productesExtrets[iProd].informacio.gameObject;
 
-                ProducteProveir(productor, producte, temps + 1);
-                NecessitatProveida(casa, casa.Get_UINecessitat(indexNecessitat), temps + 1);
+                float temps = Vector3.Distance(p.transform.position, c.transform.position) * 0.25f;
+
+                new Animacio_Posicio(p.transform.position, c.transform.position, false, false).Play(producte, temps, Transicio.clamp);
+
+                ProducteProveir(p, producte, temps + 1);
+                NecessitatProveida(c, c.Casa.Necessitats[iNeed].Informacio.gameObject, temps + 1, ultima, enFinalitzar);
             }
         }
-        void ProducteProveir(Peça productor, GameObject gameObject, float delay)
+        void ProducteProveir(Peça p, GameObject ui, float delay)
         {
             XS_Coroutine.StartCoroutine_Ending(delay, Animacio);
 
             void Animacio()
             {
-                animacions.producteProveir.Play(gameObject);
+                animacions.producteProveir.Play(ui);
                 //Destroy(gameObject, 1.5f);
-                productor.Extraccio.BlocarInformacio = false;
-                //productor.Extraccio.mostrarInformacio?.Invoke(productor.Extraccio.Informacio, productor.Extraccio, false);
+                p.Extraccio.BlocarInformacio = false;
+                //p.Extraccio.mostrarInformacio?.Invoke(p.Extraccio, false);
             }
         }
 
-        void NecessitatProveida(Peça casa, GameObject gameObject, float delay)
+        void NecessitatProveida(Peça c, GameObject ui, float delay, bool ultima, System.Action enFinalitzar)
         {
             XS_Coroutine.StartCoroutine_Ending(delay, Animacio);
 
             void Animacio()
             {
-                animacions.necessitatProveida.Play(gameObject);
-                GuanyarPunts(gameObject.transform.position);
-                casa.BlocarInformacio = false;
+                animacions.necessitatProveida.Play(ui);
+                GuanyarPunts(ui.transform.position);
+                c.BlocarInformacio = false;
+                c.mostrarInformacio?.Invoke(c, false);
+
+                if(ultima)
+                    XS_Coroutine.StartCoroutine_Ending(0.5f, enFinalitzar);
             }
         }
 
@@ -166,17 +180,36 @@ public class Visualitzacions : ScriptableObject
     }
 
 
-    public void DestruirProducte(Peça productor, GameObject producte) 
+    public void DestruirProducte(Peça p, int i, bool ultima, System.Action enFinalitzar) 
     {
-        producte.GetComponent<UI_Producte>().Destruir(1.5f);
-        if(productor != null)
-            XS_Coroutine.StartCoroutine_Ending(1.6f, RemostrarLaInformacio);
+
+        p.Extraccio.productesExtrets[i].informacio.gameObject.GetComponent<UI_Producte>().Destruir(1.5f);
+        XS_Coroutine.StartCoroutine_Ending(1.6f, RemostrarLaInformacio);
 
         void RemostrarLaInformacio()
         {
-            productor.Extraccio.BlocarInformacio = false;
+            p.Extraccio.BlocarInformacio = false;
+
+            if (ultima)
+                enFinalitzar.Invoke();
             //productor.Extraccio.mostrarInformacio?.Invoke(productor.Extraccio.Informacio, productor, false);
         }
         
+    }
+
+    [System.Serializable]
+    public struct Producte
+    {
+        public Producte(Peça productor, int indexProducte, Peça casa, int indexNecessitat)
+        {
+            this.productor = productor;
+            this.indexProducte = indexProducte;
+            this.casa = casa;
+            this.indexNecessitat = indexNecessitat;
+        }
+        public Peça productor;
+        public int indexProducte;
+        public Peça casa;
+        public int indexNecessitat;
     }
 }

@@ -39,7 +39,7 @@ public class Produccio : ScriptableObject
     List<Peça> casesProveides;
     List<Peça> productorsActualitzables;
     Vector3 offset;
-    List<VisualitzacioProducte> visualitzacioProducte;
+    public List<Visualitzacions.Producte> visualitzacioProducte;
 
 
 
@@ -70,7 +70,7 @@ public class Produccio : ScriptableObject
         else 
             casesProveides.Clear();
 
-        if (visualitzacioProducte == null) visualitzacioProducte = new List<VisualitzacioProducte>();
+        if (visualitzacioProducte == null) visualitzacioProducte = new List<Visualitzacions.Producte>();
         //CleanAllNeeds();
         Step();
     }
@@ -82,20 +82,55 @@ public class Produccio : ScriptableObject
             enFinalitzar.Invoke();
             return;
         }
-        Peça.ProducteExtret[] productes = productors[index].Extraccio.productesExtrets;
+        //Peça.ProducteExtret[] productes = productors[index].Extraccio.productesExtrets;
         visualitzacioProducte.Clear();
 
+        //Comprovar si cal visualitzar
         bool calVisualitzar = false;
-        productors[index].Extraccio.BlocarInformacio = false;
-        productors[index].Extraccio.Informacio = productors[index].Extraccio.mostrarInformacio?.Invoke(productors[index].Extraccio.Informacio, productors[index].Extraccio, true);
-        //Informacio.Unitat[] infoProductes = productors[index].Extraccio.Subestat.InformacioMostrar(null, productors[index].Extraccio, true);
+        for (int i = 0; i < productors[index].Extraccio.productesExtrets.Length; i++)
+        {
+            if (!productors[index].Extraccio.productesExtrets[i].gastat)
+            {
+                calVisualitzar = true;
+                productors[index].Extraccio.mostrarInformacio?.Invoke(productors[index].Extraccio, true);
+                productors[index].Extraccio.BlocarInformacio = true;
+                break;
+            }
+        }
 
-        Debug.Log($"{productes.Length} productes");
+        if (calVisualitzar)
+        {
+            for (int i = 0; i < productors[index].Extraccio.productesExtrets.Length; i++)
+            {
+                if (productors[index].Extraccio.productesExtrets[i].gastat)
+                    continue;
+
+                Peça proveida = BuscarCasaDesproveida(productors[index], productors[index].Extraccio.productesExtrets[i].producte, out int indexNecessitat);
+                if (proveida != null)
+                {
+                    proveida.mostrarInformacio?.Invoke(proveida, true);
+                    proveida.BlocarInformacio = true;
+                    resoldre.Nivell.GuanyarExperiencia(1);
+                    casesProveides.Add(proveida);
+
+                    productors[index].Extraccio.productesExtrets[i].gastat = true;
+                }
+                visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
+            }
+        }
+
+        for (int i = 0; i < visualitzacioProducte.Count; i++)
+        {
+            visualitzacions.Produccio(visualitzacioProducte[i], i == visualitzacioProducte.Count - 1, MostrarInformacioFinal);
+        }
+
+
+        /*Debug.Log($"{productes.Length} productes");
         for (int i = 0; i < productes.Length; i++)
         {
             if (productes[i].gastat)
             {
-                visualitzacioProducte.Add(new VisualitzacioProducte(null, null, null, -1));
+                visualitzacioProducte.Add(new Visualitzacions.Producte(null, -1, null, -1));
                 continue;
             }
 
@@ -105,10 +140,10 @@ public class Produccio : ScriptableObject
             {
                 resoldre.Nivell.GuanyarExperiencia(1);
                 casesProveides.Add(proveida);
-                proveida.BlocarInformacio = true;
+                //proveida.BlocarInformacio = true;
                 productes[i].gastat = true;
             }
-            visualitzacioProducte.Add(new VisualitzacioProducte(productors[index].Extraccio, productors[index], proveida, indexNecessitat));
+            visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
         }
 
 
@@ -117,21 +152,28 @@ public class Produccio : ScriptableObject
         //Animar
         if (calVisualitzar)
         {
+
             for (int i = 0; i < visualitzacioProducte.Count; i++)
             {
-                visualitzacions.Produccio(
-                                        productors[index].Extraccio.Informacio[i].gameObject,
-                                        visualitzacioProducte[i].productor,
-                                        i,
-                                        visualitzacioProducte[i].casa,
-                                        visualitzacioProducte[i].indexNecessitat);
+                visualitzacions.Produccio(visualitzacioProducte[i]);
             }
-        }
+        }*/
 
         index++;
         XS_Coroutine.StartCoroutine_Ending(stepTime, Step);
     }
 
+    void MostrarInformacioFinal()
+    {
+        for (int i = 0; i < casesProveides.Count; i++)
+        {
+            casesProveides[i].mostrarInformacio?.Invoke(casesProveides[i], false);
+        }
+        for (int i = 0; i < productors.Count; i++)
+        {
+            productors[i].Extraccio.mostrarInformacio?.Invoke(productors[i].Extraccio, false);
+        }
+    }
 
 
     Peça BuscarCasaDesproveida(Peça productor, Producte producte, out int index)
@@ -156,7 +198,7 @@ public class Produccio : ScriptableObject
                     if (poble[p].Casa.Necessitats[n].Producte == producte && !poble[p].Casa.Necessitats[n].Proveit)
                     {
                         //debug += $" ***No estava proveida, per tant la proveixo***";
-                        poble[p].Informacio = poble[p].mostrarInformacio?.Invoke(poble[p].Informacio, poble[p], true);
+                        //poble[p].mostrarInformacio?.Invoke(poble[p], true);
                         poble[p].Casa.Necessitats[n].Proveir();
                         _index = n;
                         casa = poble[p];
@@ -183,20 +225,6 @@ public class Produccio : ScriptableObject
 
 
 
-    [System.Serializable]
-    struct VisualitzacioProducte
-    {
-        public VisualitzacioProducte(Peça extractor, Peça productor, Peça casa, int indexNecessitat)
-        {
-            this.extractor = extractor;
-            this.productor = productor;
-            this.casa = casa;
-            this.indexNecessitat = indexNecessitat;
-        }
-        public Peça extractor;
-        public Peça productor;
-        public Peça casa;
-        public int indexNecessitat;
-    }
+
 
 }

@@ -9,23 +9,21 @@ public class Informacio : ScriptableObject
     [SerializeField] UI_InformacioPeça prefab;
     [SerializeField] Visualitzacions visualitzacions;
 
-    protected List<Unitat> ui;
+    //protected List<Unitat> ui;
 
     protected GameObject Prefab => prefab.gameObject;
     protected int quantitat = 0;
 
-    public virtual Unitat[] Mostrar(Peça peça, bool mostrarProveides = false) => null;
-    public Unitat[] Amagar(Unitat[] elements)
-    {
-        if (elements == null || elements.Length == 0)
-            return new Unitat[0];
+    public virtual void Mostrar(Peça peça, bool mostrarProveides = false) { }
+    public virtual void Amagar(Peça peça) { }
 
-        for (int i = 0; i < elements.Length; i++)
-        {
-            Destroy(elements[i].gameObject, 0.1f);
-        }
-        return new Unitat[0];
-    }
+
+
+
+
+
+
+
 
     //protected Vector3 DesplaçamentLateral(int all, int i) => ((Camera.main.transform.right * (((i + 1) / 2) * 0.5f)) * (i % 2 == 0 ? 1 : -1)) + (Vector3.down * (i * i * 0.025f));
     protected Vector3 DesplaçamentLateral(Transform parent, int all, int i) => X(parent, all, i) + Z(all,i);
@@ -38,12 +36,12 @@ public class Informacio : ScriptableObject
     [System.Serializable]
     public struct Unitat
     {
-        public Unitat(GameObject gameObject, int index)
+        public Unitat(GameObject gameObject)
         {
             this.gameObject = gameObject;
-            this.index = index;
+            //this.index = index;
         }
         public GameObject gameObject;
-        public int index;
+        //public int index;
     }
 }

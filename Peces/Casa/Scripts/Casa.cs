@@ -104,11 +104,12 @@ public class Casa
         [SerializeField] Producte producte;
         [SerializeField] Peça peça;
         [SerializeField] bool proveit;
-
+        [SerializeField] Informacio.Unitat informacio;
 
         public Peça Peça => peça;
         public bool Proveit => proveit;
         public Producte Producte => producte;
+        public Informacio.Unitat Informacio { get => informacio; set => informacio = value; }
 
         public void Proveir() => proveit = true;
     }

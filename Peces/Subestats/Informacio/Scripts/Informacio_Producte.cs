@@ -6,11 +6,16 @@ using UnityEngine;
 public class Informacio_Producte : Informacio
 {
 
-    public override Unitat[] Mostrar(Peça peça, bool mostrarProveides = false)
+    public override void Mostrar(Peça peça, bool mostrarProveides = false)
     {
-        if (ui == null)
+        /*if (ui == null)
             ui = new List<Unitat>();
         else ui.Clear();
+        */
+
+        Debug.LogError("Extreure producte");
+
+        Amagar(peça);
 
         quantitat = peça.productesExtrets.Length;
         for (int i = 0; i < quantitat; i++)
@@ -21,10 +26,20 @@ public class Informacio_Producte : Informacio
             GameObject tmp = Instantiate(Prefab, peça.transform.position, Quaternion.identity, peça.transform);
             tmp.GetComponent<UI_InformacioPeça>().Setup(peça, i);
             tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
-
-            ui.Add(new Unitat(tmp, i));
+            peça.productesExtrets[i].informacio = new Unitat(tmp);
+            //ui.Add(peça.productesExtrets[i].informacio);
         }
-        return ui.ToArray();
+        //return ui.ToArray();
     }
 
+    public override void Amagar(Peça peça)
+    {
+        for (int i = 0; i < peça.productesExtrets.Length; i++)
+        {
+            if (peça.productesExtrets[i].informacio.gameObject == null)
+                continue;
+
+            Destroy(peça.productesExtrets[i].informacio.gameObject, 0.1f);
+        }
+    }
 }

@@ -6,14 +6,20 @@ using UnityEngine;
 public class Informacio_Necessitats : Informacio
 {
 
-    public override Unitat[] Mostrar(Peça peça, bool mostrarProveides = false) 
+    public override void Mostrar(Peça peça, bool mostrarProveides = false) 
     {
-        if (ui == null)
+        /*if (ui == null)
             ui = new List<Unitat>();
         else ui.Clear();
 
         if (!peça.TeCasa)
             return ui.ToArray();
+        */
+
+        if (!peça.TeCasa)
+            return;
+
+        Amagar(peça);
 
         quantitat = peça.Casa.Necessitats.Length;
         for (int i = 0; i < quantitat; i++)
@@ -24,12 +30,24 @@ public class Informacio_Necessitats : Informacio
             GameObject tmp = Instantiate(Prefab, peça.transform.position, Quaternion.identity, peça.transform);
             tmp.GetComponent<UI_InformacioPeça>().Setup(peça, i);
             tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
+            peça.Casa.Necessitats[i].Informacio = new Unitat(tmp);
             //Debug.LogError(tmp.transform.GetChild(0).name);
 
-            ui.Add(new Unitat(tmp,i));
+            //ui.Add(peça.Casa.Necessitats[i].Informacio);
         }
 
-        return ui.ToArray();
+        //return ui.ToArray();
+    }
+
+    public override void Amagar(Peça peça)
+    {
+        for (int i = 0; i < peça.Casa.Necessitats.Length; i++)
+        {
+            if (peça.Casa.Necessitats[i].Informacio.gameObject == null)
+                continue;
+
+            Destroy(peça.Casa.Necessitats[i].Informacio.gameObject, 0.1f);
+        }
     }
 
 }

@@ -17,7 +17,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
-        informacio = subestat.InformacioMostrar(informacio, this, false);
+        subestat.InformacioMostrar(this, false);
         //informacio = subestat.InformacioMostrar(this);
 
         gameObject.name = $"{estat.name}({coordenades})";
@@ -40,7 +40,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] public ProducteExtret[] productesExtrets;
 
     [Apartat("INFORMACIO")]
-    [SerializeField] Informacio.Unitat[] informacio;
+    //[SerializeField] Informacio.Unitat[] informacio;
     public bool blocarInformacio;
 
     public bool BlocarInformacio { set => blocarInformacio = value; }
@@ -49,6 +49,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     {
         public Producte producte;
         public bool gastat;
+        public Informacio.Unitat informacio;
     }
 
     //VARIABLES PRIVADES
@@ -66,7 +67,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Casa Casa => cases[0];
     public bool TeCasa => cases.Length > 0;
 
-    public Informacio.Unitat[] Informacio { get => informacio; set => informacio = value; }
+    //public Informacio.Unitat[] Informacio { get => informacio; set => informacio = value; }
 
     //public Producte[] ExtreureProducte() => extraccio.Subestat.Produccio();
     public ProducteExtret[] ExtreureProducte() => productesExtrets;
@@ -86,8 +87,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     } 
     public Vector2Int SetCoordenadesProducte { set => extraccio = null; /*set => producteCooerdenada = value;*/ } //Canviat només perque no molesti
 
-    public System.Func<Informacio.Unitat[], Peça, bool, Informacio.Unitat[]> mostrarInformacio;
-    public System.Func<Informacio.Unitat[], Informacio.Unitat[]> amagarInformacio;
+    public System.Action<Peça, bool> mostrarInformacio;
+    public System.Action<Peça> amagarInformacio;
 
 
     public void CrearTilesPotencials()
@@ -156,7 +157,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (condicions == null)
             return;
 
-        informacio = amagarInformacio?.Invoke(informacio);
+        amagarInformacio?.Invoke(this);
         
         mostrarInformacio -= subestat.InformacioMostrar;
         amagarInformacio -= subestat.InformacioAmagar;
@@ -174,12 +175,12 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         amagarInformacio += subestat.InformacioAmagar;
 
         
-        informacio = subestat.InformacioMostrar(informacio, this, true);
+        subestat.InformacioMostrar(this, true);
     }
 
     public void CrearCasa(Producte producte)
     {
-        cases = new Casa[] { new Casa(this, new Producte[] { producte }, () => informacio = mostrarInformacio?.Invoke(informacio, this, false)), }; 
+        cases = new Casa[] { new Casa(this, new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), }; 
     }
     void TreureCasa() => cases = new Casa[0];
 
@@ -189,15 +190,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         productor.extraccio = this;
     }
 
-    public GameObject Get_UINecessitat(int index) 
-    {
-        if(informacio.Length == 0)
-        {
-            informacio = mostrarInformacio?.Invoke(informacio, this, true);
-        }
-        return informacio[index].gameObject;
-    } 
-
 
     //INTERACCIO
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
@@ -205,14 +197,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (blocarInformacio)
             return;
 
-        informacio = mostrarInformacio?.Invoke(informacio, this, true);
+        mostrarInformacio?.Invoke(this, true);
     }
     public void OnPointerExit(PointerEventData eventData) 
     {
         if (blocarInformacio)
             return;
 
-        informacio = mostrarInformacio?.Invoke(informacio, this, false);
+        mostrarInformacio?.Invoke(this, false);
         //informacio = amagarInformacio?.Invoke(informacio);
     } 
 

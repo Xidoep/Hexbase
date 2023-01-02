@@ -72,23 +72,20 @@ public class Subestat : ScriptableObject
 
 
 
-    public Informacio.Unitat[] InformacioMostrar(Informacio.Unitat[] elements, Peça peça, bool proveides) 
+    public void InformacioMostrar(Peça peça, bool proveides) 
     {
         if (informacio == null)
-            return null;
+            return;
 
-        if(elements != null)
-            informacio.Amagar(elements);
-
-        return informacio.Mostrar(peça, proveides);
+        informacio.Mostrar(peça, proveides);
     }
-    public Informacio.Unitat[] InformacioAmagar(Informacio.Unitat[] elements)
+    public void InformacioAmagar(Peça peça) 
     {
         if (informacio == null)
-            return null;
+            return;
 
-        return informacio.Amagar(elements);
-    }
+        informacio.Amagar(peça);
+    } 
 
 
 
