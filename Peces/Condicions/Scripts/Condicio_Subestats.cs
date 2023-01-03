@@ -13,7 +13,7 @@ public class Condicio_Subestats : Condicio
     int _quantitat = 0;
     List<Peça> myVeins;
 
-    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<Peça, int> enCanviar)
+    public override bool Comprovar(Peça peça, Grups grups, Estat cami, System.Action<Peça, int> enConfirmar)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
@@ -29,10 +29,16 @@ public class Condicio_Subestats : Condicio
 
         if (_quantitat >= quantitat)
         {
-            Canviar(peça, enCanviar);
+            //Canviar(peça, enCanviar);
+
             return true;
         }
 
         return false;
+    }
+
+    new public void OnValidate()
+    {
+        base.OnValidate();
     }
 }

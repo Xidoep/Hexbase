@@ -13,6 +13,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     [SerializeField] UnityEvent onExit;
     [Linia]
     [SerializeField] Fase_Colocar colocar;
+    [SerializeField] Proximitat proximitat;
     
     [Apartat("OUTLINE")]
     [SerializeField] GameObject outline;
@@ -119,10 +120,13 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     {
         outline.SetActive(true);
         onEnter?.Invoke();
+        proximitat.PossiblesCombinacions(Coordenades);
         //outline.material.SetFloat(SELECCIONAT_ID, 1);
     }
     public void OnPointerExit(PointerEventData eventData) 
     {
+        proximitat.AmagarInformacioMostrada(Coordenades);
+
         Seleccionada = false;
         if (compteEnrerra != null) StopCoroutine(compteEnrerra);
         onExit?.Invoke();

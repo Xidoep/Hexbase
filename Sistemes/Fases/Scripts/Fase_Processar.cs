@@ -55,6 +55,7 @@ public class Fase_Processar : Fase
     void Agrupar()
     {
         //grups.Agrupdar(peça, Proximitat);
+        //grups.Interrompre();
         grups.Agrupdar(peça, WFC_Inicial);
     }
 
@@ -89,7 +90,12 @@ public class Fase_Processar : Fase
         }
 
         perComprovar = new List<Peça>() { peça };
-        perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
+        List<Peça> comprovar = proximitat.GetPecesToComprovar(peça);
+        for (int i = 0; i < comprovar.Count; i++)
+        {
+            if (!perComprovar.Contains(comprovar[i])) perComprovar.Add(comprovar[i]);
+        }
+        //perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
 
         proximitat.Process(perComprovar, Repoblacio);
     }

@@ -28,6 +28,7 @@ public class Grid : MonoBehaviour
     [SerializeField] GameObject prefab_Ranura;
     [SerializeField] GameObject prefab_Peça;
     [SerializeField] GameObject prefab_Boto;
+    [SerializeField] GameObject prefab_Simulacio;
 
     [Apartat("ESTATS")]
     [SerializeField] Estat[] estats;
@@ -41,7 +42,7 @@ public class Grid : MonoBehaviour
     //[SerializeField] Estat inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
 
     Hexagon[,] grid;
-
+    Peça simulada;
 
     [Apartat("DIMENCIONS")]
     [SerializeField] Vector2Int nord = Vector2Int.one * 100;
@@ -161,8 +162,14 @@ public class Grid : MonoBehaviour
     /// <summary>
     /// Crea el prefab peça, declarant la peça i les coordenades.
     /// </summary>
-    public void CrearPeça(Estat tipus, Vector2Int coordenada, bool analitzar = true)
+    public void CrearPeça(Estat tipus, Vector2Int coordenada, bool processar = true)
     {
+        if (simulada != null) 
+        {
+            grid.Set(null, coordenada.x, coordenada.y);
+            Destroy(simulada.gameObject);
+        } 
+
         Peça peçaFisica = Instanciar(prefab_Peça, coordenada.x, coordenada.y).GetComponent<Peça>();
 
         peçaFisica.Setup(this, coordenada, tipus, tipus.SubestatInicial);
@@ -174,11 +181,27 @@ public class Grid : MonoBehaviour
             CrearRanura(coodVei);
         }
 
-        if(analitzar)
-            processar.Iniciar(peçaFisica);
+        if(processar)
+            this.processar.Iniciar(peçaFisica);
 
         //save.Add(peçaFisica, grups);
     }
+    public Peça SimularInici(Estat estat, Vector2Int coordenada)
+    {
+        simulada = new GameObject("simulada").AddComponent<Peça>();
+        //simulada = Instanciar(prefab_Simulacio, coordenada.x, coordenada.y).GetComponent<Peça>();
+        simulada.Setup(this, coordenada, estat, estat.SubestatInicial);
+        grid.Set(simulada);
+        return simulada;
+    }
+    public void SimularFinal(Vector2Int coordenada)
+    {
+        if(grid[coordenada.x, coordenada.y] != null && grid[coordenada.x,coordenada.y].gameObject != null)
+            Destroy(grid[coordenada.x, coordenada.y].gameObject);
+
+        grid.Set(null, coordenada.x, coordenada.y);
+    }
+
     public void CrearRanura(Vector2Int coordenada)
     {
         if (coordenada.IsOutOfRange(GRID_SIZE))

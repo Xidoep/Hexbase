@@ -8,6 +8,8 @@ using XS_Utils;
 public class Grups : ScriptableObject
 {
     [SerializeField] List<Grup> grups;
+    [SerializeField] List<Grup> old;
+
 
     [Apartat("ESTATS NECESSARIS")]
     [SerializeField] Estat casa;
@@ -16,6 +18,7 @@ public class Grups : ScriptableObject
     [SerializeField] Estat aigua;
 
     public List<Grup> Grup => grups;
+
 
     //INTERN
     List<Grup> grupsPendents;
@@ -40,6 +43,10 @@ public class Grups : ScriptableObject
     {
         if (peça == null)
             return;
+
+        Debugar.LogError("--------------GRUPS---------------");
+
+        old = new List<Grup>(grups);
 
         this.enFinalitzar = enFinalitzar;
        
@@ -174,11 +181,27 @@ public class Grups : ScriptableObject
 
     public void Resetejar() => grups = new List<Grup>();
 
+    public void RecuperaVersioAnterior()
+    {
+        XS_Coroutine.StartCoroutine_Ending(1, () => grups = new List<Grup>(old));
+        //grups = new List<Grup>(old);
+    }
+
+    public void Interrompre()
+    {
+        //grups = new List<Grup>(old);
+        grupsPendents = new List<Grup>();
+        //enFinalitzar.Invoke();
+    }
 
 
-
-
-    public List<Peça> Peces(Peça peça) => GrupByPeça(peça).Peces;
+    public List<Peça> Peces(Peça peça) 
+    {
+        Grup grup = GrupByPeça(peça);
+        if (grup != null)
+            return GrupByPeça(peça).Peces;
+        else return null;
+    } 
     public List<Peça> Veins(Peça peça) => GrupByPeça(peça).Veins;
 
 

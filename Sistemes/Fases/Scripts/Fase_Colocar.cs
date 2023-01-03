@@ -12,7 +12,7 @@ public class Fase_Colocar : Fase
     static bool bloquejat = false;
 
     [SerializeField] Estat seleccionada;
-    
+    [SerializeField] Estat perDefecte;
 
     Grid grid;
 
@@ -29,7 +29,8 @@ public class Fase_Colocar : Fase
         if (grid == null) 
             grid = FindObjectOfType<Grid>();
 
-
+        if (seleccionada == null)
+            seleccionada = perDefecte;
         //Prepara la peça inicial agafantla del pool de peces.
         permesColoarPeça = true;
         OnFinish += BloqujarColocacio;

@@ -105,22 +105,22 @@ public static class GridExtensions
         else _tmpPeces.Clear();
 
         _tmpPeça = grid.Get(coordenades.Up());
-        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+        if (_tmpPeça != null && _tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
 
         _tmpPeça = grid.Get(coordenades.UpRight());
-        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+        if (_tmpPeça != null && _tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
 
         _tmpPeça = grid.Get(coordenades.DownRight());
-        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+        if (_tmpPeça != null && _tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
 
         _tmpPeça = grid.Get(coordenades.Down());
-        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+        if (_tmpPeça != null && _tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
 
         _tmpPeça = grid.Get(coordenades.DownLeft());
-        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+        if (_tmpPeça != null && _tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
 
         _tmpPeça = grid.Get(coordenades.UpLeft());
-        if (_tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
+        if (_tmpPeça != null && _tmpPeça.EsPeça) _tmpPeces.Add((Peça)_tmpPeça);
 
         return _tmpPeces;
     }

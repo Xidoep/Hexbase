@@ -65,7 +65,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
     public Condicio[] Condicions => condicions;
     public Casa Casa => cases[0];
-    public bool TeCasa => cases.Length > 0;
+    public bool TeCasa => cases != null && cases.Length > 0;
 
     //public Informacio.Unitat[] Informacio { get => informacio; set => informacio = value; }
 

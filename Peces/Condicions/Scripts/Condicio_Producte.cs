@@ -11,7 +11,7 @@ public class Condicio_Producte : Condicio
     //INTERN
     List<Peça> myVeins;
 
-    public override bool Comprovar(Peça peça, Proximitat proximitat, Grups grups, Estat cami, System.Action<Peça, int> enCanviar)
+    public override bool Comprovar(Peça peça, Grups grups, Estat cami, System.Action<Peça, int> enCanviar)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
@@ -24,7 +24,7 @@ public class Condicio_Producte : Condicio
             if (myVeins[i].SubestatIgualA(subestat) && myVeins[i].LLiure)
             {
                 myVeins[i].Ocupar(peça);
-                Canviar(peça, enCanviar);
+                //Canviar(peça, enCanviar);
                 return true;
             }
         }
@@ -32,9 +32,9 @@ public class Condicio_Producte : Condicio
         return false;
     }
 
-    protected override void Setup()
+    new public void OnValidate()
     {
-        base.Setup();
+        base.OnValidate();
 
         cami = true;
         grup = false;
