@@ -253,7 +253,7 @@ public class SavedFile
         esta = peça.Estat.name;
         subestat = peça.Subestat.name;
         producte = peça.Extraccio != null ? peça.Extraccio.Coordenades : -Vector2Int.one;
-        grup = grups.GrupByPeça(peça);
+        grup = grups.GrupByPeça(grups.Grup, peça);
 
        /* if(peça.CasesCount != 0)
         {

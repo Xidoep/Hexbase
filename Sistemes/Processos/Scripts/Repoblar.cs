@@ -36,12 +36,12 @@ public class Repoblar : ScriptableObject
             casesVeines = 0;
             veins = peces[p].VeinsPeça;
             
+            //Suma les cases que hi ha al voltant.
             for (int v = 0; v < veins.Count; v++)
             {
                 if (veins[v].SubestatIgualA(casa)) casesVeines++;
             }
 
-            //Afegeix la seva Casa, i utilitza del DETALL_TILES de les cases veines per afegir mes cases.
             CanviarNecessitats(peces[p], 1 + casesVeines);
         }
 
@@ -50,20 +50,22 @@ public class Repoblar : ScriptableObject
 
     public void CanviarNecessitats(Peça peça, int necessitats)
     {
-        if (necessitats > peça.Casa.Necessitats.Length) //S'han de crear tantes cases com fagi falta
+        //Si falten necessitats, n'agafeix.
+        if (necessitats > peça.Casa.Necessitats.Length)
         {
             for (int i = peça.Casa.Necessitats.Length; i < necessitats; i++)
             {
                 peça.Casa.AfegirNecessitat(necessitatInicial);
             }
         }
+        //Si sobren necessitats, en treu.
         else if(necessitats < peça.Casa.Necessitats.Length)
         {
             for (int i = necessitats; i < peça.Casa.Necessitats.Length; i++)
             {
                 peça.Casa.TreureNecessitat();
             }
-        } //S'han de borrar tantes cases com faci falta;
+        }
 
         if (!this.cases.Contains(peça)) this.cases.Add(peça);
     }

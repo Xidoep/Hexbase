@@ -200,6 +200,8 @@ public class Grid : MonoBehaviour
             Destroy(grid[coordenada.x, coordenada.y].gameObject);
 
         grid.Set(null, coordenada.x, coordenada.y);
+
+        Debugar.LogError("Borrar Simulacio");
     }
 
     public void CrearRanura(Vector2Int coordenada)

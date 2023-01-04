@@ -56,7 +56,7 @@ public class Fase_Processar : Fase
     {
         //grups.Agrupdar(peça, Proximitat);
         //grups.Interrompre();
-        grups.Agrupdar(peça, WFC_Inicial);
+        grups.Agrupdar(grups.Grup, peça, WFC_Inicial);
     }
 
     /*void Repoblacio_Primera()//Inicials

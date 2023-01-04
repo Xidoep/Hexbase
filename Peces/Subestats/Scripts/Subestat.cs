@@ -16,7 +16,7 @@ public class Subestat : ScriptableObject
     public bool Caminable => caminable;
     public bool Aquatic => aquatic;
 
-
+    public virtual bool EsProducte => false;
 
 
 
@@ -75,14 +75,26 @@ public class Subestat : ScriptableObject
     public void InformacioMostrar(Peça peça, bool proveides) 
     {
         if (informacio == null)
+        {
+            for (int i = 0; i < condicions.Length; i++)
+            {
+                if(condicions[i].Objectiu.EsProducte)
+                {
+                    Debug.Log("Possible producte");
+                }
+            }
             return;
+        }
 
         informacio.Mostrar(peça, proveides);
     }
     public void InformacioAmagar(Peça peça) 
     {
         if (informacio == null)
+        {
+
             return;
+        }
 
         informacio.Amagar(peça);
     } 

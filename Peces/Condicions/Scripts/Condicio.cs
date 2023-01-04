@@ -26,6 +26,9 @@ public abstract class Condicio : ScriptableObject
     List<Peça> veins;
     List<Peça> connectatsACami;
 
+
+    public Subestat Objectiu => objectiu;
+
     /// <summary>
     /// Funcio virtual sobreescrite per la resta de condicions, que comprova si es compleix la condicio.
     /// Es cridada desde Proximitat.
@@ -53,12 +56,12 @@ public abstract class Condicio : ScriptableObject
 
         if (cami)
         {
-            if (grup) veins = _grup.Veins(peça);
-            else veins = VeinsAmbCami(peça,_grup,_cami);
+            if (grup) veins = _grup.Veins(_grup.Grup, peça);
+            else veins = VeinsAmbCami(peça, _grup,_cami);
         }
         else
         {
-            if (grup) veins = _grup.Veins(peça);
+            if (grup) veins = _grup.Veins(_grup.Grup, peça);
             else veins = Veins(peça);
         }
         return veins;
@@ -77,7 +80,7 @@ public abstract class Condicio : ScriptableObject
         {
             if (veins[v].EstatIgualA(_cami))
             {
-                List<Peça> veinsDelCami = _grup.Veins(veins[v]);
+                List<Peça> veinsDelCami = _grup.Veins(_grup.Grup, veins[v]);
                 connectatsACami.AddRange(veinsDelCami);
             }
         }

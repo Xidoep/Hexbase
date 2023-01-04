@@ -27,10 +27,7 @@ public class Proximitat : ScriptableObject
     System.Action<List<Peça>, List<Peça>> enFinalitzar;
     Peça _actual;
 
-    bool simulant = false;
-    Peça simulada;
-    List<Peça> simulacioComprovar;
-    
+
 
     Grid grid;
 
@@ -58,7 +55,7 @@ public class Proximitat : ScriptableObject
             if (!tmp.Contains(veins[i])) tmp.Add(veins[i]);
         }
 
-        List<Peça> grup = grups.Peces(peça);
+        List<Peça> grup = grups.Peces(grups.Grup, peça);
         if(grup != null)
         {
             for (int i = 0; i < grup.Count; i++)
@@ -66,7 +63,7 @@ public class Proximitat : ScriptableObject
                 if (!tmp.Contains(grup[i])) tmp.Add(grup[i]);
             }
 
-            List<Peça> veinsGrupAmbCami = grups.VeinsAmbCami(peça);
+            List<Peça> veinsGrupAmbCami = grups.VeinsAmbCami(grups.Grup, peça);
             for (int i = 0; i < veinsGrupAmbCami.Count; i++)
             {
                 if (!tmp.Contains(veinsGrupAmbCami[i])) tmp.Add(veinsGrupAmbCami[i]);
@@ -98,7 +95,7 @@ public class Proximitat : ScriptableObject
         //Debugar.LogError($"Step {peces.Count}");
         if (peces.Count == 0)
         {
-            Debugar.LogError("FINALITZAT!");
+            Debugar.LogError("FINALITZAT! (PROXIMITAT)");
             enFinalitzar.Invoke(comprovades, canviades);
             return;
         }
@@ -117,7 +114,7 @@ public class Proximitat : ScriptableObject
             //Debugar.LogError($"Condicio {i}?");
             if (_actual.Condicions[i].Comprovar(_actual, grups, cami, null))
             {
-                //Debugar.LogError("CANVIAR");
+                Debugar.LogError("CANVIAR");
                 if (canviar) 
                 { 
                     _actual.Condicions[i].Canviar(_actual, GunayarExperienciaIVisualitzarSiCal);
@@ -140,56 +137,6 @@ public class Proximitat : ScriptableObject
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
 
         Step(canviar);
-    }
-
-    public void PossiblesCombinacions(Vector2Int coordenada)
-    {
-        if (grid == null) grid = FindObjectOfType<Grid>();
-
-        if(simulant)
-            grid.SimularFinal(simulada.Coordenades);
-
-        simulada = grid.SimularInici(colocar.Seleccionada, coordenada);
-        Debugar.LogError($"COMPROVAR POTENCIAL RANURA {simulada.Coordenades} que te {grid.VeinsPeça(coordenada).Count} veines------------");
-        simulacioComprovar = new List<Peça>() { simulada };
-        simulacioComprovar.AddRange(grid.VeinsPeça(coordenada));
-
-        //grups.Agrupdar(simulada, SimulacioProcessar);
-
-        if (!simulant)
-        {
-            simulant = true;
-            grups.Agrupdar(simulada, SimulacioProcessar);
-        }
-        else
-        {
-            //grups.RecuperaVersioAnterior();
-            grups.Interrompre();
-            grups.Agrupdar(simulada, SimulacioProcessar);
-        }
-  
-    }
-
-    void SimulacioProcessar() => Process(simulacioComprovar, MostrarInformacio, false);
-
-
-    void MostrarInformacio(List<Peça> comprovades, List<Peça> canviades)
-    {
-        
-        for (int i = 0; i < canviades.Count; i++)
-        {
-            Debugar.LogError($"***Mostrar Info  de {canviades[i].gameObject.name}***");
-        }
-        grups.RecuperaVersioAnterior();
-        grid.SimularFinal(simulada.Coordenades);
-        simulant = false;
-        Debugar.LogError("----------------------------POTENCIALS");
-    }
-
-   
-    public void AmagarInformacioMostrada(Vector2Int coordenada)
-    {
-        Debugar.LogError("***Si hi ha informacio mostrada, s'esborra***");
     }
 
     void GunayarExperienciaIVisualitzarSiCal(Peça peça, int experiencia)

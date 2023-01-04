@@ -22,6 +22,8 @@ public class Subestat_Producte : Subestat
 
         return base.Setup(peça);
     }
+
+    public override bool EsProducte => true;
     /*
         [SerializeField] GameObject uiProducte_prefab;
 
