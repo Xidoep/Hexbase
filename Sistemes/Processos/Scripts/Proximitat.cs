@@ -82,6 +82,7 @@ public class Proximitat : ScriptableObject
         comprovades = new List<Peça>();
         canviades = new List<Peça>();
         this.enFinalitzar = enFinalitzar;
+        _actual = null;
         Debugar.Log("Process");
         /*for (int i = 0; i < peces.Count; i++)
         {
@@ -112,12 +113,12 @@ public class Proximitat : ScriptableObject
         for (int i = 0; i < _actual.Condicions.Length; i++)
         {
             //Debugar.LogError($"Condicio {i}?");
-            if (_actual.Condicions[i].Comprovar(_actual, grups, cami, null))
+            if (_actual.Condicions[i].Comprovar(_actual, grups, cami, canviar, MarcarComCanviada, GunayarExperienciaIVisualitzarSiCal))
             {
-                Debugar.LogError("CANVIAR");
+                /*Debugar.LogError("CANVIAR");
                 if (canviar) 
                 { 
-                    _actual.Condicions[i].Canviar(_actual, GunayarExperienciaIVisualitzarSiCal);
+                    //_actual.Condicions[i].Canviar(_actual, GunayarExperienciaIVisualitzarSiCal);
                     Add(_actual);
                     canviades.Add(_actual);
                 }
@@ -129,7 +130,7 @@ public class Proximitat : ScriptableObject
                         Add(_actual);
                     }
                 }
-                
+                */
                 break;
             }
         }
@@ -137,6 +138,25 @@ public class Proximitat : ScriptableObject
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
 
         Step(canviar);
+    }
+
+    void MarcarComCanviada(Peça peça, bool canviar)
+    {
+        Debugar.LogError("CANVIAR");
+        if (canviar)
+        {
+            //_actual.Condicions[i].Canviar(_actual, GunayarExperienciaIVisualitzarSiCal);
+            canviades.Add(_actual);
+            Add(_actual);
+        }
+        else
+        {
+            if (!canviades.Contains(_actual))
+            {
+                canviades.Add(_actual);
+                Add(_actual);
+            }
+        }
     }
 
     void GunayarExperienciaIVisualitzarSiCal(Peça peça, int experiencia)

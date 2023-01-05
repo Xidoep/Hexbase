@@ -35,7 +35,7 @@ public abstract class Condicio : ScriptableObject
     /// 
     /// IMPORTANT: Les funcions subscrites han de cridar Canviar quan el resultat sigui positiu.
     /// </summary>
-    public abstract bool Comprovar(Peça peça, Grups grups, Estat cami, System.Action<Peça, int> enConfirmar);
+    public abstract bool Comprovar(Peça peça, Grups grups, Estat cami, bool canviar, System.Action<Peça, bool> enConfirmar, System.Action<Peça, int> enCanviar);
 
 
     /// <summary>
@@ -44,12 +44,12 @@ public abstract class Condicio : ScriptableObject
     public void Canviar(Peça peça, System.Action<Peça, int> enCanviar) 
     {
         Debugar.LogError($"[{peça.Subestat.name}] >>> Changed to >>> [{objectiu.name}]");
-        enCanviar.Invoke(peça, punts);
+        enCanviar?.Invoke(peça, punts);
         peça.CanviarSubestat(objectiu);
     }
 
 
-    protected List<Peça> GetVeinsAcordingToOptions(Peça peça, Grups _grup, Estat _cami)
+    public List<Peça> GetVeinsAcordingToOptions(Peça peça, Grups _grup, Estat _cami)
     {
         if (veins == null) veins = new List<Peça>();
         else veins.Clear();

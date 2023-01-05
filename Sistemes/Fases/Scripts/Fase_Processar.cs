@@ -11,6 +11,7 @@ public class Fase_Processar : Fase
 {
     [Apartat("PROCESSOS")]
     [SerializeField] WaveFunctionColpaseScriptable wfc;
+    [SerializeField] Prediccio prediccio;
     [SerializeField] Grups grups;
     [SerializeField] Proximitat proximitat;
     [SerializeField] Repoblar repoblar;
@@ -55,7 +56,8 @@ public class Fase_Processar : Fase
     void Agrupar()
     {
         //grups.Agrupdar(peça, Proximitat);
-        //grups.Interrompre();
+        prediccio.FinalitzacioForçada();
+        grups.Interrompre();
         grups.Agrupdar(grups.Grup, peça, WFC_Inicial);
     }
 
@@ -97,7 +99,7 @@ public class Fase_Processar : Fase
         }
         //perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
 
-        proximitat.Process(perComprovar, Repoblacio);
+        proximitat.Process(perComprovar, Repoblacio, true);
     }
 
 

@@ -34,6 +34,7 @@ public static class GridExtensions
     public static bool EstaBuida(this Hexagon[,] grid, Vector2Int coordenada) => grid.Get(coordenada) == null;
 
     public static void Set(this Hexagon[,] grid, Hexagon hexagon, int x, int y) => grid[x, y] = hexagon;
+    public static void Set(this Hexagon[,] grid, Hexagon hexagon, Vector2Int coordenada) => grid[coordenada.x, coordenada.y] = hexagon;
     public static void Set(this Hexagon[,] grid, Hexagon hexagon) => grid.Set(hexagon, hexagon.Coordenades.x, hexagon.Coordenades.y);
     
     /// <summary>

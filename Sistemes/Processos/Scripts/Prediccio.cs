@@ -6,6 +6,7 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Prediccio")]
 public class Prediccio : ScriptableObject
 {
+    [SerializeField] FasesControlador controlador;
     [SerializeField] Fase_Colocar colocar;
     [Space(10)]
     [SerializeField] Grups grups;
@@ -13,6 +14,7 @@ public class Prediccio : ScriptableObject
     [SerializeField] Repoblar repoblar;
     [Space(10)]
     [SerializeField] Subestat casa;
+    [SerializeField] Estat cami;
 
     [Apartat("Debug")]
     [SerializeField] Peça simulada;
@@ -30,6 +32,12 @@ public class Prediccio : ScriptableObject
 
     public void Predir(Vector2Int coordenada)
     {
+        if (!controlador.Es(colocar))
+        {
+            Debugar.LogError("INTENTAR PREDIR FORA DE LA FASE COLOCAR!!!!!!!!!!!!!!!!!!!!!");
+            return;
+        }
+
         Debugar.LogError($"--------------PREDIR ({coordenada})---------------");
         if (grid == null) grid = FindObjectOfType<Grid>();
 
@@ -51,7 +59,15 @@ public class Prediccio : ScriptableObject
             simulada = grid.SimularInici(colocar.Seleccionada, coordenada);
             //Debugar.LogError($"COMPROVAR POTENCIAL RANURA {simulada.Coordenades} que te {grid.VeinsPeça(coordenada).Count} veines------------");
             simulacioComprovar = new List<Peça>() { simulada };
-            simulacioComprovar.AddRange(grid.VeinsPeça(coordenada));
+            for (int c = 0; c < simulada.Condicions.Length; c++)
+            {
+                List<Peça> veinsAcordingToOptions = simulada.Condicions[c].GetVeinsAcordingToOptions(simulada, grups, cami);
+                for (int v = 0; v < veinsAcordingToOptions.Count; v++)
+                {
+                    if (!simulacioComprovar.Contains(veinsAcordingToOptions[v])) simulacioComprovar.Add(veinsAcordingToOptions[v]);
+                }
+            }
+            //simulacioComprovar.AddRange(grid.VeinsPeça(coordenada));
 
             grups.Agrupdar(grupsSimulats, simulada, SimularProximitat);
         }
@@ -60,7 +76,7 @@ public class Prediccio : ScriptableObject
             Debugar.LogError("simulant...");
 
             //grups.RecuperaVersioAnterior();
-            grid.SimularFinal(simulada.Coordenades);
+            grid.SimularFinal(simulada);
             grups.Interrompre();
         }
     }
@@ -99,7 +115,7 @@ public class Prediccio : ScriptableObject
 
 
         //grups.RecuperaVersioAnterior();
-        grid.SimularFinal(simulada.Coordenades);
+        grid.SimularFinal(simulada);
         simulant = false;
         Debugar.LogError("FINALITZAT! (PREDICCIONS)");
     }
@@ -108,5 +124,10 @@ public class Prediccio : ScriptableObject
     {
         Debugar.LogError("***Si hi ha informacio mostrada, s'esborra***");
         //simulant = false;
+    }
+    public void FinalitzacioForçada()
+    {
+        //grid.SimularFinal(simulada);
+        simulant = false;
     }
 }

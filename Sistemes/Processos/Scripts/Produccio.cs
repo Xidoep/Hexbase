@@ -41,7 +41,7 @@ public class Produccio : ScriptableObject
     Vector3 offset;
     public List<Visualitzacions.Producte> visualitzacioProducte;
 
-
+    int productesAVisualitzar = 0;
 
 
     void OnEnable()
@@ -63,6 +63,7 @@ public class Produccio : ScriptableObject
     {
         Debugar.LogError("--------------PRODUCCIO---------------");
         index = 0;
+        productesAVisualitzar = 0;
         this.enFinalitzar = enFinalitzar;
 
         if (casesProveides == null) 
@@ -82,10 +83,10 @@ public class Produccio : ScriptableObject
             enFinalitzar.Invoke();
             return;
         }
-        //Peça.ProducteExtret[] productes = productors[index].Extraccio.productesExtrets;
+
         visualitzacioProducte.Clear();
 
-        //Comprovar si cal visualitzar
+        //COMPROVAR SI L'HI QUEDEN PRODUCTES SENSE GASTAR
         bool calVisualitzar = false;
         for (int i = 0; i < productors[index].Extraccio.productesExtrets.Length; i++)
         {
@@ -100,6 +101,7 @@ public class Produccio : ScriptableObject
 
         if (calVisualitzar)
         {
+            //BUSCAR UNA CASA DESPROVEIDA CONNECTADA
             for (int i = 0; i < productors[index].Extraccio.productesExtrets.Length; i++)
             {
                 if (productors[index].Extraccio.productesExtrets[i].gastat)
@@ -117,49 +119,25 @@ public class Produccio : ScriptableObject
                 }
                 visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
             }
-        }
-
-        for (int i = 0; i < visualitzacioProducte.Count; i++)
-        {
-            visualitzacions.Produccio(visualitzacioProducte[i], i == visualitzacioProducte.Count - 1, MostrarInformacioFinal);
-        }
 
 
-        /*Debug.Log($"{productes.Length} productes");
-        for (int i = 0; i < productes.Length; i++)
-        {
-            if (productes[i].gastat)
-            {
-                visualitzacioProducte.Add(new Visualitzacions.Producte(null, -1, null, -1));
-                continue;
-            }
 
-            calVisualitzar = true;
-            Peça proveida = BuscarCasaDesproveida(productors[index], productes[i].producte, out int indexNecessitat);
-            if (proveida != null)
-            {
-                resoldre.Nivell.GuanyarExperiencia(1);
-                casesProveides.Add(proveida);
-                //proveida.BlocarInformacio = true;
-                productes[i].gastat = true;
-            }
-            visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
-        }
+            index++;
 
-
-        //Crear icones
-        Debug.Log($"{visualitzacioProducte.Count} visualitzacions");
-        //Animar
-        if (calVisualitzar)
-        {
-
+            //VISUALITZAR
             for (int i = 0; i < visualitzacioProducte.Count; i++)
             {
-                visualitzacions.Produccio(visualitzacioProducte[i]);
+                Debugar.Log($"index = {index}. Productors = {productors.Count}|| i = {i}. visualitzacioProducte = {visualitzacioProducte.Count - 1}|| {index == productors.Count && i == visualitzacioProducte.Count - 1}");
+                visualitzacions.Produccio(visualitzacioProducte[i], index == productors.Count && i == visualitzacioProducte.Count - 1, MostrarInformacioFinal);
             }
-        }*/
 
-        index++;
+        }
+        else
+        {
+            //ESBORRAR PRODUCTORS QUE JA NO CALGUI VISUALITZAR (ESGOTATS)
+            productors.RemoveAt(index);
+        }
+
         XS_Coroutine.StartCoroutine_Ending(stepTime, Step);
     }
 

@@ -43,6 +43,7 @@ public class Grid : MonoBehaviour
 
     Hexagon[,] grid;
     Peça simulada;
+    Hexagon ranuraSimulada;
 
     [Apartat("DIMENCIONS")]
     [SerializeField] Vector2Int nord = Vector2Int.one * 100;
@@ -186,20 +187,26 @@ public class Grid : MonoBehaviour
 
         //save.Add(peçaFisica, grups);
     }
+
+
     public Peça SimularInici(Estat estat, Vector2Int coordenada)
     {
+        ranuraSimulada = grid.Get(coordenada);
+
         simulada = new GameObject("simulada").AddComponent<Peça>();
         //simulada = Instanciar(prefab_Simulacio, coordenada.x, coordenada.y).GetComponent<Peça>();
         simulada.Setup(this, coordenada, estat, estat.SubestatInicial);
         grid.Set(simulada);
         return simulada;
     }
-    public void SimularFinal(Vector2Int coordenada)
+    public void SimularFinal(Peça peça)
     {
-        if(grid[coordenada.x, coordenada.y] != null && grid[coordenada.x,coordenada.y].gameObject != null)
-            Destroy(grid[coordenada.x, coordenada.y].gameObject);
+        Vector2Int coordenada = peça.Coordenades;
+        if(peça != null)
+            Destroy(peça.gameObject);
 
-        grid.Set(null, coordenada.x, coordenada.y);
+        if(ranuraSimulada != null)
+            grid.Set(ranuraSimulada, coordenada);
 
         Debugar.LogError("Borrar Simulacio");
     }
@@ -209,7 +216,7 @@ public class Grid : MonoBehaviour
         if (coordenada.IsOutOfRange(GRID_SIZE))
             return;
 
-        if (!grid.EstaBuida(coordenada))
+        if (grid.Get(coordenada.x,coordenada.y) != null)
             return;
 
         Ranura ranura = Instanciar(prefab_Ranura, coordenada.x, coordenada.y).GetComponent<Ranura>();
@@ -223,13 +230,7 @@ public class Grid : MonoBehaviour
         boto.Setup(this, coordenada, null, null);
         grid.Set(boto);
     }
-    public void Buidar(Vector2Int coordenada)
-    {
-        if (!grid.EstaBuida(coordenada))
-        {
-            grid.Set(null, coordenada.x, coordenada.y);
-        }
-    }
+
 
     [ContextMenu("Resetejar")]
     public void Resetejar()
@@ -248,7 +249,10 @@ public class Grid : MonoBehaviour
                 {
                     Destroy(grid[x, y].gameObject);
                 }
-                Buidar(coordenada);
+                if (!grid.EstaBuida(coordenada))
+                {
+                    grid.Set(null, coordenada.x, coordenada.y);
+                }
             }
         }
 

@@ -34,6 +34,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     [Apartat("EXTRACCIO")]
     [SerializeField] Peça extraccio;
+    [SerializeField] Peça productor;
     //[SerializeField] public List<Casa.Necessitat> necessitatsCovertes;
     bool ocupat;
     [Apartat("PRDUCTES")]
@@ -186,6 +187,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void Ocupar(Peça productor) 
     {
+        Debug.LogError($"{productor.gameObject.name} es el productor de {gameObject.name}");
         ocupat = true;
         productor.extraccio = this;
     }

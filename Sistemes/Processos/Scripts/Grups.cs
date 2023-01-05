@@ -25,12 +25,9 @@ public class Grups : ScriptableObject
 
     System.Action enFinalitzar;
     List<Peça> veinsIguals;
-    List<Peça> veinsCaminables;
-    bool agrupada = false;
-    int primerGrup = 0;
+
     List<Peça> veinsPeça;
-    List<Peça> veinsGrup;
-    int index;
+
     Grup grupActual;
     List<Grup> grupsVeinsPeça;
     Grup buscat;
@@ -164,7 +161,6 @@ public class Grups : ScriptableObject
 
     Grup IntentarAgrupar(List<Grup> grups, Peça peça, List<Peça> veinsIguals)
     {
-        agrupada = false;
         Grup elMeuGrup = null;
 
         for (int i = 0; i < veinsIguals.Count; i++)
@@ -205,7 +201,7 @@ public class Grups : ScriptableObject
     {
         if(grups == null) grups = new List<Grup>();
 
-        Grup tmp = new Grup(peça.Estat, new List<Peça>() { peça }, casa);
+        Grup tmp = new Grup(peça.Estat, new List<Peça>() { peça }, casa, grups.Count);
         tmp.TrobarVeins();
         grups.Add(tmp);
 
@@ -491,16 +487,16 @@ public class Grups : ScriptableObject
 [System.Serializable]
 public class Grup : System.Object
 {
-    public string RandomString(int length)
+    public string RandomString(int seed, int length)
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        var random = new System.Random(1);
+        var random = new System.Random(seed);
         return new string(Enumerable.Repeat(chars,length).Select(s => s[random.Next(s.Length)]).ToArray());
     }
     public Grup() { }
-    public Grup(Estat estat, List<Peça> peces, Estat casa)
+    public Grup(Estat estat, List<Peça> peces, Estat casa, int index)
     {
-        id = estat.name + "_" + RandomString(20);
+        id = estat.name + "_" + RandomString(index, 20);
         //this.estat = estat;
         this.poble = estat == casa;
         this.peces = peces;

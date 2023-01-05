@@ -13,7 +13,7 @@ public class Informacio_Producte : Informacio
         else ui.Clear();
         */
 
-        Debug.LogError("Extreure producte");
+        Debug.LogError("Extreure producte", peça);
 
         Amagar(peça);
 

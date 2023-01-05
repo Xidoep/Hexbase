@@ -11,7 +11,9 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     [Linia]
     [SerializeField] UnityEvent onEnter;
     [SerializeField] UnityEvent onExit;
-    [Linia]
+
+    [Apartat("FASES/PROCESSOS")]
+    [SerializeField] FasesControlador controlador;
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Prediccio prediccio;
     
@@ -120,9 +122,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     {
         outline.SetActive(true);
         onEnter?.Invoke();
-        prediccio.Predir(Coordenades);
 
-        //outline.material.SetFloat(SELECCIONAT_ID, 1);
+        prediccio.Predir(Coordenades);
     }
     public void OnPointerExit(PointerEventData eventData) 
     {
@@ -130,7 +131,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
         Seleccionada = false;
         if (compteEnrerra != null) StopCoroutine(compteEnrerra);
+
         onExit?.Invoke();
-        //outline.material.SetFloat(SELECCIONAT_ID, 0);
     }
 }
