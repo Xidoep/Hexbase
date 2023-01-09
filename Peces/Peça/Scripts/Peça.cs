@@ -76,6 +76,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         get
         {
             if(meshRenderers == null) meshRenderers = GetComponentsInChildren<MeshRenderer>();
+            if(meshRenderers.Length == 0) meshRenderers = GetComponentsInChildren<MeshRenderer>();
             for (int i = 0; i < meshRenderers.Length; i++)
             {
                 if(meshRenderers[i] == null)
@@ -234,6 +235,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (blocarInformacio)
             return;
 
+        //amagarInformacio?.Invoke(this);
         mostrarInformacio?.Invoke(this, false);
         //informacio = amagarInformacio?.Invoke(informacio);
     } 

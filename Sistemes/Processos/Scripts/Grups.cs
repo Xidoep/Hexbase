@@ -8,7 +8,7 @@ using XS_Utils;
 public class Grups : ScriptableObject
 {
     [SerializeField] List<Grup> grups;
-
+    [SerializeField] Visualitzacions visualitzacions;
 
     [Apartat("ESTATS NECESSARIS")]
     [SerializeField] Estat casa;
@@ -221,7 +221,9 @@ public class Grups : ScriptableObject
         grup.resaltat = true;
         for (int p = 0; p < grup.Peces.Count; p++)
         {
-            MeshRenderer[] meshRenderers = grup.Peces[p].GetComponentsInChildren<MeshRenderer>();
+            visualitzacions.Destacar(grup.Peces[p], true);
+            //grup.Peces[p].Destacar(true);
+            /*MeshRenderer[] meshRenderers = grup.Peces[p].GetComponentsInChildren<MeshRenderer>();
             for (int mr = 0; mr < meshRenderers.Length; mr++)
             {
                 for (int m = 0; m < meshRenderers[mr].materials.Length; m++)
@@ -232,7 +234,7 @@ public class Grups : ScriptableObject
                     }
                 }
                 
-            }
+            }*/
         }
     }
     public void ReixarDeResaltar()
@@ -243,7 +245,19 @@ public class Grups : ScriptableObject
             {
                 for (int p = 0; p < grups[i].Peces.Count; p++)
                 {
-                    MeshRenderer[] meshRenderers = grups[i].Peces[p].GetComponentsInChildren<MeshRenderer>();
+                    visualitzacions.Destacar(grups[i].Peces[p], false);
+                   /* for (int m = 0; m < grups[i].Peces[p].MeshRenderers.Length; m++)
+                    {
+                        visualitzacions.Destacar(grups[i].Peces[p].MeshRenderers[m], false);
+                        grups[i].Peces[p].MeshRenderers[m].SetPropertyBlock(destacar ? resaltar : noresaltar);
+                        for (int m = 0; m < MeshRenderers[i].materials.Length; m++)
+                        {
+                            //MeshRenderers[i].materials[m].SetInt("_Destacat", destacar ? 1 : 0);
+                        }
+
+                    }*/
+                   // grups[i].Peces[p].Destacar(false);
+                    /*MeshRenderer[] meshRenderers = grups[i].Peces[p].GetComponentsInChildren<MeshRenderer>();
                     for (int mr = 0; mr < meshRenderers.Length; mr++)
                     {
                         for (int m = 0; m < meshRenderers[mr].materials.Length; m++)
@@ -254,7 +268,7 @@ public class Grups : ScriptableObject
                             }
                         }
                         
-                    }
+                    }*/
                 }
             }
             grups[i].resaltat = false;

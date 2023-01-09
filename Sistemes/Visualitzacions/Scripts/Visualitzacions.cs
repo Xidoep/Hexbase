@@ -9,6 +9,8 @@ public class Visualitzacions : ScriptableObject
     [SerializeField] Animacions animacions;
     [Space(20)]
     [SerializeField] Particules particules;
+    [Space(20)]
+    [SerializeField] Materials materials;
 
     public List<Vector3> posicions;
 
@@ -46,6 +48,38 @@ public class Visualitzacions : ScriptableObject
 
     }
 
+    [System.Serializable]
+    public struct Materials
+    {
+        const string DESTACAT = "_Destacat";
+
+        [Header("GRUPS")]
+        public MaterialPropertyBlock resaltar;
+        public MaterialPropertyBlock noResaltar;
+
+        public void Setup()
+        {
+            resaltar = new MaterialPropertyBlock();
+            resaltar.SetInt(DESTACAT, 1);
+            noResaltar = new MaterialPropertyBlock();
+            noResaltar.SetInt(DESTACAT, 0);
+        }
+    }
+
+    private void OnEnable()
+    {
+        materials.Setup();
+    }
+
+
+    public void Destacar(Peça peça, bool destacar) 
+    {
+        for (int i = 0; i < peça.MeshRenderers.Length; i++)
+        {
+            peça.MeshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
+        }
+       
+    } 
 
     public void CanviarEstat(Peça peça) => animacions.canviarEstat.Play(peça.Parent);
 

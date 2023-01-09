@@ -132,6 +132,7 @@ public class Grid : MonoBehaviour
     public Vector2Int Centre => new Vector2Int(GRID_SIZE / 2, GRID_SIZE / 2);
     public void Set(Peça peça) => grid.Set(peça);
     public Hexagon Get(Vector2Int coordenada) => grid.Get(coordenada);
+    public Hexagon Get(int x, int y) => grid.Get(x, y);
     public bool EstaBuida(Vector2Int coordenada) => grid.EstaBuida(coordenada);
     /*private void OnEnable()
     {
@@ -273,8 +274,8 @@ public class Grid : MonoBehaviour
 
     private void OnValidate()
     {
-        if (prefab_Ranura == null) prefab_Ranura = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Ranura.prefab");
-        if (prefab_Peça == null) prefab_Peça = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Peça.prefab");
+        //if (prefab_Ranura == null) prefab_Ranura = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Ranura.prefab");
+        //if (prefab_Peça == null) prefab_Peça = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Peça.prefab");
 
         estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();

@@ -58,7 +58,7 @@ public class Subestat : ScriptableObject
 
 
     [Apartat("INFORMACIO")]
-    [SerializeField] Informacio informacio;
+    [SerializeField] Informacio[] informacions;
 
 
 
@@ -74,29 +74,25 @@ public class Subestat : ScriptableObject
 
     public void InformacioMostrar(Peça peça, bool proveides) 
     {
-        if (informacio == null)
+        for (int i = 0; i < informacions.Length; i++)
         {
-            for (int i = 0; i < condicions.Length; i++)
-            {
-                if(condicions[i].Objectiu.EsProducte)
-                {
-                    Debug.Log("Possible producte");
-                }
-            }
-            return;
+            informacions[i].Mostrar(peça, proveides);
         }
 
-        informacio.Mostrar(peça, proveides);
+        
     }
     public void InformacioAmagar(Peça peça) 
     {
-        if (informacio == null)
+        if (informacions.Length == 0)
         {
 
             return;
         }
 
-        informacio.Amagar(peça);
+        for (int i = 0; i < informacions.Length; i++)
+        {
+            informacions[i].Amagar(peça);
+        }
     } 
 
 

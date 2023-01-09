@@ -36,8 +36,7 @@ public class Informacio_Necessitats : Informacio
             //ui.Add(peça.Casa.Necessitats[i].Informacio);
         }
 
-        grups.ResaltarGrup(peça);
-
+        //grups.ResaltarGrup(peça);
         //return ui.ToArray();
     }
 
@@ -50,7 +49,7 @@ public class Informacio_Necessitats : Informacio
 
             Destroy(peça.Casa.Necessitats[i].Informacio.gameObject, 0.1f);
         }
-        grups.ReixarDeResaltar();
+        //grups.ReixarDeResaltar();
     }
 
 }
