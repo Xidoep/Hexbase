@@ -5,16 +5,17 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor;
 using XS_Utils;
+using UnityEngine.SceneManagement;
 
 public class TesterSimulacio
 {
     [UnityTest]
     public IEnumerator TesterSimulacioWithEnumeratorPasses()
     {
-        FasesControlador controlador = AssetDatabase.LoadAssetAtPath<FasesControlador>("Assets/XidoStudio/Hexbase/Sistemes/Fases/_Controlador.asset");
-        Fase_Iniciar iniciar = AssetDatabase.LoadAssetAtPath<Fase_Iniciar>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Iniciar.asset");
-        Fase_Colocar colocar = AssetDatabase.LoadAssetAtPath<Fase_Colocar>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Colocar.asset");
-        Grid grid = GameObject.FindObjectOfType<Grid>();
+        SceneManager.LoadScene(0);
+        FasesControlador controlador = XS_Editor.LoadAssetAtPath<FasesControlador>("Assets/XidoStudio/Hexbase/Sistemes/Fases/_Controlador.asset");
+        Fase_Iniciar iniciar = XS_Editor.LoadAssetAtPath<Fase_Iniciar>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Iniciar.asset");
+        Fase_Colocar colocar = XS_Editor.LoadAssetAtPath<Fase_Colocar>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Colocar.asset");
         // Use the Assert class to test conditions.
         // Use yield to skip a frame.
         yield return new WaitForSeconds(3);
@@ -23,7 +24,7 @@ public class TesterSimulacio
 
     IEnumerator FindButton(FasesControlador controlador, Fase_Iniciar iniciar, Fase_Colocar colocar)
     {
-        iniciar.Iniciar();
+        //iniciar.Iniciar();
         yield return new WaitForSeconds(3);
 
         Assert.AreEqual(true, controlador.Es(colocar));
