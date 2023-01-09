@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Informacio/Necessitats")]
 public class Informacio_Necessitats : Informacio
 {
-
+    [SerializeField] Grups grups;
     public override void Mostrar(Peça peça, bool mostrarProveides = false) 
     {
         /*if (ui == null)
@@ -36,6 +36,8 @@ public class Informacio_Necessitats : Informacio
             //ui.Add(peça.Casa.Necessitats[i].Informacio);
         }
 
+        grups.ResaltarGrup(peça);
+
         //return ui.ToArray();
     }
 
@@ -48,6 +50,7 @@ public class Informacio_Necessitats : Informacio
 
             Destroy(peça.Casa.Necessitats[i].Informacio.gameObject, 0.1f);
         }
+        grups.ReixarDeResaltar();
     }
 
 }

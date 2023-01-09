@@ -17,12 +17,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
-        subestat.InformacioMostrar(this, false);
+        //subestat.InformacioMostrar(this, false);
         //informacio = subestat.InformacioMostrar(this);
 
         gameObject.name = $"{estat.name}({coordenades})";
         condicions = this.subestat.Condicions;
         ocupat = false;
+
+        meshRenderers = null;
     }
 
     [Apartat("ESTAT")]
@@ -44,6 +46,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //[SerializeField] Informacio.Unitat[] informacio;
     public bool blocarInformacio;
 
+    [Apartat("MESH RENDERERS")]
+    MeshRenderer[] meshRenderers;
     public bool BlocarInformacio { set => blocarInformacio = value; }
 
     [System.Serializable] public struct ProducteExtret
@@ -67,7 +71,22 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Condicio[] Condicions => condicions;
     public Casa Casa => cases[0];
     public bool TeCasa => cases != null && cases.Length > 0;
-
+    public MeshRenderer[] MeshRenderers 
+    {
+        get
+        {
+            if(meshRenderers == null) meshRenderers = GetComponentsInChildren<MeshRenderer>();
+            for (int i = 0; i < meshRenderers.Length; i++)
+            {
+                if(meshRenderers[i] == null)
+                {
+                    meshRenderers = GetComponentsInChildren<MeshRenderer>();
+                    break;
+                }
+            }
+            return meshRenderers;
+        }
+    }
     //public Informacio.Unitat[] Informacio { get => informacio; set => informacio = value; }
 
     //public Producte[] ExtreureProducte() => extraccio.Subestat.Produccio();
@@ -171,6 +190,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         TreureCasa();
 
         gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
+
+        meshRenderers = null;
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;

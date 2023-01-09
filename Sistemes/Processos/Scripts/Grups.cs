@@ -16,6 +16,9 @@ public class Grups : ScriptableObject
     [SerializeField] Subestat port;
     [SerializeField] Estat aigua;
 
+    [Apartat("MATERIALS")]
+    [SerializeField] Shader[] reseltables;
+
     public List<Grup> Grup => grups;
 
 
@@ -33,6 +36,7 @@ public class Grups : ScriptableObject
     Grup buscat;
 
     void OnEnable() => Resetejar();
+
 
 
     //AGRUPA LA PEÇA QUE AS COLOCAT
@@ -210,8 +214,52 @@ public class Grups : ScriptableObject
 
     public void Resetejar() => grups = new List<Grup>();
 
-
-
+    //AIXO HA D'ANAR A VISUALITZACIONS!!!
+    public void ResaltarGrup(Peça peça)
+    {
+        Grup grup = GrupByPeça(grups, peça);
+        grup.resaltat = true;
+        for (int p = 0; p < grup.Peces.Count; p++)
+        {
+            MeshRenderer[] meshRenderers = grup.Peces[p].GetComponentsInChildren<MeshRenderer>();
+            for (int mr = 0; mr < meshRenderers.Length; mr++)
+            {
+                for (int m = 0; m < meshRenderers[mr].materials.Length; m++)
+                {
+                    if (reseltables.Contains(meshRenderers[mr].materials[m].shader))
+                    {
+                        meshRenderers[mr].materials[m].SetInt("_Destacat", 1);
+                    }
+                }
+                
+            }
+        }
+    }
+    public void ReixarDeResaltar()
+    {
+        for (int i = 0; i < grups.Count; i++)
+        {
+            if (grups[i].resaltat)
+            {
+                for (int p = 0; p < grups[i].Peces.Count; p++)
+                {
+                    MeshRenderer[] meshRenderers = grups[i].Peces[p].GetComponentsInChildren<MeshRenderer>();
+                    for (int mr = 0; mr < meshRenderers.Length; mr++)
+                    {
+                        for (int m = 0; m < meshRenderers[mr].materials.Length; m++)
+                        {
+                            if (reseltables.Contains(meshRenderers[mr].materials[m].shader))
+                            {
+                                meshRenderers[mr].materials[m].SetInt("_Destacat", 0);
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            grups[i].resaltat = false;
+        }
+    }
 
     public List<Peça> Peces(List<Grup> grups, Peça peça) 
     {
@@ -564,6 +612,7 @@ public class Grup : System.Object
     [SerializeField] List<Peça> camins;
     [SerializeField] List<Peça> ports;
 
+    public bool resaltat;
 
     public string Id => id;
     public List<Peça> Peces => peces;

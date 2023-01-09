@@ -9,6 +9,7 @@ public class Informacio : ScriptableObject
     [SerializeField] UI_InformacioPeça prefab;
     [SerializeField] Visualitzacions visualitzacions;
 
+
     //protected List<Unitat> ui;
 
     protected GameObject Prefab => prefab.gameObject;
