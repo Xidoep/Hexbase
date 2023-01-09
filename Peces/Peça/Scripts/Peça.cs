@@ -212,6 +212,13 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         ocupat = true;
         productor.extraccio = this;
     }
+    public void Desocupar()
+    {
+        Debug.LogError($"{gameObject.name} ja no te productor");
+        ocupat = false;
+        if(productor != null)
+            productor.extraccio = null;
+    }
 
 
     //INTERACCIO

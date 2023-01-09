@@ -42,6 +42,7 @@ public class Condicio_Ocupat : Condicio
             if (canviar)
                 Canviar(peça, enCanviar);
 
+
             return true;
         }
         else return false;

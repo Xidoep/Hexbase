@@ -16,7 +16,7 @@ public class WfcRegla_SubstituirTile : WfcRegla
     //INTERN
     bool substituit;
     List<TilePotencial> tiles;
-
+    List<TilePotencial> veins;
 
 
     public override Subestat Subestat => objectiu;
@@ -70,7 +70,32 @@ public class WfcRegla_SubstituirTile : WfcRegla
         if (substituit)
             return true;
 
+        if (permetreVeins)
+        {
+            veins = new List<TilePotencial>();
+            for (int i = 0; i < tiles.Count; i++)
+            {
+                if (tiles[i].Veins[0] != null)
+                    veins.Add(tiles[i].Veins[0]);
+            }
 
+            for (int i = 0; i < veins.Count; i++)
+            {
+                for (int s = 0; s < substitucions.Length; s++)
+                {
+                    if (veins[i].PossibilitatsVirtuals.Get(0).Tile == substitucions[s].substitucio)
+                    {
+                        substituit = true;
+                        break;
+                    }
+                }
+                if (substituit)
+                    break;
+            }
+
+            if (substituit)
+                return true;
+        }
 
         for (int t = 0; t < tiles.Count; t++)
         {
@@ -99,7 +124,8 @@ public class WfcRegla_SubstituirTile : WfcRegla
         return substituit;
     }
 
-    [System.Serializable] protected class Substitucio
+    [System.Serializable] 
+    protected class Substitucio
     {
         public Tile buscat;
         public Tile substitucio;

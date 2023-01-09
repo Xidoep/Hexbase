@@ -23,10 +23,12 @@ public class Condicio_Producte : Condicio
         {
             if (myVeins[i].SubestatIgualA(subestat) && myVeins[i].LLiure)
             {
+                myVeins[i].Ocupar(peça);
+
                 enConfirmar.Invoke(peça, canviar);
                 if (canviar)
                 {
-                    myVeins[i].Ocupar(peça);
+                    //myVeins[i].Ocupar(peça);
                     Canviar(peça, enCanviar);
                 }
 

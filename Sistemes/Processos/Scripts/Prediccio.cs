@@ -25,6 +25,7 @@ public class Prediccio : ScriptableObject
 
     Grid grid;
 
+
     private void OnEnable()
     {
         simulant = false;
@@ -53,11 +54,8 @@ public class Prediccio : ScriptableObject
                 grupsSimulats.Add(new Grup(grups.Grup[i]));
             }
 
-            //grupsSimulats = new List<Grup>(grups.Grup);
-            //grups.Grup.CopyTo(grupsSimulats.ToArray());
 
             simulada = grid.SimularInici(colocar.Seleccionada, coordenada);
-            //Debugar.LogError($"COMPROVAR POTENCIAL RANURA {simulada.Coordenades} que te {grid.VeinsPeça(coordenada).Count} veines------------");
             simulacioComprovar = new List<Peça>() { simulada };
             for (int c = 0; c < simulada.Condicions.Length; c++)
             {
@@ -67,7 +65,6 @@ public class Prediccio : ScriptableObject
                     if (!simulacioComprovar.Contains(veinsAcordingToOptions[v])) simulacioComprovar.Add(veinsAcordingToOptions[v]);
                 }
             }
-            //simulacioComprovar.AddRange(grid.VeinsPeça(coordenada));
 
             grups.Agrupdar(grupsSimulats, simulada, SimularProximitat);
         }
@@ -113,6 +110,10 @@ public class Prediccio : ScriptableObject
 
         }
 
+        for (int i = 0; i < canviades.Count; i++)
+        {
+            if (canviades[i].Ocupat) canviades[i].Desocupar();
+        }
 
         //grups.RecuperaVersioAnterior();
         grid.SimularFinal(simulada);

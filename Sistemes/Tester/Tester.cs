@@ -15,31 +15,33 @@ public class Tester : ScriptableObject
 
     Ranura[] ranures;
     Hexagon[] hexagons;
-    List<Hexagon> viables;
+    //List<Hexagon> viables;
     Coroutine proces;
+
+    public bool prova;
 
     [ContextMenu("Iniciar")]
     void Iniciar()
     {
-        //processar.OnFinish = StepDelayed;
-        /*if (grid == null)
+        processar.OnFinish = StepDelayed;
+        if (grid == null)
         {
             grid = FindObjectOfType<Grid>();
         }
 
-        StepDelayed();*/
+        StepDelayed();
     }
 
     void StepDelayed()
     {
-        //proces = XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+        proces = XS_Coroutine.StartCoroutine_Ending(1, Step);
     }
 
     void Step()
     {
-        //ranures = grid.GetComponentsInChildren<Ranura>();
-        /*hexagons = grid.GetComponentsInChildren<Hexagon>();
-        viables = new List<Hexagon>();
+        ranures = grid.GetComponentsInChildren<Ranura>();
+        hexagons = grid.GetComponentsInChildren<Hexagon>();
+        /*viables = new List<Hexagon>();
         for (int i = 0; i < hexagons.Length; i++)
         {
             if (hexagons[i].EstatNull) 
