@@ -11,7 +11,7 @@ public class FasesControlador : ScriptableObject
             if(actual != null) Debugar.LogError($"{actual.name.ToUpper()}>>>");
             actual?.Finalitzar();
             actual = value;
-            Debugar.LogError($">>>{actual.name.ToUpper()}");
+            Debug.Log($">>>{actual.name.ToUpper()}");
             actual.FaseStart();
         }
     }

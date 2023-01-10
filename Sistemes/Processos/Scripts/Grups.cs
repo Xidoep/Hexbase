@@ -215,74 +215,25 @@ public class Grups : ScriptableObject
     public void Resetejar() => grups = new List<Grup>();
 
     //AIXO HA D'ANAR A VISUALITZACIONS!!!
-    public void ResaltarGrup(Peça peça)
-    {
-        Grup grup = GrupByPeça(grups, peça);
-        grup.resaltat = true;
-        for (int p = 0; p < grup.Peces.Count; p++)
-        {
-            visualitzacions.Destacar(grup.Peces[p], true);
-            //grup.Peces[p].Destacar(true);
-            /*MeshRenderer[] meshRenderers = grup.Peces[p].GetComponentsInChildren<MeshRenderer>();
-            for (int mr = 0; mr < meshRenderers.Length; mr++)
-            {
-                for (int m = 0; m < meshRenderers[mr].materials.Length; m++)
-                {
-                    if (reseltables.Contains(meshRenderers[mr].materials[m].shader))
-                    {
-                        meshRenderers[mr].materials[m].SetInt("_Destacat", 1);
-                    }
-                }
-                
-            }*/
-        }
-    }
-    public void ReixarDeResaltar()
-    {
-        for (int i = 0; i < grups.Count; i++)
-        {
-            if (grups[i].resaltat)
-            {
-                for (int p = 0; p < grups[i].Peces.Count; p++)
-                {
-                    visualitzacions.Destacar(grups[i].Peces[p], false);
-                   /* for (int m = 0; m < grups[i].Peces[p].MeshRenderers.Length; m++)
-                    {
-                        visualitzacions.Destacar(grups[i].Peces[p].MeshRenderers[m], false);
-                        grups[i].Peces[p].MeshRenderers[m].SetPropertyBlock(destacar ? resaltar : noresaltar);
-                        for (int m = 0; m < MeshRenderers[i].materials.Length; m++)
-                        {
-                            //MeshRenderers[i].materials[m].SetInt("_Destacat", destacar ? 1 : 0);
-                        }
+    public void ResaltarGrup(Peça peça) => visualitzacions.Destacar(this, peça, true);
 
-                    }*/
-                   // grups[i].Peces[p].Destacar(false);
-                    /*MeshRenderer[] meshRenderers = grups[i].Peces[p].GetComponentsInChildren<MeshRenderer>();
-                    for (int mr = 0; mr < meshRenderers.Length; mr++)
-                    {
-                        for (int m = 0; m < meshRenderers[mr].materials.Length; m++)
-                        {
-                            if (reseltables.Contains(meshRenderers[mr].materials[m].shader))
-                            {
-                                meshRenderers[mr].materials[m].SetInt("_Destacat", 0);
-                            }
-                        }
-                        
-                    }*/
-                }
-            }
-            grups[i].resaltat = false;
-        }
-    }
+    public void ReixarDeResaltar() => visualitzacions.Destacar(this, null, false);
 
     public List<Peça> Peces(List<Grup> grups, Peça peça) 
     {
         Grup grup = GrupByPeça(grups, peça);
         if (grup != null)
-            return GrupByPeça(grups, peça).Peces;
+            return grup.Peces;
         else return null;
-    } 
-    public List<Peça> Veins(List<Grup> grups, Peça peça) => GrupByPeça(grups, peça).Veins;
+    }
+    public List<Peça> Veins(List<Grup> grups, Peça peça) 
+    {
+        Grup grup = GrupByPeça(grups, peça);
+        if (grup != null)
+            return grup.Veins;
+        else return new List<Peça>();
+        
+    }
 
 
     void Connectar(List<Grup> grups, Grup grup)
@@ -530,6 +481,7 @@ public class Grups : ScriptableObject
     }
     public Grup GrupByPeça(List<Grup> grups, Peça peça)
     {
+        Debug.LogError($"Buscar grup de la peça {peça.name}");
         buscat = null;
         for (int i = 0; i < grups.Count; i++)
         {

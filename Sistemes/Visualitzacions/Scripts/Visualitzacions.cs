@@ -71,15 +71,51 @@ public class Visualitzacions : ScriptableObject
         materials.Setup();
     }
 
-
-    public void Destacar(Peça peça, bool destacar) 
+    public void Destacar(Grups grups, Peça peça, bool destacar)
     {
-        for (int i = 0; i < peça.MeshRenderers.Length; i++)
+        if (destacar)
         {
-            peça.MeshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
+            Grup grup = grups.GrupByPeça(grups.Grup, peça);
+            grup.resaltat = true;
+            DestacarGrup(grup, true);
+            for (int i = 0; i < grup.connexionsId.Count; i++)
+            {
+                Grup connectat = grups.GrupById(grups.Grup, grup.connexionsId[i]);
+                connectat.resaltat = true;
+                DestacarPecesDelGrup(connectat.Peces, true);
+            }
         }
-       
-    } 
+        else
+        {
+            for (int i = 0; i < grups.Grup.Count; i++)
+            {
+                if (grups.Grup[i].resaltat)
+                {
+                    DestacarGrup(grups.Grup[i], false);
+                }
+                grups.Grup[i].resaltat = false;
+            }
+        }
+
+        void DestacarGrup(Grup grup, bool destacar)
+        {
+            DestacarPecesDelGrup(grup.Peces, destacar);
+            DestacarPecesDelGrup(grup.Camins, destacar);
+            DestacarPecesDelGrup(grup.Ports, destacar);
+        }
+        void DestacarPecesDelGrup(List<Peça> peces, bool destacar)
+        {
+            for (int p = 0; p < peces.Count; p++)
+            {
+                for (int i = 0; i < peces[p].MeshRenderers.Length; i++)
+                {
+                    peces[p].MeshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
+                }
+            }
+        }
+    }
+    
+   
 
     public void CanviarEstat(Peça peça) => animacions.canviarEstat.Play(peça.Parent);
 
