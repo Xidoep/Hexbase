@@ -13,6 +13,7 @@ public class Visualitzacions : ScriptableObject
     [SerializeField] Materials materials;
 
     public List<Vector3> posicions;
+    [SerializeField] Subestat port;
 
     Transform camera;
 
@@ -77,13 +78,45 @@ public class Visualitzacions : ScriptableObject
         {
             Grup grup = grups.GrupByPeça(grups.Grup, peça);
             grup.resaltat = true;
-            DestacarGrup(grup, true);
+
+            //Destacar el grup en si.
+            DestacarPecesDelGrup(grup.Peces, destacar);
+
+            //Destacar el grup dels cammins connectats, que també contenen els ports.
+            for (int i = 0; i < grup.Camins.Count; i++)
+            {
+                Grup cami = grups.GrupByPeça(grups.Grup, grup.Camins[i]);
+                cami.resaltat = true;
+                DestacarPecesDelGrup(cami.Peces, destacar);
+            }
+
+            //Destacar els grups de les connexionsId.
             for (int i = 0; i < grup.connexionsId.Count; i++)
             {
                 Grup connectat = grups.GrupById(grups.Grup, grup.connexionsId[i]);
                 connectat.resaltat = true;
                 DestacarPecesDelGrup(connectat.Peces, true);
             }
+
+            //Destacar els ports als que estan connectats els ports connectats.
+            for (int i = 0; i < grup.Ports.Count; i++)
+            {
+                Grup port = grups.GrupByPeça(grups.Grup, grup.Ports[i]);
+                port.resaltat = true;
+                //Dibuixar una linia entre els ports connectats.
+                for (int c = 0; c < port.connexionsId.Count; c++)
+                {
+                    LineRenderer linia = new GameObject("Connexió maritima").AddComponent<LineRenderer>();
+                    linia.transform.SetParent(grup.Ports[i].transform);
+                    linia.SetPositions(new Vector3[]
+                    {
+                        grup.Ports[i].transform.position,
+                        grups.GrupById(grups.Grup,port.connexionsId[c]).Peces[0].transform.position
+                    });
+                }
+
+            }
+
         }
         else
         {
@@ -91,18 +124,16 @@ public class Visualitzacions : ScriptableObject
             {
                 if (grups.Grup[i].resaltat)
                 {
-                    DestacarGrup(grups.Grup[i], false);
+                    DestacarPecesDelGrup(grups.Grup[i].Peces, false);
+                    grups.Grup[i].resaltat = false;
                 }
-                grups.Grup[i].resaltat = false;
+                
             }
         }
 
-        void DestacarGrup(Grup grup, bool destacar)
-        {
-            DestacarPecesDelGrup(grup.Peces, destacar);
-            DestacarPecesDelGrup(grup.Camins, destacar);
-            DestacarPecesDelGrup(grup.Ports, destacar);
-        }
+
+
+
         void DestacarPecesDelGrup(List<Peça> peces, bool destacar)
         {
             for (int p = 0; p < peces.Count; p++)
@@ -110,6 +141,14 @@ public class Visualitzacions : ScriptableObject
                 for (int i = 0; i < peces[p].MeshRenderers.Length; i++)
                 {
                     peces[p].MeshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
+                }
+                if (peces[p].SubestatIgualA(port))
+                {
+                    LineRenderer[] lineRenderers = peces[p].GetComponentsInChildren<LineRenderer>();
+                    for (int l = lineRenderers.Length; l > 0; l--)
+                    {
+                        Destroy(lineRenderers[l]);
+                    }
                 }
             }
         }

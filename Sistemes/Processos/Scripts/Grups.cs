@@ -265,12 +265,14 @@ public class Grups : ScriptableObject
                 if (!grup.Ports.Contains(grup.Veins[i])) grup.Ports.Add(grup.Veins[i]);
             } 
         }
+
         //AJUNTAR CASES
         for (int i = 0; i < grup.Cases.Count; i++)
         {
             Debugar.LogError("Add - CASA");
             AddConnexio(grups, grup, grup.Cases[i]);
         }
+
         //AJUNTA POBLES CONNECTATS PER CAMINS I GUARDA PORTS
         List<Peça> veinsCami;
         for (int i = 0; i < grup.Camins.Count; i++)
@@ -322,7 +324,11 @@ public class Grups : ScriptableObject
                 if (costes[m].SubestatIgualA(port) //UN PORT
                     && costes[m] != grup.Ports[p]) //NO SIGUI EL MATEIX PORT
                 {
-                    if (!altresPorts.Contains(costes[m])) altresPorts.Add(costes[m]);
+                    if (!altresPorts.Contains(costes[m])) 
+                    {
+                        altresPorts.Add(costes[m]);
+                        ConnectarPorts(grups, grup.Ports[p], costes[m]);
+                    } 
                 }
             }
 
@@ -375,6 +381,13 @@ public class Grups : ScriptableObject
             if (!grupObjectiu.connexionsId.Contains(elMeuGrup.Id)) grupsPendents.Add(grupObjectiu);
         }
 
+        void ConnectarPorts(List<Grup> grups, Peça port1, Peça port2)
+        {
+            Grup grupPort1 = GrupByPeça(grups, port1);
+            Grup grupPort2 = GrupByPeça(grups, port2);
+            if (!grupPort1.connexionsId.Contains(grupPort2.Id)) grupPort1.connexionsId.Add(grupPort2.Id);
+            if (!grupPort2.connexionsId.Contains(grupPort1.Id)) grupPort2.connexionsId.Add(grupPort1.Id);
+        }
     }
 
 
