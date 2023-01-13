@@ -62,7 +62,7 @@ public class Grups : ScriptableObject
             if (peça.EstatIgualA(veinsPeça[v].Estat)) veinsIguals.Add(veinsPeça[v]);
             grupsVeinsPeça.Add(GrupByPeça(grups, veinsPeça[v]));
         }
-        Debugar.LogError($"Connectar {grupsVeinsPeça.Count} veins iguals");
+        //Debugar.LogError($"Connectar {grupsVeinsPeça.Count} veins iguals");
 
         //INTENTAR AGRUPAR O CREAR GRUP NOU
         if (veinsIguals.Count > 0)
@@ -274,24 +274,28 @@ public class Grups : ScriptableObject
         }
 
         //AJUNTA POBLES CONNECTATS PER CAMINS I GUARDA PORTS
-        List<Peça> veinsCami;
+
         for (int i = 0; i < grup.Camins.Count; i++)
         {
             //BUSCAR A TOTS ELS VEINS DEL CAMÍ
-            veinsCami = GrupByPeça(grups, grup.Camins[i]).Veins;
-            for (int c = 0; c < veinsCami.Count; c++)
+            Grup cami = GrupByPeça(grups, grup.Camins[i]);
+            for (int c = 0; c < cami.Veins.Count; c++)
             {
-                if (veinsCami[c].EstatIgualA(casa) && GrupByPeça(grups, veinsCami[c]) != grup) //SI ES UNA CASA, i no pertany al meu grup, EL CONNECTO
+                if (cami.Veins[c].EstatIgualA(casa) && GrupByPeça(grups, cami.Veins[c]) != grup) //SI ES UNA CASA, i no pertany al meu grup, EL CONNECTO
                 {
                     Debugar.LogError("CASA >>> CAMI >>> CASA");
-                    AddConnexio(grups, grup, veinsCami[c]);
+                    AddConnexio(grups, grup, cami.Veins[c]);
                 }
                
             }
-            if (grup.Camins[i].SubestatIgualA(port)) //SI ES UN PORT, EL GUARDO
+            for (int c = 0; c < cami.Peces.Count; c++)
             {
-                if (!grup.Ports.Contains(grup.Camins[i])) grup.Ports.Add(grup.Camins[i]);
+                if (cami.Peces[c].SubestatIgualA(port)) //SI ES UN PORT, EL GUARDO
+                {
+                    if (!grup.Ports.Contains(cami.Peces[c])) grup.Ports.Add(cami.Peces[c]);
+                }
             }
+           
         }
 
 
@@ -327,7 +331,7 @@ public class Grups : ScriptableObject
                     if (!altresPorts.Contains(costes[m])) 
                     {
                         altresPorts.Add(costes[m]);
-                        ConnectarPorts(grups, grup.Ports[p], costes[m]);
+                        //ConnectarPorts(grups, grup.Ports[p], costes[m]);
                     } 
                 }
             }
@@ -494,7 +498,7 @@ public class Grups : ScriptableObject
     }
     public Grup GrupByPeça(List<Grup> grups, Peça peça)
     {
-        Debug.LogError($"Buscar grup de la peça {peça.name}");
+        //Debug.LogError($"Buscar grup de la peça {peça.name}");
         buscat = null;
         for (int i = 0; i < grups.Count; i++)
         {

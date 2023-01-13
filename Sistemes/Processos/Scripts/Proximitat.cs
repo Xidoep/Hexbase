@@ -109,7 +109,7 @@ public class Proximitat : ScriptableObject
             Step(canviar);
         }
 
-        Debugar.LogError($"Comprovar peça {_actual.gameObject.name} que {_actual.Subestat.name} te {_actual.Condicions.Length} condicions");
+        //Debugar.LogError($"Comprovar peça {_actual.gameObject.name} que {_actual.Subestat.name} te {_actual.Condicions.Length} condicions");
         for (int i = 0; i < _actual.Condicions.Length; i++)
         {
             //Debugar.LogError($"Condicio {i}?");

@@ -5,7 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Informacio/Producte")]
 public class Informacio_Producte : Informacio
 {
+    [SerializeField] UI_InformacioPeça prefab;
 
+    int quantitat = 0;
     public override void Mostrar(Peça peça, bool mostrarProveides = false)
     {
         /*if (ui == null)
@@ -23,7 +25,7 @@ public class Informacio_Producte : Informacio
             if (!mostrarProveides && peça.productesExtrets[i].gastat)
                 continue;
 
-            GameObject tmp = Instantiate(Prefab, peça.transform.position, Quaternion.identity, peça.transform);
+            GameObject tmp = Instantiate(prefab.gameObject, peça.transform.position, Quaternion.identity, peça.transform);
             tmp.GetComponent<UI_InformacioPeça>().Setup(peça, i);
             tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
             peça.productesExtrets[i].informacio = new Unitat(tmp);

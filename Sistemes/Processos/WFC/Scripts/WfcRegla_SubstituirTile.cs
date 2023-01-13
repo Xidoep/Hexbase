@@ -59,6 +59,7 @@ public class WfcRegla_SubstituirTile : WfcRegla
             {
                 if (tiles[t].PossibilitatsVirtuals.Get(0).Tile == substitucions[s].substitucio)
                 {
+                    Debug.LogError($"SUBSTITUIT: Sembla que el tile {t} ja es {substitucions[s].substitucio}...");
                     substituit = true;
                     break;
                 }
@@ -70,7 +71,7 @@ public class WfcRegla_SubstituirTile : WfcRegla
         if (substituit)
             return true;
 
-        if (permetreVeins)
+        /*if (permetreVeins)
         {
             veins = new List<TilePotencial>();
             for (int i = 0; i < tiles.Count; i++)
@@ -95,7 +96,7 @@ public class WfcRegla_SubstituirTile : WfcRegla
 
             if (substituit)
                 return true;
-        }
+        }*/
 
         for (int t = 0; t < tiles.Count; t++)
         {
@@ -103,17 +104,17 @@ public class WfcRegla_SubstituirTile : WfcRegla
             {
                 if (TileIgualABuscat(tiles, t, s))
                 {
-                    if (evitarVeinsIguals)
+                    /*if (evitarVeinsIguals)
                     {
                         for (int v = 0; v < tiles[t].Veins.Length; v++)
                         {
                             if (TileVeiIgualASubstitucio(tiles, t, v, s))
                                 continue;
                         }
-                    }
+                    }*/
 
                     Substituir(tiles, t, s);
-
+                    Debug.LogError($"SUBSTITUIR: Canviar tile({t}) {substitucions[s].buscat} per {substitucions[s].substitucio}!");
                     substituit = true;
                     break;
                 }

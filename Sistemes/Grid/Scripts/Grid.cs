@@ -209,7 +209,7 @@ public class Grid : MonoBehaviour
         if(ranuraSimulada != null)
             grid.Set(ranuraSimulada, coordenada);
 
-        Debugar.LogError("Borrar Simulacio");
+        //Debugar.LogError("Borrar Simulacio");
     }
 
     public void CrearRanura(Vector2Int coordenada)

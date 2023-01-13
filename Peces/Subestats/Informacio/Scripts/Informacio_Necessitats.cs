@@ -6,6 +6,9 @@ using UnityEngine;
 public class Informacio_Necessitats : Informacio
 {
     [SerializeField] Grups grups;
+    [SerializeField] UI_InformacioPeça prefab;
+
+    int quantitat = 0;
     public override void Mostrar(Peça peça, bool mostrarProveides = false) 
     {
         /*if (ui == null)
@@ -27,7 +30,7 @@ public class Informacio_Necessitats : Informacio
             if (!mostrarProveides && peça.Casa.Necessitats[i].Proveit)
                 continue;
 
-            GameObject tmp = Instantiate(Prefab, peça.transform.position, Quaternion.identity, peça.transform);
+            GameObject tmp = Instantiate(prefab.gameObject, peça.transform.position, Quaternion.identity, peça.transform);
             tmp.GetComponent<UI_InformacioPeça>().Setup(peça, i);
             tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
             peça.Casa.Necessitats[i].Informacio = new Unitat(tmp);

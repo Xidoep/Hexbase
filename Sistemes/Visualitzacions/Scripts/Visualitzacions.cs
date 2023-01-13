@@ -52,7 +52,7 @@ public class Visualitzacions : ScriptableObject
     [System.Serializable]
     public struct Materials
     {
-        const string DESTACAT = "_Destacat";
+        public const string DESTACAT = "_Destacat";
 
         [Header("GRUPS")]
         public MaterialPropertyBlock resaltar;
@@ -80,22 +80,25 @@ public class Visualitzacions : ScriptableObject
             grup.resaltat = true;
 
             //Destacar el grup en si.
-            DestacarPecesDelGrup(grup.Peces, destacar);
+            DestacarPeces(grup.Peces, true);
 
             //Destacar el grup dels cammins connectats, que també contenen els ports.
             for (int i = 0; i < grup.Camins.Count; i++)
             {
                 Grup cami = grups.GrupByPeça(grups.Grup, grup.Camins[i]);
                 cami.resaltat = true;
-                DestacarPecesDelGrup(cami.Peces, destacar);
+                DestacarPeces(cami.Peces, true);
             }
 
             //Destacar els grups de les connexionsId.
             for (int i = 0; i < grup.connexionsId.Count; i++)
             {
+                if (grup.connexionsId[i] == grup.Id)
+                    continue;
+
                 Grup connectat = grups.GrupById(grups.Grup, grup.connexionsId[i]);
                 connectat.resaltat = true;
-                DestacarPecesDelGrup(connectat.Peces, true);
+                DestacarPeces(connectat.Peces, true);
             }
 
             //Destacar els ports als que estan connectats els ports connectats.
@@ -104,7 +107,7 @@ public class Visualitzacions : ScriptableObject
                 Grup port = grups.GrupByPeça(grups.Grup, grup.Ports[i]);
                 port.resaltat = true;
                 //Dibuixar una linia entre els ports connectats.
-                for (int c = 0; c < port.connexionsId.Count; c++)
+                /*for (int c = 0; c < port.connexionsId.Count; c++)
                 {
                     LineRenderer linia = new GameObject("Connexió maritima").AddComponent<LineRenderer>();
                     linia.transform.SetParent(grup.Ports[i].transform);
@@ -113,7 +116,7 @@ public class Visualitzacions : ScriptableObject
                         grup.Ports[i].transform.position,
                         grups.GrupById(grups.Grup,port.connexionsId[c]).Peces[0].transform.position
                     });
-                }
+                }*/
 
             }
 
@@ -124,7 +127,7 @@ public class Visualitzacions : ScriptableObject
             {
                 if (grups.Grup[i].resaltat)
                 {
-                    DestacarPecesDelGrup(grups.Grup[i].Peces, false);
+                    DestacarPeces(grups.Grup[i].Peces, false);
                     grups.Grup[i].resaltat = false;
                 }
                 
@@ -134,26 +137,35 @@ public class Visualitzacions : ScriptableObject
 
 
 
-        void DestacarPecesDelGrup(List<Peça> peces, bool destacar)
+        void DestacarPeces(List<Peça> peces, bool destacar)
         {
             for (int p = 0; p < peces.Count; p++)
             {
-                for (int i = 0; i < peces[p].MeshRenderers.Length; i++)
-                {
-                    peces[p].MeshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
-                }
-                if (peces[p].SubestatIgualA(port))
+                Debugar.LogError($"Resaltar peça: {peces[p].gameObject.name}");
+                DestacarPeça(peces[p], destacar);
+                /*MeshRenderer[] meshRenderers = peces[p].GetComponentsInChildren<MeshRenderer>();
+                for (int i = 0; i < meshRenderers.Length; i++)
+                    meshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
+                }*/
+                /*if (peces[p].SubestatIgualA(port))
                 {
                     LineRenderer[] lineRenderers = peces[p].GetComponentsInChildren<LineRenderer>();
                     for (int l = lineRenderers.Length; l > 0; l--)
                     {
                         Destroy(lineRenderers[l]);
                     }
-                }
+                }*/
             }
         }
     }
-    
+    public void DestacarPeça(Peça peça, bool destacar)
+    {
+        MeshRenderer[] meshRenderers = peça.GetComponentsInChildren<MeshRenderer>();
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            meshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
+        }
+    } 
    
 
     public void CanviarEstat(Peça peça) => animacions.canviarEstat.Play(peça.Parent);
