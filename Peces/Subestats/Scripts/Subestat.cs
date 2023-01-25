@@ -32,14 +32,18 @@ public class Subestat : ScriptableObject
 
 
     [Apartat("TILES")]
-    [SerializeField] TilesPossibles[] tiles;
+    [SerializeField] TileSetBase tileset;
+
+    /*[SerializeField] TilesPossibles[] tiles;
     [SerializeField] Connexio[] connexionsNules;
     [SerializeField] ConnexioEspesifica connexioEspesifica;
-
-    protected TilesPossibles[] Tiles => tiles;
-    public bool TeConnexionsNules => connexionsNules.Length > 0;
-    public virtual Connexio[] ConnexionsNules => connexionsNules;
-    public ConnexioEspesifica ConnexionsEspesifica => connexioEspesifica;
+    */
+    //protected TilesPossibles[] Tiles => tiles;
+    public bool TeConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça).Length > 0;
+    public virtual Connexio[] ConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça);
+    public TileSetBase.ConnexioEspesifica ConnexionsEspesifica(Peça peça) => tileset.ConnexionsEspesifica(peça);
+    public Connexio[] ConnexionsPossibles(Peça peça) => tileset.ConnexioinsPossibles(peça);
+    
 
 
 
@@ -63,10 +67,6 @@ public class Subestat : ScriptableObject
 
 
 
-
-    [Tooltip("S'emplena automaticament")] 
-    [SerializeField] protected Connexio[] connexionsPossibles;
-    public Connexio[] ConnexionsPossibles => connexionsPossibles;
 
 
 
@@ -99,9 +99,10 @@ public class Subestat : ScriptableObject
 
 
 
-    public Possibilitats Possibilitats()
+    public Possibilitats Possibilitats(Peça peça)
     {
         Possibilitats ps = new Possibilitats(new List<Possibilitat>());
+        TileSetBase.TilesPossibles[] tiles = tileset.Tiles(peça);
         for (int i = 0; i < tiles.Length; i++)
         {
             if (!tiles[i].tile.ConnexionsIguals)
@@ -117,25 +118,7 @@ public class Subestat : ScriptableObject
 
 
 
-
-
-
-    protected void OnValidate()
-    {
-        List<Connexio> tmpConnexions = new List<Connexio>();
-        for (int i = 0; i < Tiles.Length; i++)
-        {
-            if (!tmpConnexions.Contains(Tiles[i].tile.Exterior(0))) tmpConnexions.Add(Tiles[i].tile.Exterior(0));
-            if (!tmpConnexions.Contains(Tiles[i].tile.Esquerra(0))) tmpConnexions.Add(Tiles[i].tile.Esquerra(0));
-            if (!tmpConnexions.Contains(Tiles[i].tile.Dreta(0))) tmpConnexions.Add(Tiles[i].tile.Dreta(0));
-        }
-
-        connexionsPossibles = tmpConnexions.ToArray();
-    }
-
-
-
-    [System.Serializable]
+    /*[System.Serializable]
     public class TilesPossibles
     {
         public Tile tile;
@@ -147,5 +130,5 @@ public class Subestat : ScriptableObject
     {
         public List<Subestat> subestats;
         public Connexio[] connexions;
-    }
+    }*/
 }

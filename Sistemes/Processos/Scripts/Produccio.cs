@@ -149,7 +149,8 @@ public class Produccio : ScriptableObject
         }
         for (int i = 0; i < productors.Count; i++)
         {
-            productors[i].Extraccio.mostrarInformacio?.Invoke(productors[i].Extraccio, false);
+            if(productors[i].Ocupat)
+                productors[i].Extraccio.mostrarInformacio?.Invoke(productors[i].Extraccio, false);
         }
     }
 

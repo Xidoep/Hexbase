@@ -65,7 +65,7 @@ public class TilePotencial
             return;
         orientacioFisica = 0;
 
-        possibilitatsVirtuals = peça.Subestat.Possibilitats();
+        possibilitatsVirtuals = peça.Subestat.Possibilitats(peça);
 
     }
 

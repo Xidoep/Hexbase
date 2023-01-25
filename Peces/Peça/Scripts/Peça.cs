@@ -37,8 +37,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [Apartat("EXTRACCIO")]
     [SerializeField] Peça extraccio;
     [SerializeField] Peça productor;
+    [SerializeField] bool ocupat;
     //[SerializeField] public List<Casa.Necessitat> necessitatsCovertes;
-    bool ocupat;
     [Apartat("PRDUCTES")]
     [SerializeField] public ProducteExtret[] productesExtrets;
 

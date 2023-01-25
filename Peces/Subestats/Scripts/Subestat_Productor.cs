@@ -19,9 +19,8 @@ public class Subestat_Productor : Subestat
     [SerializeField] Produccio produccio;
 
 
-    new void OnValidate()
+    private void OnValidate()
     {
         produccio = (Produccio)XS_Editor.LoadAssetAtPath<Produccio>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Produccio.asset");
-        base.OnValidate();
     }
 }

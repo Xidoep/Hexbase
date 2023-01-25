@@ -254,7 +254,11 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
         Propagar();
     }
-    void Reiniciar() => Iniciar_WFC(colocada, canviades, enFinalitzar, true);
+    void Reiniciar() 
+    {
+        if (!canviades.Contains(propagables[0].Peça)) canviades.Add(propagables[0].Peça);
+        Iniciar_WFC(colocada, canviades, enFinalitzar, true);
+    } 
     void Propagar()
     {
         //TilePotencial actual = propagables[0];
@@ -292,7 +296,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     }
 
                     Debugar.LogError(_debug, propagables[0].Peça);
-                    XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);
+                    XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);  
                     return;
                 }
 
@@ -413,9 +417,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 _tmp.Clear();
                 if(vei.Peça != tile.Peça)//Si el vei no es intern
                 {
-                    if (tile.Peça.Subestat.ConnexionsEspesifica != null && tile.Peça.Subestat.ConnexionsEspesifica.subestats.Contains(vei.Peça.Subestat))
+                    if (tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça) != null && tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça).subestats.Contains(vei.Peça.Subestat))
                     {
-                        _tmp.AddRange(tile.Peça.Subestat.ConnexionsEspesifica.connexions);
+                        _tmp.AddRange(tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça).connexions);
                         return _tmp.ToArray();
                     }
                 }
@@ -450,9 +454,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             /*if (tile.Peça.Subestat.TeConnexionsNules)
                 return tile.Peça.Subestat.ConnexionsNules;
             else return tile.Peça.Estat.ConnexionsPossibles;*/
-            if (tile.Peça.Subestat.TeConnexionsNules)
-                return tile.Peça.Subestat.ConnexionsNules;
-            return tile.Peça.Subestat.ConnexionsPossibles;
+            if (tile.Peça.Subestat.TeConnexionsNules(tile.Peça))
+                return tile.Peça.Subestat.ConnexionsNules(tile.Peça);
+            return tile.Peça.Subestat.ConnexionsPossibles(tile.Peça);
         }
         //return _tmp.ToArray();
     }
