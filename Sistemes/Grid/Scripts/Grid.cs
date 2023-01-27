@@ -265,6 +265,7 @@ public class Grid : MonoBehaviour
         //camaraGestio.ResetDimensions(transform);
     }
 
+    public GameObject Instanciar(GameObject prefab, Vector2Int coordenada) => Instanciar(prefab, coordenada.x, coordenada.y);
     GameObject Instanciar(GameObject prefab, int x, int y)
     {
         GameObject tmp = Instantiate(prefab, transform);

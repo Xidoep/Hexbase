@@ -66,7 +66,7 @@ public static class GridExtensions
 
         return new Vector3(xPosition, 0, -yPosition);
     }
-
+    public static Vector3 GetWorldPosition(Vector2Int coordenada) => GetWorldPosition(coordenada.x, coordenada.y);
 
     static List<Hexagon> _tmpVeins;
     static List<Vector2Int> _tmpCoordenades;

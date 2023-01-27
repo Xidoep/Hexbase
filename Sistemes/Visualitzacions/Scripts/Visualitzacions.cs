@@ -8,14 +8,13 @@ public class Visualitzacions : ScriptableObject
 {
     [SerializeField] Animacions animacions;
     [Space(20)]
-    [SerializeField] Particules particules;
+    [SerializeField] Prefabs prefabs;
     [Space(20)]
     [SerializeField] Materials materials;
 
-    public List<Vector3> posicions;
-    [SerializeField] Subestat port;
-
+    List<Vector3> posicions;
     Transform camera;
+    Grid grid;
 
     [System.Serializable]
     public struct Animacions
@@ -42,12 +41,52 @@ public class Visualitzacions : ScriptableObject
     }
 
     [System.Serializable]
-    public struct Particules
+    public struct Prefabs
     {
         [Header("PUNTS")]
         public Utils_InstantiableFromProject guanyarPunts;
 
+        [Header("PREDICCIONS")]
+        public GameObject canvi;
+        public GameObject mesHabitants;
+        public GameObject menysHabitants;
+
+        public List<GameObject> prediccions;
     }
+
+    public void PredirCanvi(Vector2Int coordenada)
+    {
+        if (grid == null) grid = GameObject.FindObjectOfType<Grid>();
+        if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
+
+        prefabs.prediccions.Add(grid.Instanciar(prefabs.canvi, coordenada));
+
+    }
+    public void PredirMesHabitants(Vector2Int coordenada)
+    {
+        if (grid == null) grid = GameObject.FindObjectOfType<Grid>();
+        if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
+
+        prefabs.prediccions.Add(grid.Instanciar(prefabs.mesHabitants, coordenada));
+    }
+
+    public void PredirMenysHabitants(Vector2Int coordenada)
+    {
+        if (grid == null) grid = GameObject.FindObjectOfType<Grid>();
+        if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
+
+        prefabs.prediccions.Add(grid.Instanciar(prefabs.menysHabitants, coordenada));
+    }
+
+    public void AmagarPrediccions()
+    {
+        for (int i = 0; i < prefabs.prediccions.Count; i++)
+        {
+            Destroy(prefabs.prediccions[i]);
+        }
+        prefabs.prediccions.Clear();
+    }
+
 
     [System.Serializable]
     public struct Materials
@@ -200,7 +239,7 @@ public class Visualitzacions : ScriptableObject
         {
             for (int i = 0; i < posicions.Count; i++)
             {
-                particules.guanyarPunts.Instantiate(posicions[0], Quaternion.Euler(camera.forward));
+                prefabs.guanyarPunts.Instantiate(posicions[0], Quaternion.Euler(camera.forward));
                 posicions.RemoveAt(0);
             }
         } 
@@ -208,7 +247,7 @@ public class Visualitzacions : ScriptableObject
 
     public void AmagarInformacio(GameObject gameObject)
     {
-        animacions.amagarInformacio.Play(gameObject);
+        animacions.amagarInformacio.Play(gameObject.transform);
         Destroy(gameObject, 0.51f);
     }
 
@@ -243,7 +282,7 @@ public class Visualitzacions : ScriptableObject
             GameObject producte = p.Extraccio.productesExtrets[i].informacio.gameObject;
 
             Vector3 offset = producte.transform.localPosition;
-            new Animacio_Posicio(p.Extraccio.transform.position + offset, p.transform.position + offset, false, false).Play(producte, 0.5f, Transicio.clamp);
+            new Animacio_Posicio(p.Extraccio.transform.position + offset, p.transform.position + offset, false, false).Play(producte.transform, 0.5f, Transicio.clamp);
         }
         void RepartirProducte(Peça p, int iProd, Peça c, int iNeed, bool ultima, System.Action enFinalitzar)
         {
@@ -258,7 +297,7 @@ public class Visualitzacions : ScriptableObject
 
                 float temps = Vector3.Distance(p.transform.position, c.transform.position) * 0.25f;
 
-                new Animacio_Posicio(p.transform.position, c.transform.position, false, false).Play(producte, temps, Transicio.clamp);
+                new Animacio_Posicio(p.transform.position, c.transform.position, false, false).Play(producte.transform, temps, Transicio.clamp);
 
                 ProducteProveir(p, producte, temps + 1);
                 NecessitatProveida(c, c.Casa.Necessitats[iNeed].Informacio.gameObject, temps + 1, ultima, enFinalitzar);
@@ -270,7 +309,7 @@ public class Visualitzacions : ScriptableObject
 
             void Animacio()
             {
-                animacions.producteProveir.Play(ui);
+                animacions.producteProveir.Play(ui.transform);
                 //Destroy(gameObject, 1.5f);
                 p.Extraccio.BlocarInformacio = false;
                 //p.Extraccio.mostrarInformacio?.Invoke(p.Extraccio, false);
@@ -283,7 +322,7 @@ public class Visualitzacions : ScriptableObject
 
             void Animacio()
             {
-                animacions.necessitatProveida.Play(ui);
+                animacions.necessitatProveida.Play(ui.transform);
                 GuanyarPunts(ui.transform.position);
                 c.BlocarInformacio = false;
                 c.mostrarInformacio?.Invoke(c, false);
@@ -296,7 +335,7 @@ public class Visualitzacions : ScriptableObject
         void GuanyarPunts(Vector3 posicio)
         {
             if (camera == null) camera = Camera.main.transform;
-            particules.guanyarPunts.Instantiate(posicio, Quaternion.Euler(camera.forward));
+            prefabs.guanyarPunts.Instantiate(posicio, Quaternion.Euler(camera.forward));
         }
     }
 

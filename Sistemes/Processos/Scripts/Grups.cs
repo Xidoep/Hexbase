@@ -20,7 +20,7 @@ public class Grups : ScriptableObject
     [SerializeField] Shader[] reseltables;
 
     public List<Grup> Grup => grups;
-
+    public List<Peça> ConnexionsFetes => connexionsFetes;
 
     //INTERN
     List<Grup> grupsPendents;
@@ -34,6 +34,9 @@ public class Grups : ScriptableObject
     Grup grupActual;
     List<Grup> grupsVeinsPeça;
     Grup buscat;
+    List<Peça> connexionsFetes;
+
+
 
     void OnEnable() => Resetejar();
 
@@ -53,6 +56,8 @@ public class Grups : ScriptableObject
         else veinsIguals.Clear();
         if (grupsVeinsPeça == null) grupsVeinsPeça = new List<Grup>();
         else grupsVeinsPeça.Clear();
+        if (connexionsFetes == null) connexionsFetes = new List<Peça>();
+        else connexionsFetes.Clear();
 
         //BUSCAR VEINS DE LA PEÇA IGUALS
         veinsPeça = peça.VeinsPeça;
@@ -107,6 +112,8 @@ public class Grups : ScriptableObject
                 if (!idsPobles.Contains(grups[g].connexionsId[c])) grups[g].connexionsId.RemoveAt(c);
             }
         }
+
+
 
         //POROCES DE CONNEXIO
         Step(grups);
@@ -242,7 +249,7 @@ public class Grups : ScriptableObject
             return;
 
         //NETEJA GRUPS
-        grup.connexionsId = new List<string>() { grup.Id };
+        //grup.connexionsId = new List<string>() { grup.Id };
 
 
         //CAPTURAR VEINS TIPUS: CASES, CAMINS I PORTS.
@@ -274,7 +281,6 @@ public class Grups : ScriptableObject
         }
 
         //AJUNTA POBLES CONNECTATS PER CAMINS I GUARDA PORTS
-
         for (int i = 0; i < grup.Camins.Count; i++)
         {
             //BUSCAR A TOTS ELS VEINS DEL CAMÍ
@@ -378,11 +384,17 @@ public class Grups : ScriptableObject
             Debugar.LogError($"Connectar ({grups[grups.IndexOf(elMeuGrup)].Peces[0].name}) amb  ({objectiu.name}");
 
             //CONNECTOR EL MEU GRUP AMB EL GRUP DE L'OBJECTIU
-            if (!elMeuGrup.connexionsId.Contains(grupObjectiu.Id)) elMeuGrup.connexionsId.Add(grupObjectiu.Id);
+            if (!elMeuGrup.connexionsId.Contains(grupObjectiu.Id)) 
+            {
+                elMeuGrup.connexionsId.Add(grupObjectiu.Id);
+                if (!connexionsFetes.Contains(objectiu)) connexionsFetes.Add(objectiu);
+            } 
 
             //SI L'OBJECTIU NO EM TE A MI, S'ENVÀ A PENDENTS
             if (grupObjectiu.connexionsId == null) grupObjectiu.connexionsId = new List<string>();
             if (!grupObjectiu.connexionsId.Contains(elMeuGrup.Id)) grupsPendents.Add(grupObjectiu);
+
+            
         }
 
         void ConnectarPorts(List<Grup> grups, Peça port1, Peça port2)

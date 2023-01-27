@@ -33,11 +33,11 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
             seleccionada = value;
             if (seleccionada)
             {
-                clickDown.Play(gameObject);
+                clickDown.Play(transform);
             }
             else
             {
-                clickUp.Play(gameObject);
+                clickUp.Play(transform);
             }
         }
     }
@@ -77,7 +77,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         colocar.CrearPeça(Coordenades);
         //crearPeça.Invoke(Coordenades);
         //animacioPerCodi.Play();
-        animacio.Play(this.gameObject);
+        animacio.Play(transform);
         Destroy(this.gameObject);
 
         Debugar.Log("Destruir...");
@@ -88,7 +88,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         colocar.CrearPeça(Coordenades);
         //crearPeça.Invoke(Coordenades);
         //animacioPerCodi.Play();
-        animacio.Play(this.gameObject);
+        animacio.Play(transform);
         Destroy(this.gameObject);
     }
 

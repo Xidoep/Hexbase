@@ -17,6 +17,9 @@ public class Informacio_Producte : Informacio
 
         Debug.LogError("Extreure producte", peça);
 
+        if (!peça.Ocupat)
+            return;
+
         Amagar(peça);
 
         quantitat = peça.productesExtrets.Length;
