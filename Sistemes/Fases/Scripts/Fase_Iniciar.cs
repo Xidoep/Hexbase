@@ -31,6 +31,8 @@ public class Fase_Iniciar : Fase
         {
             colocar.Iniciar();
         }
+
+
     }
 
     public void PosarPrimeraPeça()
@@ -44,10 +46,8 @@ public class Fase_Iniciar : Fase
         //colocar.Iniciar();
     }
 
-    public void Reset()
-    {
-        gridNet = true;
-    }
+    public void Reset() => gridNet = true;
+    public void GridBrut() => gridNet = false;
 
 
     new void OnDisable()

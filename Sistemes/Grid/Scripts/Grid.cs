@@ -133,6 +133,7 @@ public class Grid : MonoBehaviour
     public void Set(Peça peça) => grid.Set(peça);
     public Hexagon Get(Vector2Int coordenada) => grid.Get(coordenada);
     public Hexagon Get(int x, int y) => grid.Get(x, y);
+    public void Netejar(Vector2Int coordenada) => grid.Set(null, coordenada);
     public bool EstaBuida(Vector2Int coordenada) => grid.EstaBuida(coordenada);
     /*private void OnEnable()
     {
@@ -225,11 +226,12 @@ public class Grid : MonoBehaviour
         grid.Set(ranura);
 
     }
-    public void CrearBoto(Vector2Int coordenada)
+    public Hexagon CrearBoto(Vector2Int coordenada, GameObject boto)
     {
-        Hexagon boto = Instanciar(prefab_Boto, coordenada.x, coordenada.y).GetComponent<Hexagon>();
-        boto.Setup(this, coordenada, null, null);
-        grid.Set(boto);
+        Hexagon hex = Instanciar(boto, coordenada.x, coordenada.y).GetComponent<Hexagon>();
+        hex.Setup(this, coordenada, null, null);
+        grid.Set(hex);
+        return hex;
     }
 
 

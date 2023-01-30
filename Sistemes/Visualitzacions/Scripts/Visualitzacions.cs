@@ -50,6 +50,7 @@ public class Visualitzacions : ScriptableObject
         public GameObject canvi;
         public GameObject mesHabitants;
         public GameObject menysHabitants;
+        public GameObject connexio;
 
         public List<GameObject> prediccions;
     }
@@ -76,6 +77,13 @@ public class Visualitzacions : ScriptableObject
         if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
 
         prefabs.prediccions.Add(grid.Instanciar(prefabs.menysHabitants, coordenada));
+    }
+    public void PredirConnexio(Vector2Int coordenada)
+    {
+        if (grid == null) grid = GameObject.FindObjectOfType<Grid>();
+        if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
+
+        prefabs.prediccions.Add(grid.Instanciar(prefabs.connexio, coordenada));
     }
 
     public void AmagarPrediccions()

@@ -182,7 +182,8 @@ public class Prediccio : ScriptableObject
     {
         for (int i = 0; i < grups.ConnexionsFetes.Count; i++)
         {
-
+            visualitzacions.PredirConnexio(grups.ConnexionsFetes[i].Coordenades);
+            Debugar.LogError($"***Mostrar Connexio a {grups.ConnexionsFetes[i].gameObject.name}***");
         }
         grups.ConnexionsFetes.Clear();
     }

@@ -48,7 +48,7 @@ public class SaveHex : ScriptableObject
     public void Save(Grups grups) => files[current].Save(grups, FindObjectsOfType<Peça>());
 
     [ContextMenu("Load")]
-    public void Load(Grups grups, Fase colocar) => files[current].Load(grups, colocar);
+    public void Load(Grups grups, Fase seguent) => files[current].Load(grups, seguent);
 
     public void Load(int index, Grups grups, Fase colocar)
     {
@@ -72,17 +72,21 @@ public class SaveHex : ScriptableObject
         int trobat = -1;
         for (int f = 0; f < files.Count; f++)
         {
-            for (int c = 0; c < files[f].Captures.Count; c++)
+            if(files[f].Captures != null && files[f].Captures.Count > 0)
             {
-                Debugar.Log($"{files[f].Captures[c]} =? {path}");
-                if(files[f].Captures[c] == path.Replace(@"\","/"));
+                for (int c = 0; c < files[f].Captures.Count; c++)
                 {
-                    trobat = f;
-                    break;
+                    Debugar.Log($"{files[f].Captures[c]} =? {path}");
+                    if (files[f].Captures[c] == path.Replace(@"\", "/")) ;
+                    {
+                        trobat = f;
+                        break;
+                    }
                 }
+                if (trobat != -1)
+                    break;
             }
-            if (trobat != -1)
-                break;
+            
         }
         return trobat;
     }
@@ -97,7 +101,7 @@ public class SavedFile
 
     //INTERN
     int index;
-    Fase colocar;
+    Fase seguent;
     Grups grups;
     Grid grid;
     List<Peça> creades;
@@ -147,11 +151,11 @@ public class SavedFile
     }
 
     [ContextMenu("Load")]
-    public void Load(Grups grups, Fase colocar)
+    public void Load(Grups grups, Fase seguent)
     {
         if (grid == null) grid = (Grid)GameObject.FindObjectOfType<Grid>();
         if (this.grups == null) this.grups = grups;
-        if (this.colocar == null) this.colocar = colocar;
+        this.seguent = seguent;
 
         creades = new List<Peça>();
 
@@ -171,7 +175,7 @@ public class SavedFile
             return;
         }
 
-        XS_Coroutine.StartCoroutine_Ending(0.1f, Step);
+        XS_Coroutine.StartCoroutine_Ending(0.5f, Step);
     }
 
     void LoadSteps()
@@ -240,7 +244,7 @@ public class SavedFile
             }
         }*/
 
-        colocar.Iniciar();
+        seguent.Iniciar();
     }
 
 }

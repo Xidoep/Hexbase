@@ -429,6 +429,9 @@ public class Grups : ScriptableObject
     {
         List<Peça> tmp = new List<Peça>();
         Grup grup = GrupByPeça(grups, peça);
+        if(grup == null)
+            return tmp;
+
         for (int g = 0; g < grup.Peces.Count; g++)
         {
             List<Peça> veins = grup.Peces[g].VeinsPeça;
@@ -543,6 +546,8 @@ public class Grup : System.Object
         //this.estat = estat;
         this.poble = estat == casa;
         this.peces = peces;
+        if (this.poble)
+            connexionsId = new List<string>() { id };
     }
     public Grup(Grup copia)
     {

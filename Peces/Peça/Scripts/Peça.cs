@@ -22,7 +22,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         gameObject.name = $"{estat.name}({coordenades})";
         condicions = this.subestat.Condicions;
-        ocupat = false;
+        //ocupat = false;
 
         meshRenderers = null;
     }
@@ -37,7 +37,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [Apartat("EXTRACCIO")]
     [SerializeField] Peça extraccio;
     [SerializeField] Peça productor;
-    [SerializeField] bool ocupat;
+    //[SerializeField] bool ocupat;
     //[SerializeField] public List<Casa.Necessitat> necessitatsCovertes;
     [Apartat("PRDUCTES")]
     [SerializeField] public ProducteExtret[] productesExtrets;
@@ -97,8 +97,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Peça Extraccio => extraccio;
 
 
-    public bool Ocupat => ocupat;
-    public bool LLiure => !ocupat;
+    public bool Ocupat => productor != null;
+    public bool LLiure => productor == null;
     public void CoordenadesToProducte(Grid grid) 
     {
         /*if (producteCooerdenada == null)
@@ -186,7 +186,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         this.subestat = subestat.Setup(this);
         condicions = subestat.Condicions;
 
-        ocupat = false;
+        //ocupat = false;
 
         TreureCasa();
 
@@ -210,19 +210,18 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public void Ocupar(Peça productor) 
     {
         Debug.LogError($"{productor.gameObject.name} es el productor de {gameObject.name}");
-        ocupat = true;
+        //ocupat = true;
         this.productor = productor;
         productor.extraccio = this;
     }
-    public void DesocuparPerPrediccio() //
+    public void DesocuparPerPrediccio()
     {
         Debug.LogError($"{gameObject.name} ja no te productor");
-        ocupat = false;
-        if(productor != null)
+        if(productor.extraccio != this)
         {
-            productor.extraccio = null;
             productor = null;
         }
+        
     }
 
 
