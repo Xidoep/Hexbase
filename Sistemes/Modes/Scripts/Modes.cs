@@ -8,33 +8,32 @@ public class Modes : ScriptableObject
     [SerializeField] Mode mode;
 
     [Apartat("REFERNCIES")]
-    [SerializeField] GameObject[] prefabs_FreeSyle;
-    [SerializeField] GameObject[] prefabs_Pila;
+    [SerializeField] GameObject prefabs_FreeSyle;
+    [SerializeField] GameObject prefabs_Pila;
     [SerializeField] PoolPeces pool;
+
+    GameObject menu;
 
     public Mode Mode => mode;
     public void Set(Mode mode) => this.mode = mode;
 
     public void ConfigurarModes()
     {
-        GameObject menu = null;
+        if(menu != null)
+        {
+            Destroy(menu);
+        }
         switch (mode)
         {
             case Mode.FreeStyle:
-                for (int i = 0; i < prefabs_FreeSyle.Length; i++)
-                {
-                    menu = Instantiate(prefabs_FreeSyle[i], UI_CameraMenu_Access.CameraMenu.transform);
-                    SetupMenuCanvasWorldCamera();
-                }
+                menu = Instantiate(prefabs_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
+                SetupMenuCanvasWorldCamera();
 
                 break;
             case Mode.Pila:
                 pool.Iniciar();
-                for (int i = 0; i < prefabs_Pila.Length; i++)
-                {
-                    menu = Instantiate(prefabs_Pila[i], UI_CameraMenu_Access.CameraMenu.transform);
-                    SetupMenuCanvasWorldCamera();
-                }
+                menu = Instantiate(prefabs_Pila, UI_CameraMenu_Access.CameraMenu.transform);
+                SetupMenuCanvasWorldCamera();
 
                 break;
         }
@@ -43,6 +42,7 @@ public class Modes : ScriptableObject
 
     void OnDisable()
     {
+        menu = null;
         //mode = Mode.Pila;
     }
 }

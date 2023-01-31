@@ -25,10 +25,9 @@ public class Visualitzacions : ScriptableObject
 
         [Apartat("PECES UI")]
         public Animacio_Scriptable primeraPosicio;
-        public Animacio_Scriptable segonaPosicio;
-        public Animacio_Scriptable segonaPosicioParent;
-        public Animacio_Scriptable colocarPeça;
-        public Animacio_Scriptable colocarPeçaParent;
+        public Animacio_Scriptable primeraPosicioParent;
+        public Animacio_Scriptable segonaPosicio, segonaPosicioParent;
+        public Animacio_Scriptable colocarPeça, colocarPeçaParent;
 
         [Apartat("INFORMACIO")]
         public Animacio_Scriptable amagarInformacio;
@@ -38,6 +37,7 @@ public class Visualitzacions : ScriptableObject
 
         [Apartat("PECES")]
         public Animacio_Scriptable canviarEstat;
+        public Animacio_Scriptable reaccioVeines;
     }
 
     [System.Serializable]
@@ -216,8 +216,13 @@ public class Visualitzacions : ScriptableObject
    
 
     public void CanviarEstat(Peça peça) => animacions.canviarEstat.Play(peça.Parent);
+    public void ReaccioVeina(Peça veina) => animacions.reaccioVeines.Play(veina.Parent);
 
-    public void PrimeraPosicio(Transform transform) => animacions.primeraPosicio.Play(transform);
+    public void PrimeraPosicio(Transform transform) 
+    {
+        animacions.primeraPosicio.Play(transform);
+        animacions.primeraPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
+    } 
     public void SegonaPosicio(Transform transform) 
     {
         animacions.segonaPosicio.Play(transform);
@@ -237,20 +242,26 @@ public class Visualitzacions : ScriptableObject
         posicions.Add(posicio);
     }
    
-    public void GuanyarPunts(float delay)
+    public void GuanyarExperienciaProximitat()
     {
-        if (camera == null) camera = Camera.main.transform;
-
-        XS_Coroutine.StartCoroutine_Ending(delay, Animacio);
+        XS_Coroutine.StartCoroutine_Ending(1.5f, Animacio);
 
         void Animacio() 
         {
             for (int i = 0; i < posicions.Count; i++)
             {
-                prefabs.guanyarPunts.Instantiate(posicions[0], Quaternion.Euler(camera.forward));
+                InstanciarParticulesPunts(posicions[0]);
                 posicions.RemoveAt(0);
+
+                animacioGuanyarExperiencia?.Invoke();
+                actualitzarNivell?.Invoke();
             }
         } 
+    }
+    public void GuanyarExperienciaProduccio()
+    {
+        animacioGuanyarExperiencia?.Invoke();
+        actualitzarNivell?.Invoke();
     }
 
     public void AmagarInformacio(GameObject gameObject)
@@ -259,7 +270,14 @@ public class Visualitzacions : ScriptableObject
         Destroy(gameObject, 0.51f);
     }
 
-    public void GuanyarExperiencia(Transform transform) => animacions.guanyarExperiencia.Play(transform);
+    public System.Action animacioGuanyarExperiencia;
+    public System.Action actualitzarNivell;
+    public void Delegar_ActualitzarNivell(Transform transform, System.Action actualitzarNivell) 
+    {
+        animacioGuanyarExperiencia = () => animacions.guanyarExperiencia.Play(transform);
+        this.actualitzarNivell = actualitzarNivell;
+    }
+
 
     public void Produccio(Visualitzacions.Producte v, bool ultima, System.Action enFinalitzar)
     {
@@ -331,7 +349,7 @@ public class Visualitzacions : ScriptableObject
             void Animacio()
             {
                 animacions.necessitatProveida.Play(ui.transform);
-                GuanyarPunts(ui.transform.position);
+                InstanciarParticulesPunts(ui.transform.position);
                 c.BlocarInformacio = false;
                 c.mostrarInformacio?.Invoke(c, false);
 
@@ -340,13 +358,13 @@ public class Visualitzacions : ScriptableObject
             }
         }
 
-        void GuanyarPunts(Vector3 posicio)
-        {
-            if (camera == null) camera = Camera.main.transform;
-            prefabs.guanyarPunts.Instantiate(posicio, Quaternion.Euler(camera.forward));
-        }
+        
     }
 
+    void InstanciarParticulesPunts(Vector3 posicio)
+    {
+        prefabs.guanyarPunts.Instantiate(posicio - Utils_MainCamera_Acces.Camera.transform.forward * 5, Quaternion.Euler(camera.forward));
+    }
 
     public void DestruirProducte(Peça p, int i, bool ultima, System.Action enFinalitzar) 
     {

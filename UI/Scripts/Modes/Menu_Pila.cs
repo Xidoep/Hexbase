@@ -97,6 +97,7 @@ public class Menu_Pila : MonoBehaviour
         }
         if(creades.Count > 1)
         {
+            visualitzacions.PrimeraPosicio(creades[0].transform);
             visualitzacions.SegonaPosicio(creades[1].transform);
         }
     }

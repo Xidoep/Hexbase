@@ -10,8 +10,12 @@ public class Substituible : ScriptableObject
 
     public void Substituir(Transform transform)
     {
+        if (transform == null)
+            return;
+
         alternatives[Random.Range(0, alternatives.Length)].Instantiate(transform.position, transform.rotation, transform.localScale, transform.parent).layer = transform.gameObject.layer;
 
         Destroy(transform.gameObject);
+        //Destroy(this);
     }
 }

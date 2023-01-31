@@ -11,7 +11,8 @@ public class UI_Fotos : MonoBehaviour
     [SerializeField] CapturarPantalla capturarPantalla;
     [SerializeField] SaveHex save;
     [SerializeField] Grups grups;
-    [SerializeField] Fase colocar;
+    [SerializeField] Fase faseEnCarregar;
+    [SerializeField] Modes modes;
     [Linia]
     [SerializeField] GameObject foto;
     [SerializeField] Transform parent;
@@ -85,13 +86,14 @@ public class UI_Fotos : MonoBehaviour
     {
         Debugar.Log("Load");
         grid.Resetejar();
-        save.Load(index, grups, colocar);
+        //save.Load(index, grups, faseEnCarregar);
         StartCoroutine(LoadFile(index));
     }
     IEnumerator LoadFile(int index)
     {
-        yield return new WaitForSeconds(2);
-        save.Load(index, grups, colocar);
+        yield return new WaitForSeconds(1);
+        save.Load(index, grups, faseEnCarregar);
+        modes.Set((Mode)save.Mode);
     }
     public void EliminarCaptura(string path, int index)
     {

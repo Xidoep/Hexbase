@@ -13,7 +13,8 @@ public class SaveHex : ScriptableObject
 
 
     public List<SavedFile> Files => files;
-    public void NovaPartida()
+
+    public void NouArxiu()
     {
         files.Add(new SavedFile());
         current = files.Count - 1;
@@ -24,8 +25,9 @@ public class SaveHex : ScriptableObject
         if (files.Count == 0) files.Add(new SavedFile());
         current = Mathf.Clamp(current - 1, 0, files.Count - 1);
     }
-    public int Current => current;
-    public SavedFile CurrentSavedFile => files[current];
+    //public int Current => current;
+    //public SavedFile CurrentSavedFile => files[current];
+    public int Mode => files[current].Mode;
     public bool TePeces 
     {
         get 
@@ -37,17 +39,14 @@ public class SaveHex : ScriptableObject
         }
     }
     public bool TeCaptures => files[current].Captures != null && files[current].Captures.Count > 0;
-
+    //public List<SavedPeça> Peces => files[current].Peces;
 
     public void Add(Peça peça, Grups grups) => files[current].Add(peça, grups);
 
     public void Actualitzar(List<Peça> peçes, Grups grups) => files[current].Actualitzar(peçes, grups);
 
+    //public void Save(Grups grups) => files[current].Save(grups, FindObjectsOfType<Peça>());
 
-    [ContextMenu("Save")]
-    public void Save(Grups grups) => files[current].Save(grups, FindObjectsOfType<Peça>());
-
-    [ContextMenu("Load")]
     public void Load(Grups grups, Fase seguent) => files[current].Load(grups, seguent);
 
     public void Load(int index, Grups grups, Fase colocar)
@@ -97,6 +96,7 @@ public class SaveHex : ScriptableObject
 public class SavedFile
 {
     [SerializeField] List<string> captures;
+    [SerializeField] int mode;
     [SerializeField] List<SavedPeça> peçes;
 
     //INTERN
@@ -108,6 +108,8 @@ public class SavedFile
     List<Vector2Int> veins;
 
     public bool TePeces => peçes != null && peçes.Count > 0;
+    public List<SavedPeça> Peces => peçes;
+    public int Mode => mode;
 
     public List<string> Captures { get => captures; }
     public void AddCaptura(string path)
@@ -139,8 +141,6 @@ public class SavedFile
             }
         }
     }
-
-    [ContextMenu("Save")]
     public void Save(Grups grups, Peça[] peces)
     {
         peçes = new List<SavedPeça>();
@@ -149,8 +149,6 @@ public class SavedFile
             peçes.Add(new SavedPeça(peces[i], grups));
         }
     }
-
-    [ContextMenu("Load")]
     public void Load(Grups grups, Fase seguent)
     {
         if (grid == null) grid = (Grid)GameObject.FindObjectOfType<Grid>();
@@ -180,15 +178,6 @@ public class SavedFile
 
     void LoadSteps()
     {
-        //grid = (Grid)GameObject.FindObjectOfType<Grid>();
-        //creades = new List<Peça>();
-
-        //CREAR PECES INDIVIDUALS
-        /*for (int i = 0; i < peçes.Count; i++)
-        {
-            creades.Add(peçes[i].Load(grid, grups));
-        }*/
-
         //GET VEINS DE TILES
         for (int i = 0; i < creades.Count; i++)
         {
@@ -236,13 +225,13 @@ public class SavedFile
         }
 
         //DEBUG
-        /*for (int c = 0; c < creades.Count; c++)
+        for (int c = 0; c < creades.Count; c++)
         {
             for (int i = 0; i < creades[c].Tiles.Length; i++)
             {
                 Debug.LogError($"Tile {i} = {creades[c].Tiles[i].Veins.Length} veins");
             }
-        }*/
+        }
 
         seguent.Iniciar();
     }

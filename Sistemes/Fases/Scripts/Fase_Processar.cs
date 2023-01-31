@@ -23,7 +23,6 @@ public class Fase_Processar : Fase
 
     [Apartat("ANIMACIONS")]
     [SerializeField] Visualitzacions visualitzacions;
-    [SerializeField] Animacio_Scriptable actualitzar; //Aixo hauria de dirse: Veines
 
     [Apartat("RIU")]
     [SerializeField] Estat riu;
@@ -87,7 +86,8 @@ public class Fase_Processar : Fase
 
         for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
-            actualitzar.Play(peça.VeinsPeça[v].Parent);
+            visualitzacions.ReaccioVeina(peça.VeinsPeça[v]);
+            //actualitzar.Play(peça.VeinsPeça[v].Parent);
             //animades.Add(peça.VeinsPeça[v]);
         }
 
@@ -159,12 +159,13 @@ public class Fase_Processar : Fase
                 if (animades.Contains(canviades[c].VeinsPeça[v]))
                     continue;
 
-                actualitzar.Play(canviades[c].VeinsPeça[v].Parent);
+                visualitzacions.ReaccioVeina(canviades[c].VeinsPeça[v]);
+                //actualitzar.Play(canviades[c].VeinsPeça[v].Parent);
                 animades.Add(canviades[c].VeinsPeça[v]);
             }
         }
 
-        visualitzacions.GuanyarPunts(1.5f);
+        visualitzacions.GuanyarExperienciaProximitat();
     }
 
     void FinalitzarProcessos()

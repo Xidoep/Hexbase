@@ -28,6 +28,7 @@ public class Fase_Resoldre : Fase
     [SerializeField] ClassePeces peces;
 
 
+
     System.Action enTornar;
     System.Action enRepetir;
     System.Action enContinuar;
@@ -129,7 +130,7 @@ public class Fase_Resoldre : Fase
             if (guardar)
             {
                 capturarPantalla.Capturar();
-                save.NovaPartida();
+                save.NouArxiu();
             }
             else
             {
@@ -153,6 +154,8 @@ public class Fase_Resoldre : Fase
     {
         [SerializeField] int nivell = 1;
         [SerializeField] int experiencia = 0;
+        [Space(20)]
+        [SerializeField] Visualitzacions visualitzacions;
         System.Action<int, int> enGuanyarExperiencia;
         System.Action<int, int> enPujarNivell;
 
@@ -181,6 +184,7 @@ public class Fase_Resoldre : Fase
         {
             this.experiencia += experiencia;
             enGuanyarExperiencia?.Invoke(nivell, this.experiencia);
+            visualitzacions.GuanyarExperienciaProduccio();
         }
 
 

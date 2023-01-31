@@ -29,6 +29,8 @@ public class Fase_Menu : Fase
     [Apartat("BOTONS")]
     [SerializeField] GameObject novaPartida;
     [SerializeField] GameObject continuar;
+    [Apartat("MODES")]
+    [SerializeField] Modes modes;
 
     Grid grid;
     bool inici = true;
@@ -39,7 +41,7 @@ public class Fase_Menu : Fase
     public override void FaseStart()
     {
         OnFinish += MarcarComIniciat;
-        OnFinish += NetejarGrid;
+        OnFinish += NetejarBotonsDelGrid;
 
         if (grid == null) grid = FindObjectOfType<Grid>();
 
@@ -47,10 +49,14 @@ public class Fase_Menu : Fase
 
         if (inici)
         {
-            //if (save.TePeces)
-            //    save.Load(grups, colocar);
-            //else
-            Opcions();
+            if (save.TePeces)
+            {
+                iniciar.GridBrut();
+                modes.Set((Mode)save.Mode);
+                save.Load(grups, iniciar);
+            }
+            else
+                Opcions();
         }
         else
             Opcions();
@@ -116,29 +122,36 @@ public class Fase_Menu : Fase
         botons.Add(grid.CrearBoto(grid.Centre + posicio, prefab));
     }
 
-    void NetejarGrid()
+    void NetejarBotonsDelGrid()
     {
-        for (int i = 0; i < coroutines.Count; i++)
+        if(coroutines != null)
         {
-            XS_Coroutine.StopCoroutine(coroutines[i]);
+            for (int i = 0; i < coroutines.Count; i++)
+            {
+                XS_Coroutine.StopCoroutine(coroutines[i]);
+            }
         }
-        for (int i = 0; i < botons.Count; i++)
+        if(botons != null)
         {
-            grid.Netejar(botons[i].Coordenades);
-            //Animacio de amagar...
-            Destroy(botons[i].gameObject, 1);
+            for (int i = 0; i < botons.Count; i++)
+            {
+                grid.Netejar(botons[i].Coordenades);
+                //Animacio de amagar...
+                Destroy(botons[i].gameObject, 1);
+            }
         }
-        OnFinish -= NetejarGrid;
+        
+        OnFinish -= NetejarBotonsDelGrid;
     }
 
     public void NovaPartida()
     {
-        save.NovaPartida();
+        save.NouArxiu();
         iniciar.Iniciar();
     }
     public void Continuar() 
     {
-        NetejarGrid();
+        NetejarBotonsDelGrid();
         iniciar.GridBrut();
         save.Load(grups, iniciar);
     } 
@@ -178,6 +191,7 @@ public class Fase_Menu : Fase
     new void OnDisable()
     {
         base.OnDisable();
+        botons = null;
         inici = true;
     }
 
