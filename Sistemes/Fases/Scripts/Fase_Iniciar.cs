@@ -13,7 +13,6 @@ public class Fase_Iniciar : Fase
     [SerializeField] Estat inicial;
     [SerializeField] SaveHex save;
 
-    Grid grid;
     bool gridNet = true;
 
     
@@ -38,9 +37,7 @@ public class Fase_Iniciar : Fase
 
     public void NovaPartida()
     {
-        if (grid == null) grid = FindObjectOfType<Grid>();
-
-        grid.Resetejar();
+        Grid.Instance.Resetejar();
 
         save.NouArxiu();
 
@@ -53,12 +50,10 @@ public class Fase_Iniciar : Fase
     public void PosarPrimeraPeça()
     {
         Debug.Log("PosarPrimeraPeça");
-        if (grid == null) grid = FindObjectOfType<Grid>();
-
 
         //La primera partida ja ha de ser interessant. Serà el que ferà que vulguin tornar a jugar. Si la segona parida es diferent ja els hi petarà el cap.
         //Aqui potser hi aniran diferents tipus de inici o de colocacio de peces segons el mode o el dia de l'any, etc..
-        grid.CrearPeça(inicial, grid.Centre);
+        Grid.Instance.CrearPeça(inicial, Grid.Instance.Centre);
         gridNet = false;
         //colocar.Iniciar();
     }

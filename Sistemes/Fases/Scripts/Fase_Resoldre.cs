@@ -32,7 +32,6 @@ public class Fase_Resoldre : Fase
     System.Action enTornar;
     System.Action enRepetir;
     System.Action enContinuar;
-    Grid grid;
 
     public System.Action EnTornar { get => enTornar; set => enTornar = value; }
     public System.Action EnRepetir { get => enRepetir; set => enRepetir = value; }
@@ -50,8 +49,6 @@ public class Fase_Resoldre : Fase
     //OVERRIDES
     public override void FaseStart()
     {
-        if (grid == null) grid = FindObjectOfType<Grid>();
-
         switch (modes.Mode)
         {
             case Mode.FreeStyle:
@@ -121,7 +118,7 @@ public class Fase_Resoldre : Fase
         IEnumerator CanviarMenu(float temps, Fase fase)
         {
             yield return new WaitForSeconds(temps);
-            grid.Resetejar();
+            Grid.Instance.Resetejar();
             Nivell.Reset();
             fase.Iniciar();
         }

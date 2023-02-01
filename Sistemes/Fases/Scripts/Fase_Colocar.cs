@@ -14,7 +14,6 @@ public class Fase_Colocar : Fase
     [SerializeField] Estat seleccionada;
     [SerializeField] Estat perDefecte;
 
-    Grid grid;
 
 
     //PROPERTIES
@@ -26,9 +25,6 @@ public class Fase_Colocar : Fase
 
     public override void FaseStart()
     {
-        if (grid == null) 
-            grid = FindObjectOfType<Grid>();
-
         if (seleccionada == null)
             seleccionada = perDefecte;
         //Prepara la peça inicial agafantla del pool de peces.
@@ -49,7 +45,7 @@ public class Fase_Colocar : Fase
     } 
     public void CrearPeça(Vector2Int coordenada)
     {
-        grid.CrearPeça(seleccionada, coordenada);
+        Grid.Instance.CrearPeça(seleccionada, coordenada);
     }
 
     public static void Bloquejar() => Bloquejar(true);

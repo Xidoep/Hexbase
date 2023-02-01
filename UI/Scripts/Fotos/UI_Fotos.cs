@@ -20,10 +20,9 @@ public class UI_Fotos : MonoBehaviour
     //RawImage[] fotos = new RawImage[0];
     UI_Foto[] fotos = new UI_Foto[0];
     CapturarPantalla.Captura[] captures;
-    Grid grid;
+
     void OnEnable()
     {
-        grid = FindObjectOfType<Grid>();
         ActualitzarFotos();
         capturarPantalla.OnCapturatRegistrar(save.AddCaptura);
         capturarPantalla.OnCapturatRegistrar(ActualitzarFotos);
@@ -85,7 +84,7 @@ public class UI_Fotos : MonoBehaviour
     public void Load(int index)
     {
         Debugar.Log("Load");
-        grid.Resetejar();
+        Grid.Instance.Resetejar();
         //save.Load(index, grups, faseEnCarregar);
         StartCoroutine(LoadFile(index));
     }

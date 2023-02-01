@@ -27,7 +27,7 @@ public abstract class Condicio : ScriptableObject
     List<Peça> connectatsACami;
 
 
-    public Subestat Objectiu => objectiu;
+    //public Subestat Objectiu => objectiu;
 
     /// <summary>
     /// Funcio virtual sobreescrite per la resta de condicions, que comprova si es compleix la condicio.

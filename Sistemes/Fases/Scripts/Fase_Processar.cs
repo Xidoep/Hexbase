@@ -28,7 +28,6 @@ public class Fase_Processar : Fase
     [SerializeField] Estat riu;
 
     //PRIVADES
-    Grid grid;
     float startTime;
     Peça peça;
     List<Peça> perComprovar;
@@ -38,8 +37,6 @@ public class Fase_Processar : Fase
 
     public override void FaseStart()
     {
-        if (grid == null) grid = FindObjectOfType<Grid>();
-
         peça = (Peça)arg;
         peça.Parent.localPosition = Vector3.up * 20;
         //Debug.LogError(peça);
@@ -179,7 +176,7 @@ public class Fase_Processar : Fase
 
 
         //Això ha de ser un altre proces a part.
-        grid.Dimensionar(peça);
+        Grid.Instance.Dimensionar(peça);
 
 
 

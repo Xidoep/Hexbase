@@ -13,8 +13,7 @@ public class Visualitzacions : ScriptableObject
     [SerializeField] Materials materials;
 
     List<Vector3> posicions;
-    Transform camera;
-    Grid grid;
+    //Grid grid;
 
     [System.Serializable]
     public struct Animacions
@@ -57,33 +56,29 @@ public class Visualitzacions : ScriptableObject
 
     public void PredirCanvi(Vector2Int coordenada)
     {
-        if (grid == null) grid = GameObject.FindObjectOfType<Grid>();
         if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
 
-        prefabs.prediccions.Add(grid.Instanciar(prefabs.canvi, coordenada));
+        prefabs.prediccions.Add(Grid.Instance.Instanciar(prefabs.canvi, coordenada));
 
     }
     public void PredirMesHabitants(Vector2Int coordenada)
     {
-        if (grid == null) grid = GameObject.FindObjectOfType<Grid>();
         if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
 
-        prefabs.prediccions.Add(grid.Instanciar(prefabs.mesHabitants, coordenada));
+        prefabs.prediccions.Add(Grid.Instance.Instanciar(prefabs.mesHabitants, coordenada));
     }
 
     public void PredirMenysHabitants(Vector2Int coordenada)
     {
-        if (grid == null) grid = GameObject.FindObjectOfType<Grid>();
         if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
 
-        prefabs.prediccions.Add(grid.Instanciar(prefabs.menysHabitants, coordenada));
+        prefabs.prediccions.Add(Grid.Instance.Instanciar(prefabs.menysHabitants, coordenada));
     }
     public void PredirConnexio(Vector2Int coordenada)
     {
-        if (grid == null) grid = GameObject.FindObjectOfType<Grid>();
         if (prefabs.prediccions == null) prefabs.prediccions = new List<GameObject>();
 
-        prefabs.prediccions.Add(grid.Instanciar(prefabs.connexio, coordenada));
+        prefabs.prediccions.Add(Grid.Instance.Instanciar(prefabs.connexio, coordenada));
     }
 
     public void AmagarPrediccions()
@@ -363,7 +358,9 @@ public class Visualitzacions : ScriptableObject
 
     void InstanciarParticulesPunts(Vector3 posicio)
     {
-        prefabs.guanyarPunts.Instantiate(posicio - Utils_MainCamera_Acces.Camera.transform.forward * 5, Quaternion.Euler(camera.forward));
+        prefabs.guanyarPunts.Instantiate(
+            posicio - Utils_MainCamera_Acces.Camera.transform.forward * 1, 
+            Quaternion.Euler(Utils_MainCamera_Acces.Camera.transform.forward));
     }
 
     public void DestruirProducte(Peça p, int i, bool ultima, System.Action enFinalitzar) 

@@ -13,6 +13,8 @@ public class Substituible : ScriptableObject
         if (transform == null)
             return;
 
+        //XS_Instantiate
+        //Instantiate(alternatives[Random.Range(0, alternatives.Length)], transform.position, transform.rotation, transform.localScale, transform.parent);
         alternatives[Random.Range(0, alternatives.Length)].Instantiate(transform.position, transform.rotation, transform.localScale, transform.parent).layer = transform.gameObject.layer;
 
         Destroy(transform.gameObject);

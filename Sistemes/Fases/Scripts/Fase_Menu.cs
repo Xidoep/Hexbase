@@ -32,7 +32,6 @@ public class Fase_Menu : Fase
     [Apartat("MODES")]
     [SerializeField] Modes modes;
 
-    Grid grid;
     bool inici = true;
     List<Hexagon> botons;
     List<Coroutine> coroutines;
@@ -43,9 +42,7 @@ public class Fase_Menu : Fase
         OnFinish += MarcarComIniciat;
         OnFinish += NetejarBotonsDelGrid;
 
-        if (grid == null) grid = FindObjectOfType<Grid>();
-
-        grid.CrearGrid();
+        Grid.Instance.CrearGrid();
 
         if (inici)
         {
@@ -106,9 +103,9 @@ public class Fase_Menu : Fase
         if (coroutines == null) coroutines = new List<Coroutine>();
         else coroutines.Clear();
 
-        grid.Resetejar();
+        Grid.Instance.Resetejar();
 
-        botons.Add(grid.CrearBoto(grid.Centre, novaPartida));
+        botons.Add(Grid.Instance.CrearBoto(Grid.Instance.Centre, novaPartida));
         if (save.TePeces)
         {
             coroutines.Add(XS_Coroutine.StartCoroutine(CrearBotoDelayed(continuar, new Vector2Int(-1, -1), 0.5f)));
@@ -119,7 +116,7 @@ public class Fase_Menu : Fase
     IEnumerator CrearBotoDelayed(GameObject prefab, Vector2Int posicio, float delay)
     {
         yield return new WaitForSeconds(delay);
-        botons.Add(grid.CrearBoto(grid.Centre + posicio, prefab));
+        botons.Add(Grid.Instance.CrearBoto(Grid.Instance.Centre + posicio, prefab));
     }
 
     void NetejarBotonsDelGrid()
@@ -135,7 +132,7 @@ public class Fase_Menu : Fase
         {
             for (int i = 0; i < botons.Count; i++)
             {
-                grid.Netejar(botons[i].Coordenades);
+                Grid.Instance.Netejar(botons[i].Coordenades);
                 //Animacio de amagar...
                 Destroy(botons[i].gameObject, 1);
             }

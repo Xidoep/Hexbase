@@ -10,7 +10,7 @@ public class Casa
 {
     public Casa(Peça peça, Producte[] recursosNeeded, System.Action enModificarNecessitats)
     {
-        this.peça = peça;
+        //this.peça = peça;
         Debugar.LogError($"CASA {peça.Coordenades}");
 
         //Crea necessitats per la casa
@@ -24,12 +24,12 @@ public class Casa
     }
     public Casa(Vector2Int peça, Necessitat[] necessitats)
     {
-        this.coordenadaPeça = peça;
+        //this.coordenadaPeça = peça;
         this.necessitats = necessitats;
     }
 
 
-    [SerializeField] Peça peça;
+    //[SerializeField] Peça peça;
     [SerializeField] Necessitat[] necessitats;
 
     System.Action enModificarNecessitats;
@@ -37,11 +37,11 @@ public class Casa
 
 
     //INTERN
-    int index = 0;
-    Vector2Int coordenadaPeça;
-    bool proveit;
+    //int index = 0;
+    //Vector2Int coordenadaPeça;
+    //bool proveit;
 
-    public bool Proveit
+    /*public bool Proveit
     {
         get
         {
@@ -56,12 +56,12 @@ public class Casa
             }
             return proveit;
         }
-    }
+    }*/
     public Necessitat[] Necessitats => necessitats;
     public void AfegirNecessitat(Producte producte)
     {
         List<Necessitat> tmp = new List<Necessitat>(necessitats);
-        tmp.Add(new Necessitat(producte, peça));
+        tmp.Add(new Necessitat(producte));
         necessitats = tmp.ToArray();
 
         enModificarNecessitats?.Invoke();
@@ -75,14 +75,14 @@ public class Casa
         enModificarNecessitats?.Invoke();
     }
 
-    public SavedCasa Save => peça != null ? new SavedCasa(necessitats, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;
+    /*public SavedCasa Save => peça != null ? new SavedCasa(necessitats, peça != null ? peça.Coordenades : new Vector2Int(-1,-1)) : null;
     public void LoadLastStep(Grid grid)
     {
         Debug.LogError(coordenadaPeça);
 
         if (coordenadaPeça != null)
             peça = (Peça)grid.Get(coordenadaPeça);
-    }
+    }*/
 
 
 
@@ -95,18 +95,17 @@ public class Casa
     [System.Serializable]
     public class Necessitat : System.Object
     {
-        public Necessitat(Producte recurs, Peça peça)
+        public Necessitat(Producte recurs)
         {
             this.producte = recurs;
-            this.peça = peça;
         }
 
         [SerializeField] Producte producte;
-        [SerializeField] Peça peça;
+        //[SerializeField] Peça peça;
         [SerializeField] bool proveit;
         [SerializeField] Informacio.Unitat informacio;
 
-        public Peça Peça => peça;
+        //public Peça Peça => peça;
         public bool Proveit => proveit;
         public Producte Producte => producte;
         public Informacio.Unitat Informacio { get => informacio; set => informacio = value; }

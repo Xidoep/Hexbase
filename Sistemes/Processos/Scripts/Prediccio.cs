@@ -24,7 +24,6 @@ public class Prediccio : ScriptableObject
 
     [SerializeField] List<Grup> grupsSimulats;
 
-    Grid grid;
     bool amagarInformacioBuffer = false;
 
     private void OnEnable()
@@ -41,8 +40,6 @@ public class Prediccio : ScriptableObject
         }
 
         Debugar.LogError($"--------------PREDIR ({coordenada})---------------");
-        if (grid == null) grid = FindObjectOfType<Grid>();
-
 
         if (!predint)
         {
@@ -61,7 +58,7 @@ public class Prediccio : ScriptableObject
             Debugar.LogError("simulant...");
 
             //grups.RecuperaVersioAnterior();
-            grid.SimularFinal(peçaSimulada);
+            Grid.Instance.SimularFinal(peçaSimulada);
             grups.Interrompre();
         }
     }
@@ -76,7 +73,7 @@ public class Prediccio : ScriptableObject
     }
     void CrearPeçaSimulada(Vector2Int coordenada)
     {
-        peçaSimulada = grid.SimularInici(colocar.Seleccionada, coordenada);
+        peçaSimulada = Grid.Instance.SimularInici(colocar.Seleccionada, coordenada);
     }
     void BuscarPecesPerComprovar()
     {
@@ -203,7 +200,7 @@ public class Prediccio : ScriptableObject
             if (canviades[i].Ocupat) canviades[i].DesocuparPerPrediccio();
         }
 
-        grid.SimularFinal(peçaSimulada);
+        Grid.Instance.SimularFinal(peçaSimulada);
         predint = false;
     }
 

@@ -10,9 +10,6 @@ public class Tester : ScriptableObject
     [SerializeField] Fase_Processar processar;
     [SerializeField] Fase_Colocar colocar;
 
-    Grid grid;
-
-
     Ranura[] ranures;
     Hexagon[] hexagons;
     //List<Hexagon> viables;
@@ -24,10 +21,6 @@ public class Tester : ScriptableObject
     void Iniciar()
     {
         processar.OnFinish = StepDelayed;
-        if (grid == null)
-        {
-            grid = FindObjectOfType<Grid>();
-        }
 
         StepDelayed();
     }
@@ -39,8 +32,8 @@ public class Tester : ScriptableObject
 
     void Step()
     {
-        ranures = grid.GetComponentsInChildren<Ranura>();
-        hexagons = grid.GetComponentsInChildren<Hexagon>();
+        ranures = Grid.Instance.GetComponentsInChildren<Ranura>();
+        hexagons = Grid.Instance.GetComponentsInChildren<Hexagon>();
         /*viables = new List<Hexagon>();
         for (int i = 0; i < hexagons.Length; i++)
         {

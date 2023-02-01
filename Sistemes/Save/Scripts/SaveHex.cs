@@ -6,13 +6,22 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Save")]
 public class SaveHex : ScriptableObject
 {
-
     [SerializeField] int current = 0;
     [SerializeField] List<SavedFile> files;
 
+    [Apartat("ESTATS")]
+    [SerializeField] Estat[] estats;
+    [Header("SUBESTATS")]
+    [SerializeField] Subestat[] subestats;
 
 
-    public List<SavedFile> Files => files;
+    //public List<SavedFile> Files => files;
+
+
+    Estat eTrobat;
+    Subestat sTrobat;
+
+
 
     public void NouArxiu()
     {
@@ -47,7 +56,7 @@ public class SaveHex : ScriptableObject
 
     //public void Save(Grups grups) => files[current].Save(grups, FindObjectsOfType<Peça>());
 
-    public void Load(Grups grups, Fase seguent) => files[current].Load(grups, seguent);
+    public void Load(Grups grups, Fase seguent) => files[current].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab);
 
     public void Load(int index, Grups grups, Fase colocar)
     {
@@ -90,6 +99,42 @@ public class SaveHex : ScriptableObject
         return trobat;
     }
 
+
+    Estat EstatNomToPrefab(string nom)
+    {
+        eTrobat = null;
+        for (int i = 0; i < estats.Length; i++)
+        {
+            if (estats[i].name == nom)
+            {
+                eTrobat = estats[i];
+                break;
+            }
+        }
+        return eTrobat;
+    }
+    Subestat SubestatNomToPrefab(string nom)
+    {
+        sTrobat = null;
+        for (int i = 0; i < subestats.Length; i++)
+        {
+            if (subestats[i].name == nom)
+            {
+                sTrobat = subestats[i];
+                break;
+            }
+        }
+        return sTrobat;
+    }
+
+    private void OnValidate()
+    {
+        //if (prefab_Ranura == null) prefab_Ranura = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Ranura.prefab");
+        //if (prefab_Peça == null) prefab_Peça = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Peça.prefab");
+
+        estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
+        subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
+    }
 }
 
 [System.Serializable]
@@ -99,11 +144,11 @@ public class SavedFile
     [SerializeField] int mode;
     [SerializeField] List<SavedPeça> peçes;
 
+
     //INTERN
     int index;
     Fase seguent;
     Grups grups;
-    Grid grid;
     List<Peça> creades;
     List<Vector2Int> veins;
 
@@ -149,22 +194,21 @@ public class SavedFile
             peçes.Add(new SavedPeça(peces[i], grups));
         }
     }
-    public void Load(Grups grups, Fase seguent)
+    public void Load(Grups grups, Fase seguent, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab)
     {
-        if (grid == null) grid = (Grid)GameObject.FindObjectOfType<Grid>();
         if (this.grups == null) this.grups = grups;
         this.seguent = seguent;
 
         creades = new List<Peça>();
 
         index = 0;
-        Step();
+        Step(estatNomToPrefab, subestatNomToPrefab);
     }
 
-    void Step()
+    void Step(System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab)
     {
-        creades.Add(peçes[index].Load(grid, grups));
-        grid.Dimensionar(creades[index]);
+        creades.Add(peçes[index].Load(Grid.Instance, grups, estatNomToPrefab, subestatNomToPrefab));
+        Grid.Instance.Dimensionar(creades[index]);
         index++;
 
         if (index >= peçes.Count)
@@ -173,7 +217,9 @@ public class SavedFile
             return;
         }
 
-        XS_Coroutine.StartCoroutine_Ending(0.5f, Step);
+        XS_Coroutine.StartCoroutine_Ending(0.5f, DoStep);
+
+        void DoStep() => Step(estatNomToPrefab, subestatNomToPrefab);
     }
 
     void LoadSteps()
@@ -187,10 +233,10 @@ public class SavedFile
         //CREAR RANURES
         for (int i = 0; i < creades.Count; i++)
         {
-            veins = grid.VeinsCoordenades(creades[i].Coordenades);
+            veins = Grid.Instance.VeinsCoordenades(creades[i].Coordenades);
             for (int v = 0; v < veins.Count; v++)
             {
-                grid.CrearRanura(veins[v]);
+                Grid.Instance.CrearRanura(veins[v]);
             }
         }
 
@@ -221,7 +267,7 @@ public class SavedFile
         //PRODUCTES
         for (int i = 0; i < creades.Count; i++)
         {
-            creades[i].CoordenadesToProducte(grid);
+            creades[i].CoordenadesToProducte(Grid.Instance);
         }
 
         //DEBUG
@@ -243,7 +289,7 @@ public class SavedFile
     public SavedPeça(Peça peça, Grups grups)
     {
         coordenada = peça.Coordenades;
-        esta = peça.Estat.name;
+        estat = peça.Estat.name;
         subestat = peça.Subestat.name;
         producte = peça.Extraccio != null ? peça.Extraccio.Coordenades : -Vector2Int.one;
         grup = grups.GrupByPeça(grups.Grup, peça);
@@ -267,7 +313,7 @@ public class SavedFile
     }
 
     [SerializeField] string subestat;
-    [SerializeField] string esta;
+    [SerializeField] string estat;
     [SerializeField] Vector2Int coordenada;
     //[SerializeField] Estat esta;
     //[SerializeField] Subestat subestat;
@@ -279,7 +325,7 @@ public class SavedFile
 
     public Vector2Int Coordenada => coordenada;
 
-    public Peça Load(Grid grid, Grups grups)
+    public Peça Load(Grid grid, Grups grups, System.Func<string,Estat> estatNomToPrefab, System.Func<string,Subestat> subestatNomToPrefab)
     {
         //BASE
         GameObject tmp = MonoBehaviour.Instantiate(grid.Prefab_Peça, grid.transform);
@@ -287,7 +333,7 @@ public class SavedFile
 
         //PEÇA
         Peça peça = tmp.GetComponent<Peça>();
-        peça.Setup(grid, coordenada, grid.Estat(esta), grid.Subestat(subestat));
+        peça.Setup(grid, coordenada, estatNomToPrefab.Invoke(estat), subestatNomToPrefab.Invoke(subestat));
         peça.name = $"{peça.Estat.name}({peça.Coordenades})";
 
         //CREAR TILES

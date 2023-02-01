@@ -29,8 +29,6 @@ public class Proximitat : ScriptableObject
 
 
 
-    Grid grid;
-
     void OnEnable()
     {
         peces = new Queue<Peça>();
