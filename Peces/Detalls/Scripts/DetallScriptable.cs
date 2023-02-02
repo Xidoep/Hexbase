@@ -13,7 +13,7 @@ public class DetallScriptable : ScriptableObject
 
 
     [Tooltip("El/s gameobject/s que es crearan sobre la peça.")]
-    public GameObject GameObject(Peça peça, TilePotencial tile) => gameObject.Get(peça, tile);
+    public virtual GameObject GameObject(Peça peça, TilePotencial tile) => gameObject.Get(peça, tile);
 
 
 

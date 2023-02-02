@@ -24,15 +24,15 @@ public class TilePotencial
     [SerializeField] GameObject tileFisic;
     GameObject detalls;
     [HideInInspector] TilePotencial[] veins;
-    
-    
+    [SerializeField] int altura = -1;
 
     public string EstatName => $"{peça.Subestat.name}-{orientacio}";
     public Peça Peça => peça;
     public Possibilitats PossibilitatsVirtuals => possibilitatsVirtuals;
     public GameObject TileFisic => tileFisic;
     public TilePotencial[] Veins => veins;
-
+    public int Altura { set => altura = value; }
+    public bool TeAltura => altura != -1;
 
     float AngleOrientacioFisica
     {
@@ -86,6 +86,8 @@ public class TilePotencial
         {
             veins[i]?.GetVeins(veins[i]?.peça);
         }
+
+        altura = -1;
 
         return this;
     }
@@ -249,19 +251,6 @@ public class TilePotencial
     {
         public int index;
         public Vector2Int rang;
-    }
-}
-
-
-public class TileDebug : MonoBehaviour
-{
-    [SerializeField] TilePotencial[] veins;
-    [SerializeField] int orientacioFisica;
-    public TileDebug New(TilePotencial[] veins, int orientacioFisica) 
-    {
-        this.veins = veins;
-        this.orientacioFisica = orientacioFisica;
-        return this;
     }
 }
 

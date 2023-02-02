@@ -204,7 +204,7 @@ public class Prediccio : ScriptableObject
         predint = false;
     }
 
-    public void AmagarInformacioMostrada(Vector2Int coordenada)
+    public void AmagarInformacioMostrada()
     {
         if (!predint)
             visualitzacions.AmagarPrediccions();
@@ -217,5 +217,6 @@ public class Prediccio : ScriptableObject
     {
         //grid.SimularFinal(simulada);
         predint = false;
+        AmagarInformacioMostrada();
     }
 }
