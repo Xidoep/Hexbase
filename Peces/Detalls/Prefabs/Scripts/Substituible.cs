@@ -20,4 +20,13 @@ public class Substituible : ScriptableObject
         Destroy(transform.gameObject);
         //Destroy(this);
     }
+    public GameObject SubstituirRetorn(Transform transform)
+    {
+        GameObject nou = alternatives[Random.Range(0, alternatives.Length)].Instantiate(transform.position, transform.rotation, transform.localScale, transform.parent);
+        nou.layer = transform.gameObject.layer;
+
+        Destroy(transform.gameObject);
+
+        return nou;
+    }
 }

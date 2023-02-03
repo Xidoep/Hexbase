@@ -25,13 +25,16 @@ public class TilePotencial
     GameObject detalls;
     [HideInInspector] TilePotencial[] veins;
     [SerializeField] int altura = -1;
+    public int altura0 = -1;
+    public int altura1 = -1;
+    public int altura2 = -1;
 
     public string EstatName => $"{peça.Subestat.name}-{orientacio}";
     public Peça Peça => peça;
     public Possibilitats PossibilitatsVirtuals => possibilitatsVirtuals;
     public GameObject TileFisic => tileFisic;
     public TilePotencial[] Veins => veins;
-    public int Altura { set => altura = value; }
+    public int Altura { get => altura; set => altura = value; }
     public bool TeAltura => altura != -1;
 
     float AngleOrientacioFisica
