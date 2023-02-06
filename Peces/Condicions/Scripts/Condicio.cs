@@ -35,7 +35,7 @@ public abstract class Condicio : ScriptableObject
     /// 
     /// IMPORTANT: Les funcions subscrites han de cridar Canviar quan el resultat sigui positiu.
     /// </summary>
-    public abstract bool Comprovar(Peça peça, Grups grups, Estat cami, bool canviar, System.Action<Peça, bool> enConfirmar, System.Action<Peça, int> enCanviar);
+    public abstract bool Comprovar(Peça peça, Grups grups, Estat cami, bool canviar, System.Action<Peça, bool, int> enConfirmar, System.Action<Peça, int> enCanviar);
 
 
     /// <summary>

@@ -11,7 +11,7 @@ public class Condicio_Producte : Condicio
     //INTERN
     List<Peça> myVeins;
 
-    public override bool Comprovar(Peça peça, Grups grups, Estat cami, bool canviar, System.Action<Peça, bool> enConfirmar, System.Action<Peça, int> enCanviar)
+    public override bool Comprovar(Peça peça, Grups grups, Estat cami, bool canviar, System.Action<Peça, bool, int> enConfirmar, System.Action<Peça, int> enCanviar)
     {
         if (peça.SubestatIgualA(objectiu))
             return false;
@@ -25,7 +25,7 @@ public class Condicio_Producte : Condicio
             {
                 myVeins[i].Ocupar(peça);
 
-                enConfirmar.Invoke(peça, canviar);
+                enConfirmar.Invoke(peça, canviar, punts);
                 if (canviar)
                 {
                     //myVeins[i].Ocupar(peça);

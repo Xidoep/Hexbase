@@ -23,8 +23,8 @@ public class Proximitat : ScriptableObject
     //INTERN
     Queue<Peça> peces;
     List<Peça> comprovades;
-    List<Peça> canviades;
-    System.Action<List<Peça>, List<Peça>> enFinalitzar;
+    List<Canvis> canviades;
+    System.Action<List<Peça>, List<Canvis>> enFinalitzar;
     Peça _actual;
 
 
@@ -73,12 +73,12 @@ public class Proximitat : ScriptableObject
         return tmp;
     }
 
-    public void Process(List<Peça> peces, System.Action<List<Peça>, List<Peça>> enFinalitzar, bool canviar = true)
+    public void Process(List<Peça> peces, System.Action<List<Peça>, List<Canvis>> enFinalitzar, bool canviar = true)
     {
         Debugar.LogError("--------------PROXIMITAT---------------");
         this.peces = new Queue<Peça>(peces);
         comprovades = new List<Peça>();
-        canviades = new List<Peça>();
+        canviades = new List<Canvis>();
         this.enFinalitzar = enFinalitzar;
         _actual = null;
         Debugar.Log("Process");
@@ -138,20 +138,20 @@ public class Proximitat : ScriptableObject
         Step(canviar);
     }
 
-    void MarcarComCanviada(Peça peça, bool canviar)
+    void MarcarComCanviada(Peça peça, bool canviar, int experiencia)
     {
         Debugar.LogError("CANVIAR");
         if (canviar)
         {
             //_actual.Condicions[i].Canviar(_actual, GunayarExperienciaIVisualitzarSiCal);
-            canviades.Add(_actual);
+            canviades.Add(new Canvis(peça,experiencia));
             Add(_actual);
         }
         else
         {
-            if (!canviades.Contains(_actual))
+            if (!canviades.Contains(new Canvis(peça, experiencia)))
             {
-                canviades.Add(_actual);
+                canviades.Add(new Canvis(peça, experiencia));
                 Add(_actual);
             }
         }
@@ -163,10 +163,25 @@ public class Proximitat : ScriptableObject
         if (experiencia > 0) 
         {
             visualitzacions.AddGuanyarPunts(peça.transform.position);
+            //canviades.Add(new Canvis(peça, experiencia));
             //visualitzacions.GuanyarPunts(peça.transform.position, 1.5f);
         }
     }
 
+
+    public struct Canvis
+    {
+        public Canvis(Peça peça, int experiencia)
+        {
+            this.peça = peça;
+            this.experiencia = experiencia;
+        }
+        Peça peça;
+        int experiencia;
+
+        public Peça Peça => peça;
+        public int Experiencia => experiencia;
+    }
 }
 
 

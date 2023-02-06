@@ -109,7 +109,7 @@ public class Prediccio : ScriptableObject
 
     void SimularProximitat() => proximitat.Process(pecesPerComprovar, MostrarCanvis, false);
 
-    void MostrarCanvis(List<Peça> comprovades, List<Peça> canviades)
+    void MostrarCanvis(List<Peça> comprovades, List<Proximitat.Canvis> canviades)
     {
         if (amagarInformacioBuffer)
         {
@@ -141,37 +141,58 @@ public class Prediccio : ScriptableObject
     }
 
 
-    void MostrarCanvis(List<Peça> canviades)
+    void MostrarCanvis(List<Proximitat.Canvis> canviades)
     {
         for (int i = 0; i < canviades.Count; i++)
         {
-            visualitzacions.PredirCanvi(canviades[i].Coordenades);
-            Debugar.LogError($"***Mostrar Canvis a {canviades[i].gameObject.name}***");
+            visualitzacions.PredirCanvi(canviades[i].Peça.Coordenades);
+            Debugar.LogError($"***Mostrar Canvis a {canviades[i].Peça.gameObject.name}***");
         }
     }
-    void MostrarMesHabitants(List<Peça> canviades)
+    void MostrarMesHabitants(List<Proximitat.Canvis> canviades)
     {
         for (int i = 0; i < pecesPerComprovar.Count; i++)
         {
-            if (pecesPerComprovar[i].SubestatIgualA(casa) && !canviades.Contains(pecesPerComprovar[i]))
+            if (pecesPerComprovar[i].SubestatIgualA(casa))
+            {
+                bool contains = false;
+                for (int c = 0; c < canviades.Count; c++)
+                {
+                    if(canviades[c].Peça == pecesPerComprovar[i])
+                    {
+                        contains = true;
+                        break;
+                    }
+                }
+
+                if (!contains)
+                {
+                    if (peçaSimulada.VeinsPeça.Contains(pecesPerComprovar[i]))
+                    {
+                        visualitzacions.PredirMesHabitants(pecesPerComprovar[i].Coordenades);
+                        Debugar.LogError($"***Mostrar + Needs a {pecesPerComprovar[i].gameObject.name}***");
+                    }
+                }
+            }
+            /*if (pecesPerComprovar[i].SubestatIgualA(casa) && !canviades.Contains(pecesPerComprovar[i]))
             {
                 if (peçaSimulada.VeinsPeça.Contains(pecesPerComprovar[i]))
                 {
                     visualitzacions.PredirMesHabitants(pecesPerComprovar[i].Coordenades);
                     Debugar.LogError($"***Mostrar + Needs a {pecesPerComprovar[i].gameObject.name}***");
                 }
-            }
+            }*/
         }
     }
-    void MostrarMenysHabitants(List<Peça> canviades)
+    void MostrarMenysHabitants(List<Proximitat.Canvis> canviades)
     {
         for (int i = 0; i < canviades.Count; i++)
         {
             //En el cas que: Jo NO vulgui colocar una casa, i alguna de les peces canviades fos una casa.
-            if (canviades[i].SubestatIgualA(casa))
+            if (canviades[i].Peça.SubestatIgualA(casa))
             {
-                visualitzacions.PredirMenysHabitants(canviades[i].Coordenades);
-                Debugar.LogError($"***Mostrar - Needs a {canviades[i].gameObject.name}***");
+                visualitzacions.PredirMenysHabitants(canviades[i].Peça.Coordenades);
+                Debugar.LogError($"***Mostrar - Needs a {canviades[i].Peça.gameObject.name}***");
             }
         }
     }
@@ -189,7 +210,7 @@ public class Prediccio : ScriptableObject
 
 
 
-    void ResetCanvis(List<Peça> comprovades, List<Peça> canviades)
+    void ResetCanvis(List<Peça> comprovades, List<Proximitat.Canvis> canviades)
     {
         for (int i = 0; i < comprovades.Count; i++)
         {
@@ -197,7 +218,7 @@ public class Prediccio : ScriptableObject
         }
         for (int i = 0; i < canviades.Count; i++)
         {
-            if (canviades[i].Ocupat) canviades[i].DesocuparPerPrediccio();
+            if (canviades[i].Peça.Ocupat) canviades[i].Peça.DesocuparPerPrediccio();
         }
 
         Grid.Instance.SimularFinal(peçaSimulada);

@@ -237,7 +237,7 @@ public class Visualitzacions : ScriptableObject
         posicions.Add(posicio);
     }
    
-    public void GuanyarExperienciaProximitat()
+    public void GuanyarExperienciaProximitat(int experiencia)
     {
         XS_Coroutine.StartCoroutine_Ending(1.5f, Animacio);
 
@@ -245,7 +245,7 @@ public class Visualitzacions : ScriptableObject
         {
             for (int i = 0; i < posicions.Count; i++)
             {
-                InstanciarParticulesPunts(posicions[0]);
+                InstanciarParticulesPunts(posicions[0], experiencia);
                 posicions.RemoveAt(0);
 
                 animacioGuanyarExperiencia?.Invoke();
@@ -337,16 +337,16 @@ public class Visualitzacions : ScriptableObject
             }
         }
 
-        void NecessitatProveida(Peça c, GameObject ui, float delay, bool ultima, System.Action enFinalitzar)
+        void NecessitatProveida(Peça peça, GameObject ui, float delay, bool ultima, System.Action enFinalitzar)
         {
             XS_Coroutine.StartCoroutine_Ending(delay, Animacio);
 
             void Animacio()
             {
                 animacions.necessitatProveida.Play(ui.transform);
-                InstanciarParticulesPunts(ui.transform.position);
-                c.BlocarInformacio = false;
-                c.mostrarInformacio?.Invoke(c, false);
+                InstanciarParticulesPunts(ui.transform.position, 1);
+                peça.BlocarInformacio = false;
+                //peça.mostrarInformacio?.Invoke(peça, false);
 
                 if(ultima)
                     XS_Coroutine.StartCoroutine_Ending(0.5f, enFinalitzar);
@@ -356,11 +356,12 @@ public class Visualitzacions : ScriptableObject
         
     }
 
-    void InstanciarParticulesPunts(Vector3 posicio)
+    void InstanciarParticulesPunts(Vector3 posicio, int particules)
     {
-        prefabs.guanyarPunts.Instantiate(
+        prefabs.guanyarPunts.InstantiateReturn(
             posicio - Utils_MainCamera_Acces.Camera.transform.forward * 1, 
-            Quaternion.Euler(Utils_MainCamera_Acces.Camera.transform.forward));
+            Quaternion.Euler(Utils_MainCamera_Acces.Camera.transform.forward)).GetComponent<Utils_TextSetup>().Setup(particules);
+        Debug.LogError($"{particules} particules");
     }
 
     public void DestruirProducte(Peça p, int i, bool ultima, System.Action enFinalitzar) 
@@ -374,7 +375,7 @@ public class Visualitzacions : ScriptableObject
             p.Extraccio.BlocarInformacio = false;
 
             if (ultima)
-                enFinalitzar.Invoke();
+                XS_Coroutine.StartCoroutine_Ending(0.5f, enFinalitzar);
             //productor.Extraccio.mostrarInformacio?.Invoke(productor.Extraccio.Informacio, productor, false);
         }
         

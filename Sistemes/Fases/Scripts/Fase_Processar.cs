@@ -31,7 +31,8 @@ public class Fase_Processar : Fase
     float startTime;
     Peça peça;
     List<Peça> perComprovar;
-    List<Peça> canviades;
+    List<Proximitat.Canvis> canviades;
+    List<Peça> canviadesPeça;
     List<Peça> animades;
 
 
@@ -100,9 +101,16 @@ public class Fase_Processar : Fase
     }
 
 
-    void Repoblacio(List<Peça> comprovades, List<Peça> canviades)
+
+
+    void Repoblacio(List<Peça> comprovades, List<Proximitat.Canvis> canviades)
     {
         this.canviades = canviades;
+        canviadesPeça = new List<Peça>();
+        for (int i = 0; i < canviades.Count; i++)
+        {
+            canviadesPeça.Add(canviades[i].Peça);
+        }
         repoblar.Proces(comprovades, WFC);
     }
 
@@ -112,7 +120,7 @@ public class Fase_Processar : Fase
     {
         if (canviades != null && canviades.Count > 0 || peça.EstatIgualA(riu))
         {
-            wfc.Iniciar_WFC(peça, canviades, Produir);
+            wfc.Iniciar_WFC(peça, canviadesPeça, Produir);
         }
         else
         {
@@ -140,29 +148,28 @@ public class Fase_Processar : Fase
         for (int c = 0; c < canviades.Count; c++)
         {
             Debug.LogError($"Canviada: {canviades[c]}");
-            if (animades.Contains(canviades[c]))
+            if (animades.Contains(canviades[c].Peça))
                 continue;
 
 
-            visualitzacions.CanviarEstat(canviades[c]);
+            visualitzacions.CanviarEstat(canviades[c].Peça);
             //actualitzar.Play(canviades[c].Parent);
-            animades.Add(canviades[c]);
+            animades.Add(canviades[c].Peça);
+            visualitzacions.GuanyarExperienciaProximitat(canviades[c].Experiencia);
         }
 
         for (int c = 0; c < canviades.Count; c++)
         {
-            for (int v = 0; v < canviades[c].VeinsPeça.Count; v++)
+            for (int v = 0; v < canviades[c].Peça.VeinsPeça.Count; v++)
             {
-                if (animades.Contains(canviades[c].VeinsPeça[v]))
+                if (animades.Contains(canviades[c].Peça.VeinsPeça[v]))
                     continue;
 
-                visualitzacions.ReaccioVeina(canviades[c].VeinsPeça[v]);
+                visualitzacions.ReaccioVeina(canviades[c].Peça.VeinsPeça[v]);
                 //actualitzar.Play(canviades[c].VeinsPeça[v].Parent);
-                animades.Add(canviades[c].VeinsPeça[v]);
+                animades.Add(canviades[c].Peça.VeinsPeça[v]);
             }
         }
-
-        visualitzacions.GuanyarExperienciaProximitat();
     }
 
     void FinalitzarProcessos()
