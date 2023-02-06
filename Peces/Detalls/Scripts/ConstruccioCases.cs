@@ -59,19 +59,16 @@ public class ConstruccioCases : DetallScriptable
                         tile.altura2 = Mathf.Min(tile.Veins[2].Altura, tile.Altura);
                         break;
                     case 1:
-                        tile.altura0 = Mathf.Min(tile.Veins[0].Altura, tile.Altura);
-                        tile.altura1 = Mathf.Min(tile.Veins[1].Altura, tile.Altura);
-                        tile.altura2 = Mathf.Min(tile.Veins[2].Altura, tile.Altura);
+                        tile.altura0 = Mathf.Min(tile.Veins[2].Altura, tile.Altura);
+                        tile.altura1 = tile.Veins[0] != null ? Mathf.Min(tile.Veins[0].Altura, tile.Altura) : tile.Altura;
+                        tile.altura2 = Mathf.Min(tile.Veins[1].Altura, tile.Altura);
                         break;
                     case 2:
-                        tile.altura0 = Mathf.Min(tile.Veins[0].Altura, tile.Altura);
-                        tile.altura1 = Mathf.Min(tile.Veins[1].Altura, tile.Altura);
-                        tile.altura2 = Mathf.Min(tile.Veins[2].Altura, tile.Altura);
+                        tile.altura0 = Mathf.Min(tile.Veins[1].Altura, tile.Altura);
+                        tile.altura1 = Mathf.Min(tile.Veins[2].Altura, tile.Altura);
+                        tile.altura2 = tile.Veins[0] != null ? Mathf.Min(tile.Veins[0].Altura, tile.Altura) : tile.Altura;
                         break;
                 }
-                tile.altura0 = tile.Veins[0] != null ? Mathf.Min(tile.Veins[0].Altura, tile.Altura) : tile.Altura;
-                tile.altura1 = Mathf.Min(tile.Veins[1].Altura, tile.Altura);
-                tile.altura2 = Mathf.Min(tile.Veins[2].Altura, tile.Altura);
                 break;
         }
 
