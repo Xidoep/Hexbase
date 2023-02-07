@@ -13,7 +13,6 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     [SerializeField] UnityEvent onExit;
 
     [Apartat("FASES/PROCESSOS")]
-    [SerializeField] FasesControlador controlador;
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Prediccio prediccio;
     

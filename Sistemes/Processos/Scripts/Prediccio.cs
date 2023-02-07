@@ -29,6 +29,7 @@ public class Prediccio : ScriptableObject
     private void OnEnable()
     {
         predint = false;
+        peçaSimulada = null;
     }
 
     public void Predir(Vector2Int coordenada)
