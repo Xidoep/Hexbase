@@ -36,10 +36,11 @@ public static class GridExtensions
     public static void Set(this Hexagon[,] grid, Hexagon hexagon, int x, int y) => grid[x, y] = hexagon;
     public static void Set(this Hexagon[,] grid, Hexagon hexagon, Vector2Int coordenada) => grid[coordenada.x, coordenada.y] = hexagon;
     public static void Set(this Hexagon[,] grid, Hexagon hexagon) => grid.Set(hexagon, hexagon.Coordenades.x, hexagon.Coordenades.y);
-    
+
     /// <summary>
     /// Retorna la posició de la coordenada donada.
     /// </summary>
+    public static Vector3 GetWorldPosition(Vector2Int coordenada) => GetWorldPosition(coordenada.x, coordenada.y);
     public static Vector3 GetWorldPosition(int column, int row)
     {
         float width;
@@ -66,7 +67,6 @@ public static class GridExtensions
 
         return new Vector3(xPosition, 0, -yPosition);
     }
-    public static Vector3 GetWorldPosition(Vector2Int coordenada) => GetWorldPosition(coordenada.x, coordenada.y);
 
     static List<Hexagon> _tmpVeins;
     static List<Vector2Int> _tmpCoordenades;

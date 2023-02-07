@@ -83,7 +83,7 @@ public class Detall_Altura : DetallScriptable
 
 
 
-        return base.GameObject(peça, tile);
+        return null;
     }
 
     void CrearPlantes(Substituible_Planta substituible, int plantes)

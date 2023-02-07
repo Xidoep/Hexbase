@@ -34,7 +34,7 @@ public class Informacio_Necessitats : Informacio
             tmp.GetComponent<UI_InformacioPeça>().Setup(peça, i);
             tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
             peça.Casa.Necessitats[i].Informacio = new Unitat(tmp);
-            //Debug.LogError(tmp.transform.GetChild(0).name);
+            Debug.LogError("Mostrar",peça);
 
             //ui.Add(peça.Casa.Necessitats[i].Informacio);
         }
@@ -52,6 +52,7 @@ public class Informacio_Necessitats : Informacio
 
             Destroy(peça.Casa.Necessitats[i].Informacio.gameObject, 0.1f);
         }
+        Debug.LogError("Amagar", peça);
         //grups.ReixarDeResaltar();
     }
 

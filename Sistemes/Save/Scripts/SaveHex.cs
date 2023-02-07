@@ -329,7 +329,7 @@ public class SavedFile
     {
         //BASE
         GameObject tmp = MonoBehaviour.Instantiate(grid.Prefab_Peça, grid.transform);
-        tmp.transform.localPosition = GridExtensions.GetWorldPosition(coordenada.x, coordenada.y);
+        tmp.transform.localPosition = GridExtensions.GetWorldPosition(coordenada);
 
         //PEÇA
         Peça peça = tmp.GetComponent<Peça>();

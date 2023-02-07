@@ -57,11 +57,11 @@ public class Detall_GameObject_Cami : Detall_GameObject
         found = false;
         for (int d = detalls.Length - 1; d >= 0; d--)
         {
-            codi = detalls[d].ToString().Substring(3, 6);
+            codi = detalls[d].name.Substring(detalls[d].name.Length - 6, 6);
 
             for (int i = 0; i < 6; i++)
             {
-                //Debug.Log($"{peça.name} Provar Cami: {(codi.Substring(i, 6 - i) + codi.Substring(0, i))} = {(codi.Substring(i, 6 - i) + codi.Substring(0, i)).Equals(binary)}");
+                Debug.Log($"{peça.name} Provar Cami: {(codi.Substring(i, 6 - i) + codi.Substring(0, i))} = {(codi.Substring(i, 6 - i) + codi.Substring(0, i)).Equals(binary)}");
                 if ((codi.Substring(i, 6 - i) + codi.Substring(0, i)).Equals(binary))
                 {
                     index = d;

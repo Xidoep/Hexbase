@@ -33,10 +33,12 @@ public class Detall_Modif_RotacioCami : Detall_Modificacio
             else binary += "0";
         }
 
-        codi = detall.ToString().Substring(3, 6);
+        codi = detall.name.Substring(detall.name.Length - 6 - 7, 6);
 
         for (int i = 0; i < 6; i++)
         {
+            Debug.Log($" Provar Cami: {(codi.Substring(i, 6 - i) + codi.Substring(0, i))} = {(codi.Substring(i, 6 - i) + codi.Substring(0, i)).Equals(binary)}");
+
             if ((codi.Substring(i, 6 - i) + codi.Substring(0, i)).Equals(binary))
             {
                 rotation = i;

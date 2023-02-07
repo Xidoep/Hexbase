@@ -140,7 +140,7 @@ public class Proximitat : ScriptableObject
 
     void MarcarComCanviada(Peça peça, bool canviar, int experiencia)
     {
-        Debugar.LogError("CANVIAR");
+        //Debugar.LogError("CANVIAR");
         if (canviar)
         {
             //_actual.Condicions[i].Canviar(_actual, GunayarExperienciaIVisualitzarSiCal);

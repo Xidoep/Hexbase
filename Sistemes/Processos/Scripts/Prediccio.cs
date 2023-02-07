@@ -229,11 +229,15 @@ public class Prediccio : ScriptableObject
     public void AmagarInformacioMostrada()
     {
         if (!predint)
+        {
             visualitzacions.AmagarPrediccions();
+        }
         else
             amagarInformacioBuffer = true;
         Debugar.LogError("***Si hi ha informacio mostrada, s'esborra***");
         //simulant = false;
+        if (peçaSimulada != null)
+            Destroy(peçaSimulada.gameObject);
     }
     public void FinalitzacioForçada()
     {

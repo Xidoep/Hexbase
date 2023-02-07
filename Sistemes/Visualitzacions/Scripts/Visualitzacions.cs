@@ -183,7 +183,7 @@ public class Visualitzacions : ScriptableObject
         {
             for (int p = 0; p < peces.Count; p++)
             {
-                Debugar.LogError($"Resaltar peça: {peces[p].gameObject.name}");
+                //Debugar.LogError($"Resaltar peça: {peces[p].gameObject.name}");
                 DestacarPeça(peces[p], destacar);
                 /*MeshRenderer[] meshRenderers = peces[p].GetComponentsInChildren<MeshRenderer>();
                 for (int i = 0; i < meshRenderers.Length; i++)

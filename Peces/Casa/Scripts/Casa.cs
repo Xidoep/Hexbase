@@ -11,7 +11,7 @@ public class Casa
     public Casa(Peça peça, Producte[] recursosNeeded, System.Action enModificarNecessitats)
     {
         //this.peça = peça;
-        Debugar.LogError($"CASA {peça.Coordenades}");
+        //Debugar.LogError($"CASA {peça.Coordenades}");
 
         //Crea necessitats per la casa
         necessitats = new Necessitat[0];

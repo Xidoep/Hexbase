@@ -229,9 +229,11 @@ public class TilePotencial
             int[] tiles = subestat.Detalls[d].Tiles(peça);
             for (int t = 0; t < tiles.Length; t++)
             {
+                //Debug.LogError($"Peça {Peça.Coordenades}, Orientacio {orientacio} Tile {t}", Peça);
                 //Tiles del detalls no retorna tots els tiles, només els que s'han de instanciar. Aqui es mira si aquest està a la llista.
                 if(tiles[t] == orientacio)
                 {
+                    //Debug.LogError("TRobat!");
                     GameObject _detall = subestat.Detalls[d].GameObject(peça, this);
                     if (_detall == null)
                         continue;

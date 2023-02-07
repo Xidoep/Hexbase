@@ -194,7 +194,8 @@ public class Grid : MonoBehaviour
     {
         ranuraSimulada = grid.Get(coordenada);
 
-        simulada = new GameObject("simulada").AddComponent<Peça>();
+        //simulada = new GameObject("simulada").AddComponent<Peça>();
+        simulada = Instanciar(estat.Prefag, coordenada).AddComponent<Peça>();
         //simulada = Instanciar(prefab_Simulacio, coordenada.x, coordenada.y).GetComponent<Peça>();
         simulada.Setup(this, coordenada, estat, estat.SubestatInicial);
         grid.Set(simulada);
@@ -203,8 +204,8 @@ public class Grid : MonoBehaviour
     public void SimularFinal(Peça peça)
     {
         Vector2Int coordenada = peça.Coordenades;
-        if(peça != null)
-            Destroy(peça.gameObject);
+        //if(peça != null)
+        //    Destroy(peça.gameObject);
 
         if(ranuraSimulada != null)
             grid.Set(ranuraSimulada, coordenada);

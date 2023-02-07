@@ -209,14 +209,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void Ocupar(Peça productor) 
     {
-        Debug.LogError($"{productor.gameObject.name} es el productor de {gameObject.name}");
+        //Debug.LogError($"{productor.gameObject.name} es el productor de {gameObject.name}");
         //ocupat = true;
         this.productor = productor;
         productor.extraccio = this;
     }
     public void DesocuparPerPrediccio()
     {
-        Debug.LogError($"{gameObject.name} ja no te productor");
+        //Debug.LogError($"{gameObject.name} ja no te productor");
         if(productor.extraccio != this)
         {
             productor = null;

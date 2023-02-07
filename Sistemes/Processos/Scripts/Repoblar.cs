@@ -50,10 +50,11 @@ public class Repoblar : ScriptableObject
 
     public void CanviarNecessitats(Peça peça, int necessitats)
     {
-        peça.amagarInformacio?.Invoke(peça);
+       
         //Si falten necessitats, n'agafeix.
         if (necessitats > peça.Casa.Necessitats.Length)
         {
+            peça.amagarInformacio?.Invoke(peça);
             for (int i = peça.Casa.Necessitats.Length; i < necessitats; i++)
             {
                 peça.Casa.AfegirNecessitat(necessitatInicial);
@@ -62,6 +63,7 @@ public class Repoblar : ScriptableObject
         //Si sobren necessitats, en treu.
         else if(necessitats < peça.Casa.Necessitats.Length)
         {
+            peça.amagarInformacio?.Invoke(peça);
             for (int i = necessitats; i < peça.Casa.Necessitats.Length; i++)
             {
                 peça.Casa.TreureNecessitat();
