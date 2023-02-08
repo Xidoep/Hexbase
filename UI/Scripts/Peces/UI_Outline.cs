@@ -5,7 +5,7 @@ using UnityEngine;
 public class UI_Outline : MonoBehaviour
 {
     [SerializeField] MeshRenderer meshRenderer;
-    [SerializeField] Animacio_Scriptable animacio;
+    [SerializeField] AnimacioPerCodi animacio;
 
 
     public void Amagar() 

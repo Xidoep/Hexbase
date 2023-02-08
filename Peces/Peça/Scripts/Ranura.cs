@@ -18,8 +18,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     
     [Apartat("OUTLINE")]
     [SerializeField] GameObject outline;
-    [SerializeField] Animacio_Scriptable clickDown;
-    [SerializeField] Animacio_Scriptable clickUp;
+    [SerializeField] AnimacioPerCodi clickDown;
+    [SerializeField] AnimacioPerCodi clickUp;
     Coroutine compteEnrerra;
     System.Action accioCrear;
 

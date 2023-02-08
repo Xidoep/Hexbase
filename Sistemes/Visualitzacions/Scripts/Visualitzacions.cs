@@ -19,24 +19,24 @@ public class Visualitzacions : ScriptableObject
     public struct Animacions
     {
         [Header("PRODUCCIO")]
-        public Animacio_Scriptable producteProveir;
-        public Animacio_Scriptable necessitatProveida;
+        public AnimacioPerCodi producteProveir;
+        public AnimacioPerCodi necessitatProveida;
 
         [Apartat("PECES UI")]
-        public Animacio_Scriptable primeraPosicio;
-        public Animacio_Scriptable primeraPosicioParent;
-        public Animacio_Scriptable segonaPosicio, segonaPosicioParent;
-        public Animacio_Scriptable colocarPeça, colocarPeçaParent;
+        public AnimacioPerCodi primeraPosicio;
+        public AnimacioPerCodi primeraPosicioParent;
+        public AnimacioPerCodi segonaPosicio, segonaPosicioParent;
+        public AnimacioPerCodi colocarPeça, colocarPeçaParent;
 
         [Apartat("INFORMACIO")]
-        public Animacio_Scriptable amagarInformacio;
+        public AnimacioPerCodi amagarInformacio;
 
         [Apartat("NIVELL")]
-        public Animacio_Scriptable guanyarExperiencia;
+        public AnimacioPerCodi guanyarExperiencia;
 
         [Apartat("PECES")]
-        public Animacio_Scriptable canviarEstat;
-        public Animacio_Scriptable reaccioVeines;
+        public AnimacioPerCodi canviarEstat;
+        public AnimacioPerCodi reaccioVeines;
     }
 
     [System.Serializable]

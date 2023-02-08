@@ -24,7 +24,7 @@ public abstract class Hexagon : MonoBehaviour
     //VARIABLES 
     [SerializeField] Transform parent;
     //[SerializeField] protected AnimacioPerCodi animacioPerCodi;
-    [SerializeField] public Animacio_Scriptable animacio;
+    [SerializeField] public AnimacioPerCodi animacio;
 
     Vector2Int coordenades;
 
