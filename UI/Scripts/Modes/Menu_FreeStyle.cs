@@ -44,8 +44,8 @@ public class Menu_FreeStyle : MonoBehaviour
             UI_Peca uiPeca = peça.GetComponent<UI_Peca>();
             button.onClick.AddListener(uiPeca.Seleccionar);
             button.onClick.AddListener(MostrarSeleccionada);
-            button.onEnter.AddListener(uiPeca.Mostrar);
-            button.onExit.AddListener(uiPeca.Amagar);
+            button.OnEnter.AddListener(uiPeca.Mostrar);
+            button.OnExit.AddListener(uiPeca.Amagar);
 
             if(peces[i] == colocar.Seleccionada)
             {
