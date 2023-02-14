@@ -127,7 +127,7 @@ public class Fase_Resoldre : Fase
             if (guardar)
             {
                 capturarPantalla.Capturar();
-                save.NouArxiu();
+                save.NouArxiu(Mode.Pila);
             }
             else
             {
@@ -231,6 +231,11 @@ public class Fase_Resoldre : Fase
 
 
 
+    private void OnEnable()
+    {
+        nivell.EnGuanyarExperiencia += save.ActualitzarExperiencia;
+    }
+
 
     //GENERICS
     new void OnDisable()
@@ -238,6 +243,7 @@ public class Fase_Resoldre : Fase
         base.OnDisable();
 
         nivell.Reset();
+        nivell.EnGuanyarExperiencia -= save.ActualitzarExperiencia;
     }
 
 

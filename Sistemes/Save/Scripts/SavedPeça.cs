@@ -1,0 +1,91 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+public class SavedPeça
+{
+    public SavedPeça(Peça peça, Grups grups)
+    {
+        coordenada = peça.Coordenades;
+        estat = peça.Estat.name;
+        subestat = peça.Subestat.name;
+        producte = peça.Extraccio != null ? peça.Extraccio.Coordenades : -Vector2Int.one;
+        grup = grups.GrupByPeça(grups.Grup, peça);
+
+        if (peça.TeCasa)
+        {
+            necessitats = new SavedNecessitat[] { new SavedNecessitat(peça.Casa.Necessitats) };
+            //casa = new SavedCasa[] { new SavedCasa(peça.Casa.Necessitats) };
+        }
+
+
+        tiles = new SavedTile[]
+        {
+            peça.Tiles[0].Save,
+            peça.Tiles[1].Save,
+            peça.Tiles[2].Save,
+            peça.Tiles[3].Save,
+            peça.Tiles[4].Save,
+            peça.Tiles[5].Save
+        };
+    }
+
+    [SerializeField] string subestat;
+    [SerializeField] string estat;
+    [SerializeField] Vector2Int coordenada;
+    //[SerializeField] Estat esta;
+    //[SerializeField] Subestat subestat;
+
+    [SerializeField] Vector2Int producte;
+    [SerializeField] Grup grup;
+    //[SerializeField] SavedCasa[] casa;
+    [SerializeField] SavedNecessitat[] necessitats;
+    [SerializeField] SavedTile[] tiles;
+
+    public Vector2Int Coordenada => coordenada;
+
+    public Peça Load(Grid grid, Grups grups, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab)
+    {
+        //BASE
+        GameObject tmp = MonoBehaviour.Instantiate(grid.Prefab_Peça, grid.transform);
+        tmp.transform.localPosition = GridExtensions.GetWorldPosition(coordenada);
+
+        //PEÇA
+        Peça peça = tmp.GetComponent<Peça>();
+        peça.Setup(grid, coordenada, estatNomToPrefab.Invoke(estat), subestatNomToPrefab.Invoke(subestat));
+        peça.name = $"{peça.Estat.name}({peça.Coordenades})";
+
+        //CREAR TILES
+        peça.CrearTilesPotencials();
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            tiles[i].Load(peça);
+        }
+        peça.CrearTilesFisics();
+
+        //CREAR GRUP si cal
+        grups.CrearGrups_FromLoad(grup, peça);
+
+        //CASES
+        /*if (casa != null)
+        {
+            peça.CrearCasa(casa[0].Load(producteNomToPrefab));
+        }*/
+        //NECESSITATS
+        if(necessitats != null && necessitats.Length > 0)
+        {
+            peça.CrearCasa(new Casa(necessitats[0].Load(producteNomToPrefab)));
+        }
+
+        grid.Set(peça);
+
+        //VEINS
+        peça.AssignarVeinsTiles(peça.Tiles);
+
+        if (producte != -Vector2Int.one) peça.SetCoordenadesProducte = producte;
+        //peça.CrearDetalls();
+
+        return peça;
+    }
+}

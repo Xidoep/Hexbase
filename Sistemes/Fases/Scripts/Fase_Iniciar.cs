@@ -39,11 +39,11 @@ public class Fase_Iniciar : Fase
     {
         Grid.Instance.Resetejar();
 
-        save.NouArxiu();
-
         modes.Set(Mode.Pila);
         modes.ConfigurarModes();
-        
+
+        save.NouArxiu(modes.Mode);
+
         PosarPrimeraPeça();
     }
 

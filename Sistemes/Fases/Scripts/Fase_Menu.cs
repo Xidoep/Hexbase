@@ -143,7 +143,7 @@ public class Fase_Menu : Fase
 
     public void NovaPartida()
     {
-        save.NouArxiu();
+        save.NouArxiu(modes.Mode);
         iniciar.Iniciar();
     }
     public void Continuar() 

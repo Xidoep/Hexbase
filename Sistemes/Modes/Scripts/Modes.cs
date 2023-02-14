@@ -15,7 +15,11 @@ public class Modes : ScriptableObject
     GameObject menu;
 
     public Mode Mode => mode;
-    public void Set(Mode mode) => this.mode = mode;
+    public void Set(Mode mode) 
+    {
+        this.mode = mode;
+
+    } 
 
     public void ConfigurarModes()
     {

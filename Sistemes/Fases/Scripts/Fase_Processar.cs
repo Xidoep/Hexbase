@@ -78,6 +78,7 @@ public class Fase_Processar : Fase
 
     void Proximitat()
     {
+        Debug.LogError($"Colocar peça {peça.name}");
         peça.animacio.Play(peça.Parent);
         //animades = new List<Peça>() { peça };
         animades = new List<Peça>();
@@ -131,7 +132,7 @@ public class Fase_Processar : Fase
     void Produir()
     {
         Animar();
-        produccio.Process(FinalitzarProcessos);
+        produccio.Process(Guardar);
     }
 
 
@@ -154,6 +155,7 @@ public class Fase_Processar : Fase
 
             visualitzacions.CanviarEstat(canviades[c].Peça);
             //actualitzar.Play(canviades[c].Parent);
+            Debug.LogError($"Animar: {canviades[c].Peça}");
             animades.Add(canviades[c].Peça);
             visualitzacions.GuanyarExperienciaProximitat(canviades[c].Experiencia);
         }
@@ -167,18 +169,22 @@ public class Fase_Processar : Fase
 
                 visualitzacions.ReaccioVeina(canviades[c].Peça.VeinsPeça[v]);
                 //actualitzar.Play(canviades[c].VeinsPeça[v].Parent);
+                Debug.LogError($"Animar: {canviades[c].Peça}");
                 animades.Add(canviades[c].Peça.VeinsPeça[v]);
             }
         }
     }
 
-    void FinalitzarProcessos()
+    void Guardar()
     {
         //Això també hauria de ser un proces.
-
-
+        Debug.LogError($"Actualitzar {animades.Count}");
+        for (int i = 0; i < animades.Count; i++)
+        {
+            Debug.LogError($"Actualitzar {animades[i].Coordenades}");
+        }
         save.Add(peça, grups);
-        save.Actualitzar(animades, grups);
+        save.Actualitzar(perComprovar, grups);
 
 
 

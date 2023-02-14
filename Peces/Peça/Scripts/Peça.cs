@@ -201,10 +201,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         subestat.InformacioMostrar(this, true);
     }
 
-    public void CrearCasa(Producte producte)
-    {
-        cases = new Casa[] { new Casa(this, new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), }; 
-    }
+    public void CrearCasa(Producte producte) => cases = new Casa[] { new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), };
+    public void CrearCasa(Casa casa) => cases = new Casa[] { casa };
+
     void TreureCasa() => cases = new Casa[0];
 
     public void Ocupar(Peça productor) 

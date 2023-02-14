@@ -13,20 +13,19 @@ public class SaveHex : ScriptableObject
     [SerializeField] Estat[] estats;
     [Header("SUBESTATS")]
     [SerializeField] Subestat[] subestats;
-
-
-    //public List<SavedFile> Files => files;
-
+    [Header("PRODUCTES")]
+    [SerializeField] Producte[] productes;
 
     Estat eTrobat;
     Subestat sTrobat;
+    Producte pTrobat;
 
 
-
-    public void NouArxiu()
+    public void NouArxiu(Mode mode)
     {
         files.Add(new SavedFile());
         current = files.Count - 1;
+        files[current].SetMode(mode);
     }
     public void BorrarPartida()
     {
@@ -34,8 +33,7 @@ public class SaveHex : ScriptableObject
         if (files.Count == 0) files.Add(new SavedFile());
         current = Mathf.Clamp(current - 1, 0, files.Count - 1);
     }
-    //public int Current => current;
-    //public SavedFile CurrentSavedFile => files[current];
+
     public int Mode => files[current].Mode;
     public bool TePeces 
     {
@@ -48,15 +46,12 @@ public class SaveHex : ScriptableObject
         }
     }
     public bool TeCaptures => files[current].Captures != null && files[current].Captures.Count > 0;
-    //public List<SavedPeça> Peces => files[current].Peces;
 
     public void Add(Peça peça, Grups grups) => files[current].Add(peça, grups);
 
     public void Actualitzar(List<Peça> peçes, Grups grups) => files[current].Actualitzar(peçes, grups);
-
-    //public void Save(Grups grups) => files[current].Save(grups, FindObjectsOfType<Peça>());
-
-    public void Load(Grups grups, Fase seguent) => files[current].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab);
+    public void ActualitzarExperiencia(int experiencia, int nivell) => files[current].SetExperienciaNivell(experiencia, nivell);
+    public void Load(Grups grups, Fase seguent) => files[current].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab);
 
     public void Load(int index, Grups grups, Fase colocar)
     {
@@ -98,7 +93,10 @@ public class SaveHex : ScriptableObject
         }
         return trobat;
     }
-
+    public void AddToPila(Estat estat) => files[current].AddPila(estat);
+    public void RemoveLastFromPila() => files[current].RemoveLastPila();
+    public bool PilaPlena => files[current].PilaPlena;
+    public List<Estat> Pila => files[current].Pila(EstatNomToPrefab);
 
     Estat EstatNomToPrefab(string nom)
     {
@@ -126,299 +124,24 @@ public class SaveHex : ScriptableObject
         }
         return sTrobat;
     }
+    public Producte ProducteNomToPrefab(string nom)
+    {
+        pTrobat = null;
+        for (int i = 0; i < productes.Length; i++)
+        {
+            if (productes[i].name == nom)
+            {
+                pTrobat = productes[i];
+                break;
+            }
+        }
+        return pTrobat;
+    }
 
     private void OnValidate()
     {
-        //if (prefab_Ranura == null) prefab_Ranura = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Ranura.prefab");
-        //if (prefab_Peça == null) prefab_Peça = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Peça.prefab");
-
         estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
+        productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
     }
-}
-
-[System.Serializable]
-public class SavedFile
-{
-    [SerializeField] List<string> captures;
-    [SerializeField] int mode;
-    [SerializeField] List<SavedPeça> peçes;
-
-
-    //INTERN
-    int index;
-    Fase seguent;
-    Grups grups;
-    List<Peça> creades;
-    List<Vector2Int> veins;
-
-    public bool TePeces => peçes != null && peçes.Count > 0;
-    public List<SavedPeça> Peces => peçes;
-    public int Mode => mode;
-
-    public List<string> Captures { get => captures; }
-    public void AddCaptura(string path)
-    {
-        if (captures == null) captures = new List<string>();
-        captures.Add(path);
-    }
-    public void RemoveCaptura(string path)
-    {
-        captures.Remove(path);
-    }
-    public void Add(Peça peça, Grups grups)
-    {
-        if (peçes == null) peçes = new List<SavedPeça>();
-
-        peçes.Add(new SavedPeça(peça, grups));
-    }
-    public void Actualitzar(List<Peça> peçes, Grups grups)
-    {
-        for (int p = 1; p < peçes.Count; p++)
-        {
-            for (int tp = 0; tp < this.peçes.Count; tp++)
-            {
-                if (peçes[p].Coordenades == this.peçes[tp].Coordenada)
-                {
-                    this.peçes[tp] = new SavedPeça(peçes[p], grups);
-                    break;
-                }
-            }
-        }
-    }
-    public void Save(Grups grups, Peça[] peces)
-    {
-        peçes = new List<SavedPeça>();
-        for (int i = 0; i < peces.Length; i++)
-        {
-            peçes.Add(new SavedPeça(peces[i], grups));
-        }
-    }
-    public void Load(Grups grups, Fase seguent, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab)
-    {
-        if (this.grups == null) this.grups = grups;
-        this.seguent = seguent;
-
-        creades = new List<Peça>();
-
-        index = 0;
-        Step(estatNomToPrefab, subestatNomToPrefab);
-    }
-
-    void Step(System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab)
-    {
-        creades.Add(peçes[index].Load(Grid.Instance, grups, estatNomToPrefab, subestatNomToPrefab));
-        Grid.Instance.Dimensionar(creades[index]);
-        index++;
-
-        if (index >= peçes.Count)
-        {
-            LoadSteps();
-            return;
-        }
-
-        XS_Coroutine.StartCoroutine_Ending(0.5f, DoStep);
-
-        void DoStep() => Step(estatNomToPrefab, subestatNomToPrefab);
-    }
-
-    void LoadSteps()
-    {
-        //GET VEINS DE TILES
-        for (int i = 0; i < creades.Count; i++)
-        {
-            creades[i].AssignarVeinsTiles(creades[i].Tiles);
-        }
-
-        //CREAR RANURES
-        for (int i = 0; i < creades.Count; i++)
-        {
-            veins = Grid.Instance.VeinsCoordenades(creades[i].Coordenades);
-            for (int v = 0; v < veins.Count; v++)
-            {
-                Grid.Instance.CrearRanura(veins[v]);
-            }
-        }
-
-        //CASES / TREBALLADORS
-        for (int i = 0; i < creades.Count; i++)
-        {
-            /*for (int c = 0; c < creades[i].Cases.Count; c++)
-            {
-                creades[i].Cases[c].LoadLastStep(grid);
-            }*/
-        }
-
-        //DETALLS
-        for (int i = 0; i < creades.Count; i++)
-        {
-            for (int t = 0; t < creades[i].Tiles.Length; t++)
-            {
-                creades[i].Tiles[t].Detalls(creades[i].Subestat);
-            }
-        }
-
-        //EMPLENAR GRUPS
-        for (int i = 0; i < grups.Grup.Count; i++)
-        {
-            grups.Grup[i].TrobarVeins();
-        }
-
-        //PRODUCTES
-        for (int i = 0; i < creades.Count; i++)
-        {
-            creades[i].CoordenadesToProducte(Grid.Instance);
-        }
-
-        //DEBUG
-        for (int c = 0; c < creades.Count; c++)
-        {
-            for (int i = 0; i < creades[c].Tiles.Length; i++)
-            {
-                Debug.LogError($"Tile {i} = {creades[c].Tiles[i].Veins.Length} veins");
-            }
-        }
-
-        seguent.Iniciar();
-    }
-
-}
-
-[System.Serializable] public class SavedPeça
-{
-    public SavedPeça(Peça peça, Grups grups)
-    {
-        coordenada = peça.Coordenades;
-        estat = peça.Estat.name;
-        subestat = peça.Subestat.name;
-        producte = peça.Extraccio != null ? peça.Extraccio.Coordenades : -Vector2Int.one;
-        grup = grups.GrupByPeça(grups.Grup, peça);
-
-       /* if(peça.CasesCount != 0)
-        {
-            cases = new SavedCasa[peça.CasesCount];
-            for (int i = 0; i < peça.CasesCount; i++) { cases[i] = peça.Cases[i].Save; }
-        }*/
-
-
-        tiles = new SavedTile[]
-        {
-            peça.Tiles[0].Save,
-            peça.Tiles[1].Save,
-            peça.Tiles[2].Save,
-            peça.Tiles[3].Save,
-            peça.Tiles[4].Save,
-            peça.Tiles[5].Save
-        };
-    }
-
-    [SerializeField] string subestat;
-    [SerializeField] string estat;
-    [SerializeField] Vector2Int coordenada;
-    //[SerializeField] Estat esta;
-    //[SerializeField] Subestat subestat;
-
-    [SerializeField] Vector2Int producte;
-    [SerializeField] Grup grup;
-    [SerializeField] SavedCasa[] cases;
-    [SerializeField] SavedTile[] tiles;
-
-    public Vector2Int Coordenada => coordenada;
-
-    public Peça Load(Grid grid, Grups grups, System.Func<string,Estat> estatNomToPrefab, System.Func<string,Subestat> subestatNomToPrefab)
-    {
-        //BASE
-        GameObject tmp = MonoBehaviour.Instantiate(grid.Prefab_Peça, grid.transform);
-        tmp.transform.localPosition = GridExtensions.GetWorldPosition(coordenada);
-
-        //PEÇA
-        Peça peça = tmp.GetComponent<Peça>();
-        peça.Setup(grid, coordenada, estatNomToPrefab.Invoke(estat), subestatNomToPrefab.Invoke(subestat));
-        peça.name = $"{peça.Estat.name}({peça.Coordenades})";
-
-        //CREAR TILES
-        peça.CrearTilesPotencials();
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            tiles[i].Load(peça);
-        }
-        peça.CrearTilesFisics();
-
-        //CREAR GRUP si cal
-        grups.CrearGrups_FromLoad(grup, peça);
-
-        //CASES
-        if(cases != null)
-        {
-           /* for (int i = 0; i < cases.Length; i++)
-            {
-                peça.AddCasa(cases[i].Load());
-            }*/
-        }
-       
-
-        grid.Set(peça);
-
-        //VEINS
-        peça.AssignarVeinsTiles(peça.Tiles);
-
-        if(producte != -Vector2Int.one) peça.SetCoordenadesProducte = producte;
-        //peça.CrearDetalls();
-
-        return peça;
-    }
-
-    //ON LOAD
-    //Grup, Si no hi es l'index que es busca, es crea.
-    //Crear ranures despres de crear totes les peces.
-}
-
-
-
-[System.Serializable] public class SavedTile
-{
-    public SavedTile(Tile tile, int orientacio, int orientacioFisica)
-    {
-        this.tile = tile;
-        this.orientacio = orientacio;
-        this.orientacioFisica = orientacioFisica;
-    }
-
-    [SerializeField] Tile tile;
-    [SerializeField] int orientacio;
-    [SerializeField] int orientacioFisica;
-
-    public void Load(Peça peça)
-    {
-        peça.Tiles[orientacio] = new TilePotencial(peça, orientacio);
-        peça.Tiles[orientacio].Escollir(tile, orientacioFisica);
-        //peça.Tiles[orientacio].Assegurat = true;
-    }
-
-    //ON LOAD
-    //Instanciar detalls despres de crear-los tots.
-    //Aconseguir els veins(TilesPotencial) del tile despres de crear-los tots.
-}
-
-
-
-[System.Serializable] public class SavedCasa
-{
-
-    public SavedCasa(Casa.Necessitat[] necessitats, Vector2Int coordPeça)
-    {
-        this.necessitats = necessitats;
-        this.coordPeça = coordPeça;
-    }
-
-    [SerializeField] Casa.Necessitat[] necessitats;
-    [SerializeField] Vector2Int coordPeça;
-
-    public Casa Load()
-    {
-        return new Casa(coordPeça, necessitats);
-    }
-
-    //ON LOAD
-    //Buscar la peça i la feina despres de crear-les totes.
 }

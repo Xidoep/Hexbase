@@ -8,6 +8,7 @@ public class PoolPeces : ScriptableObject
 {
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Fase_Resoldre resoldre;
+    [SerializeField] SaveHex save;
 
     [SerializeField] List<Estat> peces;
     [Linia]
@@ -33,6 +34,8 @@ public class PoolPeces : ScriptableObject
 
         colocar.OnFinish += RemovePeça;
         resoldre.Nivell.EnPujarNivell += AddPecesPerNivell;
+        enAfegir += save.AddToPila;
+        enTreure += save.RemoveLastFromPila;
         
         peces = new List<Estat>();
 
@@ -41,16 +44,25 @@ public class PoolPeces : ScriptableObject
         iniciat = true;
 
         colocar.Seleccionar(peces[0]);
-
-
     }
 
     //(nivell / 2) * 10
     void AddPeces(int peces)
     {
-        for (int i = 0; i < peces; i++)
+        if (save.PilaPlena)
         {
-            AddPeça();
+            List<Estat> estats = save.Pila;
+            for (int i = 0; i < estats.Count; i++)
+            {
+                AddPeça(estats[i]);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < peces; i++)
+            {
+                AddPeça();
+            }
         }
     }
     public void AddPecesPerNivell(int nivell, int experiencia)
@@ -65,9 +77,13 @@ public class PoolPeces : ScriptableObject
     {
         //FALTA: Assegurar X cases?
         Estat seleccionat = disponibles[Random.Range(0, disponibles.Length)];
-        peces.Add(seleccionat);
-        enAfegir?.Invoke(seleccionat);
-        return seleccionat;
+        return AddPeça(seleccionat);
+    }
+    Estat AddPeça(Estat estat)
+    {
+        peces.Add(estat);
+        enAfegir?.Invoke(estat);
+        return estat;
     }
 
     public void RemovePeça()
@@ -81,12 +97,15 @@ public class PoolPeces : ScriptableObject
             colocar.Seleccionar(peces[0]);
 
         enTreure?.Invoke();
+
     }
 
     public void Reset()
     {
         colocar.OnFinish -= RemovePeça;
         resoldre.Nivell.EnPujarNivell -= AddPecesPerNivell;
+        enAfegir -= save.AddToPila;
+        enTreure -= save.RemoveLastFromPila;
     }
 
     private void OnDisable()

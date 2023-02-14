@@ -452,13 +452,34 @@ public class Grups : ScriptableObject
     #region LOAD
     public void CrearGrups_FromLoad(Grup nouGrup, Peça peça)
     {
-        if (!grups.Contains(nouGrup))
+        int sameId = -1;
+        for (int i = 0; i < grups.Count; i++)
+        {
+            if(grups[i].Id == nouGrup.Id)
+            {
+                sameId = i;
+                break;
+            }
+        }
+
+        if (sameId == -1)
         {
             nouGrup.Netejar();
             grups.Add(nouGrup);
+            grups[0].Load(peça);
+        }
+        else
+        {
+            grups[sameId].Load(peça);
         }
 
-        nouGrup.Load(peça);
+        /*if (!grups.Contains(nouGrup))
+        {
+            nouGrup.Netejar();
+            grups.Add(nouGrup);
+        }*/
+
+        //nouGrup.Load(peça);
     }
     public void CrearGrups_FromLoad(List<SavedPeça> peces)
     {
