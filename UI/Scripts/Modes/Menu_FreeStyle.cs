@@ -42,14 +42,15 @@ public class Menu_FreeStyle : MonoBehaviour
 
             XS_Button button = parent.GetComponent<XS_Button>();
             UI_Peca uiPeca = peça.GetComponent<UI_Peca>();
+
             button.onClick.AddListener(uiPeca.Seleccionar);
             button.onClick.AddListener(MostrarSeleccionada);
-            button.OnEnter.AddListener(uiPeca.Mostrar);
-            button.OnExit.AddListener(uiPeca.Amagar);
+            button.OnEnter.AddListener(uiPeca.Resaltar);
+            button.OnExit.AddListener(uiPeca.Desresaltar);
 
             if(peces[i] == colocar.Seleccionada)
             {
-                uiPeca.Mostrar();
+                uiPeca.Resaltar();
                 uiPeca.Seleccionar();
             }
 
@@ -64,13 +65,17 @@ public class Menu_FreeStyle : MonoBehaviour
     {
         for (int i = 0; i < creades.Count; i++)
         {
-            if (creades[i].Seleccionada)
+            if (creades[i].resaltat && !creades[i].Seleccionada)
             {
-                creades[i].Mostrar();
-                continue;
+                creades[i].Desresaltar();
             }
+            /*if (creades[i].Seleccionada)
+            {
+                creades[i].Resaltar();
+                continue;
+            }*/
 
-            creades[i].Amagar();
+            
         }
     }
 
@@ -80,11 +85,11 @@ public class Menu_FreeStyle : MonoBehaviour
         {
             if (creades[i].Seleccionada)
             {
-                creades[i].Mostrar();
+                creades[i].Resaltar();
                 continue;
             }
 
-            creades[i].Amagar();
+            creades[i].Desresaltar();
         }
     }
 

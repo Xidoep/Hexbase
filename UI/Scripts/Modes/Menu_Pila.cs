@@ -91,7 +91,7 @@ public class Menu_Pila : MonoBehaviour
     {
         if (creades.Count > 0)
         {
-            creades[0].Mostrar();
+            creades[0].Resaltar();
             creades[0].Seleccionar();
             visualitzacions.PrimeraPosicio(creades[0].transform);
         }

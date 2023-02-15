@@ -9,36 +9,48 @@ public class UI_Peca : MonoBehaviour
         this.estat = estat;
     }
 
-    [SerializeField] UI_Outline outline;
+    [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Estat estat;
     Transform[] childs;
+    public bool resaltat;
 
+    //Posar una var que posi RESALTADA.
+    //Quan vagi el MostrarSeleccioanda de Menu_FreeStyle,
+    //mirar totes les creades i només aplicar la animacio aa aquelles que estan Resaltades.
 
     public bool Seleccionada => estat == colocar.Seleccionada;
 
-
     public void Seleccionar() 
     {
+        Debug.Log("Seleccionar");
         colocar.Seleccionar(estat);
+        outline.PointerUp();
+        resaltat = true;
     }
 
-    public void Mostrar() 
+    public void Resaltar() 
     {
-        outline.gameObject.SetActive(true);
+        Debug.Log("Resaltar");
+        outline.PointerEnter();
+        resaltat = true;
+        
+        //outline.gameObject.SetActive(true);
     } 
-    public void Amagar()
+    public void Desresaltar()
     {
         if (Seleccionada)
             return;
 
-        outline.Amagar();
+        outline.PointerExit();
+        resaltat = false;
+        //outline.Amagar();
     }
     public void MostrarOAmagar(Estat seleccionat)
     {
         if(estat == seleccionat)
-            outline.gameObject.SetActive(true);
-        else outline.Amagar();
+            outline.PointerEnter();
+        else outline.PointerExit();
     }
 
     private void OnEnable()

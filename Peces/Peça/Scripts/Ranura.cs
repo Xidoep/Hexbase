@@ -8,18 +8,16 @@ using XS_Utils;
 public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     //VARIABLES
-    [Linia]
+   /* [Linia]
     [SerializeField] UnityEvent onEnter;
     [SerializeField] UnityEvent onExit;
-
+   */
     [Apartat("FASES/PROCESSOS")]
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Prediccio prediccio;
     
     [Apartat("OUTLINE")]
-    [SerializeField] GameObject outline;
-    [SerializeField] AnimacioPerCodi clickDown;
-    [SerializeField] AnimacioPerCodi clickUp;
+    //[SerializeField] GameObject outline;
     Coroutine compteEnrerra;
     System.Action accioCrear;
 
@@ -30,14 +28,14 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         set
         {
             seleccionada = value;
-            if (seleccionada)
+            /*if (seleccionada)
             {
                 clickDown.Play(transform);
             }
             else
             {
                 clickUp.Play(transform);
-            }
+            }*/
         }
     }
 
@@ -119,8 +117,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
     {
-        outline.SetActive(true);
-        onEnter?.Invoke();
+        //outline.SetActive(true);
+        //onEnter?.Invoke();
 
         prediccio.Predir(Coordenades);
     }
@@ -131,6 +129,6 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         Seleccionada = false;
         if (compteEnrerra != null) StopCoroutine(compteEnrerra);
 
-        onExit?.Invoke();
+        //onExit?.Invoke();
     }
 }
