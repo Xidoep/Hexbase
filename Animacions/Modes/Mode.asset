@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e338258b784a52c46b250e540248476b, type: 3}
+  m_Name: Mode
+  m_EditorClassIdentifier: 
+  onEnabled: {fileID: 7283994118186983483}
+  idle: {fileID: 0}
+  onPointerEnter: {fileID: 0}
+  loop: {fileID: 0}
+  onPointerDown: {fileID: 0}
+  onPointerUp: {fileID: 0}
+  onPointerExit: {fileID: 0}
+  onDestroyOrDisable: {fileID: 0}
+--- !u!114 &7283994118186983483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnEnabled
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 2.5
+  animacions:
+  - rid: 2210365110940336139
+  references:
+    version: 2
+    RefIds:
+    - rid: 2210365110940336139
+      type: {class: Animacio_RectPosicio, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Rect posicio
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 4.6552825
+            outSlope: 4.6552825
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.07870256
+          - serializedVersion: 3
+            time: 0.43967554
+            value: 1.0733099
+            inSlope: -0.11642157
+            outSlope: -0.11642157
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.31771863
+          - serializedVersion: 3
+            time: 0.64881724
+            value: 0.97663844
+            inSlope: -0.043044664
+            outSlope: -0.043044664
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.57791626
+          - serializedVersion: 3
+            time: 0.8499126
+            value: 1.0094258
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.44113
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.9999999
+            value: 1.0031937
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: -200}
+        final: {x: 0, y: 0}
+        dinamic: 0

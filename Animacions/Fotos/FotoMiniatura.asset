@@ -1,0 +1,454 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8818412320019783560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: Loop
+  m_EditorClassIdentifier: 
+  transicio: 1
+  temps: 1.5
+  animacions:
+  - rid: 2210365020816801795
+  references:
+    version: 2
+    RefIds:
+    - rid: 2210365020816801795
+      type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Rotacio
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.5
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 3}
+        final: {x: 0, y: 0, z: 7}
+        local: 0
+        dinamic: 0
+--- !u!114 &-6819565934117131839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnEnter
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.5
+  animacions:
+  - rid: 2210365020816801803
+  - rid: 2210365020816801804
+  - rid: 2210365024886849537
+  references:
+    version: 2
+    RefIds:
+    - rid: 2210365020816801803
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Escala
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 3.5183966
+            outSlope: 3.5183966
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.0869404
+          - serializedVersion: 3
+            time: 0.47084755
+            value: 1.2158623
+            inSlope: -0.11642157
+            outSlope: -0.11642157
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.31771863
+          - serializedVersion: 3
+            time: 0.8335086
+            value: 0.8778683
+            inSlope: -0.043044664
+            outSlope: -0.043044664
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.57791626
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.44113
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1, y: 1, z: 1}
+        final: {x: 1.1, y: 1.1, z: 1.1}
+        dinamic: 0
+        iniciDin: {x: 0, y: 0, z: 0}
+    - rid: 2210365020816801804
+      type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Rotacio
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 0}
+        final: {x: 0, y: 0, z: 7}
+        local: 1
+        dinamic: 0
+    - rid: 2210365024886849537
+      type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: So
+        so: {fileID: 11400000, guid: 50f36f7a3a835f441bb9c9f072726e22, type: 2}
+        aPosicio: 0
+        delay: 0
+--- !u!114 &-1890057176192814004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnClick
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.5
+  animacions:
+  - rid: 2210365020816801797
+  - rid: 2210365020816801798
+  - rid: 2210365024886849536
+  references:
+    version: 2
+    RefIds:
+    - rid: 2210365020816801797
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Escala
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 15.491738
+            outSlope: 15.491738
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.046466187
+          - serializedVersion: 3
+            time: 0.265746
+            value: 0.99117506
+            inSlope: -1.6743882
+            outSlope: -1.6743882
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.10895658
+          - serializedVersion: 3
+            time: 0.40116963
+            value: -0.064842634
+            inSlope: -3.3113532
+            outSlope: -3.3113532
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.70122546
+            value: 0.07071684
+            inSlope: 0.046647254
+            outSlope: 0.046647254
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.13683043
+            outWeight: 0.32133374
+          - serializedVersion: 3
+            time: 0.8885013
+            value: -0.038803436
+            inSlope: 0.09894982
+            outSlope: 0.09894982
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.3657598
+            outWeight: 0.57791626
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.44113
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1.1, y: 1.1, z: 1.1}
+        final: {x: 1.6, y: 1.6, z: 1.6}
+        dinamic: 0
+        iniciDin: {x: 0, y: 0, z: 0}
+    - rid: 2210365020816801798
+      type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Rotacio
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 8.026301
+            outSlope: 8.026301
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.10526061
+            value: 0.84485334
+            inSlope: 0.91406655
+            outSlope: 0.91406655
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.39294875
+            value: -0.9382862
+            inSlope: -1.0188863
+            outSlope: -1.0188863
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.7455965
+            value: 0.52886814
+            inSlope: 0.4280283
+            outSlope: 0.4280283
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.12843391
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -2.0788558
+            outSlope: -2.0788558
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 7}
+        final: {x: 0, y: 0, z: 12}
+        local: 0
+        dinamic: 0
+    - rid: 2210365024886849536
+      type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: So
+        so: {fileID: 11400000, guid: b62daf6c64bd0e2409c3481bb495b35e, type: 2}
+        aPosicio: 0
+        delay: 0
+--- !u!114 &-1323997722522260603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnExit
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.5
+  animacions:
+  - rid: 2210365020816801800
+  - rid: 2210365020816801801
+  references:
+    version: 2
+    RefIds:
+    - rid: 2210365020816801800
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Escala
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 3.4416497
+            outSlope: 3.4416497
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.08202197
+          - serializedVersion: 3
+            time: 0.6521553
+            value: 1.1738214
+            inSlope: -0.11642157
+            outSlope: -0.11642157
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.31771863
+          - serializedVersion: 3
+            time: 0.900159
+            value: 0.9741818
+            inSlope: -0.043044664
+            outSlope: -0.043044664
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.57791626
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.44113
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1.4989631, y: 1.4989631, z: 1.4989631}
+        final: {x: 1, y: 1, z: 1}
+        dinamic: 1
+        iniciDin: {x: 0, y: 0, z: 0}
+    - rid: 2210365020816801801
+      type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Rotacio
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: -3.4841187
+            outSlope: -3.4841187
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.03976608
+          - serializedVersion: 3
+            time: 0.59577894
+            value: -0.09052378
+            inSlope: -0.4778493
+            outSlope: -0.4778493
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -0.5652891
+            outSlope: -0.5652891
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.058479548
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 0}
+        final: {x: 0, y: 0, z: 7}
+        local: 1
+        dinamic: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3afa75ff91118ec44b227347a22e0387, type: 3}
+  m_Name: FotoMiniatura
+  m_EditorClassIdentifier: 
+  onClick: {fileID: -1890057176192814004}
+  onEnter: {fileID: -6819565934117131839}
+  onExit: {fileID: -1323997722522260603}
+  loop: {fileID: -8818412320019783560}

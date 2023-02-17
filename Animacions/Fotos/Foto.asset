@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2664969815017186516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnDestroyOrDisable
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 1
+  animacions:
+  - rid: 2210365088016629766
+  references:
+    version: 2
+    RefIds:
+    - rid: 2210365088016629766
+      type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: So
+        so: {fileID: 11400000, guid: 283edf0dd4e856a46976f8d51141c345, type: 2}
+        aPosicio: 0
+        delay: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e338258b784a52c46b250e540248476b, type: 3}
+  m_Name: Foto
+  m_EditorClassIdentifier: 
+  onEnabled: {fileID: 0}
+  idle: {fileID: 0}
+  onPointerEnter: {fileID: 0}
+  loop: {fileID: 0}
+  onPointerDown: {fileID: 0}
+  onPointerUp: {fileID: 0}
+  onPointerExit: {fileID: 0}
+  onDestroyOrDisable: {fileID: -2664969815017186516}

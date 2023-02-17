@@ -356,12 +356,11 @@ GameObject:
   - component: {fileID: 7738674032198877297}
   - component: {fileID: 3160442202715721053}
   - component: {fileID: 827055300472275455}
-  - component: {fileID: 4106242046827353029}
   - component: {fileID: 4279407678255733454}
   - component: {fileID: 7156917677545195693}
   - component: {fileID: 3795499086586680529}
   m_Layer: 5
-  m_Name: Nou
+  m_Name: Dialeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -427,33 +426,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.01
---- !u!114 &4106242046827353029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8135000960147228240}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5586e80c5457ed548bc6f202f707b879, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  esdeveniment:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 1a8f577e1e4a63f49be6a3ecd90ef2ee, type: 2}
-        m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
-        m_MethodName: Play
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 7738674032198877297}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &4279407678255733454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,6 +699,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3672558213031760717, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
+      propertyPath: m_text
+      value: SI
+      objectReference: {fileID: 0}
     - target: {fileID: 6967168444251023443, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -884,6 +860,10 @@ PrefabInstance:
     - target: {fileID: 2449033491305287081, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3672558213031760717, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
+      propertyPath: m_text
+      value: NO
       objectReference: {fileID: 0}
     - target: {fileID: 6967168444251023443, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

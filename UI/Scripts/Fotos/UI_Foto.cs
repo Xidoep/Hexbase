@@ -17,6 +17,7 @@ public class UI_Foto : MonoBehaviour
     }
 
     [SerializeField] GameObject fotoZoom;
+    [SerializeField] Image bora;
     [SerializeField] RawImage rawImage;
     [SerializeField] RectTransform rectTransform;
 
@@ -29,8 +30,8 @@ public class UI_Foto : MonoBehaviour
     System.Action<int> carregar;
     System.Action<string, int> borrar;
 
-    public void Habilitar() => rawImage.raycastTarget = true;
-    public void Deshabilitar() => rawImage.raycastTarget = true;
+    public void Habilitar() => bora.raycastTarget = true;
+    public void Deshabilitar() => bora.raycastTarget = true;
 
 
     public void Zoom()

@@ -62,7 +62,7 @@ public class Fase_Menu : Fase
     }
 
     //PUBLIQUES
-    void Sortir()
+    public void Sortir()
     {
         if (!save.TePeces)
             return;
@@ -175,6 +175,7 @@ public class Fase_Menu : Fase
             }
             else
             {
+                guardat.Set(Fase_Menu.SEGONA_PARTIDA, true, true);
                 sortir2.Instantiate();
             }
         }

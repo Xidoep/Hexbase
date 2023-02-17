@@ -196,6 +196,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  animacio: {fileID: 0}
   onEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -349,9 +350,9 @@ GameObject:
   - component: {fileID: 2004266687407645275}
   - component: {fileID: 2595396798660922852}
   - component: {fileID: 3764537067321518178}
-  - component: {fileID: 5610609289139273297}
   - component: {fileID: -7452876204873259805}
   - component: {fileID: 5839960156955569711}
+  - component: {fileID: 5610609289139273297}
   m_Layer: 5
   m_Name: Popup_CarregarPartida
   m_TagString: Untagged
@@ -442,19 +443,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5610609289139273297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4224293230431529238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6ef62cf95e42b441afdc9c35a434795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  temps: 0
 --- !u!114 &-7452876204873259805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +467,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4120388badd9e394086ff3a52714c550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5610609289139273297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4224293230431529238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ef62cf95e42b441afdc9c35a434795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temps: 0
 --- !u!1 &6276772455473853965
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,6 +906,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  animacio: {fileID: 0}
   onEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -1064,6 +1066,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+  animacio: {fileID: 0}
   onEnter:
     m_PersistentCalls:
       m_Calls: []
