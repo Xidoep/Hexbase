@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-544884138197052135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: Idle
+  m_EditorClassIdentifier: 
+  transicio: 1
+  temps: 2
+  animacions:
+  - rid: 2210365178526040066
+  references:
+    version: 2
+    RefIds:
+    - rid: 2210365178526040066
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Escala
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 6.8916435
+            outSlope: 6.8916435
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.031578947
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 6.8479576
+            outSlope: 6.8479576
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.042105258
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1, y: 1, z: 1}
+        final: {x: 1.02, y: 1.02, z: 1.02}
+        dinamic: 0
+        iniciDin: {x: 0, y: 0, z: 0}
 --- !u!114 &-385696599569631576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,6 +102,7 @@ MonoBehaviour:
         inici: {x: 1, y: 1, z: 1}
         final: {x: 0, y: 0, z: 0}
         dinamic: 0
+        iniciDin: {x: 0, y: 0, z: 0}
     - rid: 2210365066426974224
       type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
       data:
@@ -71,7 +123,7 @@ MonoBehaviour:
   m_Name: PopupDialeg
   m_EditorClassIdentifier: 
   onEnabled: {fileID: 7283994118186983483}
-  idle: {fileID: 0}
+  idle: {fileID: -544884138197052135}
   onPointerEnter: {fileID: 0}
   loop: {fileID: 0}
   onPointerDown: {fileID: 0}
@@ -108,15 +160,15 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 1.528401
-            outSlope: 1.528401
+            inSlope: 1.6353288
+            outSlope: 1.6353288
             tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.712974
-            value: 1.0897102
+            time: 0.66268164
+            value: 1.0837023
             inSlope: -0.11642157
             outSlope: -0.11642157
             tangentMode: 0
@@ -124,8 +176,8 @@ MonoBehaviour:
             inWeight: 0.33333334
             outWeight: 0.31771863
           - serializedVersion: 3
-            time: 0.900159
-            value: 0.9741818
+            time: 0.8498666
+            value: 0.9561575
             inSlope: -0.043044664
             outSlope: -0.043044664
             tangentMode: 0
@@ -135,11 +187,11 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 1
             value: 1
-            inSlope: 0
-            outSlope: 0
+            inSlope: 0.90708154
+            outSlope: 0.90708154
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0.44113
+            inWeight: 0.51518583
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
@@ -147,6 +199,7 @@ MonoBehaviour:
         inici: {x: 0, y: 0, z: 0}
         final: {x: 1, y: 1, z: 1}
         dinamic: 0
+        iniciDin: {x: 0, y: 0, z: 0}
     - rid: 2210365066426974225
       type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
       data:
