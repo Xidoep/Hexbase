@@ -45,8 +45,8 @@ public class Menu_FreeStyle : MonoBehaviour
 
             button.onClick.AddListener(uiPeca.Seleccionar);
             button.onClick.AddListener(MostrarSeleccionada);
-            button.OnEnter.AddListener(uiPeca.Resaltar);
-            button.OnExit.AddListener(uiPeca.Desresaltar);
+            button.OnEnter += uiPeca.Resaltar;
+            button.OnExit += uiPeca.Desresaltar;
 
             if(peces[i] == colocar.Seleccionada)
             {
