@@ -69,7 +69,7 @@ public class UI_Fotos : MonoBehaviour
             fotos[i] = Instantiate(foto, parent).GetComponent<UI_Foto>();
             int indexPartida = save.ExisteixCaptura(captures[i].path);
 
-            fotos[i].Setup(
+            fotos[i].Setup2(
                captures[i],
                indexPartida,
                Load,

@@ -15,6 +15,19 @@ public class UI_Foto : MonoBehaviour
         rawImage.texture = captura.texture;
         rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captura.texture.texelSize.x / captura.texture.texelSize.y));
     }
+    public void Setup2(CapturarPantalla.Captura captura, int indexPartida, System.Action<int> carregar, System.Action<string, int> borrar)
+    {
+        //this.textura = captura.texture;
+        //this.path = captura.path;
+        this.captura = captura;
+        this.indexPartida = indexPartida;
+        this.carregar = carregar;
+        this.borrar = borrar;
+
+        rawImage.texture = captura.texture;
+        rectTransform.localScale = new Vector3(1, captura.texture.texelSize.x / captura.texture.texelSize.y, 1);
+        rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captura.texture.texelSize.x / captura.texture.texelSize.y));
+    }
 
     [SerializeField] GameObject fotoZoom;
     [SerializeField] Image bora;

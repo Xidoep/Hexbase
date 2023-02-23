@@ -17,6 +17,7 @@ public class UI_FotoZoom : MonoBehaviour
         this.borrar = borrar;
     }
 
+
     [SerializeField] RectTransform rect;
     [SerializeField] RawImage image;
     [SerializeField] GameObject botoCarregar;
