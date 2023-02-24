@@ -133,13 +133,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8136307399255046241}
+        m_TargetAssemblyTypeName: UI_SeleccionarDesseleccionar, XS.UI
+        m_MethodName: Recuperar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   animacio: {fileID: 11400000, guid: 2a5c255a53d1de247915709d45ae0b2f, type: 2}
-  onEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4018895062025462953
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,13 +423,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 69f380612ee19ed43b89166a1ab5c464, type: 2}
+        m_TargetAssemblyTypeName: UI_Menu, XS.UI
+        m_MethodName: Resume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   animacio: {fileID: 11400000, guid: ea7edb77587b4154185a8c33ae1633e7, type: 2}
-  onEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8389974908420918347
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,7 +475,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -1201.09}
   m_SizeDelta: {x: 800, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8389974908420918358
@@ -517,9 +529,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   component: {fileID: 8389974908420918344}
-  onClick: 0
   animacio: {fileID: 11400000, guid: ab76c535f668b384eac74f2a45d519e5, type: 2}
+  interactuable: 0
+  onClick: 0
   pare: {fileID: 425570556488484147}
+  boto: {fileID: 0}
 --- !u!1 &8389974908988905102
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +549,9 @@ GameObject:
   - component: {fileID: 5556625949799703143}
   - component: {fileID: 3416374499548495887}
   - component: {fileID: 425570556488484147}
+  - component: {fileID: 8136307399255046241}
+  - component: {fileID: 6423049534233190523}
+  - component: {fileID: 5695743560895399002}
   m_Layer: 5
   m_Name: Foto_Gran
   m_TagString: Untagged
@@ -652,8 +669,49 @@ MonoBehaviour:
   rect: {fileID: 8389974908420918344}
   image: {fileID: 8012850051993853903}
   botoCarregar: {fileID: 6609240460928420493}
+  popup_Carregar: {fileID: 7624413259430149597, guid: 222918d6ff0affb46987d9941f86ca9e, type: 3}
+  popup_Borrar: {fileID: 7624413259430149597, guid: 3b0bb59fe8419754a91b08ca3247766b, type: 3}
   popupCarregar: {fileID: 5459206818338746408, guid: 222918d6ff0affb46987d9941f86ca9e, type: 3}
   popupBorrar: {fileID: 5459206818338746408, guid: 3b0bb59fe8419754a91b08ca3247766b, type: 3}
+  enAmagar:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 425570556488484147}
+        m_TargetAssemblyTypeName: AnimacioPerCodi_GameObject_Referencia, AnimacioPerCodi
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8423159234111640940}
+        m_TargetAssemblyTypeName: XS_Button, XS.UI_Extensionsss
+        m_MethodName: Interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8136307399255046241}
+        m_TargetAssemblyTypeName: UI_SeleccionarDesseleccionar, XS.UI
+        m_MethodName: Recuperar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &425570556488484147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,9 +725,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   component: {fileID: 8389974908988905103}
-  onClick: 1
   animacio: {fileID: 11400000, guid: 5c915ab3858ea9949b0481506f11c5a2, type: 2}
+  interactuable: 0
+  onClick: 1
   pare: {fileID: 0}
+  boto: {fileID: 0}
+--- !u!114 &8136307399255046241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8389974908988905102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce80770b228923548995110cef55840f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6423049534233190523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8389974908988905102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ef62cf95e42b441afdc9c35a434795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temps: 0
+--- !u!114 &5695743560895399002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8389974908988905102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4864b9375f238ca4c9abc06809e8e7cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escoltadors:
+  - {fileID: 6588833117958143675, guid: f052fa43ec0c567418585bca48df59f5, type: 3}
+  OnInteractuar:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3416374499548495887}
+        m_TargetAssemblyTypeName: UI_FotoZoom, Hexbase
+        m_MethodName: Amagar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  multipleInteractions: 0
+  delayRegistration: 0
 --- !u!1001 &1731908287868921716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -771,47 +887,39 @@ PrefabInstance:
       objectReference: {fileID: 425570556488484147}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 425570556488484147}
+      objectReference: {fileID: 3416374499548495887}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 8423159234111640940}
+      objectReference: {fileID: 6423049534233190523}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Destroy
+      value: Amagar
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Interactable
+      value: Destruir
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AnimacioPerCodi_GameObject_Referencia, AnimacioPerCodi
+      value: UI_FotoZoom, Hexbase
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: XS_Button, XS.UI_Extensionsss
-      objectReference: {fileID: 0}
-    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: Utils_Destruir, XS.Utils
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName

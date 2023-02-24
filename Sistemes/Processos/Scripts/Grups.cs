@@ -67,7 +67,6 @@ public class Grups : ScriptableObject
             if (peça.EstatIgualA(veinsPeça[v].Estat)) veinsIguals.Add(veinsPeça[v]);
             grupsVeinsPeça.Add(GrupByPeça(grups, veinsPeça[v]));
         }
-        //Debugar.LogError($"Connectar {grupsVeinsPeça.Count} veins iguals");
 
         //INTENTAR AGRUPAR O CREAR GRUP NOU
         if (veinsIguals.Count > 0)
@@ -196,12 +195,16 @@ public class Grups : ScriptableObject
         void AfegirAGrup(Peça peça, Grup grup)
         {
             if (!grup.Peces.Contains(peça))
+            {
                 grup.Peces.Add(peça);
+                grup.Coordenades.Add(peça.Coordenades);
+            }
 
         }
         int AjuntarGrups(Grup desti, Grup seleccionat)
         {
             desti.Peces.AddRange(seleccionat.Peces);
+            desti.Coordenades.AddRange(seleccionat.Coordenades);
             grups.Remove(seleccionat);
 
             return grups.IndexOf(desti);
@@ -560,7 +563,11 @@ public class Grup : System.Object
         var random = new System.Random(seed);
         return new string(Enumerable.Repeat(chars,length).Select(s => s[random.Next(s.Length)]).ToArray());
     }
+
+    //>>> CREAR GRUP FROM LOAD
     public Grup() { }
+
+    //>>> CREAR NOU GRUP
     public Grup(Estat estat, List<Peça> peces, Estat casa, int index)
     {
         id = estat.name + "_" + RandomString(index, 20);
@@ -570,6 +577,7 @@ public class Grup : System.Object
         if (this.poble)
             connexionsId = new List<string>() { id };
     }
+    //>>> CREAR COPIA DE GRUP
     public Grup(Grup copia)
     {
         id = copia.id;
@@ -626,6 +634,7 @@ public class Grup : System.Object
     [SerializeField] string id;
     [SerializeField] bool poble;
     [SerializeField] List<Peça> peces;
+    [SerializeField] List<Vector2Int> coordenades;
     [SerializeField] List<Peça> pecesVeines;
     public List<string> connexionsId;
 
@@ -637,6 +646,7 @@ public class Grup : System.Object
 
     public string Id => id;
     public List<Peça> Peces => peces;
+    public List<Vector2Int> Coordenades => coordenades;
     public bool EsPoble => poble;
     public List<Peça> Veins => pecesVeines;
 
@@ -671,6 +681,7 @@ public class Grup : System.Object
     public void Netejar()
     {
         peces = new List<Peça>();
+        coordenades = new List<Vector2Int>();
         pecesVeines = new List<Peça>();
         cases = new List<Peça>();
         camins = new List<Peça>();
@@ -679,7 +690,11 @@ public class Grup : System.Object
     public void Load(Peça peça)
     {
         if (peces == null) peces = new List<Peça>();
-        if(!peces.Contains(peça)) peces.Add(peça);
+
+        if (!peces.Contains(peça)) 
+        {
+            peces.Add(peça);
+        }
     }
 
 }

@@ -76,7 +76,7 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        inici: {x: 1600, y: 0}
+        inici: {x: 0, y: -1200}
         final: {x: 0, y: 0}
         dinamic: 0
     - rid: 2210365110940336134
@@ -128,7 +128,6 @@ MonoBehaviour:
         inici: {x: 1.19, y: 0.5, z: 0.5}
         final: {x: 1, y: 1, z: 1}
         dinamic: 0
-        iniciDin: {x: 0, y: 0, z: 0}
     - rid: 2210365110940336135
       type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
       data:
@@ -220,7 +219,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         inici: {x: 0, y: 0}
-        final: {x: 1600, y: 0}
+        final: {x: 0, y: 1200}
         dinamic: 0
     - rid: 2210365110940336137
       type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
@@ -253,7 +252,6 @@ MonoBehaviour:
         inici: {x: 1, y: 1, z: 1}
         final: {x: 1.24, y: 0.5, z: 0.5}
         dinamic: 0
-        iniciDin: {x: 0, y: 0, z: 0}
     - rid: 2210365110940336138
       type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
       data:
@@ -301,7 +299,7 @@ MonoBehaviour:
   onEnabled: {fileID: -4274463202205807446}
   idle: {fileID: 0}
   onPointerEnter: {fileID: 0}
-  loop: {fileID: 0}
+  apuntat: {fileID: 0}
   onPointerDown: {fileID: 0}
   onPointerUp: {fileID: 0}
   onPointerExit: {fileID: 0}

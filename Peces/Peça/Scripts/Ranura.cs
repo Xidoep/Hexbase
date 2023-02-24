@@ -19,7 +19,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     [Apartat("OUTLINE")]
     //[SerializeField] GameObject outline;
     Coroutine compteEnrerra;
-    System.Action accioCrear;
+    //System.Action accioCrear;
 
     [SerializeField] bool seleccionada;
 
@@ -45,7 +45,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     private void OnEnable()
     {
-        accioCrear = Crear;
+        //accioCrear = Crear;
         
         transform.localEulerAngles = new Vector3(0, Random.Range(-5, 5), 0);
         transform.localScale = new Vector3(Random.Range(1.1f, 0.9f), 1, Random.Range(1.1f, 0.9f));
@@ -53,7 +53,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
 
 
-    void Crear()
+    public void Crear()
     {
         if (Fase_Colocar.Bloquejat)
         {
@@ -62,32 +62,15 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         }
 
         if (!Fase_Colocar.PermesColoarPeça)
-            return;
-
-        /*if (autobloquejar)
-            return;
-
-        autobloquejar = true;
-        */
-        //CrearPeça();
+            return;;
 
         colocar.CrearPeça(Coordenades);
-        //crearPeça.Invoke(Coordenades);
-        //animacioPerCodi.Play();
-        animacio.Play(transform);
-        Destroy(this.gameObject);
+
+        //Destroy(this.gameObject);
 
         Debugar.Log("Destruir...");
     }
 
-    public void CrearPeça() 
-    {
-        colocar.CrearPeça(Coordenades);
-        //crearPeça.Invoke(Coordenades);
-        //animacioPerCodi.Play();
-        animacio.Play(transform);
-        Destroy(this.gameObject);
-    }
 
     IEnumerator Deseleccionar()
     {
@@ -112,7 +95,8 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         if (!seleccionada)
             return;
 
-        accioCrear?.Invoke();
+        Crear();
+        //accioCrear?.Invoke();
     } 
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 

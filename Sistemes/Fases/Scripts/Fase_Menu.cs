@@ -25,7 +25,7 @@ public class Fase_Menu : Fase
     [SerializeField] Utils_InstantiableFromProject sortir1;
     [SerializeField] Utils_InstantiableFromProject sortir2;
     [SerializeField] Utils_InstantiableFromProject fadeOut;
-    [SerializeField] UI_Menu ui;
+    //[SerializeField] UI_Menu ui;
 
     [Apartat("BOTONS")]
     [SerializeField] GameObject novaPartida;
@@ -65,11 +65,12 @@ public class Fase_Menu : Fase
     //PUBLIQUES
     public void Sortir()
     {
+        Debugar.Log("SORTIR?");
         if (!save.TePeces)
             return;
 
-        ui.Resume();
-
+        //ui.Resume();
+        Debugar.Log("SORTIR??");
         if (!save.TeCaptures)
         {
             capturarPantalla.Capturar();
@@ -84,6 +85,7 @@ public class Fase_Menu : Fase
 
         IEnumerator SortirTemps(float temps)
         {
+            Debugar.Log("SORTIR???");
             yield return new WaitForSecondsRealtime(temps);
             Debugar.Log("SORTIR");
             Application.Quit();

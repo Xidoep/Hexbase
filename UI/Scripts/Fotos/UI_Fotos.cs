@@ -15,9 +15,12 @@ public class UI_Fotos : MonoBehaviour
     [SerializeField] Modes modes;
     [Linia]
     [SerializeField] GameObject foto;
+    [SerializeField] GameObject fotoZoom;
     [SerializeField] Transform parent;
+    [SerializeField] Input_EsdevenimentPerBinding esdevenimentPerBinding;
 
-    //RawImage[] fotos = new RawImage[0];
+    public static GameObject fotoZoomed;
+
     UI_Foto[] fotos = new UI_Foto[0];
     CapturarPantalla.Captura[] captures;
 
@@ -44,36 +47,18 @@ public class UI_Fotos : MonoBehaviour
         }
 
         captures = capturarPantalla.CapturesGuardades();
-        //Texture2D[] captures = capturarPantalla.CapturesGuardades();
-        //fotos = new RawImage[captures.Length];
         fotos = new UI_Foto[captures.Length];
 
         for (int i = 0; i < captures.Length; i++)
         {
-            /*GameObject tmp = Instantiate(foto, parent);
-
-            fotos[i] = tmp.GetComponentInChildren<RawImage>();
-            fotos[i].texture = captures[i].texture;
-
-            RectTransform rectTransform = tmp.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captures[i].texture.texelSize.x / captures[i].texture.texelSize.y));
-
-            tmp.GetComponent<UI_Foto>().Setup(
-                captures[i],
-                indexPartida,
-                Load,
-                EliminarCaptura
-                );
-            */
-
             fotos[i] = Instantiate(foto, parent).GetComponent<UI_Foto>();
             int indexPartida = save.ExisteixCaptura(captures[i].path);
 
             fotos[i].Setup2(
+               this,
                captures[i],
                indexPartida,
-               Load,
-               EliminarCaptura
+               i == 0
                );
         }
     }
@@ -81,11 +66,23 @@ public class UI_Fotos : MonoBehaviour
 
     void ActualitzarFotos(string path) => ActualitzarFotos();
 
+
+
+    public void ZoomIn(UI_Foto foto, CapturarPantalla.Captura captura, int indexPartida)
+    {
+        fotoZoomed = Instantiate(fotoZoom);
+        fotoZoomed.GetComponent<UI_FotoZoom>().Setup(foto, captura.texture, captura.path, indexPartida, ZoomOut, Load, EliminarCaptura);
+        esdevenimentPerBinding.enabled = false;
+    }
+    public void ZoomOut()
+    {
+        esdevenimentPerBinding.enabled = true;
+    }
+
     public void Load(int index)
     {
         Debugar.Log("Load");
         Grid.Instance.Resetejar();
-        //save.Load(index, grups, faseEnCarregar);
         StartCoroutine(LoadFile(index));
     }
     IEnumerator LoadFile(int index)
@@ -114,5 +111,10 @@ public class UI_Fotos : MonoBehaviour
         {
             fotos[i].Deshabilitar();
         }
+    }
+
+    private void OnValidate()
+    {
+        esdevenimentPerBinding = GetComponent<Input_EsdevenimentPerBinding>();
     }
 }

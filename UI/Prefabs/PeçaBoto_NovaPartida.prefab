@@ -90,10 +90,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7212ac3ee04da8c42832ecee15826df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 5919137175624590404}
+  component: {fileID: 1973165481425570980}
+  animacio: {fileID: 11400000, guid: 9d5ce50d7345aa547bdc6332f7329454, type: 2}
+  interactuable: 1
   onClick: 1
-  animacio: {fileID: 0}
   pare: {fileID: 0}
+  boto: {fileID: 0}
 --- !u!1 &7198892112095210570
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +105,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1973165481425570980}
-  - component: {fileID: 1051219699826826060}
   m_Layer: 0
   m_Name: Parent
   m_TagString: Untagged
@@ -128,22 +129,6 @@ Transform:
   m_Father: {fileID: 5919137175624590404}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1051219699826826060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7198892112095210570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7212ac3ee04da8c42832ecee15826df8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  component: {fileID: 1973165481425570980}
-  onClick: 0
-  animacio: {fileID: 11400000, guid: 9d5ce50d7345aa547bdc6332f7329454, type: 2}
-  pare: {fileID: 2820747690159962595}
 --- !u!1001 &1295244033332904009
 PrefabInstance:
   m_ObjectHideFlags: 0

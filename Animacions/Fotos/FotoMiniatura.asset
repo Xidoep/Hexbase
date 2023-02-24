@@ -130,7 +130,6 @@ MonoBehaviour:
         inici: {x: 1, y: 1, z: 1}
         final: {x: 1.1, y: 1.1, z: 1.1}
         dinamic: 0
-        iniciDin: {x: 0, y: 0, z: 0}
     - rid: 2210365020816801804
       type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
       data:
@@ -258,7 +257,6 @@ MonoBehaviour:
         inici: {x: 1.1, y: 1.1, z: 1.1}
         final: {x: 1.6, y: 1.6, z: 1.6}
         dinamic: 0
-        iniciDin: {x: 0, y: 0, z: 0}
     - rid: 2210365020816801798
       type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
       data:
@@ -394,7 +392,6 @@ MonoBehaviour:
         inici: {x: 1.4989631, y: 1.4989631, z: 1.4989631}
         final: {x: 1, y: 1, z: 1}
         dinamic: 1
-        iniciDin: {x: 0, y: 0, z: 0}
     - rid: 2210365020816801801
       type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
       data:
@@ -404,36 +401,27 @@ MonoBehaviour:
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 1
-            inSlope: -3.4841187
-            outSlope: -3.4841187
+            value: 0
+            inSlope: 2
+            outSlope: 2
             tangentMode: 0
             weightedMode: 0
             inWeight: 0
-            outWeight: 0.03976608
-          - serializedVersion: 3
-            time: 0.59577894
-            value: -0.09052378
-            inSlope: -0.4778493
-            outSlope: -0.4778493
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.33333334
+            outWeight: 0
           - serializedVersion: 3
             time: 1
-            value: 0
-            inSlope: -0.5652891
-            outSlope: -0.5652891
+            value: 1
+            inSlope: 0
+            outSlope: 0
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0.058479548
+            inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        inici: {x: 0, y: 0, z: 0}
-        final: {x: 0, y: 0, z: 7}
+        inici: {x: -0, y: -0, z: 5.8558807}
+        final: {x: 0, y: 0, z: 0}
         local: 1
         dinamic: 1
 --- !u!114 &11400000

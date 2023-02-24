@@ -50,7 +50,7 @@ public class Tester : ScriptableObject
         }*/
 
         colocar.Seleccionar(peces[Random.Range(0, peces.Length)]);
-        seleccionat.CrearPeça();
+        seleccionat.Crear();
         //Destroy(seleccionat.gameObject, 0.05f);
         //WaveFunctionColapse.EnFinalitzar = StepDelayed;
     }

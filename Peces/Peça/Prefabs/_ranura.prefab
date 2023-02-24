@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2263106621455859969}
   - component: {fileID: 5037952505282740293}
   - component: {fileID: 3375911988702989792}
+  - component: {fileID: 2805418709985777494}
   m_Layer: 0
   m_Name: _ranura
   m_TagString: Untagged
@@ -49,42 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 2988960620066454344}
-  animacio: {fileID: 11400000, guid: 340d000056749654bb7c40c02c41760f, type: 2}
-  onEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7979810295238096608}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: 
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 0
-  onExit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: e9528deefa609994ca1fb847dee03046, type: 2}
-        m_TargetAssemblyTypeName: Animacio_Scriptable, AnimacioPerCodi
-        m_MethodName: Play
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 9068044434420302234}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.MeshRenderer, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 0
   colocar: {fileID: 11400000, guid: 654453b3a7c2ac04ca426e406df64e16, type: 2}
   prediccio: {fileID: 11400000, guid: b4778c1287db8ee41851273dabd5b166, type: 2}
-  outline: {fileID: 7979810295238096608}
-  clickDown: {fileID: 0}
-  clickUp: {fileID: 0}
   seleccionada: 0
 --- !u!114 &5037952505282740293
 MonoBehaviour:
@@ -127,6 +94,24 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4575734979276873811, guid: 05d249f5ce17f46449f1240f27d65335, type: 3}
+--- !u!114 &2805418709985777494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5919137175624590415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7212ac3ee04da8c42832ecee15826df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  component: {fileID: 5919137175624590404}
+  animacio: {fileID: 11400000, guid: 7f8bc303baeb97e4a9d3aa3a1f4e453f, type: 2}
+  interactuable: 1
+  onClick: 1
+  pare: {fileID: 0}
+  boto: {fileID: 0}
 --- !u!1 &8092982827868079178
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,15 +322,5 @@ PrefabInstance:
 --- !u!4 &722143801152173823 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2934839685651717170, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
-  m_PrefabInstance: {fileID: 2503777998945233613}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7979810295238096608 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5477168779303214125, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
-  m_PrefabInstance: {fileID: 2503777998945233613}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &9068044434420302234 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6874496948595141463, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
   m_PrefabInstance: {fileID: 2503777998945233613}
   m_PrefabAsset: {fileID: 0}

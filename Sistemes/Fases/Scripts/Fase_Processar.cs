@@ -79,7 +79,8 @@ public class Fase_Processar : Fase
     void Proximitat()
     {
         Debug.LogError($"Colocar peça {peça.name}");
-        peça.animacio.Play(peça.Parent);
+        visualitzacions.Colocar(peça);
+        //peça.animacio.Play(peça.Parent);
         //animades = new List<Peça>() { peça };
         animades = new List<Peça>();
 

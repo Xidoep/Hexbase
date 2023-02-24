@@ -60,6 +60,13 @@ public class Fase_Resoldre : Fase
         }
     }
 
+
+    public void TornarAMenuPrincipal() 
+    {
+        prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(PopupTornar);
+    } 
+
+
     void ResoldrePila()
     {
         if (!nivell.PujarDeNivell)
@@ -81,61 +88,57 @@ public class Fase_Resoldre : Fase
             //Agregar needs
             //Desbloquejar peces
         }
-
-
-
-
-        void OpcionsFinalPartida(int opcio)
-        {
-            switch (opcio)
-            {
-                case 0: //TORNAR
-                    prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(PopupTornar);
-                    break;
-                case 1: //REPETIR
-                    prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(PopupRepetir);
-                    break;
-                case 2: //CONTINUAR
-                    enContinuar?.Invoke();
-                    modes.Set(Mode.FreeStyle);
-                    iniciar.Iniciar();
-                    break;
-            }
-        }
-        void PopupTornar(bool guardar)
-        {
-            enTornar?.Invoke();
-            GuardarSiCal(guardar);
-            XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 3 : 0.1f, menu));
-            
-        }
-        void PopupRepetir(bool guardar)
-        {
-            enRepetir?.Invoke();
-            GuardarSiCal(guardar);
-            XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 3 : 0.1f, iniciar));
-        }
-        IEnumerator CanviarMenu(float temps, Fase fase)
-        {
-            yield return new WaitForSeconds(temps);
-            Grid.Instance.Resetejar();
-            Nivell.Reset();
-            fase.Iniciar();
-        }
-        void GuardarSiCal(bool guardar)
-        {
-            if (guardar)
-            {
-                capturarPantalla.Capturar();
-                save.NouArxiu(Mode.Pila);
-            }
-            else
-            {
-                save.BorrarPartida();
-            }
-        }
     }
 
+    void OpcionsFinalPartida(int opcio)
+    {
+        switch (opcio)
+        {
+            case 0: //TORNAR
+                prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(PopupTornar);
+                break;
+            case 1: //REPETIR
+                prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(PopupRepetir);
+                break;
+            case 2: //CONTINUAR
+                enContinuar?.Invoke();
+                modes.Set(Mode.FreeStyle);
+                iniciar.Iniciar();
+                break;
+        }
+    }
+    void PopupTornar(bool guardar)
+    {
+        enTornar?.Invoke();
+        GuardarSiCal(guardar);
+        XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 3 : 0.1f, menu));
+
+    }
+    void PopupRepetir(bool guardar)
+    {
+        enRepetir?.Invoke();
+        GuardarSiCal(guardar);
+        XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 3 : 0.1f, iniciar));
+    }
+    IEnumerator CanviarMenu(float temps, Fase fase)
+    {
+        yield return new WaitForSeconds(temps);
+        Grid.Instance.Resetejar();
+        Nivell.Reset();
+        fase.Iniciar();
+    }
+    void GuardarSiCal(bool guardar)
+    {
+        if (guardar)
+        {
+            capturarPantalla.Capturar();
+            save.NouArxiu(Mode.Pila);
+        }
+        else
+        {
+            save.BorrarPartida();
+        }
+    }
 
 
 

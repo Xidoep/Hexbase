@@ -16,6 +16,7 @@ MonoBehaviour:
   temps: 1
   animacions:
   - rid: 2210365088016629766
+  - rid: 2210365269963964424
   references:
     version: 2
     RefIds:
@@ -26,6 +27,11 @@ MonoBehaviour:
         so: {fileID: 11400000, guid: 283edf0dd4e856a46976f8d51141c345, type: 2}
         aPosicio: 0
         delay: 0
+    - rid: 2210365269963964424
+      type: {class: Animacio_EsdevenimentGeneric, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Esdeveniment Generic
+        esdeveniment: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41,7 +47,7 @@ MonoBehaviour:
   onEnabled: {fileID: 0}
   idle: {fileID: 0}
   onPointerEnter: {fileID: 0}
-  loop: {fileID: 0}
+  apuntat: {fileID: 0}
   onPointerDown: {fileID: 0}
   onPointerUp: {fileID: 0}
   onPointerExit: {fileID: 0}

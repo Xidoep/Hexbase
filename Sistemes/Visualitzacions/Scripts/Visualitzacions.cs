@@ -35,6 +35,7 @@ public class Visualitzacions : ScriptableObject
         public AnimacioPerCodi guanyarExperiencia;
 
         [Apartat("PECES")]
+        public AnimacioPerCodi colocar;
         public AnimacioPerCodi canviarEstat;
         public AnimacioPerCodi reaccioVeines;
     }
@@ -207,9 +208,9 @@ public class Visualitzacions : ScriptableObject
         {
             meshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
         }
-    } 
-   
+    }
 
+    public void Colocar(Peça peça) => animacions.colocar.Play(peça.Parent);
     public void CanviarEstat(Peça peça) => animacions.canviarEstat.Play(peça.Parent);
     public void ReaccioVeina(Peça veina) => animacions.reaccioVeines.Play(veina.Parent);
 

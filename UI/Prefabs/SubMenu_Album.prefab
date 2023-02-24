@@ -197,8 +197,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 605996261}
   m_HandleRect: {fileID: 605996260}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 458598609}
   m_HandleRect: {fileID: 458598608}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 1388627902}
   - component: {fileID: 1388627901}
   - component: {fileID: 1388627900}
+  - component: {fileID: 55713629262500909}
   m_Layer: 5
   m_Name: Base
   m_TagString: Untagged
@@ -590,6 +591,24 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &55713629262500909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388627898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7212ac3ee04da8c42832ecee15826df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  component: {fileID: 0}
+  animacio: {fileID: 0}
+  interactuable: 0
+  onClick: 0
+  pare: {fileID: 0}
+  boto: {fileID: 0}
 --- !u!1 &1603290741
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +933,9 @@ MonoBehaviour:
   faseEnCarregar: {fileID: 11400000, guid: 84ef15b16868c154a8a02c39eda89c9b, type: 2}
   modes: {fileID: 11400000, guid: dd98897c04a251c419c0359866e0d68b, type: 2}
   foto: {fileID: 2072774537680186619, guid: f7113c11b1ee1a045b48a2ae753bc039, type: 3}
+  fotoZoom: {fileID: 8389974908988905102, guid: 1a4bf175f966cb941a801fde6953788f, type: 3}
   parent: {fileID: 1603290742}
+  esdevenimentPerBinding: {fileID: 6206017895747369764}
 --- !u!114 &7888343909904973974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -929,10 +950,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guardat: {fileID: 11400000, guid: d8ba27ffe88b6fc4cb63b16236c5a60f, type: 2}
   interfaceSize:
-    guardat: {fileID: 0}
-    key: 
-    local: 0
-    perDefecte: 0
+    guardat: {fileID: 11400000, guid: d8ba27ffe88b6fc4cb63b16236c5a60f, type: 2}
+    key: InterficeSize
+    local: 1
+    perDefecte: 1
 --- !u!114 &6206017895747369764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,6 +976,18 @@ MonoBehaviour:
       - m_Target: {fileID: 11400000, guid: 69f380612ee19ed43b89166a1ab5c464, type: 2}
         m_TargetAssemblyTypeName: UI_Menu, Assembly-CSharp
         m_MethodName: Resume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5973390259458062452}
+        m_TargetAssemblyTypeName: UI_Fotos, Hexbase
+        m_MethodName: AmagarFoto
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
