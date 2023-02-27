@@ -197,12 +197,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   animacio: {fileID: 11400000, guid: 2a5c255a53d1de247915709d45ae0b2f, type: 2}
-  onEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4016854423300272247
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,12 +759,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   animacio: {fileID: 11400000, guid: 2a5c255a53d1de247915709d45ae0b2f, type: 2}
-  onEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8135000960147228240
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,7 +824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34669814, g: 0.409814, b: 0.46226418, a: 1}
+  m_Color: {r: 0.4627451, g: 0.34509805, b: 0.3556544, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -933,9 +921,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   component: {fileID: 7738674032198877297}
-  onClick: 0
   animacio: {fileID: 11400000, guid: b9ede4d1b9d79bc4db495637b571ba50, type: 2}
+  interactuable: 0
+  onClick: 0
   pare: {fileID: 0}
+  boto: {fileID: 0}
 --- !u!1 &8205311462028924486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,12 +1072,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   animacio: {fileID: 0}
-  onEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8560961997521092300
 GameObject:
   m_ObjectHideFlags: 0

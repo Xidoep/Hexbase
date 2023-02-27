@@ -131,7 +131,7 @@ public class Fase_Resoldre : Fase
     {
         if (guardar)
         {
-            capturarPantalla.Capturar();
+            capturarPantalla.CapturarSenseVisuals();
             save.NouArxiu(Mode.Pila);
         }
         else

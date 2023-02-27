@@ -12,36 +12,93 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c36b533053374cbdf56ec03286579, type: 3}
   m_Name: Save
   m_EditorClassIdentifier: 
-  current: 0
+  current: 1
   files:
   - captures: []
     nom: 
     mode: 0
-    experiencia: 0
+    experiencia: 1
     nivell: 0
     pila: []
+    "pe\xE7es": []
+  - captures: []
+    nom: 
+    mode: 0
+    experiencia: 1
+    nivell: 2
+    pila: []
     "pe\xE7es":
-    - subestat: 
-      estat: 
-      coordenada: {x: 0, y: 0}
-      producte: {x: 0, y: 0}
+    - subestat: Granja
+      estat: Casa
+      coordenada: {x: 100, y: 100}
+      producte: {x: 101, y: 100}
       grup:
-        id: 
-        poble: 0
+        id: Casa_031UHU6P9JKQWQ9B59YL
+        poble: 1
         peces:
         - {fileID: 0}
-        coordenades:
-        - {x: 0, y: 0}
-        pecesVeines:
         - {fileID: 0}
-        connexionsId: []
-        camins:
-        - {fileID: 0}
-        ports:
-        - {fileID: 0}
+        coordenades: []
+        pecesVeines: []
+        connexionsId:
+        - Casa_031UHU6P9JKQWQ9B59YL
+        camins: []
+        ports: []
         resaltat: 0
       necessitats: []
-      tiles: []
+      tiles:
+      - tile: {fileID: 11400000, guid: 75016e64462183141b63245111f7e80c, type: 2}
+        orientacio: 0
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: f54d1e7eff6447b4cbf1ef80d9e04668, type: 2}
+        orientacio: 1
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: 02d4c87081a037a449301cad8bddf737, type: 2}
+        orientacio: 2
+        orientacioFisica: 1
+      - tile: {fileID: 11400000, guid: 75016e64462183141b63245111f7e80c, type: 2}
+        orientacio: 3
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: b8d391dd2af593d419678f63754af9a4, type: 2}
+        orientacio: 4
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: 915b84f8683666c4fa9fe692fa60925e, type: 2}
+        orientacio: 5
+        orientacioFisica: 1
+    - subestat: Camp
+      estat: Camp
+      coordenada: {x: 101, y: 100}
+      producte: {x: -1, y: -1}
+      grup:
+        id: Camp_IDQ1XPM7DXBIL9YXKWZZ
+        poble: 0
+        peces: []
+        coordenades: []
+        pecesVeines: []
+        connexionsId: []
+        camins: []
+        ports: []
+        resaltat: 0
+      necessitats: []
+      tiles:
+      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacio: 0
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacio: 1
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacio: 2
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacio: 3
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacio: 4
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: f035a881f37fe8b4d8e848d84ab37960, type: 2}
+        orientacio: 5
+        orientacioFisica: 0
   estats:
   - {fileID: 11400000, guid: 61d3683198a88f540b8d21d99d3447c6, type: 2}
   - {fileID: 11400000, guid: 6c2b23b203ad51d43827b6d7fd77baa8, type: 2}

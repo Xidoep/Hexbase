@@ -18,11 +18,16 @@ public class UI_Fotos : MonoBehaviour
     [SerializeField] GameObject fotoZoom;
     [SerializeField] Transform parent;
     [SerializeField] Input_EsdevenimentPerBinding esdevenimentPerBinding;
+    [SerializeField] RectTransform content;
+    //[SerializeField] GridLayoutGroup gridLayoutGroup;
+    //[SerializeField] Input_EsdevenimentPerBinding esdevenimentPerBinding_ZoomOut;
+
 
     public static GameObject fotoZoomed;
 
     UI_Foto[] fotos = new UI_Foto[0];
     CapturarPantalla.Captura[] captures;
+    public Lector lector;
 
     void OnEnable()
     {
@@ -72,11 +77,18 @@ public class UI_Fotos : MonoBehaviour
     {
         fotoZoomed = Instantiate(fotoZoom);
         fotoZoomed.GetComponent<UI_FotoZoom>().Setup(foto, captura.texture, captura.path, indexPartida, ZoomOut, Load, EliminarCaptura);
+        //gridLayoutGroup.padding = new RectOffset(0, 0, 40, 0);
+        //gridLayoutGroup.cellSize = new Vector2(1400, 1400);
         esdevenimentPerBinding.enabled = false;
+        //esdevenimentPerBinding_ZoomOut.enabled = true;
     }
     public void ZoomOut()
     {
+        //gridLayoutGroup.padding = new RectOffset(0, 0, 0, 0);
+        //gridLayoutGroup.cellSize = new Vector2(260, 260);
         esdevenimentPerBinding.enabled = true;
+        //esdevenimentPerBinding_ZoomOut.enabled = false;
+
     }
 
     public void Load(int index)
@@ -116,5 +128,17 @@ public class UI_Fotos : MonoBehaviour
     private void OnValidate()
     {
         esdevenimentPerBinding = GetComponent<Input_EsdevenimentPerBinding>();
+    }
+
+    public void PosicionarContent(UI_Foto foto)
+    {
+        if(!lector) lector = content.gameObject.AddComponent<Lector>();
+        float posicio = -(foto.GetComponent<RectTransform>().anchoredPosition.x - 130) + 600;
+        Debug.Log(posicio);
+        //content.anchoredPosition = new Vector3(posicio, 0, 0);
+        content.SetupAndPlay(lector, new Animacio_RectPosicio(content.anchoredPosition, new Vector3(posicio, 0, 0)), 1, Transicio.clamp);
+
+        //new Animacio_RectPosicio(content.anchoredPosition, new Vector3(-(750 + foto.transform.localPosition.x),0,0)).Play(content, 1, Transicio.clamp);
+
     }
 }

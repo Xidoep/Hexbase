@@ -177,6 +177,6 @@ public class SavedFile
             }
         }
 
-        seguent.Iniciar();
+        if(seguent != null) seguent.Iniciar();
     }
 }

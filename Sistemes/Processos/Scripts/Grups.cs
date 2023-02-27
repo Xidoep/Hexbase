@@ -574,6 +574,11 @@ public class Grup : System.Object
         //this.estat = estat;
         this.poble = estat == casa;
         this.peces = peces;
+        this.coordenades = new List<Vector2Int>();
+        for (int i = 0; i < peces.Count; i++)
+        {
+            coordenades.Add(peces[i].Coordenades);
+        }
         if (this.poble)
             connexionsId = new List<string>() { id };
     }
@@ -587,6 +592,12 @@ public class Grup : System.Object
         for (int i = 0; i < copia.peces.Count; i++)
         {
             peces.Add(copia.peces[i]);
+        }
+
+        coordenades = new List<Vector2Int>();
+        for (int i = 0; i < copia.coordenades.Count; i++)
+        {
+            coordenades.Add(copia.coordenades[i]);
         }
 
         pecesVeines = new List<Peça>();

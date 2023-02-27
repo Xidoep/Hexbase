@@ -25,6 +25,7 @@ public class Fase_Menu : Fase
     [SerializeField] Utils_InstantiableFromProject sortir1;
     [SerializeField] Utils_InstantiableFromProject sortir2;
     [SerializeField] Utils_InstantiableFromProject fadeOut;
+    [SerializeField] Utils_InstantiableFromProject continuarFondoClicable;
     //[SerializeField] UI_Menu ui;
 
     [Apartat("BOTONS")]
@@ -51,7 +52,8 @@ public class Fase_Menu : Fase
             {
                 iniciar.GridBrut();
                 modes.Set((Mode)save.Mode);
-                save.Load(grups, iniciar);
+                save.Load(grups, null);
+                continuarFondoClicable.Instantiate();
             }
             else
                 Opcions();
@@ -71,25 +73,22 @@ public class Fase_Menu : Fase
 
         //ui.Resume();
         Debugar.Log("SORTIR??");
+
+        guardat.Set(SEGONA_PARTIDA, true, true);
+        
         if (!save.TeCaptures)
         {
-            capturarPantalla.Capturar();
-            XS_Coroutine.StartCoroutine(SortirTemps(3));
+            capturarPantalla.CapturarSenseVisuals();
+            guardat.Guardar();
+            XS_Coroutine.StartCoroutine_Ending(2, fadeOut.Instantiate);
+            XS_Coroutine.StartCoroutine_Ending(3, Application.Quit);
         }
         else
         {
-            XS_Coroutine.StartCoroutine(SortirTemps(1));
+            fadeOut.Instantiate();
+            XS_Coroutine.StartCoroutine_Ending(1, Application.Quit);
         }
 
-        guardat.SetLocal(SEGONA_PARTIDA, true);
-
-        IEnumerator SortirTemps(float temps)
-        {
-            Debugar.Log("SORTIR???");
-            yield return new WaitForSecondsRealtime(temps);
-            Debugar.Log("SORTIR");
-            Application.Quit();
-        }
     }
 
 
