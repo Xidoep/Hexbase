@@ -8,6 +8,7 @@ using XS_Utils;
 
 public class UI_Fotos : MonoBehaviour
 {
+    [SerializeField] Guardat guardat;
     [SerializeField] CapturarPantalla capturarPantalla;
     [SerializeField] SaveHex save;
     [SerializeField] Grups grups;
@@ -31,6 +32,7 @@ public class UI_Fotos : MonoBehaviour
 
     void OnEnable()
     {
+        content.transform.localScale = Vector3.one / (float)guardat.Get("InterficeSize", 0.8f);
         ActualitzarFotos();
         //capturarPantalla.OnCapturatRegistrar(save.AddCaptura);
         //capturarPantalla.OnCapturatRegistrar(ActualitzarFotos);
@@ -125,10 +127,6 @@ public class UI_Fotos : MonoBehaviour
         }
     }
 
-    private void OnValidate()
-    {
-        esdevenimentPerBinding = GetComponent<Input_EsdevenimentPerBinding>();
-    }
 
     public void PosicionarContent(UI_Foto foto)
     {
@@ -141,4 +139,11 @@ public class UI_Fotos : MonoBehaviour
         //new Animacio_RectPosicio(content.anchoredPosition, new Vector3(-(750 + foto.transform.localPosition.x),0,0)).Play(content, 1, Transicio.clamp);
 
     }
+
+    private void OnValidate()
+    {
+        esdevenimentPerBinding = GetComponent<Input_EsdevenimentPerBinding>();
+        guardat = XS_Editor.LoadGuardat<Guardat>();
+    }
+
 }

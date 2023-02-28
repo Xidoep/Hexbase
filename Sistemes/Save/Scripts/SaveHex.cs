@@ -81,7 +81,7 @@ public class SaveHex : ScriptableObject
 
     public int ExisteixCaptura(string path)
     {
-        Debugar.Log($"Existeix {path}?");
+        //Debugar.Log($"Existeix {path}?");
         int trobat = -1;
         for (int f = 0; f < files.Count; f++)
         {
@@ -89,7 +89,7 @@ public class SaveHex : ScriptableObject
             {
                 for (int c = 0; c < files[f].Captures.Count; c++)
                 {
-                    Debugar.Log($"{files[f].Captures[c]} =? {path}");
+                    //Debugar.Log($"{files[f].Captures[c]} =? {path}");
                     if (files[f].Captures[c] == path.Replace(@"\", "/")) ;
                     {
                         trobat = f;

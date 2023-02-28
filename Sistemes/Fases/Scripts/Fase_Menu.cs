@@ -36,9 +36,6 @@ public class Fase_Menu : Fase
     [Apartat("MODES")]
     [SerializeField] Modes modes;
 
-    [Apartat("Inputs")]
-    [SerializeField] InputActionReference[] escoltadors;
-
     bool inici = true;
     List<Hexagon> botons;
     List<Coroutine> coroutines;
