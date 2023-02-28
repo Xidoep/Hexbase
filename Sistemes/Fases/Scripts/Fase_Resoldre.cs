@@ -22,6 +22,8 @@ public class Fase_Resoldre : Fase
     [Apartat("UIs")]
     [SerializeField] Utils_InstantiableFromProject prefab_uiPerdre;
     [SerializeField] Utils_InstantiableFromProject prefab_uiPreguntarGuardar;
+    [SerializeField] Utils_InstantiableFromProject prefab_uiRepetir;
+    [SerializeField] Utils_InstantiableFromProject prefab_uiTornar;
 
     [Apartat("OPCIONS")]
     [SerializeField] ClasseNivell nivell;
@@ -63,9 +65,19 @@ public class Fase_Resoldre : Fase
 
     public void TornarAMenuPrincipal() 
     {
-        prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(PopupTornar);
-    } 
-
+        //save.NouArxiu(Mode.Pila);
+        enTornar?.Invoke();
+        capturarPantalla.OnCapturatRegistrar(CanviarMenuDesoresDeCapturar);
+        GuardarOBorrar(true);
+        //XS_Coroutine.StartCoroutine(CanviarMenu(1, menu));
+        //menu.Iniciar();
+        //prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(Tornar);
+    }
+    /*public void NovaPartida()
+    {
+        GuardarSiCal(true);
+        ((Fase_Iniciar)iniciar).NovaPartida();
+    }*/
 
     void ResoldrePila()
     {
@@ -74,7 +86,7 @@ public class Fase_Resoldre : Fase
 
             if (!peces.QuedenPeces())
             {
-                prefab_uiPerdre.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatInt>().Registrar(OpcionsFinalPartida);
+                prefab_uiPerdre.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatInt>().Registrar(Popup_Perdre);
             }
             else
             {
@@ -90,36 +102,49 @@ public class Fase_Resoldre : Fase
         }
     }
 
-    void OpcionsFinalPartida(int opcio)
+    void Popup_Perdre(int opcio)
     {
         switch (opcio)
         {
             case 0: //TORNAR
-                prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(PopupTornar);
+                prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(Tornar);
                 break;
             case 1: //REPETIR
-                prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(PopupRepetir);
+                prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(Repetir);
                 break;
             case 2: //CONTINUAR
-                enContinuar?.Invoke();
-                modes.Set(Mode.FreeStyle);
-                iniciar.Iniciar();
+                Continuar_Freestyle();
                 break;
         }
     }
-    void PopupTornar(bool guardar)
+    void Tornar(bool guardar)
     {
         enTornar?.Invoke();
-        GuardarSiCal(guardar);
-        XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 3 : 0.1f, menu));
-
+        GuardarOBorrar(guardar);
+        XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 1 : 0.1f, menu));
     }
-    void PopupRepetir(bool guardar)
+    void Repetir(bool guardar)
     {
         enRepetir?.Invoke();
-        GuardarSiCal(guardar);
-        XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 3 : 0.1f, iniciar));
+        GuardarOBorrar(guardar);
+        XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 1 : 0.1f, iniciar));
     }
+    void Continuar_Freestyle()
+    {
+        enContinuar?.Invoke();
+        modes.Set(Mode.FreeStyle);
+        iniciar.Iniciar();
+    }
+    /*public void TornarMenuPrincipal()
+    {
+        save.NouArxiu(Mode.Pila);
+        menu.Iniciar();
+    }*/
+
+
+
+
+
     IEnumerator CanviarMenu(float temps, Fase fase)
     {
         yield return new WaitForSeconds(temps);
@@ -127,10 +152,12 @@ public class Fase_Resoldre : Fase
         Nivell.Reset();
         fase.Iniciar();
     }
-    void GuardarSiCal(bool guardar)
+
+    public void GuardarOBorrar(bool guardar)
     {
         if (guardar)
         {
+            capturarPantalla.OnCapturatRegistrar(NouArxiuDespresDeCapturar);
             capturarPantalla.CapturarSenseVisuals();
             save.NouArxiu(Mode.Pila);
         }
@@ -138,6 +165,23 @@ public class Fase_Resoldre : Fase
         {
             save.BorrarPartida();
         }
+    }
+    public void CapturarSiNoEnTe()
+    {
+        if (!save.TeCaptures) capturarPantalla.CapturarSenseVisuals();
+    }
+
+    void NouArxiuDespresDeCapturar(string path)
+    {
+        save.NouArxiu(Mode.Pila);
+        capturarPantalla.OnCapturatDesregistrar(NouArxiuDespresDeCapturar);
+    }
+    void CanviarMenuDesoresDeCapturar(string path) 
+    {
+        Grid.Instance.Resetejar();
+        Nivell.Reset();
+        menu.Iniciar();
+        capturarPantalla.OnCapturatDesregistrar(CanviarMenuDesoresDeCapturar);
     }
 
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using XS_Utils;
      
 /// <summary>
@@ -22,6 +23,7 @@ public class Fase_Menu : Fase
     [SerializeField] Fase colocar;
 
     [Apartat("UI")]
+    [SerializeField] UI_Menu uiMenu;
     [SerializeField] Utils_InstantiableFromProject sortir1;
     [SerializeField] Utils_InstantiableFromProject sortir2;
     [SerializeField] Utils_InstantiableFromProject fadeOut;
@@ -34,6 +36,9 @@ public class Fase_Menu : Fase
     [Apartat("MODES")]
     [SerializeField] Modes modes;
 
+    [Apartat("Inputs")]
+    [SerializeField] InputActionReference[] escoltadors;
+
     bool inici = true;
     List<Hexagon> botons;
     List<Coroutine> coroutines;
@@ -41,8 +46,12 @@ public class Fase_Menu : Fase
     //OVERRIDES
     public override void FaseStart()
     {
+        OnFinish -= uiMenu.DesregistrarAccions; //perque no es multipliqui
+        uiMenu.DesregistrarAccions();
+
         OnFinish += MarcarComIniciat;
         OnFinish += NetejarBotonsDelGrid;
+        OnFinish += uiMenu.RegistrarAccions;
 
         Grid.Instance.CrearGrid();
 
@@ -155,14 +164,13 @@ public class Fase_Menu : Fase
         NetejarBotonsDelGrid();
         iniciar.GridBrut();
         save.Load(grups, iniciar);
-    } 
+    }
 
     void ConfigurarMode() 
     {
         inici = false;
     }
 
-    
 
 
     public void PopupSortir() => sortir1.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(BromaSortir);
@@ -189,7 +197,6 @@ public class Fase_Menu : Fase
 
 
 
-
     new void OnDisable()
     {
         base.OnDisable();
@@ -200,5 +207,7 @@ public class Fase_Menu : Fase
     private void OnValidate()
     {
         if (guardat == null) guardat = XS_Editor.LoadGuardat<Guardat>();
+        if (uiMenu == null) uiMenu = XS_Editor.LoadAssetAtPath<UI_Menu>("Assets/XidoStudio/UI/UI.asset");
+        if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
     }
 }

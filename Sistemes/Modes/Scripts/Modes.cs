@@ -15,11 +15,7 @@ public class Modes : ScriptableObject
     GameObject menu;
 
     public Mode Mode => mode;
-    public void Set(Mode mode) 
-    {
-        this.mode = mode;
-
-    } 
+    public void Set(Mode mode) => this.mode = mode;
 
     public void ConfigurarModes()
     {
@@ -44,11 +40,16 @@ public class Modes : ScriptableObject
         void SetupMenuCanvasWorldCamera() => menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
     }
 
+    public void Destruir() => menu.GetComponent<AnimacioPerCodi_GameObject_Referencia>().Destroy();
+
     void OnDisable()
     {
         menu = null;
         //mode = Mode.Pila;
     }
+
+    
+
 }
 
 public enum Mode { FreeStyle, Pila }

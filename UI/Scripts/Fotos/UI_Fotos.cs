@@ -32,14 +32,14 @@ public class UI_Fotos : MonoBehaviour
     void OnEnable()
     {
         ActualitzarFotos();
-        capturarPantalla.OnCapturatRegistrar(save.AddCaptura);
-        capturarPantalla.OnCapturatRegistrar(ActualitzarFotos);
+        //capturarPantalla.OnCapturatRegistrar(save.AddCaptura);
+        //capturarPantalla.OnCapturatRegistrar(ActualitzarFotos);
     }
 
     private void OnDisable()
     {
-        capturarPantalla.OnCapturatDesregistrar(save.AddCaptura);
-        capturarPantalla.OnCapturatDesregistrar(ActualitzarFotos);
+        //capturarPantalla.OnCapturatDesregistrar(save.AddCaptura);
+        //capturarPantalla.OnCapturatDesregistrar(ActualitzarFotos);
     }
 
 
@@ -69,7 +69,7 @@ public class UI_Fotos : MonoBehaviour
     }
 
 
-    void ActualitzarFotos(string path) => ActualitzarFotos();
+    //void ActualitzarFotos(string path) => ActualitzarFotos();
 
 
 

@@ -8,6 +8,7 @@ public class SaveHex : ScriptableObject
 {
     [SerializeField] int current = 0;
     [SerializeField] List<SavedFile> files;
+    [SerializeField] CapturarPantalla capturarPantalla;
 
     [Apartat("ESTATS")]
     [SerializeField] Estat[] estats;
@@ -20,6 +21,15 @@ public class SaveHex : ScriptableObject
     Subestat sTrobat;
     Producte pTrobat;
 
+    private void OnEnable()
+    {
+        capturarPantalla.OnCapturatRegistrar(AddCaptura);
+    }
+
+    private void OnDisable()
+    {
+        capturarPantalla.OnCapturatDesregistrar(AddCaptura);
+    }
 
     public void NouArxiu(Mode mode)
     {
@@ -143,5 +153,6 @@ public class SaveHex : ScriptableObject
         estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
         productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
+        if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
     }
 }

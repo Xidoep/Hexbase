@@ -12,93 +12,183 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c36b533053374cbdf56ec03286579, type: 3}
   m_Name: Save
   m_EditorClassIdentifier: 
-  current: 1
+  current: 4
   files:
   - captures: []
     nom: 
     mode: 0
     experiencia: 1
     nivell: 0
-    pila: []
+    pila:
+    - Casa
+    - Camp
+    - Camp
+    - Terra
+    - Terra
+    - Casa
+    - Aigua
+    - Cami
+    - Camp
+    - Riu
+    - Casa
+    - Aigua
+    - Montanya
+    - Montanya
+    - Montanya
+    - Riu
+    - Bosc
+    - Bosc
+    - Bosc
+    - Riu
     "pe\xE7es": []
   - captures: []
     nom: 
-    mode: 0
-    experiencia: 1
-    nivell: 2
-    pila: []
+    mode: 1
+    experiencia: 0
+    nivell: 0
+    pila:
+    - Montanya
+    - Bosc
+    - Riu
+    - Terra
+    - Terra
+    - Terra
+    - Casa
+    - Casa
+    - Montanya
+    - Riu
+    - Cami
+    - Terra
+    - Riu
+    - Riu
+    - Casa
+    - Bosc
+    - Riu
+    - Casa
+    - Montanya
+    - Bosc
     "pe\xE7es":
-    - subestat: Granja
+    - subestat: Casa
       estat: Casa
       coordenada: {x: 100, y: 100}
-      producte: {x: 101, y: 100}
+      producte: {x: -1, y: -1}
       grup:
         id: Casa_031UHU6P9JKQWQ9B59YL
         poble: 1
         peces:
         - {fileID: 0}
-        - {fileID: 0}
-        coordenades: []
+        coordenades:
+        - {x: 100, y: 100}
         pecesVeines: []
         connexionsId:
         - Casa_031UHU6P9JKQWQ9B59YL
         camins: []
         ports: []
         resaltat: 0
-      necessitats: []
+      necessitats:
+      - necessitats:
+        - producte: Blat
+          proveit: 0
       tiles:
-      - tile: {fileID: 11400000, guid: 75016e64462183141b63245111f7e80c, type: 2}
+      - tile: {fileID: 11400000, guid: 71635f74ea528dd47a469f8c02936ce7, type: 2}
         orientacio: 0
-        orientacioFisica: 0
-      - tile: {fileID: 11400000, guid: f54d1e7eff6447b4cbf1ef80d9e04668, type: 2}
+        orientacioFisica: 1
+      - tile: {fileID: 11400000, guid: 71635f74ea528dd47a469f8c02936ce7, type: 2}
         orientacio: 1
         orientacioFisica: 2
-      - tile: {fileID: 11400000, guid: 02d4c87081a037a449301cad8bddf737, type: 2}
+      - tile: {fileID: 11400000, guid: 230cdb8dd67ddf740ac4022d21ebf92b, type: 2}
         orientacio: 2
         orientacioFisica: 1
-      - tile: {fileID: 11400000, guid: 75016e64462183141b63245111f7e80c, type: 2}
+      - tile: {fileID: 11400000, guid: d7f6a2cca5b8b5f428235daa67106063, type: 2}
         orientacio: 3
-        orientacioFisica: 0
-      - tile: {fileID: 11400000, guid: b8d391dd2af593d419678f63754af9a4, type: 2}
-        orientacio: 4
         orientacioFisica: 2
-      - tile: {fileID: 11400000, guid: 915b84f8683666c4fa9fe692fa60925e, type: 2}
-        orientacio: 5
+      - tile: {fileID: 11400000, guid: 230cdb8dd67ddf740ac4022d21ebf92b, type: 2}
+        orientacio: 4
         orientacioFisica: 1
-    - subestat: Camp
-      estat: Camp
-      coordenada: {x: 101, y: 100}
+      - tile: {fileID: 11400000, guid: c38c7232b8228114da3bb2c163dc6853, type: 2}
+        orientacio: 5
+        orientacioFisica: 2
+  - captures: []
+    nom: 
+    mode: 1
+    experiencia: 1
+    nivell: 0
+    pila: []
+    "pe\xE7es": []
+  - captures: []
+    nom: 
+    mode: 1
+    experiencia: 0
+    nivell: 0
+    pila:
+    - Camp
+    - Bosc
+    - Cami
+    - Casa
+    - Casa
+    - Aigua
+    - Cami
+    - Terra
+    - Montanya
+    - Cami
+    - Montanya
+    - Bosc
+    - Casa
+    - Aigua
+    - Cami
+    - Bosc
+    - Camp
+    - Riu
+    - Bosc
+    - Terra
+    "pe\xE7es":
+    - subestat: Casa
+      estat: Casa
+      coordenada: {x: 100, y: 100}
       producte: {x: -1, y: -1}
       grup:
-        id: Camp_IDQ1XPM7DXBIL9YXKWZZ
-        poble: 0
-        peces: []
-        coordenades: []
+        id: Casa_031UHU6P9JKQWQ9B59YL
+        poble: 1
+        peces:
+        - {fileID: 0}
+        coordenades:
+        - {x: 100, y: 100}
         pecesVeines: []
-        connexionsId: []
+        connexionsId:
+        - Casa_031UHU6P9JKQWQ9B59YL
         camins: []
         ports: []
         resaltat: 0
-      necessitats: []
+      necessitats:
+      - necessitats:
+        - producte: Blat
+          proveit: 0
       tiles:
-      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+      - tile: {fileID: 11400000, guid: 230cdb8dd67ddf740ac4022d21ebf92b, type: 2}
         orientacio: 0
-        orientacioFisica: 0
-      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: d7f6a2cca5b8b5f428235daa67106063, type: 2}
         orientacio: 1
-        orientacioFisica: 0
-      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacioFisica: 1
+      - tile: {fileID: 11400000, guid: d7f6a2cca5b8b5f428235daa67106063, type: 2}
         orientacio: 2
-        orientacioFisica: 0
-      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: 230cdb8dd67ddf740ac4022d21ebf92b, type: 2}
         orientacio: 3
-        orientacioFisica: 0
-      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacioFisica: 1
+      - tile: {fileID: 11400000, guid: d7f6a2cca5b8b5f428235daa67106063, type: 2}
         orientacio: 4
-        orientacioFisica: 0
-      - tile: {fileID: 11400000, guid: f035a881f37fe8b4d8e848d84ab37960, type: 2}
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: 230cdb8dd67ddf740ac4022d21ebf92b, type: 2}
         orientacio: 5
-        orientacioFisica: 0
+        orientacioFisica: 1
+  - captures: []
+    nom: 
+    mode: 1
+    experiencia: 0
+    nivell: 0
+    pila: []
+    "pe\xE7es": []
   estats:
   - {fileID: 11400000, guid: 61d3683198a88f540b8d21d99d3447c6, type: 2}
   - {fileID: 11400000, guid: 6c2b23b203ad51d43827b6d7fd77baa8, type: 2}
