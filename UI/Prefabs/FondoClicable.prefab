@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -135,12 +135,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   animacio: {fileID: 0}
-  onEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  onExit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &4173303796978273427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,6 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   component: {fileID: 4416610923074292688}
-  onClick: 0
   animacio: {fileID: 11400000, guid: 83dbf9e01e59c0448804850ca6880c0e, type: 2}
+  interactuable: 0
+  onClick: 0
   pare: {fileID: 0}
+  boto: {fileID: 0}

@@ -13,26 +13,33 @@ public class UI_FotoZoom : MonoBehaviour
         image.texture = textura;
 
         this.path = path;
-        botoCarregar.SetActive(indexPartida != -1);
-        //this.indexPartida = indexPartida;
-        //this.carregar = carregar;
+        this.indexPartida = indexPartida;
+        this.carregar = carregar;
         this.borrar = borrar;
+
         enAmagar.AddListener(amagar.Invoke);
+
+        botoCarregar.gameObject.SetActive(indexPartida != -1);
+        //botoBorrar.gameObject.SetActive(indexPartida == -1);
     }
 
     [SerializeField] RectTransform rect;
     [SerializeField] RawImage image;
-    [SerializeField] GameObject botoCarregar;
+    [SerializeField] XS_Button botoCarregar;
+    [SerializeField] XS_Button botoBorrar;
+
     [Space(20)]
     [SerializeField] Utils_InstantiableFromProject popup_Carregar;
     [SerializeField] Utils_InstantiableFromProject popup_Borrar;
-    [SerializeField] GameObject popupCarregar;
-    [SerializeField] GameObject popupBorrar;
+    [SerializeField] Utils_InstantiableFromProject popup_BorrarPartida;
+
     [Space(20)]
     [SerializeField] UnityEvent enAmagar;
 
-    string path;
-    int indexPartida;
+    [Space(20)]
+    [SerializeField] string path;
+    [SerializeField] int indexPartida;
+
     System.Action<int> carregar;
     System.Action<string, int> borrar;
 
@@ -40,8 +47,20 @@ public class UI_FotoZoom : MonoBehaviour
     public void AccioBorrarCaptura() => borrar.Invoke(path, indexPartida);
 
     public void Carregar() => popup_Carregar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegat>().Registrar(AccioCarregar, Amagar);
-    public void Borrar() => popup_Borrar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegat>().Registrar(AccioBorrarCaptura, Amagar);
+    public void Borrar()
+    {
+        if (indexPartida == -1)
+            BorrarFoto();
+        else BorrarPartida();
+    }
     public void Amagar() => enAmagar.Invoke();
 
-
+    void BorrarFoto()
+    {
+        popup_Borrar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegat>().Registrar(AccioBorrarCaptura, Amagar);
+    }
+    void BorrarPartida()
+    {
+        popup_BorrarPartida.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegat>().Registrar(AccioBorrarCaptura, Amagar);
+    }
 }

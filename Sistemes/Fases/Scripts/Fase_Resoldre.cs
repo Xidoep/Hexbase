@@ -22,8 +22,6 @@ public class Fase_Resoldre : Fase
     [Apartat("UIs")]
     [SerializeField] Utils_InstantiableFromProject prefab_uiPerdre;
     [SerializeField] Utils_InstantiableFromProject prefab_uiPreguntarGuardar;
-    [SerializeField] Utils_InstantiableFromProject prefab_uiRepetir;
-    [SerializeField] Utils_InstantiableFromProject prefab_uiTornar;
 
     [Apartat("OPCIONS")]
     [SerializeField] ClasseNivell nivell;

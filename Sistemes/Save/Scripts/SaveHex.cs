@@ -20,6 +20,9 @@ public class SaveHex : ScriptableObject
     Estat eTrobat;
     Subestat sTrobat;
     Producte pTrobat;
+    public bool nomesGuardats;
+
+    public int FilesLength => files.Count;
 
     private void OnEnable()
     {
@@ -29,8 +32,13 @@ public class SaveHex : ScriptableObject
     private void OnDisable()
     {
         capturarPantalla.OnCapturatDesregistrar(AddCaptura);
+        nomesGuardats = false;
     }
 
+    public void MostrarNomesPartidesGuardades(bool nomesGuardats) => this.nomesGuardats = nomesGuardats;
+    public bool NomesGuardats => nomesGuardats;
+
+    //public List<SavedFile> Files => files;
     public void NouArxiu(Mode mode)
     {
         files.Add(new SavedFile());
@@ -78,8 +86,8 @@ public class SaveHex : ScriptableObject
         if(files[index].Captures.Contains(path))
             files[index].Captures.Remove(path);
     }
-
-    public int ExisteixCaptura(string path)
+    public int Experiencia(int index) => files[index].Experiencia;
+    public int CapturaToIndex(string path)
     {
         //Debugar.Log($"Existeix {path}?");
         int trobat = -1;
@@ -90,7 +98,7 @@ public class SaveHex : ScriptableObject
                 for (int c = 0; c < files[f].Captures.Count; c++)
                 {
                     //Debugar.Log($"{files[f].Captures[c]} =? {path}");
-                    if (files[f].Captures[c] == path.Replace(@"\", "/")) ;
+                    if (files[f].Captures[c] == path || files[f].Captures[c] == path.Replace(@"\", "/"))
                     {
                         trobat = f;
                         break;
@@ -103,6 +111,8 @@ public class SaveHex : ScriptableObject
         }
         return trobat;
     }
+    public string GetCapturaMesRecent(int index) => files[index].Captures[files[index].Captures.Count - 1];
+
     public void AddToPila(Estat estat) => files[current].AddPila(estat);
     public void RemoveLastFromPila() => files[current].RemoveLastPila();
     public bool PilaPlena => files[current].PilaPlena;

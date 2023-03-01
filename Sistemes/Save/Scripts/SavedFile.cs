@@ -115,7 +115,7 @@ public class SavedFile
             return;
         }
 
-        XS_Coroutine.StartCoroutine_Ending(0.5f, DoStep);
+        XS_Coroutine.StartCoroutine_Ending(0.1f, DoStep);
 
         void DoStep() => Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab);
     }

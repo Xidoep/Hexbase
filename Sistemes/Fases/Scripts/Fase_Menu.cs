@@ -31,8 +31,11 @@ public class Fase_Menu : Fase
     //[SerializeField] UI_Menu ui;
 
     [Apartat("BOTONS")]
+    [SerializeField] Botons[] opcions;
     [SerializeField] GameObject novaPartida;
     [SerializeField] GameObject continuar;
+    [SerializeField] GameObject configuracio;
+    [SerializeField] GameObject sortir;
     [Apartat("MODES")]
     [SerializeField] Modes modes;
 
@@ -62,10 +65,10 @@ public class Fase_Menu : Fase
                 continuarFondoClicable.Instantiate();
             }
             else
-                Opcions();
+                Opcions(opcions);
         }
         else
-            Opcions();
+            Opcions(opcions);
 
 
     }
@@ -97,23 +100,31 @@ public class Fase_Menu : Fase
 
     }
 
-
-
-    void MarcarComIniciat()
+    public void NovaPartida()
     {
-        inici = true;
-        OnFinish -= MarcarComIniciat;
+        save.NouArxiu(modes.Mode);
+        iniciar.Iniciar();
     }
+    public void Continuar()
+    {
+        NetejarBotonsDelGrid();
+        iniciar.GridBrut();
+        save.Load(grups, iniciar);
+    }
+
 
     //PRIVADES
     void Opcions()
     {
         if (botons == null) botons = new List<Hexagon>();
         else botons.Clear();
+
         if (coroutines == null) coroutines = new List<Coroutine>();
         else coroutines.Clear();
 
         Grid.Instance.Resetejar();
+
+
 
         botons.Add(Grid.Instance.CrearBoto(Grid.Instance.Centre, novaPartida));
         if (save.TePeces)
@@ -122,6 +133,32 @@ public class Fase_Menu : Fase
         }
         iniciar.Reset();
     }
+    void Opcions(Botons[] opcions)
+    {
+        if (botons == null) botons = new List<Hexagon>();
+        else botons.Clear();
+
+        if (coroutines == null) coroutines = new List<Coroutine>();
+        else coroutines.Clear();
+
+        Grid.Instance.Resetejar();
+        int index = 0;
+        for (index = 0; index < opcions.Length; index++)
+        {
+            if(index == 0)
+                botons.Add(opcions[index].Crear(Grid.Instance));
+            else 
+                XS_Coroutine.StartCoroutine_Ending(index * 0.5f, Crear);
+            //Sembla que la variable es la "local" per tant, encara que s'envii, quan la Corrutina es planteja actuar, la variable ja ha canviat.
+            //Concretament ha canviat a 4, que es el maxim i en el punt en que es trenca el loop.
+            //Aixo es pel que no es capaç de intanciar boto, perque no existeix en boto[4].
+            
+        }
+
+        void Crear() => botons.Add(opcions[index].Crear(Grid.Instance));
+    }
+
+
 
     IEnumerator CrearBotoDelayed(GameObject prefab, Vector2Int posicio, float delay)
     {
@@ -150,19 +187,11 @@ public class Fase_Menu : Fase
         
         OnFinish -= NetejarBotonsDelGrid;
     }
-
-    public void NovaPartida()
+    void MarcarComIniciat()
     {
-        save.NouArxiu(modes.Mode);
-        iniciar.Iniciar();
+        inici = true;
+        OnFinish -= MarcarComIniciat;
     }
-    public void Continuar() 
-    {
-        NetejarBotonsDelGrid();
-        iniciar.GridBrut();
-        save.Load(grups, iniciar);
-    }
-
     void ConfigurarMode() 
     {
         inici = false;
@@ -190,6 +219,18 @@ public class Fase_Menu : Fase
         }
     }
 
+
+
+
+
+    [System.Serializable]
+    public struct Botons
+    {
+        [SerializeField] GameObject boto;
+        [SerializeField] Vector2Int coordenadaOffset;
+
+        public Hexagon Crear(Grid grid) => Grid.Instance.CrearBoto(Grid.Instance.Centre + coordenadaOffset, boto);
+    }
 
 
 
