@@ -142,22 +142,18 @@ public class Fase_Menu : Fase
         else coroutines.Clear();
 
         Grid.Instance.Resetejar();
-        int index = 0;
-        for (index = 0; index < opcions.Length; index++)
+        for (int i = 0; i < opcions.Length; i++)
         {
-            if(index == 0)
-                botons.Add(opcions[index].Crear(Grid.Instance));
-            else 
-                XS_Coroutine.StartCoroutine_Ending(index * 0.5f, Crear);
-            //Sembla que la variable es la "local" per tant, encara que s'envii, quan la Corrutina es planteja actuar, la variable ja ha canviat.
-            //Concretament ha canviat a 4, que es el maxim i en el punt en que es trenca el loop.
-            //Aixo es pel que no es capaç de intanciar boto, perque no existeix en boto[4].
-            
+            CrearOpcio(opcions[i], 1 + i * 0.75f);
         }
 
-        void Crear() => botons.Add(opcions[index].Crear(Grid.Instance));
+        
     }
-
+    void CrearOpcio(Botons boto, float temps)
+    {
+        XS_Coroutine.StartCoroutine_Ending(temps, Crear);
+        void Crear() => botons.Add(boto.Crear(Grid.Instance));
+    }
 
 
     IEnumerator CrearBotoDelayed(GameObject prefab, Vector2Int posicio, float delay)

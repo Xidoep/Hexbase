@@ -20,13 +20,14 @@ public class SaveHex : ScriptableObject
     Estat eTrobat;
     Subestat sTrobat;
     Producte pTrobat;
-    public bool nomesGuardats;
+    [SerializeField] bool nomesGuardats;
 
     public int FilesLength => files.Count;
 
     private void OnEnable()
     {
         capturarPantalla.OnCapturatRegistrar(AddCaptura);
+        nomesGuardats = false;
     }
 
     private void OnDisable()
@@ -111,7 +112,12 @@ public class SaveHex : ScriptableObject
         }
         return trobat;
     }
-    public string GetCapturaMesRecent(int index) => files[index].Captures[files[index].Captures.Count - 1];
+    public string GetCapturaMesRecent(int index) 
+    {
+        if (files[index].Captures.Count > 0)
+            return files[index].Captures[files[index].Captures.Count - 1];
+        else return "";
+    } 
 
     public void AddToPila(Estat estat) => files[current].AddPila(estat);
     public void RemoveLastFromPila() => files[current].RemoveLastPila();

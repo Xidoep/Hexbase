@@ -197,7 +197,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 605996261}
   m_HandleRect: {fileID: 605996260}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -493,6 +493,7 @@ GameObject:
   - component: {fileID: 1388627901}
   - component: {fileID: 1388627900}
   - component: {fileID: 55713629262500909}
+  - component: {fileID: 957601949078819684}
   m_Layer: 5
   m_Name: Base
   m_TagString: Untagged
@@ -603,12 +604,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7212ac3ee04da8c42832ecee15826df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 0}
+  component: {fileID: 1388627899}
   animacio: {fileID: 11400000, guid: 144243d56875b5f4487f7df5cd24ded7, type: 2}
   interactuable: 0
   onClick: 0
   pare: {fileID: 1385264430942070062}
   boto: {fileID: 0}
+--- !u!114 &957601949078819684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388627898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e09e05bbb46cf4f8c3cc06822a90e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollRect: {fileID: 1388627900}
+  gridLayoutGroup: {fileID: 1603290743}
+  view: {fileID: 1765121689}
+  content: {fileID: 1603290742}
+  viewSize: {x: 0, y: 0}
+  contentSize: {x: 0, y: 0}
+  contentPosition: {x: 0, y: 0}
+  elements: []
+  posicions: []
+  factors: []
+  factorsFromView: []
+  visibles: 
+  marge: {x: Infinity, y: Infinity}
+  indexSeleccionat: 0
+  factorAnterior: 0
+  factorActual: 0
+  posicionar: 0
 --- !u!1 &1603290741
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.101960786}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -770,7 +800,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765121688}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
@@ -954,6 +984,7 @@ MonoBehaviour:
   parent: {fileID: 1603290742}
   esdevenimentPerBinding: {fileID: 6206017895747369764}
   content: {fileID: 1603290742}
+  gridLayoutGroup: {fileID: 1603290743}
   capcalera: {fileID: 2786718842652423296}
   local_Album:
     m_TableReference:

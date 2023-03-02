@@ -29,6 +29,7 @@ public class UI_Album : MonoBehaviour
     [SerializeField] Transform parent;
     [SerializeField] Input_EsdevenimentPerBinding esdevenimentPerBinding;
     [SerializeField] RectTransform content;
+    [SerializeField] GridLayoutGroup gridLayoutGroup;
 
     [Apartat("TRADUCCIONS")]
     [SerializeField] TMP_Text capcalera;
@@ -46,7 +47,8 @@ public class UI_Album : MonoBehaviour
 
     void OnEnable()
     {
-        content.transform.localScale = Vector3.one / (float)guardat.Get("InterficeSize", 0.8f);
+        gridLayoutGroup.cellSize = (Vector2.one * 260) * (Vector2.one / (float)guardat.Get("InterficeSize", 0.8f));
+        //content.transform.localScale = Vector3.one / (float)guardat.Get("InterficeSize", 0.8f);
         Actualitzar();
     }
 
@@ -79,6 +81,10 @@ public class UI_Album : MonoBehaviour
 
         for (int i = 0; i < save.FilesLength; i++)
         {
+            string path = save.GetCapturaMesRecent(i);
+            if (string.IsNullOrEmpty(path))
+                continue;
+
             captures[i] = capturarPantalla.GetCapturaGuardada(save.GetCapturaMesRecent(i));
         }
 
@@ -185,7 +191,7 @@ public class UI_Album : MonoBehaviour
         posicio = -(foto.GetComponent<RectTransform>().anchoredPosition.x - 130) + 600;
         Debug.Log(posicio);
         //content.anchoredPosition = new Vector3(posicio, 0, 0);
-        content.SetupAndPlay(lector, new Animacio_RectPosicio(content.anchoredPosition, new Vector3(posicio, 0, 0)), 1, Transicio.clamp);
+        content.SetupAndPlay(lector, new Animacio_RectPosicio(content.anchoredPosition, new Vector3(posicio, 0, 0), Corba.EasyInEasyOut), 1, Transicio.clamp);
 
         //new Animacio_RectPosicio(content.anchoredPosition, new Vector3(-(750 + foto.transform.localPosition.x),0,0)).Play(content, 1, Transicio.clamp);
 

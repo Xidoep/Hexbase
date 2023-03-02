@@ -14,10 +14,15 @@ public class CamaraMoviment
     [SerializeField] CinemachineTargetGroup targetGroup;
     [SerializeField] Transform centre;
     [Space(10)]
+    [Tooltip("Es la velocitat a la que es mou quan acostes el cursoso a les bores de la pantalla.")]
     [SerializeField] float speed;
+
+    [Tooltip("Es el temps del Lerp que fa pel moviment. Ho fa amb Lerp perque sigui suau.")]
     [SerializeField] float time;
     [Space(10)]
     [SerializeField] Vector4 limits;
+
+    float margeMoviment = 1.5f;
     Vector3 movement;
 
     public Vector4 Limits { set => limits = value; }
@@ -38,8 +43,8 @@ public class CamaraMoviment
         if (!Application.isEditor)
             Moviment_Mouse(transform);
 
-        movement = Vector3.Min(movement, new Vector3(limits.x, 0, limits.y));
-        movement = Vector3.Max(movement, new Vector3(limits.z, 0, limits.w));
+        movement = Vector3.Min(movement, new Vector3(limits.x - 1, 0, limits.y - 1));
+        movement = Vector3.Max(movement, new Vector3(limits.z + 1, 0, limits.w + 1));
 
         transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * (((zoom * 3) + 1) * 5));
     }
@@ -48,8 +53,8 @@ public class CamaraMoviment
         Moviment_Keyboard(transform);
         //Moviment_Mouse(transform);
 
-        movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x, 0, limits.y - centre.position.z));
-        movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x, 0, limits.w - centre.position.z));
+        movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x + margeMoviment, 0, limits.y - centre.position.z + margeMoviment));
+        movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x - margeMoviment, 0, limits.w - centre.position.z - margeMoviment));
 
 
         if (Mathf.Abs(Vector3.Magnitude(targetGroup.transform.position - centre.position)) > 0.1f)
