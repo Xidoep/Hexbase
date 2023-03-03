@@ -14,7 +14,7 @@ public class UI_Foto : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captura.texture.texelSize.x / captura.texture.texelSize.y));
         
         if (seleccionar) boto.Select();
-        boto.OnEnter += EnApuntar;
+        //boto.OnEnter += EnApuntar;
         
         impresio.texture = captura.texture;
 

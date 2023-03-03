@@ -29,6 +29,7 @@ public class UI_Album : MonoBehaviour
     [SerializeField] Transform parent;
     [SerializeField] Input_EsdevenimentPerBinding esdevenimentPerBinding;
     [SerializeField] RectTransform content;
+    [SerializeField] ProvesContent contentDinamic;
     [SerializeField] GridLayoutGroup gridLayoutGroup;
 
     [Apartat("TRADUCCIONS")]
@@ -108,6 +109,7 @@ public class UI_Album : MonoBehaviour
 
         fotos = new UI_Foto[captures.Length];
 
+
         for (int i = 0; i < captures.Length; i++)
         {
             indexPartida = save.CapturaToIndex(captures[i].path);
@@ -115,8 +117,8 @@ public class UI_Album : MonoBehaviour
             if (save.NomesGuardats && indexPartida == -1)
                 continue;
 
-            fotos[i] = Instantiate(foto, parent).GetComponent<UI_Foto>();
-
+            fotos[i] = Instantiate(foto, content).GetComponent<UI_Foto>();
+            contentDinamic.Add(fotos[i].gameObject);
             fotos[i].Setup(
                this,
                indexPartida != -1 ? save.Experiencia(indexPartida) : 0,
@@ -125,6 +127,7 @@ public class UI_Album : MonoBehaviour
                i == 0
                ); ;
         }
+        contentDinamic.Provar();
     }
 
 
