@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 //**********************************************
@@ -23,6 +24,7 @@ public abstract class Hexagon : MonoBehaviour
 
     //VARIABLES 
     [SerializeField] Transform parent;
+    [SerializeField] XS_Button boto;
     //[SerializeField] protected AnimacioPerCodi animacioPerCodi;
     //[SerializeField] public AnimacioPerCodi animacio;
 
@@ -32,7 +34,14 @@ public abstract class Hexagon : MonoBehaviour
     System.Func<Vector2Int, List<Peça>> veinsPeça;
 
 
+    public void Navegacio(bool activar) 
+    {
+        Navigation navigation = new Navigation();
+        navigation.mode = activar ? Navigation.Mode.Automatic : Navigation.Mode.None;
 
+        boto.navigation = navigation;
+    }
+    public void Seleccionar() => boto.Select();
     public abstract bool EsPeça { get; }
     public Vector2Int Coordenades => coordenades;
 

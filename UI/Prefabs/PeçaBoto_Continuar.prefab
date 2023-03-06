@@ -8,16 +8,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -5234112299733751658, guid: 06c2bf207f235ee4e968fdb5efd4b042, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5234112299733751658, guid: 06c2bf207f235ee4e968fdb5efd4b042, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 11400000, guid: 52c2d0aec9828df429cf838c2f727adf, type: 2}
+      objectReference: {fileID: 11400000, guid: 69f380612ee19ed43b89166a1ab5c464, type: 2}
     - target: {fileID: -5234112299733751658, guid: 06c2bf207f235ee4e968fdb5efd4b042, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Continuar
+      value: Pause
       objectReference: {fileID: 0}
     - target: {fileID: -5234112299733751658, guid: 06c2bf207f235ee4e968fdb5efd4b042, type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Fase_Menu, Hexbase
+      value: UI_Menu, XS.UI
+      objectReference: {fileID: 0}
+    - target: {fileID: -5234112299733751658, guid: 06c2bf207f235ee4e968fdb5efd4b042, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 8179008390891989650, guid: 91d39af8aa8b15e41a3d292b36642764, type: 3}
+    - target: {fileID: -5234112299733751658, guid: 06c2bf207f235ee4e968fdb5efd4b042, type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: Utils_InstantiableFromProject, XS.Utils
       objectReference: {fileID: 0}
     - target: {fileID: 3443758699437946801, guid: 06c2bf207f235ee4e968fdb5efd4b042, type: 3}
       propertyPath: m_Enabled

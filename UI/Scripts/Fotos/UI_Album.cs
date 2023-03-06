@@ -26,11 +26,12 @@ public class UI_Album : MonoBehaviour
     [SerializeField] Utils_InstantiableFromProject fondoClicable_NoFotos;
 
     [Apartat("ELEMENTS")]
-    [SerializeField] Transform parent;
+    //[SerializeField] Transform parent;
     [SerializeField] Input_EsdevenimentPerBinding esdevenimentPerBinding;
-    [SerializeField] RectTransform content;
-    [SerializeField] ProvesContent contentDinamic;
+    //[SerializeField] RectTransform content;
+    //[SerializeField] ProvesContent contentDinamic;
     [SerializeField] GridLayoutGroup gridLayoutGroup;
+    [SerializeField] XS_ScrollRect scrollRect;
 
     [Apartat("TRADUCCIONS")]
     [SerializeField] TMP_Text capcalera;
@@ -48,7 +49,8 @@ public class UI_Album : MonoBehaviour
 
     void OnEnable()
     {
-        gridLayoutGroup.cellSize = (Vector2.one * 260) * (Vector2.one / (float)guardat.Get("InterficeSize", 0.8f));
+        scrollRect.SetContentSize((Vector2.one * 260) * (Vector2.one / (float)guardat.Get("InterficeSize", 0.8f)));
+        //gridLayoutGroup.cellSize = (Vector2.one * 260) * (Vector2.one / (float)guardat.Get("InterficeSize", 0.8f));
         //content.transform.localScale = Vector3.one / (float)guardat.Get("InterficeSize", 0.8f);
         Actualitzar();
     }
@@ -117,8 +119,8 @@ public class UI_Album : MonoBehaviour
             if (save.NomesGuardats && indexPartida == -1)
                 continue;
 
-            fotos[i] = Instantiate(foto, content).GetComponent<UI_Foto>();
-            contentDinamic.Add(fotos[i].gameObject);
+            fotos[i] = Instantiate(foto, scrollRect.content).GetComponent<UI_Foto>();
+            //contentDinamic.Add(fotos[i].gameObject);
             fotos[i].Setup(
                this,
                indexPartida != -1 ? save.Experiencia(indexPartida) : 0,
@@ -127,7 +129,8 @@ public class UI_Album : MonoBehaviour
                i == 0
                ); ;
         }
-        contentDinamic.Provar();
+        //contentDinamic.Provar();
+        //scrollRect.Iniciar();
     }
 
 
@@ -190,11 +193,11 @@ public class UI_Album : MonoBehaviour
 
     public void PosicionarContent(UI_Foto foto)
     {
-        if(!lector) lector = content.gameObject.AddComponent<Lector>();
+        if(!lector) lector = scrollRect.content.gameObject.AddComponent<Lector>();
         posicio = -(foto.GetComponent<RectTransform>().anchoredPosition.x - 130) + 600;
         Debug.Log(posicio);
         //content.anchoredPosition = new Vector3(posicio, 0, 0);
-        content.SetupAndPlay(lector, new Animacio_RectPosicio(content.anchoredPosition, new Vector3(posicio, 0, 0), Corba.EasyInEasyOut), 1, Transicio.clamp);
+        scrollRect.content.SetupAndPlay(lector, new Animacio_RectPosicio(scrollRect.content.anchoredPosition, new Vector3(posicio, 0, 0), Corba.EasyInEasyOut), 1, Transicio.clamp);
 
         //new Animacio_RectPosicio(content.anchoredPosition, new Vector3(-(750 + foto.transform.localPosition.x),0,0)).Play(content, 1, Transicio.clamp);
 

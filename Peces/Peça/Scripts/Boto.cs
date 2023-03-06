@@ -18,10 +18,9 @@ public class Boto : Hexagon, IPointerClickHandler
     public override bool EsPeça => false;
 
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        onClick?.Invoke();
-    }
+    public void OnPointerClick(PointerEventData eventData) => Click();
+
+    public void Click() => onClick?.Invoke();
 
 
 

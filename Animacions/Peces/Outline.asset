@@ -49,7 +49,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         propietat: _Seleccionat
-        inici: 1.2
+        inici: 1.3
         final: 0
         dinamic: 1
     - rid: 2210365066426974217
@@ -244,7 +244,7 @@ MonoBehaviour:
   onEnabled: {fileID: 0}
   idle: {fileID: 0}
   onPointerEnter: {fileID: 5185598113058440702}
-  loop: {fileID: 0}
+  apuntat: {fileID: 8561170088426074019}
   onPointerDown: {fileID: 0}
   onPointerUp: {fileID: -4609907509805323953}
   onPointerExit: {fileID: -8823760654161264782}
@@ -319,24 +319,24 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 1.7866411
-            outSlope: 1.7866411
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 0.66146034
-            value: 1.1817923
-            inSlope: -0.11642157
-            outSlope: -0.11642157
+            inSlope: 5.573022
+            outSlope: 5.573022
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0.33333334
+            inWeight: 0
+            outWeight: 0.03255426
+          - serializedVersion: 3
+            time: 0.63194335
+            value: 1.2080663
+            inSlope: -1.0806581
+            outSlope: -1.0806581
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.06424865
             outWeight: 0.31771863
           - serializedVersion: 3
-            time: 0.87922394
-            value: 0.94510615
+            time: 0.8649417
+            value: 0.9475018
             inSlope: -0.043044664
             outSlope: -0.043044664
             tangentMode: 0
@@ -357,5 +357,65 @@ MonoBehaviour:
           m_RotationOrder: 4
         propietat: _Seleccionat
         inici: -0.1
-        final: 1.2
+        final: 1.3
+        dinamic: 0
+--- !u!114 &8561170088426074019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: Apuntat
+  m_EditorClassIdentifier: 
+  transicio: 1
+  temps: 1
+  animacions:
+  - rid: 3071613421733281798
+  references:
+    version: 2
+    RefIds:
+    - rid: 3071613421733281798
+      type: {class: Animacio_ShaderFloat, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Shader float
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.5
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        propietat: _Seleccionat
+        inici: 1.7
+        final: 1.3
         dinamic: 0

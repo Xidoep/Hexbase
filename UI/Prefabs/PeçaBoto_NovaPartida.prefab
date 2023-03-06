@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1973165481425570980}
+  boto: {fileID: 3374811887307502868}
   onClick:
     m_PersistentCalls:
       m_Calls:
@@ -185,7 +186,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -5234112299733751658}
+        m_TargetAssemblyTypeName: Boto, Hexbase
+        m_MethodName: Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   component: {fileID: 2247224760059510459}
   animacio: {fileID: 11400000, guid: 1003e65dda5edfd4db1732cf451083b0, type: 2}
 --- !u!114 &3443758699437946801
@@ -493,10 +506,6 @@ PrefabInstance:
       propertyPath: pare
       value: 
       objectReference: {fileID: 2820747690159962595}
-    - target: {fileID: 6338431924579940891, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c17aa62493e8a4da13f044048b00c8, type: 3}
 --- !u!23 &2247224760059510459 stripped

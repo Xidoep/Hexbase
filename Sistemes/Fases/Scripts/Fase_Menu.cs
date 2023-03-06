@@ -31,11 +31,10 @@ public class Fase_Menu : Fase
     //[SerializeField] UI_Menu ui;
 
     [Apartat("BOTONS")]
-    [SerializeField] Botons[] opcions;
-    [SerializeField] GameObject novaPartida;
-    [SerializeField] GameObject continuar;
-    [SerializeField] GameObject configuracio;
-    [SerializeField] GameObject sortir;
+    [SerializeField] Botons novaPartida;
+    [SerializeField] Botons continuar;
+    [SerializeField] Botons configuracio;
+    [SerializeField] Botons sortir;
     [Apartat("MODES")]
     [SerializeField] Modes modes;
 
@@ -65,12 +64,10 @@ public class Fase_Menu : Fase
                 continuarFondoClicable.Instantiate();
             }
             else
-                Opcions(opcions);
+                Opcions();
         }
         else
-            Opcions(opcions);
-
-
+            Opcions();
     }
 
     //PUBLIQUES
@@ -112,11 +109,31 @@ public class Fase_Menu : Fase
         save.Load(grups, iniciar);
     }
 
+    public void ActivarBotons() => ActivarBotons(true);
+    public void DesactivarBotons() => ActivarBotons(false);
+    void ActivarBotons(bool activar)
+    {
+        if (activar) botons[0].Seleccionar();
+        for (int i = 0; i < botons.Count; i++)
+        {
+            botons[i].Navegacio(activar);
+        }
+    }
 
     //PRIVADES
     void Opcions()
     {
-        if (botons == null) botons = new List<Hexagon>();
+        List<Botons> botons = new List<Botons>();
+
+        botons.Add(novaPartida);
+
+        if (save.TePeces) botons.Add(continuar);
+
+        botons.Add(configuracio);
+        botons.Add(sortir);
+
+        Opcions(botons.ToArray());
+        /* (botons == null) botons = new List<Hexagon>();
         else botons.Clear();
 
         if (coroutines == null) coroutines = new List<Coroutine>();
@@ -131,8 +148,10 @@ public class Fase_Menu : Fase
         {
             coroutines.Add(XS_Coroutine.StartCoroutine(CrearBotoDelayed(continuar, new Vector2Int(-1, -1), 0.5f)));
         }
-        iniciar.Reset();
+        iniciar.Reset();*/
     }
+
+
     void Opcions(Botons[] opcions)
     {
         if (botons == null) botons = new List<Hexagon>();
@@ -146,9 +165,8 @@ public class Fase_Menu : Fase
         {
             CrearOpcio(opcions[i], 1 + i * 0.75f);
         }
-
-        
     }
+
     void CrearOpcio(Botons boto, float temps)
     {
         XS_Coroutine.StartCoroutine_Ending(temps, Crear);

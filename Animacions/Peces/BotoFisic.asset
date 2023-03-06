@@ -68,7 +68,7 @@ MonoBehaviour:
           m_RotationOrder: 4
         inici: {x: 0, y: -0.2, z: 0}
         final: {x: 0, y: -1, z: 0}
-        local: 0
+        local: 1
         dinamic: 0
     - rid: 2210365066426974212
       type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
@@ -107,8 +107,8 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        inici: {x: 0.9, y: 0.1, z: 0.9}
-        final: {x: 0, y: 0.01, z: 0}
+        inici: {x: 1, y: 1, z: 1}
+        final: {x: 1, y: 1, z: 1}
         dinamic: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -124,9 +124,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEnabled: {fileID: 11400000, guid: 0c0f849a426605b4997163aa275830d9, type: 2}
   idle: {fileID: 0}
-  onPointerEnter: {fileID: 0}
-  loop: {fileID: 0}
+  onPointerEnter: {fileID: 5829880824134643203}
+  apuntat: {fileID: 0}
   onPointerDown: {fileID: 0}
   onPointerUp: {fileID: -1691327113718484722}
   onPointerExit: {fileID: 0}
   onDestroyOrDisable: {fileID: 0}
+--- !u!114 &5829880824134643203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnPointerEnter
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 1
+  animacions:
+  - rid: 3071613421733281799
+  references:
+    version: 2
+    RefIds:
+    - rid: 3071613421733281799
+      type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: So
+        so: {fileID: 11400000, guid: b62daf6c64bd0e2409c3481bb495b35e, type: 2}
+        aPosicio: 0
+        delay: 0
