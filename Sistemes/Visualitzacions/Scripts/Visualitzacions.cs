@@ -201,9 +201,9 @@ public class Visualitzacions : ScriptableObject
             }
         }
     }
-    public void DestacarPeça(Peça peça, bool destacar)
+    public void DestacarPeça(Hexagon hexagon, bool destacar)
     {
-        MeshRenderer[] meshRenderers = peça.GetComponentsInChildren<MeshRenderer>();
+        MeshRenderer[] meshRenderers = hexagon.GetComponentsInChildren<MeshRenderer>();
         for (int i = 0; i < meshRenderers.Length; i++)
         {
             meshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);

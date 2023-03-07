@@ -25,6 +25,8 @@ public class Tester : ScriptableObject
         StepDelayed();
     }
 
+
+
     void StepDelayed()
     {
         proces = XS_Coroutine.StartCoroutine_Ending(1, Step);

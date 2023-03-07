@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1973165481425570980}
-  boto: {fileID: 3374811887307502868}
   onClick:
     m_PersistentCalls:
       m_Calls:
@@ -64,6 +63,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  boto: {fileID: 3374811887307502868}
+  informacions:
+  - {fileID: 11400000, guid: 9a7990fa4cfc26544b32ba7eff2816a1, type: 2}
 --- !u!64 &7088656447895351387
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -186,19 +188,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -5234112299733751658}
-        m_TargetAssemblyTypeName: Boto, Hexbase
-        m_MethodName: Click
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   component: {fileID: 2247224760059510459}
   animacio: {fileID: 11400000, guid: 1003e65dda5edfd4db1732cf451083b0, type: 2}
 --- !u!114 &3443758699437946801

@@ -35,11 +35,12 @@ public class Fase_Menu : Fase
     [SerializeField] Botons continuar;
     [SerializeField] Botons configuracio;
     [SerializeField] Botons sortir;
+    [SerializeField] Botons freeStyle;
     [Apartat("MODES")]
     [SerializeField] Modes modes;
 
     bool inici = true;
-    List<Hexagon> botons;
+    List<Boto> botons;
     List<Coroutine> coroutines;
 
     //OVERRIDES
@@ -113,6 +114,9 @@ public class Fase_Menu : Fase
     public void DesactivarBotons() => ActivarBotons(false);
     void ActivarBotons(bool activar)
     {
+        if (botons.Count == 0)
+            return;
+
         if (activar) botons[0].Seleccionar();
         for (int i = 0; i < botons.Count; i++)
         {
@@ -126,35 +130,25 @@ public class Fase_Menu : Fase
         List<Botons> botons = new List<Botons>();
 
         botons.Add(novaPartida);
-
         if (save.TePeces) botons.Add(continuar);
+
+        if ((bool)guardat.Get(SEGONA_PARTIDA, false))
+        {
+
+        }
+
 
         botons.Add(configuracio);
         botons.Add(sortir);
 
         Opcions(botons.ToArray());
-        /* (botons == null) botons = new List<Hexagon>();
-        else botons.Clear();
 
-        if (coroutines == null) coroutines = new List<Coroutine>();
-        else coroutines.Clear();
-
-        Grid.Instance.Resetejar();
-
-
-
-        botons.Add(Grid.Instance.CrearBoto(Grid.Instance.Centre, novaPartida));
-        if (save.TePeces)
-        {
-            coroutines.Add(XS_Coroutine.StartCoroutine(CrearBotoDelayed(continuar, new Vector2Int(-1, -1), 0.5f)));
-        }
-        iniciar.Reset();*/
     }
 
 
     void Opcions(Botons[] opcions)
     {
-        if (botons == null) botons = new List<Hexagon>();
+        if (botons == null) botons = new List<Boto>();
         else botons.Clear();
 
         if (coroutines == null) coroutines = new List<Coroutine>();
@@ -163,22 +157,27 @@ public class Fase_Menu : Fase
         Grid.Instance.Resetejar();
         for (int i = 0; i < opcions.Length; i++)
         {
-            CrearOpcio(opcions[i], 1 + i * 0.75f);
+            CrearOpcio(opcions[i], 1 + i * 0.75f, i == 0);
         }
     }
 
-    void CrearOpcio(Botons boto, float temps)
+    void CrearOpcio(Botons boto, float temps, bool dimensionar)
     {
         XS_Coroutine.StartCoroutine_Ending(temps, Crear);
-        void Crear() => botons.Add(boto.Crear(Grid.Instance));
+        void Crear() 
+        { 
+            botons.Add((Boto)boto.Crear(Grid.Instance));
+            if(dimensionar)
+                Grid.Instance.Dimensionar(botons[0]);
+        } 
     }
 
 
-    IEnumerator CrearBotoDelayed(GameObject prefab, Vector2Int posicio, float delay)
+    /*IEnumerator CrearBotoDelayed(GameObject prefab, Vector2Int posicio, float delay)
     {
         yield return new WaitForSeconds(delay);
         botons.Add(Grid.Instance.CrearBoto(Grid.Instance.Centre + posicio, prefab));
-    }
+    }*/
 
     void NetejarBotonsDelGrid()
     {
@@ -198,6 +197,10 @@ public class Fase_Menu : Fase
                 Destroy(botons[i].gameObject, 1);
             }
         }
+
+
+        botons = new List<Boto>();
+        Grid.Instance.Resetejar();
         
         OnFinish -= NetejarBotonsDelGrid;
     }

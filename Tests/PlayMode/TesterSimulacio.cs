@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.TestTools;
 using UnityEditor;
 using XS_Utils;
@@ -37,5 +38,20 @@ public class TesterSimulacio
         Debug.LogError($"grid = {grid != null}");
         Assert.AreEqual(true, grid != null);
         //Assert.AreEqual(true, controlador.Es(colocar));
+    }
+
+    [UnityTest]
+    public IEnumerator StartGame()
+    {
+        SceneManager.LoadScene(0);
+        yield return new WaitForSeconds(3);
+
+        GameObject.Find("PeçaBoto_NovaPartida(Clone)").GetComponent<Boto>().OnPointerClick(new PointerEventData(EventSystem.current));
+        yield return new WaitForSeconds(3);
+
+        FasesControlador controlador = AssetDatabase.LoadAssetAtPath<FasesControlador>("Assets/XidoStudio/Hexbase/Sistemes/Fases/_Controlador.asset");
+        Fase colocar = AssetDatabase.LoadAssetAtPath<Fase>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Colocar.asset");
+
+        Assert.AreEqual(true, controlador.Es(colocar));
     }
 }

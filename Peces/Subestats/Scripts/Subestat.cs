@@ -72,7 +72,7 @@ public class Subestat : ScriptableObject
 
 
 
-    public void InformacioMostrar(Peça peça, bool proveides) 
+    public void InformacioMostrar(Hexagon peça, bool proveides) 
     {
         for (int i = 0; i < informacions.Length; i++)
         {
@@ -81,7 +81,7 @@ public class Subestat : ScriptableObject
 
         
     }
-    public void InformacioAmagar(Peça peça) 
+    public void InformacioAmagar(Hexagon peça) 
     {
         if (informacions.Length == 0)
         {

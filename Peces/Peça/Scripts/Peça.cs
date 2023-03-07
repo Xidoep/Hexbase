@@ -108,8 +108,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     } 
     public Vector2Int SetCoordenadesProducte { set => extraccio = null; /*set => producteCooerdenada = value;*/ } //Canviat només perque no molesti
 
-    public System.Action<Peça, bool> mostrarInformacio;
-    public System.Action<Peça> amagarInformacio;
 
 
     public void CrearTilesPotencials()

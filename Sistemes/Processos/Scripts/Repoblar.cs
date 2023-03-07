@@ -54,7 +54,7 @@ public class Repoblar : ScriptableObject
         //Si falten necessitats, n'agafeix.
         if (necessitats > peça.Casa.Necessitats.Length)
         {
-            peça.amagarInformacio?.Invoke(peça);
+            peça.AmagarInformacio?.Invoke(peça);
             for (int i = peça.Casa.Necessitats.Length; i < necessitats; i++)
             {
                 peça.Casa.AfegirNecessitat(necessitatInicial);
@@ -63,7 +63,7 @@ public class Repoblar : ScriptableObject
         //Si sobren necessitats, en treu.
         else if(necessitats < peça.Casa.Necessitats.Length)
         {
-            peça.amagarInformacio?.Invoke(peça);
+            peça.AmagarInformacio?.Invoke(peça);
             for (int i = necessitats; i < peça.Casa.Necessitats.Length; i++)
             {
                 peça.Casa.TreureNecessitat();

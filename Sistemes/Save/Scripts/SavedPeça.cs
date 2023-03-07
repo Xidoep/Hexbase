@@ -79,7 +79,6 @@ public class SavedPeça
         }
 
         grid.Set(peça);
-
         //VEINS
         peça.AssignarVeinsTiles(peça.Tiles);
 

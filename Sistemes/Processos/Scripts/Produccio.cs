@@ -93,7 +93,7 @@ public class Produccio : ScriptableObject
             if (!productors[index].Extraccio.productesExtrets[i].gastat)
             {
                 calVisualitzar = true;
-                productors[index].Extraccio.mostrarInformacio?.Invoke(productors[index].Extraccio, true);
+                productors[index].Extraccio.MostrarInformacio?.Invoke(productors[index].Extraccio, true);
                 productors[index].Extraccio.BlocarInformacio = true;
                 break;
             }
@@ -110,7 +110,7 @@ public class Produccio : ScriptableObject
                 Peça proveida = BuscarCasaDesproveida(productors[index], productors[index].Extraccio.productesExtrets[i].producte, out int indexNecessitat);
                 if (proveida != null)
                 {
-                    proveida.mostrarInformacio?.Invoke(proveida, true);
+                    proveida.MostrarInformacio?.Invoke(proveida, true);
                     proveida.BlocarInformacio = true;
                     resoldre.Nivell.GuanyarExperiencia(1);
                     casesProveides.Add(proveida);
@@ -145,11 +145,11 @@ public class Produccio : ScriptableObject
     {
         for (int i = 0; i < casesProveides.Count; i++)
         {
-            casesProveides[i].mostrarInformacio?.Invoke(casesProveides[i], false);
+            casesProveides[i].MostrarInformacio?.Invoke(casesProveides[i], false);
         }
         for (int i = 0; i < productors.Count; i++)
         {
-            productors[i].Extraccio.mostrarInformacio?.Invoke(productors[i].Extraccio, false);
+            productors[i].Extraccio.MostrarInformacio?.Invoke(productors[i].Extraccio, false);
         }
     }
 

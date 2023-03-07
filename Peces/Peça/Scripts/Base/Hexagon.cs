@@ -24,7 +24,7 @@ public abstract class Hexagon : MonoBehaviour
 
     //VARIABLES 
     [SerializeField] Transform parent;
-    [SerializeField] XS_Button boto;
+
     //[SerializeField] protected AnimacioPerCodi animacioPerCodi;
     //[SerializeField] public AnimacioPerCodi animacio;
 
@@ -33,15 +33,13 @@ public abstract class Hexagon : MonoBehaviour
     System.Func<Vector2Int, List<Hexagon>> veins;
     System.Func<Vector2Int, List<Peça>> veinsPeça;
 
+    protected System.Action<Hexagon, bool> mostrarInformacio;
+    protected System.Action<Hexagon> amagarInformacio;
 
-    public void Navegacio(bool activar) 
-    {
-        Navigation navigation = new Navigation();
-        navigation.mode = activar ? Navigation.Mode.Automatic : Navigation.Mode.None;
+    public System.Action<Peça, bool> MostrarInformacio => mostrarInformacio;
+    public System.Action<Peça> AmagarInformacio => amagarInformacio;
 
-        boto.navigation = navigation;
-    }
-    public void Seleccionar() => boto.Select();
+
     public abstract bool EsPeça { get; }
     public Vector2Int Coordenades => coordenades;
 

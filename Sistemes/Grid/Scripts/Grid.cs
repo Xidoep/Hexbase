@@ -17,128 +17,65 @@ public class Grid : MonoBehaviour
         Instance = this;
     }
 
-    //***************************************************
-    //Potser aixo també es podria convertir en un Scriptable. Així l'escena queda neta.
-    //***************************************************
-    //[SerializeField] GridLayout gridLayout;
-
     const int GRID_SIZE = 200;
 
     [SerializeField] Fase inicial;
     [SerializeField] Fase processar;
     [SerializeField] Grups grups;
     [SerializeField] Produccio produccio;
-    //[SerializeField] SaveHex save;
-    //[SerializeField] CamaraGestio camaraGestio;
 
     [Apartat("PREFABS")]
     [SerializeField] GameObject prefab_Ranura;
     [SerializeField] GameObject prefab_Peça;
-    //[SerializeField] GameObject prefab_Boto;
-    //[SerializeField] GameObject prefab_Simulacio;
-
-    /*[Apartat("ESTATS")]
-    [SerializeField] Estat[] estats;
-
-    [Apartat("SUBESTATS")]
-    [SerializeField] Subestat[] subestats;
-    */
-    //[Linia]
-    //[Header("PECES")]
-    //[Nota("Això haurà d'anar en una Fase 'Inicial', que s'encarregará de crear el mon abans de tu començar a jugar.", NoteType.Error)]
-    //[SerializeField] Estat inicial; //Posar aixo en un scriptable que controli la peça que s'ha seleccionat. "Seleccio" o algo aixi
 
     Hexagon[,] grid;
     Peça simulada;
     Hexagon ranuraSimulada;
 
-    //[Apartat("DIMENCIONS")]
     Vector2Int nord = Vector2Int.one * 100;
     Vector2Int sud = Vector2Int.one * 100;
     Vector2Int est = Vector2Int.one * 100;
     Vector2Int oest = Vector2Int.one * 100;
 
-    //[SerializeField] List<XS_GPU.Grafic> grafics;
-
-    //INTERN
-    //Estat eTrobat;
-    //Subestat sTrobat;
-
     Action<Hexagon, Hexagon, Hexagon, Hexagon> enDimensionar;
     public Action<Hexagon, Hexagon, Hexagon, Hexagon> SetEnDimensionar { set => enDimensionar = value; }
 
-    /*public Estat Estat(string nom) 
-    {
-        eTrobat = null;
-        for (int i = 0; i < estats.Length; i++)
-        {
-            if(estats[i].name == nom)
-            {
-                eTrobat = estats[i];
-                break;
-            }
-        }
-        return eTrobat;
-    }
-    public Subestat Subestat(string nom) 
-    {
-        sTrobat = null;
-        for (int i = 0; i < subestats.Length; i++)
-        {
-            if (subestats[i].name == nom)
-            {
-                sTrobat = subestats[i];
-                break;
-            }
-        }
-        return sTrobat;
-    } */
+
 
     public void Start()
     {
         inicial.Iniciar();
     }
 
-    public void Dimensionar(Peça peça)
+    public void Dimensionar(Hexagon hexagon)
     {
-        if (peça.Coordenades.y < nord.y) nord = peça.Coordenades;
-        if (peça.Coordenades.y > sud.y) sud = peça.Coordenades;
-        if (peça.Coordenades.x > est.x) est = peça.Coordenades;
-        if (peça.Coordenades.x < oest.x) oest = peça.Coordenades;
+        if (hexagon.Coordenades.y < nord.y) nord = hexagon.Coordenades;
+        if (hexagon.Coordenades.y > sud.y) sud = hexagon.Coordenades;
+        if (hexagon.Coordenades.x > est.x) est = hexagon.Coordenades;
+        if (hexagon.Coordenades.x < oest.x) oest = hexagon.Coordenades;
 
         enDimensionar.Invoke(
             grid[nord.x, nord.y],
             grid[sud.x, sud.y],
             grid[est.x, est.y],
             grid[oest.x, oest.y]);
-        /*camaraGestio.SetDimensions(
-            grid[nord.x, nord.y],
-            grid[sud.x, sud.y],
-            grid[est.x, est.y],
-            grid[oest.x, oest.y]);*/
     }
-
-    /*private void LateUpdate()
-    {
-        XS_GPU.Render();
-        grafics = XS_GPU.grafics;
-    }*/
 
     public GameObject Prefab_Peça => prefab_Peça;
     public List<Hexagon> Veins(Vector2Int coordenades) => grid.Veins(coordenades);
     public List<Peça> VeinsPeça(Vector2Int coordenades) => grid.VeinsPeça(coordenades);
     public List<Vector2Int> VeinsCoordenades(Vector2Int coordenades) => grid.VeinsCoordenades(coordenades);
     public Vector2Int Centre => new Vector2Int(GRID_SIZE / 2, GRID_SIZE / 2);
-    public void Set(Peça peça) => grid.Set(peça);
+    public void Set(Hexagon hexagon) 
+    {
+        grid.Set(hexagon);
+        Dimensionar(hexagon);
+    }
     public Hexagon Get(Vector2Int coordenada) => grid.Get(coordenada);
     public Hexagon Get(int x, int y) => grid.Get(x, y);
     public void Netejar(Vector2Int coordenada) => grid.Set(null, coordenada);
     public bool EstaBuida(Vector2Int coordenada) => grid.EstaBuida(coordenada);
-    /*private void OnEnable()
-    {
-        CrearGrid();
-        CrearPeça(inicial, new Vector2Int(GRID_SIZE / 2, GRID_SIZE / 2));
-    }*/
+
 
     public void CrearGrid()
     {
@@ -175,8 +112,7 @@ public class Grid : MonoBehaviour
         Peça peçaFisica = Instanciar(prefab_Peça, coordenada.x, coordenada.y).GetComponent<Peça>();
 
         peçaFisica.Setup(this, coordenada, tipus, tipus.SubestatInicial);
-        grid.Set(peçaFisica);
-        //peçaFisica.Iniciar();
+        Set(peçaFisica);
 
         foreach (var coodVei in grid.VeinsCoordenades(peçaFisica.Coordenades))
         {
@@ -186,7 +122,6 @@ public class Grid : MonoBehaviour
         if(processar)
             this.processar.Iniciar(peçaFisica);
 
-        //save.Add(peçaFisica, grups);
     }
 
 
@@ -194,23 +129,18 @@ public class Grid : MonoBehaviour
     {
         ranuraSimulada = grid.Get(coordenada);
 
-        //simulada = new GameObject("simulada").AddComponent<Peça>();
         simulada = Instanciar(estat.Prefag, coordenada).AddComponent<Peça>();
-        //simulada = Instanciar(prefab_Simulacio, coordenada.x, coordenada.y).GetComponent<Peça>();
         simulada.Setup(this, coordenada, estat, estat.SubestatInicial);
-        grid.Set(simulada);
+        grid.Set(simulada); //Es salta el Dimensionament
         return simulada;
     }
     public void SimularFinal(Peça peça)
     {
         Vector2Int coordenada = peça.Coordenades;
-        //if(peça != null)
-        //    Destroy(peça.gameObject);
 
         if(ranuraSimulada != null)
             grid.Set(ranuraSimulada, coordenada);
 
-        //Debugar.LogError("Borrar Simulacio");
     }
 
     public void CrearRanura(Vector2Int coordenada)
@@ -223,14 +153,14 @@ public class Grid : MonoBehaviour
 
         Ranura ranura = Instanciar(prefab_Ranura, coordenada.x, coordenada.y).GetComponent<Ranura>();
         ranura.Setup(this, coordenada, null, null);
-        grid.Set(ranura);
+        Set(ranura);
 
     }
     public Hexagon CrearBoto(Vector2Int coordenada, GameObject boto)
     {
         Hexagon hex = Instanciar(boto, coordenada.x, coordenada.y).GetComponent<Hexagon>();
         hex.Setup(this, coordenada, null, null);
-        grid.Set(hex);
+        grid.Set(hex); //Es salta el Dimensionament
         return hex;
     }
 
@@ -263,8 +193,6 @@ public class Grid : MonoBehaviour
         sud = Vector2Int.one * 100;
         est = Vector2Int.one * 100;
         oest = Vector2Int.one * 100;
-
-        //camaraGestio.ResetDimensions(transform);
     }
 
     public GameObject Instanciar(GameObject prefab, Vector2Int coordenada) => Instanciar(prefab, coordenada.x, coordenada.y);
@@ -274,15 +202,6 @@ public class Grid : MonoBehaviour
         tmp.transform.localPosition = GridExtensions.GetWorldPosition(x, y);
         return tmp;
     }
-
-    /*private void OnValidate()
-    {
-        //if (prefab_Ranura == null) prefab_Ranura = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Ranura.prefab");
-        //if (prefab_Peça == null) prefab_Peça = XS_Editor.LoadAssetAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peça/Prefabs/Peça.prefab");
-
-        estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
-        subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
-    }*/
 
 }
 
