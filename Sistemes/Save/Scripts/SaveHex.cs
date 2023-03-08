@@ -6,6 +6,9 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Save")]
 public class SaveHex : ScriptableObject
 {
+    public const string KEY_BROMA_SORTIR_VISTA = "BromaSortirVista";
+    public const string KEY_SEGONA_PARTIDA = "SegonaPartida";
+
     [SerializeField] int current = 0;
     [SerializeField] List<SavedFile> files;
     [SerializeField] CapturarPantalla capturarPantalla;
@@ -36,24 +39,11 @@ public class SaveHex : ScriptableObject
         nomesGuardats = false;
     }
 
-    public void MostrarNomesPartidesGuardades(bool nomesGuardats) => this.nomesGuardats = nomesGuardats;
+
+
+    //GETTERS
     public bool NomesGuardats => nomesGuardats;
-
-    //public List<SavedFile> Files => files;
-    public void NouArxiu(Mode mode)
-    {
-        files.Add(new SavedFile());
-        current = files.Count - 1;
-        files[current].SetMode(mode);
-    }
-    public void BorrarPartida()
-    {
-        files.RemoveAt(current);
-        if (files.Count == 0) files.Add(new SavedFile());
-        current = Mathf.Clamp(current - 1, 0, files.Count - 1);
-    }
-
-    public int Mode => files[current].Mode;
+    public int Mode => files[current].Mode; 
     public bool TePeces 
     {
         get 
@@ -65,28 +55,6 @@ public class SaveHex : ScriptableObject
         }
     }
     public bool TeCaptures => files[current].Captures != null && files[current].Captures.Count > 0;
-
-    public void Add(Peça peça, Grups grups) => files[current].Add(peça, grups);
-
-    public void Actualitzar(List<Peça> peçes, Grups grups) => files[current].Actualitzar(peçes, grups);
-    public void ActualitzarExperiencia(int experiencia, int nivell) => files[current].SetExperienciaNivell(experiencia, nivell);
-    public void Load(Grups grups, Fase seguent) => files[current].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab);
-
-    public void Load(int index, Grups grups, Fase colocar)
-    {
-        current = index;
-        Load(grups, colocar);
-    }
-    public void AddCaptura(string path) => files[current].AddCaptura(path);
-
-    public void RemoveCaptura(int index, string path)
-    {
-        if (index == -1)
-            return;
-
-        if(files[index].Captures.Contains(path))
-            files[index].Captures.Remove(path);
-    }
     public int Experiencia(int index) => files[index].Experiencia;
     public int CapturaToIndex(string path)
     {
@@ -118,12 +86,8 @@ public class SaveHex : ScriptableObject
             return files[index].Captures[files[index].Captures.Count - 1];
         else return "";
     } 
-
-    public void AddToPila(Estat estat) => files[current].AddPila(estat);
-    public void RemoveLastFromPila() => files[current].RemoveLastPila();
     public bool PilaPlena => files[current].PilaPlena;
     public List<Estat> Pila => files[current].Pila(EstatNomToPrefab);
-
     Estat EstatNomToPrefab(string nom)
     {
         eTrobat = null;
@@ -163,6 +127,52 @@ public class SaveHex : ScriptableObject
         }
         return pTrobat;
     }
+
+
+
+    //SETTERS / FUNCIONS
+    public void MostrarNomesPartidesGuardades(bool nomesGuardats) => this.nomesGuardats = nomesGuardats;
+    public void NouArxiu(Mode mode)
+    {
+        files.Add(new SavedFile());
+        current = files.Count - 1;
+        files[current].SetMode(mode);
+    }
+    public void BorrarPartida()
+    {
+        files.RemoveAt(current);
+        if (files.Count == 0) files.Add(new SavedFile());
+        current = Mathf.Clamp(current - 1, 0, files.Count - 1);
+    }
+    public void SetMode(Mode mode) => files[current].SetMode(mode);
+    public void Add(Peça peça, Grups grups) => files[current].Add(peça, grups);
+    public void Actualitzar(List<Peça> peçes, Grups grups) => files[current].Actualitzar(peçes, grups);
+    public void ActualitzarExperiencia(int experiencia, int nivell) => files[current].SetExperienciaNivell(experiencia, nivell);
+    public void AddCaptura(string path) => files[current].AddCaptura(path);
+    public void RemoveCaptura(int index, string path)
+    {
+        if (index == -1)
+            return;
+
+        if(files[index].Captures.Contains(path))
+            files[index].Captures.Remove(path);
+    }
+    public void AddToPila(Estat estat) => files[current].AddPila(estat);
+    public void RemoveLastFromPila() => files[current].RemoveLastPila();
+
+
+
+    public void Load(int index, Grups grups, Fase colocar)
+    {
+        current = index;
+        Load(grups, colocar);
+    }
+    public void Load(Grups grups, Fase seguent) => files[current].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab);
+
+
+
+
+
 
     private void OnValidate()
     {

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Modes : ScriptableObject
 {
     [SerializeField] Mode mode;
+    [SerializeField] SaveHex save;
 
     [Apartat("REFERNCIES")]
     [SerializeField] GameObject prefabs_FreeSyle;
@@ -15,7 +16,11 @@ public class Modes : ScriptableObject
     GameObject menu;
 
     public Mode Mode => mode;
-    public void Set(Mode mode) => this.mode = mode;
+    public void Set(Mode mode) 
+    {
+        this.mode = mode;
+        save.SetMode(mode);
+    }
 
     public void ConfigurarModes()
     {
@@ -42,6 +47,8 @@ public class Modes : ScriptableObject
 
     public void Destruir() => menu.GetComponent<AnimacioPerCodi_GameObject_Referencia>().Destroy();
 
+    public void Normal() => mode = Mode.Pila;
+    public void FreeStyle() => mode = Mode.FreeStyle;
     void OnDisable()
     {
         menu = null;

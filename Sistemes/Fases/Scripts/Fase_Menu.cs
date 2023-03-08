@@ -10,13 +10,15 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Menu")]
 public class Fase_Menu : Fase
 {
-    public const string SEGONA_PARTIDA = "SegonaPartida";
+    //public const string SEGONA_PARTIDA = "SegonaPartida";
 
     [Apartat("GUARDAT")]
     [SerializeField] SaveHex save;
     [SerializeField] Guardat guardat;
     [SerializeField] Grups grups;
     [SerializeField] CapturarPantalla capturarPantalla;
+    [SerializeField] SavableVariable<bool> bromaVista;
+    [SerializeField] SavableVariable<bool> segonaPartida;
 
     [Apartat("SEGÜENT FASE")]
     [SerializeField] Fase_Iniciar iniciar;
@@ -81,7 +83,7 @@ public class Fase_Menu : Fase
         //ui.Resume();
         Debugar.Log("SORTIR??");
 
-        guardat.Set(SEGONA_PARTIDA, true, true);
+        bromaVista.Valor = true;
         
         if (!save.TeCaptures)
         {
@@ -95,13 +97,14 @@ public class Fase_Menu : Fase
             fadeOut.Instantiate();
             XS_Coroutine.StartCoroutine_Ending(1, Application.Quit);
         }
-
     }
 
     public void NovaPartida()
     {
         save.NouArxiu(modes.Mode);
         iniciar.Iniciar();
+
+        segonaPartida.Valor = true;
     }
     public void Continuar()
     {
@@ -132,9 +135,9 @@ public class Fase_Menu : Fase
         botons.Add(novaPartida);
         if (save.TePeces) botons.Add(continuar);
 
-        if ((bool)guardat.Get(SEGONA_PARTIDA, false))
+        if (segonaPartida.Valor)
         {
-
+            botons.Add(freeStyle);
         }
 
 
@@ -221,16 +224,14 @@ public class Fase_Menu : Fase
     {
         if (sortir)
         {
-            bool segonaPartida = (bool)guardat.Get(Fase_Menu.SEGONA_PARTIDA, false);
-
-            if (segonaPartida)
+            if (bromaVista.Valor)
             {
                 Sortir();
                 fadeOut.Instantiate();
             }
             else
             {
-                guardat.Set(Fase_Menu.SEGONA_PARTIDA, true, true);
+                bromaVista.Valor = true;
                 sortir2.Instantiate();
             }
         }
@@ -264,5 +265,7 @@ public class Fase_Menu : Fase
         if (guardat == null) guardat = XS_Editor.LoadGuardat<Guardat>();
         if (uiMenu == null) uiMenu = XS_Editor.LoadAssetAtPath<UI_Menu>("Assets/XidoStudio/UI/UI.asset");
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
+        bromaVista = new SavableVariable<bool>(SaveHex.KEY_BROMA_SORTIR_VISTA, Guardat.Direccio.Cloud, false);
+        segonaPartida = new SavableVariable<bool>(SaveHex.KEY_SEGONA_PARTIDA, Guardat.Direccio.Cloud, false);
     }
 }
