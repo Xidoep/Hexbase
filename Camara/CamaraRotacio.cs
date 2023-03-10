@@ -14,15 +14,15 @@ public class CamaraRotacio
     [SerializeField] float speed;
     [SerializeField] float time;
     Quaternion rotacio;
-    bool active;
+    //bool active;
     //float startMousePos;
     //Quaternion startRot;
 
     public void Enable()
     {
         keyboard.action.Enable();
-        mouseActivation.action.Enable();
-        mouseActivation.OnPerformedAdd(Activate);
+        //mouseActivation.action.Enable();
+        //mouseActivation.OnPerformedAdd(Activate);
         mouse.action.Enable();
 
     }
@@ -40,15 +40,15 @@ public class CamaraRotacio
     public void Disable()
     {
         keyboard.action.Disable();
-        mouseActivation.action.Disable();
-        mouseActivation.OnPerformedRemove(Activate);
+        //mouseActivation.action.Disable();
+        //mouseActivation.OnPerformedRemove(Activate);
         mouse.action.Disable();
     }
 
     public void Activate(InputAction.CallbackContext context)
     {
-        active = context.GetBool();
-        Fase_Colocar.Bloquejar(active);
+        //active = context.GetBool();
+        //Fase_Colocar.Bloquejar(active);
     }
     void Rotacio_Keyboard()
     {
@@ -60,8 +60,8 @@ public class CamaraRotacio
 
     void Rotacio_Mouse()
     {
-        if (!active)
-            return;
+        //if (!active)
+        //    return;
 
         rotacio *= Quaternion.Euler(Vector3.up * (speed * mouse.GetVector2().x));
         //rotacio *= Quaternion.Euler(Vector3.up * (speed * (startMousePos - mouse.GetVector2().y)));
