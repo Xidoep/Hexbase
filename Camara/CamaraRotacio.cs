@@ -9,8 +9,7 @@ using XS_Utils;
 public class CamaraRotacio
 {
     [SerializeField] InputActionReference keyboard;
-    [SerializeField] InputActionReference mouseActivation;
-    [SerializeField] InputActionReference mouse;
+    //[SerializeField] InputActionReference mouse;
     [SerializeField] float speed;
     [SerializeField] float time;
     Quaternion rotacio;
@@ -23,7 +22,7 @@ public class CamaraRotacio
         keyboard.action.Enable();
         //mouseActivation.action.Enable();
         //mouseActivation.OnPerformedAdd(Activate);
-        mouse.action.Enable();
+        //mouse.action.Enable();
 
     }
     public void Start(Transform transform)
@@ -33,7 +32,7 @@ public class CamaraRotacio
     public void Update(Transform transform)
     {
         Rotacio_Keyboard();
-        Rotacio_Mouse();
+        //Rotacio_Mouse();
 
         transform.rotation = Quaternion.Lerp(transform.rotation, rotacio, Time.deltaTime * time);
     }
@@ -42,7 +41,7 @@ public class CamaraRotacio
         keyboard.action.Disable();
         //mouseActivation.action.Disable();
         //mouseActivation.OnPerformedRemove(Activate);
-        mouse.action.Disable();
+        //mouse.action.Disable();
     }
 
     public void Activate(InputAction.CallbackContext context)
@@ -63,7 +62,7 @@ public class CamaraRotacio
         //if (!active)
         //    return;
 
-        rotacio *= Quaternion.Euler(Vector3.up * (speed * mouse.GetVector2().x));
+        //rotacio *= Quaternion.Euler(Vector3.up * (speed * mouse.GetVector2().x));
         //rotacio *= Quaternion.Euler(Vector3.up * (speed * (startMousePos - mouse.GetVector2().y)));
         //rotacio = startRot * Quaternion.Euler(Vector3.up * (speed * (startMousePos - mouse.GetVector2().x)));
         //startMousePos = mouse.GetVector2().y;

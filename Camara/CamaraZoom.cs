@@ -12,7 +12,7 @@ public class CamaraZoom
     [SerializeField] CinemachineVirtualCamera vCamera;
     [Space(10)]
     [SerializeField] InputActionReference keyboard;
-    [SerializeField] InputActionReference mouse;
+    //[SerializeField] InputActionReference mouse;
     [Space(10)]
     [SerializeField] Vector3 aprop;
     [SerializeField] Vector3 lluny = new Vector3(0, 2, -5);
@@ -30,7 +30,6 @@ public class CamaraZoom
     public void Enable()
     {
         keyboard.action.Enable();
-        mouse.action.Enable();
     }
     public void Start()
     {
@@ -42,7 +41,6 @@ public class CamaraZoom
     public void Update()
     {
         Zoom_Keyboard();
-        Zoom_Mouse();
 
         zoom = Mathf.Clamp01(zoom);
         transposer.m_FollowOffset = Vector3.Lerp(transposer.m_FollowOffset, FactorToZoom(), Time.deltaTime * time);
@@ -50,7 +48,6 @@ public class CamaraZoom
     public void Disable()
     {
         keyboard.action.Disable();
-        mouse.action.Disable();
     }
 
 
@@ -60,10 +57,6 @@ public class CamaraZoom
         {
             zoom += keyboard.GetFloat() * speed;
         }
-    }
-    void Zoom_Mouse()
-    {
-        zoom -= mouse.GetVector2().y * speed * 2;
     }
 
 
