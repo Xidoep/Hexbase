@@ -65,7 +65,7 @@ public class Fase_Resoldre : Fase
     {
         //save.NouArxiu(Mode.Pila);
         enTornar?.Invoke();
-        capturarPantalla.OnCapturatRegistrar(CanviarMenuDesoresDeCapturar);
+        capturarPantalla.OnCapturatRegistrar(CanviarMenuDespresDeCapturar);
         GuardarOBorrar(true);
         //XS_Coroutine.StartCoroutine(CanviarMenu(1, menu));
         //menu.Iniciar();
@@ -157,7 +157,7 @@ public class Fase_Resoldre : Fase
         {
             capturarPantalla.OnCapturatRegistrar(NouArxiuDespresDeCapturar);
             capturarPantalla.CapturarSenseVisuals();
-            save.NouArxiu(Mode.Pila);
+            //save.NouArxiu(Mode.Pila);
         }
         else
         {
@@ -174,12 +174,12 @@ public class Fase_Resoldre : Fase
         save.NouArxiu(Mode.Pila);
         capturarPantalla.OnCapturatDesregistrar(NouArxiuDespresDeCapturar);
     }
-    void CanviarMenuDesoresDeCapturar(string path) 
+    void CanviarMenuDespresDeCapturar(string path) 
     {
         Grid.Instance.Resetejar();
         Nivell.Reset();
         menu.Iniciar();
-        capturarPantalla.OnCapturatDesregistrar(CanviarMenuDesoresDeCapturar);
+        capturarPantalla.OnCapturatDesregistrar(CanviarMenuDespresDeCapturar);
     }
 
 

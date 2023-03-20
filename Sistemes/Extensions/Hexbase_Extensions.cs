@@ -126,6 +126,9 @@ public static class GridExtensions
         return _tmpPeces;
     }
 
+    public static Vector2Int CoordenadaNula => Vector2Int.one * -10000;
+
+    public static bool EsNula(this Vector2Int coordenada) => coordenada == CoordenadaNula;
 }
 
 

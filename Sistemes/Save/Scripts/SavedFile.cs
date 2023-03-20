@@ -115,7 +115,7 @@ public class SavedFile
             return;
         }
 
-        XS_Coroutine.StartCoroutine_Ending(0.1f, DoStep);
+        XS_Coroutine.StartCoroutine_Ending_FrameDependant(0.1f, DoStep);
 
         void DoStep() => Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab);
     }
@@ -165,7 +165,7 @@ public class SavedFile
         //PRODUCTES
         for (int i = 0; i < creades.Count; i++)
         {
-            creades[i].CoordenadesToProducte(Grid.Instance);
+            creades[i].FindExtraccio(Grid.Instance);
         }
 
         //DEBUG

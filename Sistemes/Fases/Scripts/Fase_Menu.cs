@@ -52,7 +52,6 @@ public class Fase_Menu : Fase
         uiMenu.DesregistrarAccions();
 
         OnFinish += MarcarComIniciat;
-        OnFinish += NetejarBotonsDelGrid;
         OnFinish += uiMenu.RegistrarAccions;
 
         Grid.Instance.CrearGrid();
@@ -67,10 +66,17 @@ public class Fase_Menu : Fase
                 continuarFondoClicable.Instantiate();
             }
             else
+            {
                 Opcions();
+            }
         }
         else
+        {
             Opcions();
+        }
+
+        if(botons.Count > 0)
+            OnFinish += NetejarBotonsDelGrid;
     }
 
     //PUBLIQUES
@@ -84,19 +90,33 @@ public class Fase_Menu : Fase
         Debugar.Log("SORTIR??");
 
         bromaVista.Valor = true;
+
+        if (!save.TePeces)
+        {
+            //Borra la partida sense pesses que es cree al anar al menu, per poder veure les opcions.
+            save.BorrarPartida();
+        }
+
+        fadeOut.Instantiate();
+        XS_Coroutine.StartCoroutine_Ending(1, Application.Quit);
+
+        /*else 
+        {
+            if (!save.TeCaptures)
+            {
+                capturarPantalla.CapturarSenseVisuals();
+                guardat.Guardar();
+                XS_Coroutine.StartCoroutine_Ending(2, fadeOut.Instantiate);
+                XS_Coroutine.StartCoroutine_Ending(3, Application.Quit);
+            }
+            else
+            {
+                fadeOut.Instantiate();
+                XS_Coroutine.StartCoroutine_Ending(1, Application.Quit);
+            }
+        }*/
+
         
-        if (!save.TeCaptures)
-        {
-            capturarPantalla.CapturarSenseVisuals();
-            guardat.Guardar();
-            XS_Coroutine.StartCoroutine_Ending(2, fadeOut.Instantiate);
-            XS_Coroutine.StartCoroutine_Ending(3, Application.Quit);
-        }
-        else
-        {
-            fadeOut.Instantiate();
-            XS_Coroutine.StartCoroutine_Ending(1, Application.Quit);
-        }
     }
 
     public void NovaPartida()
@@ -110,7 +130,7 @@ public class Fase_Menu : Fase
     {
         NetejarBotonsDelGrid();
         iniciar.GridBrut();
-        save.Load(grups, iniciar);
+        save.Continuar(grups, iniciar);
     }
 
     public void ActivarBotons() => ActivarBotons(true);
@@ -160,19 +180,21 @@ public class Fase_Menu : Fase
         Grid.Instance.Resetejar();
         for (int i = 0; i < opcions.Length; i++)
         {
-            CrearOpcio(opcions[i], 1 + i * 0.75f, i == 0);
+            CrearOpcio(opcions[i], 1 + i * 0.75f);
         }
+
+        Grid.Instance.Dimensionar(botons[0]);
     }
 
-    void CrearOpcio(Botons boto, float temps, bool dimensionar)
+    void CrearOpcio(Botons boto, float temps)
     {
-        XS_Coroutine.StartCoroutine_Ending(temps, Crear);
-        void Crear() 
-        { 
-            botons.Add((Boto)boto.Crear(Grid.Instance));
-            if(dimensionar)
-                Grid.Instance.Dimensionar(botons[0]);
-        } 
+        Boto tmp = (Boto)boto.Crear(Grid.Instance);
+        tmp.gameObject.SetActive(false);
+        botons.Add(tmp);
+
+        XS_Coroutine.StartCoroutine_Ending(temps, Mostrar);
+
+        void Mostrar() => tmp.gameObject.SetActive(true);
     }
 
 

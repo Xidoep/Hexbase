@@ -69,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click to continue...
+  m_text: Clicar para continuar...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 19c5dc1fb63d40c4281cb8589c0eedf0, type: 2}
   m_sharedMaterial: {fileID: 407802829209662782, guid: 19c5dc1fb63d40c4281cb8589c0eedf0, type: 2}
@@ -397,6 +397,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 84ef15b16868c154a8a02c39eda89c9b, type: 2}
+        m_TargetAssemblyTypeName: Fase_Iniciar, Hexbase
+        m_MethodName: GridBrut
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 84ef15b16868c154a8a02c39eda89c9b, type: 2}
         m_TargetAssemblyTypeName: Fase, Hexbase
         m_MethodName: Iniciar
         m_Mode: 1
@@ -518,11 +530,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
+      propertyPath: component
+      value: 
+      objectReference: {fileID: 2475265155818470564}
+    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
@@ -532,29 +552,53 @@ PrefabInstance:
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
+      objectReference: {fileID: 11400000, guid: 84ef15b16868c154a8a02c39eda89c9b, type: 2}
+    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
       objectReference: {fileID: 1881389384304358200}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Iniciar
+      value: GridBrut
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Iniciar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: Destruir
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Fase, Hexbase
+      value: Fase_Iniciar, Hexbase
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Fase, Hexbase
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: Utils_Destruir, XS.Utils
       objectReference: {fileID: 0}
     - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849189053457887768, guid: 9351ecb9d16f155418ae469592feea61, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents:

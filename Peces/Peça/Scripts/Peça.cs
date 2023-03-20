@@ -36,6 +36,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     [Apartat("EXTRACCIO")]
     [SerializeField] Peça extraccio;
+    [SerializeField] Vector2Int extraccioCoordenada;
     [SerializeField] Peça productor;
     //[SerializeField] bool ocupat;
     //[SerializeField] public List<Casa.Necessitat> necessitatsCovertes;
@@ -93,26 +94,24 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //public Producte[] ExtreureProducte() => extraccio.Subestat.Produccio();
     public ProducteExtret[] ExtreureProducte() => productesExtrets;
 
-
-    public Peça Extraccio => extraccio;
-
+    public Peça GetExtraccio => extraccio;
+    public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
 
     public bool Ocupat => productor != null;
     public bool LLiure => productor == null;
-    public void CoordenadesToProducte(Grid grid) 
+    public void FindExtraccio(Grid grid) 
     {
-        /*if (producteCooerdenada == null)
+        if (extraccioCoordenada.EsNula())
             return;
 
-        extraccio = (Peça)grid.Get(producteCooerdenada);*/
+        ((Peça)grid.Get(extraccioCoordenada)).Ocupar(this);
     } 
-    public Vector2Int SetCoordenadesProducte { set => extraccio = null; /*set => producteCooerdenada = value;*/ } //Canviat només perque no molesti
 
 
 
     public void CrearTilesPotencials()
     {
-        if(tiles == null || tiles.Length == 0)
+        if (tiles == null || tiles.Length == 0)
         {
             tiles = new TilePotencial[6];
             for (int i = 0; i < 6; i++)

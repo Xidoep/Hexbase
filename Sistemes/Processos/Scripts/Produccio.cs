@@ -88,13 +88,13 @@ public class Produccio : ScriptableObject
 
         //COMPROVAR SI L'HI QUEDEN PRODUCTES SENSE GASTAR
         bool calVisualitzar = false;
-        for (int i = 0; i < productors[index].Extraccio.productesExtrets.Length; i++)
+        for (int i = 0; i < productors[index].GetExtraccio.productesExtrets.Length; i++)
         {
-            if (!productors[index].Extraccio.productesExtrets[i].gastat)
+            if (!productors[index].GetExtraccio.productesExtrets[i].gastat)
             {
                 calVisualitzar = true;
-                productors[index].Extraccio.MostrarInformacio?.Invoke(productors[index].Extraccio, true);
-                productors[index].Extraccio.BlocarInformacio = true;
+                productors[index].GetExtraccio.MostrarInformacio?.Invoke(productors[index].GetExtraccio, true);
+                productors[index].GetExtraccio.BlocarInformacio = true;
                 break;
             }
         }
@@ -102,12 +102,12 @@ public class Produccio : ScriptableObject
         if (calVisualitzar)
         {
             //BUSCAR UNA CASA DESPROVEIDA CONNECTADA
-            for (int i = 0; i < productors[index].Extraccio.productesExtrets.Length; i++)
+            for (int i = 0; i < productors[index].GetExtraccio.productesExtrets.Length; i++)
             {
-                if (productors[index].Extraccio.productesExtrets[i].gastat)
+                if (productors[index].GetExtraccio.productesExtrets[i].gastat)
                     continue;
 
-                Peça proveida = BuscarCasaDesproveida(productors[index], productors[index].Extraccio.productesExtrets[i].producte, out int indexNecessitat);
+                Peça proveida = BuscarCasaDesproveida(productors[index], productors[index].GetExtraccio.productesExtrets[i].producte, out int indexNecessitat);
                 if (proveida != null)
                 {
                     proveida.MostrarInformacio?.Invoke(proveida, true);
@@ -115,7 +115,7 @@ public class Produccio : ScriptableObject
                     resoldre.Nivell.GuanyarExperiencia(1);
                     casesProveides.Add(proveida);
 
-                    productors[index].Extraccio.productesExtrets[i].gastat = true;
+                    productors[index].GetExtraccio.productesExtrets[i].gastat = true;
                 }
                 visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
             }
@@ -149,7 +149,7 @@ public class Produccio : ScriptableObject
         }
         for (int i = 0; i < productors.Count; i++)
         {
-            productors[i].Extraccio.MostrarInformacio?.Invoke(productors[i].Extraccio, false);
+            productors[i].GetExtraccio.MostrarInformacio?.Invoke(productors[i].GetExtraccio, false);
         }
     }
 

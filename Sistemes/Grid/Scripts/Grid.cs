@@ -15,6 +15,7 @@ public class Grid : MonoBehaviour
     private void OnEnable()
     {
         Instance = this;
+        UnityEngine.Random.InitState(0);
     }
 
     const int GRID_SIZE = 200;

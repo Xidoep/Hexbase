@@ -301,10 +301,10 @@ public class Visualitzacions : ScriptableObject
 
         void ExtreureProducte(Peça p, int i)
         {
-            GameObject producte = p.Extraccio.productesExtrets[i].informacio.gameObject;
+            GameObject producte = p.GetExtraccio.productesExtrets[i].informacio.gameObject;
 
             Vector3 offset = producte.transform.localPosition;
-            new Animacio_Posicio(p.Extraccio.transform.position + offset, p.transform.position + offset, false, false).Play(producte.transform, 0.5f, Transicio.clamp);
+            new Animacio_Posicio(p.GetExtraccio.transform.position + offset, p.transform.position + offset, false, false).Play(producte.transform, 0.5f, Transicio.clamp);
         }
         void RepartirProducte(Peça p, int iProd, Peça c, int iNeed, bool ultima, System.Action enFinalitzar)
         {
@@ -315,7 +315,7 @@ public class Visualitzacions : ScriptableObject
                 //c.mostrarInformacio?.Invoke(c, true);
                 //c.BlocarInformacio = true;
 
-                GameObject producte = p.Extraccio.productesExtrets[iProd].informacio.gameObject;
+                GameObject producte = p.GetExtraccio.productesExtrets[iProd].informacio.gameObject;
 
                 float temps = Vector3.Distance(p.transform.position, c.transform.position) * 0.25f;
 
@@ -333,7 +333,7 @@ public class Visualitzacions : ScriptableObject
             {
                 animacions.producteProveir.Play(ui.transform);
                 //Destroy(gameObject, 1.5f);
-                p.Extraccio.BlocarInformacio = false;
+                p.GetExtraccio.BlocarInformacio = false;
                 //p.Extraccio.mostrarInformacio?.Invoke(p.Extraccio, false);
             }
         }
@@ -368,12 +368,12 @@ public class Visualitzacions : ScriptableObject
     public void DestruirProducte(Peça p, int i, bool ultima, System.Action enFinalitzar) 
     {
 
-        p.Extraccio.productesExtrets[i].informacio.gameObject.GetComponent<UI_Producte>().Destruir(1.5f);
+        p.GetExtraccio.productesExtrets[i].informacio.gameObject.GetComponent<UI_Producte>().Destruir(1.5f);
         XS_Coroutine.StartCoroutine_Ending(1.6f, RemostrarLaInformacio);
 
         void RemostrarLaInformacio()
         {
-            p.Extraccio.BlocarInformacio = false;
+            p.GetExtraccio.BlocarInformacio = false;
 
             if (ultima)
                 XS_Coroutine.StartCoroutine_Ending(0.5f, enFinalitzar);

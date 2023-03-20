@@ -8,7 +8,7 @@ public class Informacio_Extraccio : Informacio
     [SerializeField] Visualitzacions visualitzacions;
     public override void Mostrar(Hexagon hexagon, bool mostrarProveides = false)
     {
-        visualitzacions.DestacarPeça(((Peça)hexagon).Extraccio, mostrarProveides);
+        visualitzacions.DestacarPeça(((Peça)hexagon).GetExtraccio, mostrarProveides);
     }
     public override void Amagar(Hexagon hexagon)
     {

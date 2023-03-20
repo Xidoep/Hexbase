@@ -10,7 +10,7 @@ public class SavedPeça
         coordenada = peça.Coordenades;
         estat = peça.Estat.name;
         subestat = peça.Subestat.name;
-        producte = peça.Extraccio != null ? peça.Extraccio.Coordenades : -Vector2Int.one;
+        extraccio = peça.GetExtraccio != null ? peça.GetExtraccio.Coordenades : GridExtensions.CoordenadaNula;
         grup = grups.GrupByPeça(grups.Grup, peça);
 
         if (peça.TeCasa)
@@ -37,7 +37,7 @@ public class SavedPeça
     //[SerializeField] Estat esta;
     //[SerializeField] Subestat subestat;
 
-    [SerializeField] Vector2Int producte;
+    [SerializeField] Vector2Int extraccio;
     [SerializeField] Grup grup;
     //[SerializeField] SavedCasa[] casa;
     [SerializeField] SavedNecessitat[] necessitats;
@@ -82,7 +82,7 @@ public class SavedPeça
         //VEINS
         peça.AssignarVeinsTiles(peça.Tiles);
 
-        if (producte != -Vector2Int.one) peça.SetCoordenadesProducte = producte;
+        if (extraccio != -Vector2Int.one) peça.SetExtraccio = extraccio;
         //peça.CrearDetalls();
 
         return peça;

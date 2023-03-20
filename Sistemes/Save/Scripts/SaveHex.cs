@@ -9,6 +9,7 @@ public class SaveHex : ScriptableObject
     public const string KEY_BROMA_SORTIR_VISTA = "BromaSortirVista";
     public const string KEY_SEGONA_PARTIDA = "SegonaPartida";
 
+    [SerializeField] int continuar = -1;
     [SerializeField] int current = 0;
     [SerializeField] List<SavedFile> files;
     [SerializeField] CapturarPantalla capturarPantalla;
@@ -135,8 +136,16 @@ public class SaveHex : ScriptableObject
     public void NouArxiu(Mode mode)
     {
         files.Add(new SavedFile());
+        continuar = current;
         current = files.Count - 1;
         files[current].SetMode(mode);
+    }
+    public void Continuar(Grups grups, Fase seguent)
+    {
+        current = continuar;
+        files[current].SetMode((Mode)files[current].Mode);
+
+        Load(grups, seguent);
     }
     public void BorrarPartida()
     {

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c36b533053374cbdf56ec03286579, type: 3}
   m_Name: Save
   m_EditorClassIdentifier: 
-  current: 10
+  continuar: -1
+  current: 1
   files:
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_13-9-51.png
+  - captures: []
     nom: 
     mode: 1
     experiencia: 0
@@ -41,19 +41,121 @@ MonoBehaviour:
     - Casa
     - Montanya
     - Riu
+    "pe\xE7es": []
+  - captures: []
+    nom: 
+    mode: 1
+    experiencia: 1
+    nivell: 5
+    pila:
+    - Casa
+    - Aigua
+    - Aigua
+    - Cami
+    - Aigua
+    - Montanya
+    - Camp
+    - Casa
+    - Camp
+    - Camp
+    - Aigua
+    - Riu
+    - Aigua
+    - Aigua
+    - Casa
+    - Riu
+    - Cami
     "pe\xE7es":
-    - subestat: Casa
+    - subestat: Granja
       estat: Casa
       coordenada: {x: 100, y: 100}
-      producte: {x: -1, y: -1}
+      extraccio: {x: 101, y: 100}
       grup:
         id: Casa_031UHU6P9JKQWQ9B59YL
         poble: 1
         peces:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        coordenades: []
+        pecesVeines: []
+        connexionsId:
+        - Casa_031UHU6P9JKQWQ9B59YL
+        camins: []
+        ports: []
+        resaltat: 0
+      necessitats: []
+      tiles:
+      - tile: {fileID: 11400000, guid: f54d1e7eff6447b4cbf1ef80d9e04668, type: 2}
+        orientacio: 0
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: 02d4c87081a037a449301cad8bddf737, type: 2}
+        orientacio: 1
+        orientacioFisica: 1
+      - tile: {fileID: 11400000, guid: 75016e64462183141b63245111f7e80c, type: 2}
+        orientacio: 2
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: b8d391dd2af593d419678f63754af9a4, type: 2}
+        orientacio: 3
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: 915b84f8683666c4fa9fe692fa60925e, type: 2}
+        orientacio: 4
+        orientacioFisica: 1
+      - tile: {fileID: 11400000, guid: 75016e64462183141b63245111f7e80c, type: 2}
+        orientacio: 5
+        orientacioFisica: 0
+    - subestat: Camp
+      estat: Camp
+      coordenada: {x: 101, y: 100}
+      extraccio: {x: -10000, y: -10000}
+      grup:
+        id: Camp_IDQ1XPM7DXBIL9YXKWZZ
+        poble: 0
+        peces: []
+        coordenades: []
+        pecesVeines: []
+        connexionsId: []
+        camins: []
+        ports: []
+        resaltat: 0
+      necessitats: []
+      tiles:
+      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacio: 0
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacio: 1
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: b8c4e8f17d779a546af7bcbd7a8300e9, type: 2}
+        orientacio: 2
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: f035a881f37fe8b4d8e848d84ab37960, type: 2}
+        orientacio: 3
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: f035a881f37fe8b4d8e848d84ab37960, type: 2}
+        orientacio: 4
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: f035a881f37fe8b4d8e848d84ab37960, type: 2}
+        orientacio: 5
+        orientacioFisica: 0
+    - subestat: Casa
+      estat: Casa
+      coordenada: {x: 100, y: 101}
+      extraccio: {x: -10000, y: -10000}
+      grup:
+        id: Casa_031UHU6P9JKQWQ9B59YL
+        poble: 1
+        peces:
+        - {fileID: 0}
+        - {fileID: 0}
         - {fileID: 0}
         coordenades:
         - {x: 100, y: 100}
-        pecesVeines: []
+        - {x: 100, y: 101}
+        - {x: 101, y: 101}
+        pecesVeines:
+        - {fileID: 0}
         connexionsId:
         - Casa_031UHU6P9JKQWQ9B59YL
         camins: []
@@ -62,555 +164,45 @@ MonoBehaviour:
       necessitats:
       - necessitats:
         - producte: Blat
-          proveit: 0
+          proveit: 1
+        - producte: Blat
+          proveit: 1
       tiles:
-      - tile: {fileID: 11400000, guid: dd8925b8851b7d44a86636390382bc04, type: 2}
+      - tile: {fileID: 11400000, guid: 71635f74ea528dd47a469f8c02936ce7, type: 2}
         orientacio: 0
-        orientacioFisica: 0
-      - tile: {fileID: 0}
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: c38c7232b8228114da3bb2c163dc6853, type: 2}
         orientacio: 1
         orientacioFisica: 1
-      - tile: {fileID: 0}
+      - tile: {fileID: 11400000, guid: 71635f74ea528dd47a469f8c02936ce7, type: 2}
         orientacio: 2
-        orientacioFisica: 2
-      - tile: {fileID: 11400000, guid: 42b1db2e9c87c6b4394add4b3740ce40, type: 2}
-        orientacio: 3
         orientacioFisica: 0
-      - tile: {fileID: 0}
-        orientacio: 4
-        orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 5
+      - tile: {fileID: 11400000, guid: 71635f74ea528dd47a469f8c02936ce7, type: 2}
+        orientacio: 3
         orientacioFisica: 2
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_13-18-55.png
-    nom: 
-    mode: 1
-    experiencia: 0
-    nivell: 0
-    pila: []
-    "pe\xE7es": []
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-12-13.png
-    nom: 
-    mode: 1
-    experiencia: 0
-    nivell: 0
-    pila:
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    - Casa
-    - Cami
-    - Aigua
-    - Aigua
-    - Camp
-    - Terra
-    - Montanya
-    - Terra
-    - Aigua
-    - Montanya
-    - Camp
-    - Terra
-    - Riu
-    - Aigua
-    - Riu
-    - Cami
-    - Riu
-    - Casa
-    - Montanya
-    - Camp
-    "pe\xE7es":
+      - tile: {fileID: 11400000, guid: 7548da3d126bdcd448ec2a708bb49a52, type: 2}
+        orientacio: 4
+        orientacioFisica: 0
+      - tile: {fileID: 11400000, guid: d7f6a2cca5b8b5f428235daa67106063, type: 2}
+        orientacio: 5
+        orientacioFisica: 1
     - subestat: Casa
       estat: Casa
-      coordenada: {x: 100, y: 100}
-      producte: {x: -1, y: -1}
+      coordenada: {x: 101, y: 101}
+      extraccio: {x: -10000, y: -10000}
       grup:
         id: Casa_031UHU6P9JKQWQ9B59YL
         poble: 1
         peces:
         - {fileID: 0}
-        coordenades: []
-        pecesVeines: []
-        connexionsId:
-        - Casa_031UHU6P9JKQWQ9B59YL
-        camins: []
-        ports: []
-        resaltat: 0
-      necessitats:
-      - necessitats:
-        - producte: Blat
-          proveit: 0
-      tiles:
-      - tile: {fileID: 0}
-        orientacio: 0
-        orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 1
-        orientacioFisica: 2
-      - tile: {fileID: 0}
-        orientacio: 2
-        orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 3
-        orientacioFisica: 2
-      - tile: {fileID: 0}
-        orientacio: 4
-        orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 5
-        orientacioFisica: 2
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-18-18.png
-    nom: 
-    mode: 1
-    experiencia: 1
-    nivell: 0
-    pila:
-    - Montanya
-    - Bosc
-    - Riu
-    - Terra
-    - Terra
-    - Terra
-    - Casa
-    - Casa
-    - Montanya
-    - Riu
-    - Cami
-    - Terra
-    - Riu
-    - Riu
-    - Casa
-    - Bosc
-    - Riu
-    - Casa
-    - Montanya
-    - Bosc
-    - Montanya
-    - Bosc
-    - Riu
-    - Terra
-    - Terra
-    - Terra
-    - Casa
-    - Casa
-    - Montanya
-    - Riu
-    - Cami
-    - Terra
-    - Riu
-    - Riu
-    - Casa
-    - Bosc
-    - Riu
-    - Casa
-    - Montanya
-    - Bosc
-    "pe\xE7es":
-    - subestat: Casa
-      estat: Casa
-      coordenada: {x: 100, y: 100}
-      producte: {x: -1, y: -1}
-      grup:
-        id: Casa_031UHU6P9JKQWQ9B59YL
-        poble: 1
-        peces:
         - {fileID: 0}
-        coordenades: []
-        pecesVeines: []
-        connexionsId:
-        - Casa_031UHU6P9JKQWQ9B59YL
-        camins: []
-        ports: []
-        resaltat: 0
-      necessitats:
-      - necessitats:
-        - producte: Blat
-          proveit: 0
-      tiles:
-      - tile: {fileID: 0}
-        orientacio: 0
-        orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 1
-        orientacioFisica: 2
-      - tile: {fileID: 0}
-        orientacio: 2
-        orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 3
-        orientacioFisica: 2
-      - tile: {fileID: 0}
-        orientacio: 4
-        orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 5
-        orientacioFisica: 2
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-18-29.png
-    nom: 
-    mode: 1
-    experiencia: 0
-    nivell: 0
-    pila:
-    - Casa
-    - Montanya
-    - Terra
-    - Bosc
-    - Riu
-    - Aigua
-    - Riu
-    - Terra
-    - Montanya
-    - Cami
-    - Riu
-    - Terra
-    - Cami
-    - Casa
-    - Casa
-    - Camp
-    - Bosc
-    - Camp
-    - Camp
-    - Terra
-    "pe\xE7es": []
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-18-44.png
-    nom: 
-    mode: 1
-    experiencia: 0
-    nivell: 0
-    pila:
-    - Riu
-    - Montanya
-    - Riu
-    - Montanya
-    - Aigua
-    - Riu
-    - Riu
-    - Casa
-    - Aigua
-    - Riu
-    - Camp
-    - Montanya
-    - Cami
-    - Aigua
-    - Aigua
-    - Casa
-    - Casa
-    - Terra
-    - Aigua
-    - Bosc
-    "pe\xE7es":
-    - subestat: Casa
-      estat: Casa
-      coordenada: {x: 100, y: 100}
-      producte: {x: -1, y: -1}
-      grup:
-        id: Casa_031UHU6P9JKQWQ9B59YL
-        poble: 1
-        peces:
         - {fileID: 0}
-        coordenades: []
-        pecesVeines: []
+        coordenades:
+        - {x: 100, y: 100}
+        - {x: 100, y: 101}
+        - {x: 101, y: 101}
+        pecesVeines:
+        - {fileID: 0}
         connexionsId:
         - Casa_031UHU6P9JKQWQ9B59YL
         camins: []
@@ -619,145 +211,28 @@ MonoBehaviour:
       necessitats:
       - necessitats:
         - producte: Blat
+          proveit: 1
+        - producte: Blat
           proveit: 0
       tiles:
-      - tile: {fileID: 0}
+      - tile: {fileID: 11400000, guid: 4b5a9c2182ef8174084b96c9394085a4, type: 2}
         orientacio: 0
-        orientacioFisica: 2
-      - tile: {fileID: 0}
-        orientacio: 1
-        orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 2
-        orientacioFisica: 2
-      - tile: {fileID: 11400000, guid: dd8925b8851b7d44a86636390382bc04, type: 2}
-        orientacio: 3
         orientacioFisica: 0
-      - tile: {fileID: 11400000, guid: 42b1db2e9c87c6b4394add4b3740ce40, type: 2}
-        orientacio: 4
-        orientacioFisica: 0
-      - tile: {fileID: 0}
-        orientacio: 5
-        orientacioFisica: 1
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-24-21.png
-    nom: 
-    mode: 1
-    experiencia: 1
-    nivell: 0
-    pila:
-    - Montanya
-    - Bosc
-    - Riu
-    - Terra
-    - Terra
-    - Terra
-    - Casa
-    - Casa
-    - Montanya
-    - Riu
-    - Cami
-    - Terra
-    - Riu
-    - Riu
-    - Casa
-    - Bosc
-    - Riu
-    - Casa
-    - Montanya
-    - Bosc
-    - Montanya
-    - Bosc
-    - Riu
-    - Terra
-    - Terra
-    - Terra
-    - Casa
-    - Casa
-    - Montanya
-    - Riu
-    - Cami
-    - Terra
-    - Riu
-    - Riu
-    - Casa
-    - Bosc
-    - Riu
-    - Casa
-    - Montanya
-    - Bosc
-    "pe\xE7es":
-    - subestat: Casa
-      estat: Casa
-      coordenada: {x: 100, y: 100}
-      producte: {x: -1, y: -1}
-      grup:
-        id: Casa_031UHU6P9JKQWQ9B59YL
-        poble: 1
-        peces:
-        - {fileID: 0}
-        coordenades: []
-        pecesVeines: []
-        connexionsId:
-        - Casa_031UHU6P9JKQWQ9B59YL
-        camins: []
-        ports: []
-        resaltat: 0
-      necessitats:
-      - necessitats:
-        - producte: Blat
-          proveit: 0
-      tiles:
-      - tile: {fileID: 0}
-        orientacio: 0
-        orientacioFisica: 1
-      - tile: {fileID: 0}
+      - tile: {fileID: 11400000, guid: 230cdb8dd67ddf740ac4022d21ebf92b, type: 2}
         orientacio: 1
-        orientacioFisica: 2
-      - tile: {fileID: 0}
+        orientacioFisica: 1
+      - tile: {fileID: 11400000, guid: d7f6a2cca5b8b5f428235daa67106063, type: 2}
         orientacio: 2
-        orientacioFisica: 1
-      - tile: {fileID: 0}
+        orientacioFisica: 2
+      - tile: {fileID: 11400000, guid: 230cdb8dd67ddf740ac4022d21ebf92b, type: 2}
         orientacio: 3
-        orientacioFisica: 2
-      - tile: {fileID: 0}
-        orientacio: 4
         orientacioFisica: 1
-      - tile: {fileID: 0}
-        orientacio: 5
+      - tile: {fileID: 11400000, guid: d7f6a2cca5b8b5f428235daa67106063, type: 2}
+        orientacio: 4
         orientacioFisica: 2
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-30-34.png
-    nom: 
-    mode: 1
-    experiencia: 1
-    nivell: 0
-    pila: []
-    "pe\xE7es": []
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-31-36.png
-    nom: 
-    mode: 1
-    experiencia: 0
-    nivell: 0
-    pila: []
-    "pe\xE7es": []
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-34-32.png
-    nom: 
-    mode: 1
-    experiencia: 1
-    nivell: 0
-    pila: []
-    "pe\xE7es": []
-  - captures:
-    - C:\Users\xeviegido\Documents\Prova\GameFootage_2023-2-28_16-35-54.png
-    nom: 
-    mode: 1
-    experiencia: 1
-    nivell: 0
-    pila: []
-    "pe\xE7es": []
+      - tile: {fileID: 11400000, guid: 5590d20fa2ff0ef488d2446f0a7828c2, type: 2}
+        orientacio: 5
+        orientacioFisica: 0
   capturarPantalla: {fileID: 11400000, guid: c398dd49969f0d548a9d82efac5328eb, type: 2}
   estats:
   - {fileID: 11400000, guid: 61d3683198a88f540b8d21d99d3447c6, type: 2}
@@ -786,3 +261,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04d17598696810d4b95e86377b5708d3, type: 2}
   - {fileID: 11400000, guid: 171fb56a2773e3740aa4ba97003f2b89, type: 2}
   - {fileID: 11400000, guid: 6231e64d04d077e4b8c1ff21c901fc96, type: 2}
+  nomesGuardats: 0
