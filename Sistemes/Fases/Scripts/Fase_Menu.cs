@@ -37,13 +37,16 @@ public class Fase_Menu : Fase
     [SerializeField] Botons continuar;
     [SerializeField] Botons configuracio;
     [SerializeField] Botons sortir;
+    [SerializeField] Botons mostarModes;
     [SerializeField] Botons freeStyle;
+    [SerializeField] Botons standard;
     [Apartat("MODES")]
     [SerializeField] Modes modes;
 
     bool inici = true;
     List<Boto> botons;
     List<Coroutine> coroutines;
+    bool _modesMostrats;
 
     //OVERRIDES
     public override void FaseStart()
@@ -55,6 +58,7 @@ public class Fase_Menu : Fase
         OnFinish += uiMenu.RegistrarAccions;
 
         Grid.Instance.CrearGrid();
+        _modesMostrats = false;
 
         if (inici)
         {
@@ -67,16 +71,17 @@ public class Fase_Menu : Fase
             }
             else
             {
-                Opcions();
+                SeleccionarOpcions();
             }
         }
         else
         {
-            Opcions();
+            SeleccionarOpcions();
         }
 
         if(botons.Count > 0)
             OnFinish += NetejarBotonsDelGrid;
+
     }
 
     //PUBLIQUES
@@ -119,9 +124,23 @@ public class Fase_Menu : Fase
         
     }
 
+    public void Modes()
+    {
+        if (_modesMostrats)
+            return;
+
+        _modesMostrats = true;
+
+        AddBotonsModes();
+    }
     public void NovaPartida()
     {
+        if (save.TePeces)
+        {
+            save.NouArxiu(modes.Mode);
+        }
         save.NouArxiu(modes.Mode);
+        iniciar.GridNet();
         iniciar.Iniciar();
 
         segonaPartida.Valor = true;
@@ -130,7 +149,7 @@ public class Fase_Menu : Fase
     {
         NetejarBotonsDelGrid();
         iniciar.GridBrut();
-        save.Continuar(grups, iniciar);
+        save.Continuar(grups, iniciar, modes);
     }
 
     public void ActivarBotons() => ActivarBotons(true);
@@ -148,39 +167,51 @@ public class Fase_Menu : Fase
     }
 
     //PRIVADES
-    void Opcions()
+    void SeleccionarOpcions()
     {
         List<Botons> botons = new List<Botons>();
 
-        botons.Add(novaPartida);
-        if (save.TePeces) botons.Add(continuar);
+        if (!segonaPartida.Valor)
+            botons.Add(novaPartida);
+        else botons.Add(mostarModes);
 
-        if (segonaPartida.Valor)
+        if (save.HiHaPartidaAnterior) botons.Add(continuar);
+
+        /*if (segonaPartida.Valor)
         {
             botons.Add(freeStyle);
-        }
-
+        }*/
 
         botons.Add(configuracio);
         botons.Add(sortir);
 
-        Opcions(botons.ToArray());
-
+        CrearOpcions(botons.ToArray());
     }
 
-
-    void Opcions(Botons[] opcions)
+    void AddBotonsModes()
     {
-        if (botons == null) botons = new List<Boto>();
-        else botons.Clear();
+        List<Botons> botons = new List<Botons>();
+        botons.Add(standard);
+        botons.Add(freeStyle);
+        CrearOpcions(botons.ToArray(), true);
+    }
 
-        if (coroutines == null) coroutines = new List<Coroutine>();
-        else coroutines.Clear();
+    void CrearOpcions(Botons[] opcions, bool add = false)
+    {
+        if (!add)
+        {
+            if (botons == null) botons = new List<Boto>();
+            else botons.Clear();
 
-        Grid.Instance.Resetejar();
+            if (coroutines == null) coroutines = new List<Coroutine>();
+            else coroutines.Clear();
+
+            Grid.Instance.Resetejar();
+        }
+       
         for (int i = 0; i < opcions.Length; i++)
         {
-            CrearOpcio(opcions[i], 1 + i * 0.75f);
+            CrearOpcio(opcions[i], 1 + i * 0.5f);
         }
 
         Grid.Instance.Dimensionar(botons[0]);

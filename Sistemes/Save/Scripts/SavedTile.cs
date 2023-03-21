@@ -7,18 +7,19 @@ public class SavedTile
 {
     public SavedTile(Tile tile, int orientacio, int orientacioFisica)
     {
-        this.tile = tile;
+        this.tile = tile.name;
         this.orientacio = orientacio;
         this.orientacioFisica = orientacioFisica;
     }
 
-    [SerializeField] Tile tile;
+    [SerializeField] string tile;
     [SerializeField] int orientacio;
     [SerializeField] int orientacioFisica;
 
-    public void Load(Peça peça)
+
+    public void Load(Peça peça, System.Func<string, Tile> tileNomToPrefab)
     {
         peça.Tiles[orientacio] = new TilePotencial(peça, orientacio);
-        peça.Tiles[orientacio].Escollir(tile, orientacioFisica);
+        peça.Tiles[orientacio].Escollir(tileNomToPrefab.Invoke(tile), orientacioFisica);
     }
 }

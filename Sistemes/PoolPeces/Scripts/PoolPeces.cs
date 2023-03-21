@@ -6,6 +6,8 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Pool")]
 public class PoolPeces : ScriptableObject
 {
+
+
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Fase_Resoldre resoldre;
     [SerializeField] SaveHex save;
@@ -19,6 +21,8 @@ public class PoolPeces : ScriptableObject
 
     System.Action<Estat> enAfegir;
     System.Action enTreure;
+
+    int PecesPerNivell(int nivell) => (nivell / 2) * 10;
 
     public int Quantitat => peces.Count;
     public Estat Peça(int index) => peces[index];
@@ -39,7 +43,7 @@ public class PoolPeces : ScriptableObject
         
         peces = new List<Estat>();
 
-        AddPeces(inicial);
+        AddPeces();
 
         iniciat = true;
 
@@ -47,19 +51,20 @@ public class PoolPeces : ScriptableObject
     }
 
     //(nivell / 2) * 10
-    void AddPeces(int peces)
+    void AddPeces()
     {
         if (save.PilaPlena)
         {
             List<Estat> estats = save.Pila;
+            
             for (int i = 0; i < estats.Count; i++)
             {
-                AddPeça(estats[i]);
+                peces.Add(estats[i]);
             }
         }
         else
         {
-            for (int i = 0; i < peces; i++)
+            for (int i = 0; i < inicial; i++)
             {
                 AddPeça();
             }
@@ -67,37 +72,28 @@ public class PoolPeces : ScriptableObject
     }
     public void AddPecesPerNivell(int nivell, int experiencia)
     {
-        for (int i = 0; i < (nivell / 2) * 10; i++)
+        for (int i = 0; i < PecesPerNivell(nivell); i++)
         {
             AddPeça();
         }
     }
 
-    Estat AddPeça()
+    void AddPeça()
     {
         //FALTA: Assegurar X cases?
         Estat seleccionat = disponibles[Random.Range(0, disponibles.Length)];
-        return AddPeça(seleccionat);
+        peces.Add(seleccionat);
     }
-    Estat AddPeça(Estat estat)
-    {
-        peces.Add(estat);
-        enAfegir?.Invoke(estat);
-        return estat;
-    }
+    
 
     public void RemovePeça()
     {
-        Debug.Log($"Abans {peces.Count}");
         peces.RemoveAt(0);
-
-        Debug.Log($"Despres {peces.Count}");
 
         if (peces.Count > 0)
             colocar.Seleccionar(peces[0]);
 
         enTreure?.Invoke();
-
     }
 
     public void Reset()

@@ -45,7 +45,7 @@ public class SavedPeça
 
     public Vector2Int Coordenada => coordenada;
 
-    public Peça Load(Grid grid, Grups grups, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab)
+    public Peça Load(Grid grid, Grups grups, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab)
     {
         //BASE
         GameObject tmp = MonoBehaviour.Instantiate(grid.Prefab_Peça, grid.transform);
@@ -60,7 +60,7 @@ public class SavedPeça
         peça.CrearTilesPotencials();
         for (int i = 0; i < tiles.Length; i++)
         {
-            tiles[i].Load(peça);
+            tiles[i].Load(peça, tileNomToPrefab);
         }
         peça.CrearTilesFisics();
 

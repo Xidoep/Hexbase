@@ -67,7 +67,7 @@ public class SavedFile
             peçes.Add(new SavedPeça(peces[i], grups));
         }
     }
-    public void Load(Grups grups, Fase seguent, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab)
+    public void Load(Grups grups, Fase seguent, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab)
     {
         if (this.grups == null) this.grups = grups;
         this.seguent = seguent;
@@ -75,7 +75,7 @@ public class SavedFile
         creades = new List<Peça>();
 
         index = 0;
-        Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab);
+        Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab);
     }
     public void SetMode(Mode mode) => this.mode = (int)mode;
     public void SetExperienciaNivell(int experiencia, int nivell)
@@ -103,9 +103,9 @@ public class SavedFile
         return estats;
     }
 
-    void Step(System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab)
+    void Step(System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab)
     {
-        creades.Add(peçes[index].Load(Grid.Instance, grups, estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab));
+        creades.Add(peçes[index].Load(Grid.Instance, grups, estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab));
         Grid.Instance.Dimensionar(creades[index]);
         index++;
 
@@ -117,7 +117,7 @@ public class SavedFile
 
         XS_Coroutine.StartCoroutine_Ending_FrameDependant(0.1f, DoStep);
 
-        void DoStep() => Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab);
+        void DoStep() => Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab);
     }
 
     void LoadSteps()

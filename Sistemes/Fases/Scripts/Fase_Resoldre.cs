@@ -61,21 +61,16 @@ public class Fase_Resoldre : Fase
     }
 
 
-    public void TornarAMenuPrincipal() 
+    public void TornarAMenuPrincipal() //DESDE MENU
     {
-        //save.NouArxiu(Mode.Pila);
         enTornar?.Invoke();
-        capturarPantalla.OnCapturatRegistrar(CanviarMenuDespresDeCapturar);
-        GuardarOBorrar(true);
-        //XS_Coroutine.StartCoroutine(CanviarMenu(1, menu));
-        //menu.Iniciar();
-        //prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(Tornar);
+        capturarPantalla.OnCapturatRegistrar(TornarAMenu_DespresDeCapturar);
+        capturarPantalla.CapturarSenseVisuals();
+        //Capturar();
     }
-    /*public void NovaPartida()
-    {
-        GuardarSiCal(true);
-        ((Fase_Iniciar)iniciar).NovaPartida();
-    }*/
+
+
+
 
     void ResoldrePila()
     {
@@ -115,73 +110,76 @@ public class Fase_Resoldre : Fase
                 break;
         }
     }
-    void Tornar(bool guardar)
+    void Tornar(bool guardar) //DESDE POPUP PERDRE
     {
         enTornar?.Invoke();
-        GuardarOBorrar(guardar);
-        XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 1 : 0.1f, menu));
+        capturarPantalla.OnCapturatRegistrar(TornarAMenu_DespresDeCapturar);
+        capturarPantalla.CapturarSenseVisuals();
+        //Capturar();
     }
-    void Repetir(bool guardar)
+    void Repetir(bool guardar) //DESDE POPUP PERDRE
     {
         enRepetir?.Invoke();
-        GuardarOBorrar(guardar);
-        XS_Coroutine.StartCoroutine(CanviarMenu(guardar ? 1 : 0.1f, iniciar));
+        capturarPantalla.OnCapturatRegistrar(TornarAIniciar_DespresDeCapturar);
+        capturarPantalla.CapturarSenseVisuals();
+        //Capturar();
     }
-    void Continuar_Freestyle()
+    void Continuar_Freestyle() //DESDE POPUP PERDRE
     {
         enContinuar?.Invoke();
         modes.Set(Mode.FreeStyle);
         iniciar.Iniciar();
     }
-    /*public void TornarMenuPrincipal()
+
+    
+
+
+    void Capturar()
     {
+        //capturarPantalla.OnCapturatRegistrar(NouArxiuDespresDeCapturar);
+        capturarPantalla.CapturarSenseVisuals();
+
+        /*void NouArxiuDespresDeCapturar(string path)
+        {
+            save.NouArxiu(Mode.Pila);
+            capturarPantalla.OnCapturatDesregistrar(NouArxiuDespresDeCapturar);
+        }*/
+    }
+
+    void TornarAMenu_DespresDeCapturar(string path)
+    {
+        Netejar();
         save.NouArxiu(Mode.Pila);
         menu.Iniciar();
-    }*/
 
-
-
-
-
-    IEnumerator CanviarMenu(float temps, Fase fase)
+        capturarPantalla.OnCapturatDesregistrar(TornarAMenu_DespresDeCapturar);
+    }
+    void TornarAIniciar_DespresDeCapturar(string path)
     {
-        yield return new WaitForSeconds(temps);
-        Grid.Instance.Resetejar();
-        Nivell.Reset();
-        fase.Iniciar();
+        Netejar();
+        iniciar.Iniciar();
+
+        capturarPantalla.OnCapturatDesregistrar(TornarAIniciar_DespresDeCapturar);
     }
 
-    public void GuardarOBorrar(bool guardar)
-    {
-        if (guardar)
-        {
-            capturarPantalla.OnCapturatRegistrar(NouArxiuDespresDeCapturar);
-            capturarPantalla.CapturarSenseVisuals();
-            //save.NouArxiu(Mode.Pila);
-        }
-        else
-        {
-            save.BorrarPartida();
-        }
-    }
-    public void CapturarSiNoEnTe()
-    {
-        if (!save.TeCaptures) capturarPantalla.CapturarSenseVisuals();
-    }
-
-    void NouArxiuDespresDeCapturar(string path)
-    {
-        save.NouArxiu(Mode.Pila);
-        capturarPantalla.OnCapturatDesregistrar(NouArxiuDespresDeCapturar);
-    }
-    void CanviarMenuDespresDeCapturar(string path) 
+    void Netejar()
     {
         Grid.Instance.Resetejar();
         Nivell.Reset();
+    }
+
+
+
+
+
+    /*void CanviarMenuDespresDeCapturar(string path) 
+    {
+        Grid.Instance.Resetejar();
+        Nivell.Reset();
         menu.Iniciar();
+
         capturarPantalla.OnCapturatDesregistrar(CanviarMenuDespresDeCapturar);
-    }
-
+    }*/
 
 
 
@@ -246,12 +244,6 @@ public class Fase_Resoldre : Fase
     [ContextMenu("mes 200")] void Prova200() => nivell.GuanyarExperiencia(200);
 
 
-
-
-
-
-
-
     [System.Serializable] public class ClassePeces
     {
         [SerializeField] PoolPeces pool;
@@ -262,12 +254,6 @@ public class Fase_Resoldre : Fase
         }
 
     }
-
-
-
-
-
-
 
 
 
