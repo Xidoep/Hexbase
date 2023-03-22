@@ -223,7 +223,7 @@ public class Fase_Menu : Fase
         tmp.gameObject.SetActive(false);
         botons.Add(tmp);
 
-        XS_Coroutine.StartCoroutine_Ending(temps, Mostrar);
+        XS_Coroutine.StartCoroutine_Ending_FrameDependant(temps, Mostrar);
 
         void Mostrar() => tmp.gameObject.SetActive(true);
     }
