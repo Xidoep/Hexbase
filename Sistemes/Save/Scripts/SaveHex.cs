@@ -29,7 +29,8 @@ public class SaveHex : ScriptableObject
     Tile tTrobat;
     [SerializeField] bool nomesGuardats;
 
-    public int FilesLength => files.Count;
+
+
 
     private void OnEnable()
     {
@@ -43,9 +44,12 @@ public class SaveHex : ScriptableObject
         nomesGuardats = false;
     }
 
-    public bool HiHaPartidaAnterior => partidaAnterior != -1; 
+    //GETTERS - SETTERS
 
     //GETTERS
+    public int Actual { get => actual; }
+    public bool HiHaPartidaAnterior => partidaAnterior != -1;
+    public int FilesLength => files.Count;
     public bool NomesGuardats => nomesGuardats;
     public int Mode => files[actual].Mode; 
     public bool TePeces 
@@ -131,6 +135,19 @@ public class SaveHex : ScriptableObject
         }
         return pTrobat;
     }
+    public string[] Paths
+    {
+        get
+        {
+            List<string> captures = new List<string>();
+            for (int f = 0; f < files.Count; f++)
+            {
+                captures.AddRange(files[f].Captures);
+            }
+
+            return captures.ToArray();
+        }
+    }
     Tile TileNomToPrefab(string nom)
     {
         tTrobat = null;
@@ -147,6 +164,7 @@ public class SaveHex : ScriptableObject
 
 
     //SETTERS / FUNCIONS
+    public void SetActual(int actual) => this.actual = actual;
     public void MostrarNomesPartidesGuardades(bool nomesGuardats) => this.nomesGuardats = nomesGuardats;
     public void NouArxiu(Mode mode)
     {

@@ -6,21 +6,20 @@ using UnityEngine.UI;
 
 public class UI_FotoZoom : MonoBehaviour
 {
-    public void Setup(UI_Foto foto, Texture2D textura, string path, int indexPartida, System.Action amagar, System.Action<int> carregar, System.Action<string, int> borrar)
+    public void Setup(UI_Foto foto, Texture2D textura, string path, int indexPartida, bool partidaJaCarregada, System.Action amagar, System.Action<int> carregar, System.Action<string, int> borrar)
     {
         rect.sizeDelta = new Vector2(rect.sizeDelta.y, rect.sizeDelta.x * (textura.texelSize.x / textura.texelSize.y) + 140f);
         rect.sizeDelta = new Vector2(1400, rect.sizeDelta.y);
         image.texture = textura;
 
-        this.path = path;
-        this.indexPartida = indexPartida;
-        this.carregar = carregar;
-        this.borrar = borrar;
-
         enAmagar.AddListener(amagar.Invoke);
 
-        botoCarregar.gameObject.SetActive(indexPartida != -1);
-        //botoBorrar.gameObject.SetActive(indexPartida == -1);
+        this.path = path;
+        this.indexPartida = indexPartida;
+        this.partidaJaCarregada = partidaJaCarregada;
+
+        this.carregar = carregar;
+        this.borrar = borrar;
     }
 
     [SerializeField] RectTransform rect;
@@ -31,7 +30,7 @@ public class UI_FotoZoom : MonoBehaviour
     [Space(20)]
     [SerializeField] Utils_InstantiableFromProject popup_Carregar;
     [SerializeField] Utils_InstantiableFromProject popup_Borrar;
-    [SerializeField] Utils_InstantiableFromProject popup_BorrarPartida;
+    [SerializeField] Utils_InstantiableFromProject popup_PartidaJaCarregada;
 
     [Space(20)]
     [SerializeField] UnityEvent enAmagar;
@@ -39,28 +38,55 @@ public class UI_FotoZoom : MonoBehaviour
     [Space(20)]
     [SerializeField] string path;
     [SerializeField] int indexPartida;
+    [SerializeField] bool partidaJaCarregada;
 
     System.Action<int> carregar;
     System.Action<string, int> borrar;
 
-    public void AccioCarregar() => carregar.Invoke(indexPartida);
-    public void AccioBorrarCaptura() => borrar.Invoke(path, indexPartida);
 
-    public void Carregar() => popup_Carregar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegat>().Registrar(AccioCarregar, Amagar);
+
+
+
+    public void Carregar()
+    {
+        if (!partidaJaCarregada)
+            popup_Carregar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(AccioCarregar);
+        else popup_PartidaJaCarregada.Instantiate();
+    }
     public void Borrar()
     {
-        if (indexPartida == -1)
-            BorrarFoto();
-        else BorrarPartida();
+        popup_Borrar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(AccioBorrarCaptura);
     }
+
+
+
+
+
+    void AccioCarregar(bool carregar)
+    {
+        if (carregar)
+        {
+            this.carregar.Invoke(indexPartida);
+            enAmagar.Invoke();
+        }
+        else
+        {
+            botoCarregar.Select();
+        }
+    }
+    void AccioBorrarCaptura(bool borrar)
+    {
+        if (borrar)
+        {
+            this.borrar.Invoke(path, indexPartida);
+            enAmagar.Invoke();
+        }
+        else
+        {
+            botoBorrar.Select();
+        }
+    }
+
     public void Amagar() => enAmagar.Invoke();
 
-    void BorrarFoto()
-    {
-        popup_Borrar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegat>().Registrar(AccioBorrarCaptura, Amagar);
-    }
-    void BorrarPartida()
-    {
-        popup_BorrarPartida.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegat>().Registrar(AccioBorrarCaptura, Amagar);
-    }
 }

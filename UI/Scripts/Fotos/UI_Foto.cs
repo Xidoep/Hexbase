@@ -4,24 +4,20 @@ using TMPro;
 
 public class UI_Foto : MonoBehaviour
 {
-    public void Setup(UI_Album album, int experiencia, CapturarPantalla.Captura captura, int indexPartida, bool seleccionar)
+    public void Setup(int experiencia, CapturarPantalla.Captura captura, int indexPartida, bool seleccionar, System.Action<UI_Foto, CapturarPantalla.Captura, int> accioZoom, System.Action<UI_Foto> accioEnApuntar)
     {
-        this.album = album;
-        this.captura = captura;
-        this.indexPartida = indexPartida;
-
         rectTransform.localScale = new Vector3(1, captura.texture.texelSize.x / captura.texture.texelSize.y + 0.1f, 1);
         rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captura.texture.texelSize.x / captura.texture.texelSize.y));
-        
         if (seleccionar) boto.Select();
-        //boto.OnEnter += EnApuntar;
-        
         impresio.texture = captura.texture;
-
         this.experiencia.text = indexPartida != -1 ? experiencia.ToString() : "";
 
+        this.indexPartida = indexPartida;
+        this.captura = captura;
+
+        this.accioZoom = accioZoom;
+        this.accioEnApuntar = accioEnApuntar;
     }
-    UI_Album album;
 
     [SerializeField] RectTransform rectTransform;
     [SerializeField] XS_Button boto;
@@ -32,12 +28,11 @@ public class UI_Foto : MonoBehaviour
     [SerializeField] int indexPartida;
     [SerializeField] CapturarPantalla.Captura captura;
 
-    //public void Habilitar() => bora.raycastTarget = true;
-    //public void Deshabilitar() => bora.raycastTarget = true;
+    System.Action<UI_Foto, CapturarPantalla.Captura, int> accioZoom;
+    System.Action<UI_Foto> accioEnApuntar;
 
 
-    public void Zoom() => album.ZoomIn(this, captura, indexPartida);
-
-    public void EnApuntar() => album.PosicionarContent(this);
+    public void Zoom() => accioZoom.Invoke(this, captura, indexPartida);
+    public void EnApuntar() => accioEnApuntar.Invoke(this);
 
 }

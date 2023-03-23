@@ -51,6 +51,19 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     public static bool veureProces = false;
     //public static System.Random random;
 
+    //INTERN
+    TilePotencial actual;
+    bool reglesAprovades;
+    List<TilePotencial> lowestEntropy;
+    Connexio[] connexios;
+    bool haCanviat;
+    Connexio[] cExterior;
+    Connexio[] cEsquerra;
+    Connexio[] cDreta;
+    List<Possibilitat> toRemove;
+    Possibilitat posibilitat;
+    bool found;
+    List<Connexio> _connexio;
 
     private void OnEnable()
     {
@@ -145,24 +158,22 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     void PropagarManual(InputAction.CallbackContext context) => Propagar();
     void Step()
     {
-        TilePotencial actual = TileWithTheLowestEntropy();
+        actual = TileWithTheLowestEntropy();
         pendents.Remove(actual);
-        //Debugar.Log($"WFC step (tries to solve {actual.EstatName})");
         actual.Escollir();
-        Debugar.Log($"Resoldre {actual.Peça.gameObject.name} amb el tile {actual.PossibilitatsVirtuals.Get(0).Tile.name}");
-        //RandomTile(actual);
-
-        
-
+#if UNITY_EDITOR
+        Debug.Log($"Resoldre {actual.Peça.gameObject.name} amb el tile {actual.PossibilitatsVirtuals.Get(0).Tile.name}");
+#endif
         if (pendents.Count == 0)
         {
-            bool reglesAprovades = true;
+            reglesAprovades = true;
             for (int r = 0; r < regles.Length; r++)
             {
                 if (!regles[r].Comprovar(colocada))
                 {
-                    Debugar.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.", colocada);
-                    //NetejarTilesFisicsAlReiniciar();
+#if UNITY_EDITOR
+                    Debug.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.", colocada);
+#endif
                     Iniciar_WFC(colocada, canviades, enFinalitzar, true);
                     return;
                 }
@@ -171,8 +182,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 {
                     if (!regles[r].Comprovar(canviades[c]))
                     {
+#if UNITY_EDITOR
                         Debugar.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.", canviades[c]);
-                        //NetejarTilesFisicsAlReiniciar();
+#endif
                         Iniciar_WFC(colocada, canviades, enFinalitzar, true);
                         return;
                     }
@@ -181,8 +193,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 {
                     if (!regles[r].Comprovar(colocada.VeinsPeça[v]))
                     {
+#if UNITY_EDITOR
                         Debugar.LogError($"REESTART!!! Per que la regla {r}, no s'ha aprovat.", colocada.VeinsPeça[v]);
-                        //NetejarTilesFisicsAlReiniciar();
+#endif
                         Iniciar_WFC(colocada, canviades, enFinalitzar, true);
                         return;
                     }
@@ -192,8 +205,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             
 
             Finalitzar();
-
-            //colocar.Iniciar();
         }
         else
         {
@@ -204,8 +215,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     TilePotencial TileWithTheLowestEntropy()
     {
-        
-        List<TilePotencial> lowestEntropy = new List<TilePotencial>();
+        lowestEntropy = new List<TilePotencial>();
         for (int i = 0; i < pendents.Count; i++)
         {
             if (lowestEntropy.Count > 0)
@@ -219,14 +229,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     lowestEntropy.Add(pendents[i]);
                 }
             }
-            //En cas que no hi hagui cap element, posen un.
             else lowestEntropy.Add(pendents[i]);
         }
-        //Debugar.Log("The ones with lowst entropy are:");
-        /*for (int i = 0; i < lowestEntropy.Count; i++)
-        {
-            Debugar.Log($"{lowestEntropy[i].EstatName}");
-        }*/
         return lowestEntropy[UnityEngine.Random.Range(0, lowestEntropy.Count)];
     }
 
@@ -261,17 +265,20 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     } 
     void Propagar()
     {
-        //TilePotencial actual = propagables[0];
         if(propagables.Count > 0)
         {
             if (TreuPossibilitatsImpossibles(propagables[0]))
             {
                 if(propagables[0].PossibilitatsVirtuals.Count == 0)
                 {
+#if UNITY_EDITOR
                     string _debug = $"COLISIO ({propagables[0].EstatName}.{propagables[0].Orientacio})!!!\n";
-                    Connexio[] connexios;
+#endif
+                    //connexios = new Connexio[0];
 
+#if UNITY_EDITOR
                     _debug += "Connexions exteriors = ";
+#endif
                     connexios = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[0], 0);
                     for (int i = 0; i < connexios.Length; i++)
                     {
@@ -279,7 +286,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                         _debug += i != (connexios.Length - 1) ? ", " : "\n";
                     }
 
+#if UNITY_EDITOR
                     _debug += "Connexions esquerra = ";
+#endif
                     connexios = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[1], 2);
                     for (int i = 0; i < connexios.Length; i++)
                     {
@@ -287,7 +296,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                         _debug += i != (connexios.Length - 1) ? ", " : "\n";
                     }
 
+#if UNITY_EDITOR
                     _debug += "Connexions dreta = ";
+#endif
                     connexios = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[2], 1);
                     for (int i = 0; i < connexios.Length; i++)
                     {
@@ -295,7 +306,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                         _debug += i != (connexios.Length - 1) ? ", " : "\n";
                     }
 
+#if UNITY_EDITOR
                     Debugar.LogError(_debug, propagables[0].Peça);
+#endif
                     XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);  
                     return;
                 }
@@ -306,8 +319,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     {
                         if (propagables[0].Veins[i] != null)
                         {
-                            //Debug.Log($"Propagar a index {i}");
-                            //Debug.Log($"Propagar a {propagables[0].Veins[i].EstatName}");
                             if (propagables[0].Veins[i].Resolt)
                                 continue;
 
@@ -319,11 +330,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             propagables.RemoveAt(0);
 
             Propagar();
-            //XS_Coroutine.StartCoroutine_Ending(0.001f, Propagar);
             return;
         }
 
-        //Debug.LogError("PROPAGACIO ACABADA!");
         XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
     }
 
@@ -331,42 +340,17 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     bool TreuPossibilitatsImpossibles(TilePotencial tile)
     {
-        string _debug = "";
-        bool haCanviat = false;
+        haCanviat = false;
 
-        Connexio[] cExterior = GetConnexiosVirtuals(tile, tile.Veins[0], 0);
-        Connexio[] cEsquerra = GetConnexiosVirtuals(tile, tile.Veins[1], 2);
-        Connexio[] cDreta = GetConnexiosVirtuals(tile, tile.Veins[2], 1);
+        cExterior = GetConnexiosVirtuals(tile, tile.Veins[0], 0);
+        cEsquerra = GetConnexiosVirtuals(tile, tile.Veins[1], 2);
+        cDreta = GetConnexiosVirtuals(tile, tile.Veins[2], 1);
 
-        /*_debug = "";
-        _debug += $"{tile.ID} Connexions:";
-
-        _debug += $"\nExterior - from({tile.Veins[0]?.ID})[{cExterior.Length}] = ";
-        for (int i = 0; i < cExterior.Length; i++) { _debug += $"{cExterior[i].name}, "; }
-        _debug += $"\nEsquerra - from({tile.Veins[1]?.ID})[{cEsquerra.Length}] = ";
-        for (int i = 0; i < cEsquerra.Length; i++) { _debug += $"{cEsquerra[i].name}, "; }
-        _debug += $"\nDreta - from({tile.Veins[2]?.ID})[{cDreta.Length}] = ";
-        for (int i = 0; i < cDreta.Length; i++) { _debug += $"{cDreta[i].name}, "; }
-
-        Debug.Log(_debug);
-        */
-        /*_debug = "";
+        toRemove = new List<Possibilitat>();
         for (int p = 0; p < tile.PossibilitatsVirtuals.Count; p++)
         {
-            Possibilitat pos = tile.PossibilitatsVirtuals.Get(p);
-            _debug += $"{pos.tile.name} - Connexions = " +
-                $"(A.{pos.tile.Exterior(pos.orientacio).name} " +
-                $"-E.{pos.tile.Esquerra(pos.orientacio).name} " +
-                $"-D.{pos.tile.Dreta(pos.orientacio).name})...\n";
-        }
-        Debug.Log(_debug);*/
-
-        List<Possibilitat> toRemove = new List<Possibilitat>();
-        for (int p = 0; p < tile.PossibilitatsVirtuals.Count; p++)
-        {
-            Possibilitat pos = tile.PossibilitatsVirtuals.Get(p);
-            //_debug = $"{pos.tile.name}\n";
-            bool found = false;
+            posibilitat = tile.PossibilitatsVirtuals.Get(p);
+            found = false;
             for (int c1 = 0; c1 < cExterior.Length; c1++)
             {
                 for (int c3 = 0; c3 < cEsquerra.Length; c3++)
@@ -375,7 +359,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     {
                         //_debug += $"|-{pos.tile.Exterior(pos.orientacio).name}, {pos.tile.Esquerra(pos.orientacio).name}, {pos.tile.Dreta(pos.orientacio).name} = " +
                         //    $"{cExterior[c1].name}, {cEsquerra[c3].name}, {cDreta[c2].name} ?";
-                        if (tile.CompararConnexions(pos, cExterior[c1], cEsquerra[c3], cDreta[c2])) 
+                        if (tile.CompararConnexions(posibilitat, cExterior[c1], cEsquerra[c3], cDreta[c2])) 
                         {
                             found = true;
                             //_debug += "------------------------------------------¡¡¡MATCH!!!";
@@ -386,7 +370,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             }
             if (!found) 
             {
-                toRemove.Add(pos);
+                toRemove.Add(posibilitat);
                 haCanviat = true;
             } 
             //Debug.Log(_debug);
@@ -403,7 +387,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     Connexio[] GetConnexiosVirtuals(TilePotencial tile, TilePotencial vei, int veiContrari)
     {
-        List<Connexio> _tmp = new List<Connexio>();
+        _connexio = new List<Connexio>();
 
         //Debug.Log($"vei = {vei}");
         if (vei != null)
@@ -414,51 +398,38 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             }
             else
             {
-                _tmp.Clear();
+                _connexio.Clear();
                 if(vei.Peça != tile.Peça)//Si el vei no es intern
                 {
                     if (tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça) != null && tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça).subestats.Contains(vei.Peça.Subestat))
                     {
-                        _tmp.AddRange(tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça).connexions);
-                        return _tmp.ToArray();
+                        _connexio.AddRange(tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça).connexions);
+                        return _connexio.ToArray();
                     }
                 }
                 
                 for (int p = 0; p < vei.PossibilitatsVirtuals.Count; p++)
                 {
-                    if (!_tmp.Contains(vei.PossibilitatsVirtuals.Tile(p).Exterior(vei.PossibilitatsVirtuals.Orietacio(p))))
-                        _tmp.Add(vei.PossibilitatsVirtuals.Tile(p).Exterior(vei.PossibilitatsVirtuals.Orietacio(p)));
+                    if (!_connexio.Contains(vei.PossibilitatsVirtuals.Tile(p).Exterior(vei.PossibilitatsVirtuals.Orietacio(p))))
+                        _connexio.Add(vei.PossibilitatsVirtuals.Tile(p).Exterior(vei.PossibilitatsVirtuals.Orietacio(p)));
 
-                    if (!_tmp.Contains(vei.PossibilitatsVirtuals.Tile(p).Esquerra(vei.PossibilitatsVirtuals.Orietacio(p))))
-                        _tmp.Add(vei.PossibilitatsVirtuals.Tile(p).Esquerra(vei.PossibilitatsVirtuals.Orietacio(p)));
+                    if (!_connexio.Contains(vei.PossibilitatsVirtuals.Tile(p).Esquerra(vei.PossibilitatsVirtuals.Orietacio(p))))
+                        _connexio.Add(vei.PossibilitatsVirtuals.Tile(p).Esquerra(vei.PossibilitatsVirtuals.Orietacio(p)));
 
-                    if (!_tmp.Contains(vei.PossibilitatsVirtuals.Tile(p).Dreta(vei.PossibilitatsVirtuals.Orietacio(p))))
-                        _tmp.Add(vei.PossibilitatsVirtuals.Tile(p).Dreta(vei.PossibilitatsVirtuals.Orietacio(p)));
+                    if (!_connexio.Contains(vei.PossibilitatsVirtuals.Tile(p).Dreta(vei.PossibilitatsVirtuals.Orietacio(p))))
+                        _connexio.Add(vei.PossibilitatsVirtuals.Tile(p).Dreta(vei.PossibilitatsVirtuals.Orietacio(p)));
                 }
-                return _tmp.ToArray();
 
+                return _connexio.ToArray();
             }
         }
         else
         {
-            //Connexio[] especifics = tile.ConnexionsNules.Invoke(tile);
-            //return especifics == null ? tile.Connexions : especifics;
-            //return tile.Connexions;
-            //Si el sub no te connexions nules, agafa les possibles del sub si n'hi ha, i si no
-
-            /*
-            if (tile.Peça.Subestat.TeConnexionsNules)
-                return tile.Peça.Subestat.ConnexionsNules;
-            else return tile.Peça.Subestat.ConnexionsPossibles;
-            */
-            /*if (tile.Peça.Subestat.TeConnexionsNules)
-                return tile.Peça.Subestat.ConnexionsNules;
-            else return tile.Peça.Estat.ConnexionsPossibles;*/
             if (tile.Peça.Subestat.TeConnexionsNules(tile.Peça))
                 return tile.Peça.Subestat.ConnexionsNules(tile.Peça);
+
             return tile.Peça.Subestat.ConnexionsPossibles(tile.Peça);
         }
-        //return _tmp.ToArray();
     }
 
 
@@ -475,7 +446,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         {
             XS_Coroutine.StartCoroutine_Ending(.5f, colocada.VeinsPeça[i].CrearTilesFisics);
             XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.VeinsPeça[i].Detalls);
-            //colocada.VeinsPeça[i].CrearTilesFisics();
         }
 
         for (int i = 0; i < canviades.Count; i++)
@@ -485,7 +455,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
             XS_Coroutine.StartCoroutine_Ending(.5f, canviades[i].CrearTilesFisics);
             XS_Coroutine.StartCoroutine_Ending(1.5f, canviades[i].Detalls);
-            //canviades[i].CrearTilesFisics();
         }
 
         enFinalitzar.Invoke();

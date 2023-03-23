@@ -64,9 +64,7 @@ public class Fase_Menu : Fase
         {
             if (save.TePeces)
             {
-                iniciar.GridBrut();
-                modes.Set((Mode)save.Mode);
-                save.Load(grups, null);
+                Carregar();
                 continuarFondoClicable.Instantiate();
             }
             else
@@ -105,23 +103,23 @@ public class Fase_Menu : Fase
         fadeOut.Instantiate();
         XS_Coroutine.StartCoroutine_Ending(1, Application.Quit);
 
-        /*else 
-        {
-            if (!save.TeCaptures)
-            {
-                capturarPantalla.CapturarSenseVisuals();
-                guardat.Guardar();
-                XS_Coroutine.StartCoroutine_Ending(2, fadeOut.Instantiate);
-                XS_Coroutine.StartCoroutine_Ending(3, Application.Quit);
-            }
-            else
-            {
-                fadeOut.Instantiate();
-                XS_Coroutine.StartCoroutine_Ending(1, Application.Quit);
-            }
-        }*/
+    }
 
-        
+    /*public void Carregar(int partida)
+    {
+        save.Actual = partida;
+        //save.SetActual(partida);
+        Carregar();
+    }*/
+    public void Carregar(int partida = -1)
+    {
+        Grid.Instance.Resetejar();
+        iniciar.GridBrut();
+        modes.Set((Mode)save.Mode);
+
+        if (partida == -1)
+            save.Load(grups, null);
+        else save.Load(partida, grups, null);
     }
 
     public void Modes()

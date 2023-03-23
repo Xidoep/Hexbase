@@ -25,27 +25,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1193171763713573689, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 666.27
+      value: 788.345
       objectReference: {fileID: 0}
     - target: {fileID: 1193171763713573689, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679860627453548396, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679860627453548396, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679860627453548396, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 8623043470623584088}
+    - target: {fileID: 1679860627453548396, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Esdevenir
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679860627453548396, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Utils_EsdevenimentDelegatBool, XS.Utils
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679860627453548396, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2004266687407645275, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2396359802970435417, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396359802970435417, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396359802970435417, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1902052421757437472}
+      objectReference: {fileID: 8623043470623584088}
     - target: {fileID: 2396359802970435417, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: Esdevenir
       objectReference: {fileID: 0}
     - target: {fileID: 2396359802970435417, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Utils_EsdevenimentDelegat, XS.Utils
+      value: Utils_EsdevenimentDelegatBool, XS.Utils
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396359802970435417, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4201738748849450984, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_RootOrder
@@ -133,7 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6252130811740266038, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 666.27
+      value: 788.345
       objectReference: {fileID: 0}
     - target: {fileID: 6252130811740266038, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -189,23 +225,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9065859199287498528, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_text
-      value: 'Are you sure you want to delete this photo?
-
-        This action can
-        also delete the saved file where yo take the photo...
-
-'
+      value: "Estas seguro que quieres eliminer esta foto?\nEsta accion tambien puede
+        eliminar la partida guardada donde se tom\xF3 esta foto..."
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1497383675261886690, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
---- !u!114 &1902052421757437472 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -1497383675261886690, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+--- !u!1 &5459206818338746408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4224293230431529238, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
   m_PrefabInstance: {fileID: 8168768735445637438}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &8623043470623584088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5459206818338746408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4120388badd9e394086ff3a52714c550, type: 3}
+  m_Script: {fileID: 11500000, guid: 29e0705ad92ca9c46816039566abf278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
