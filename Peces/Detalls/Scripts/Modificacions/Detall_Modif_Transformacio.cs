@@ -40,8 +40,8 @@ public class Detall_Modif_Transformacio : Detall_Modificacio
                 else
                 {
                     if (!aditiu)
-                        detall.transform.position = tile.TileFisic.transform.position + PosicioRelativa(tile);
-                    else detall.transform.position += PosicioRelativa(tile);
+                        detall.transform.localPosition = tile.TileFisic.transform.localPosition + PosicioRelativa(tile);
+                    else detall.transform.localPosition += PosicioRelativa(tile);
                 }
                 break;
             case Accio.Rotacio:

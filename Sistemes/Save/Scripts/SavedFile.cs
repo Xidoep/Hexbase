@@ -6,6 +6,8 @@ using XS_Utils;
 [System.Serializable]
 public class SavedFile
 {
+    
+
     [SerializeField] List<string> captures;
     [SerializeField] string nom;
     [SerializeField] int mode;
@@ -21,6 +23,9 @@ public class SavedFile
     Grups grups;
     List<Peça> creades;
     List<Vector2Int> veins;
+    System.Action enCarregat;
+
+    float _tempsRanura = 0;
 
     public bool TePeces => peçes != null && peçes.Count > 0;
     public List<SavedPeça> Peces => peçes;
@@ -67,7 +72,7 @@ public class SavedFile
             peçes.Add(new SavedPeça(peces[i], grups));
         }
     }
-    public void Load(Grups grups, Fase seguent, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab)
+    public void Load(Grups grups, Fase seguent, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio, System.Action enCarregat)
     {
         if (this.grups == null) this.grups = grups;
         this.seguent = seguent;
@@ -75,7 +80,9 @@ public class SavedFile
         creades = new List<Peça>();
 
         index = 0;
-        Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab);
+
+        this.enCarregat = enCarregat;
+        Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab, animacio);
     }
     public void SetMode(Mode mode) => this.mode = (int)mode;
     public void SetExperienciaNivell(int experiencia, int nivell)
@@ -103,24 +110,25 @@ public class SavedFile
         return estats;
     }
 
-    void Step(System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab)
+    void Step(System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio)
     {
-        creades.Add(peçes[index].Load(Grid.Instance, grups, estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab));
+        creades.Add(peçes[index].Load(Grid.Instance, grups, estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab, animacio));
         Grid.Instance.Dimensionar(creades[index]);
         index++;
 
         if (index >= peçes.Count)
         {
-            LoadSteps();
+            LastStep();
             return;
         }
 
-        XS_Coroutine.StartCoroutine_Ending_FrameDependant(0.1f, DoStep);
+        XS_Coroutine.StartCoroutine_Ending_FrameDependant(2f / peçes.Count, DoStep);
 
-        void DoStep() => Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab);
+        void DoStep() => Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab, animacio);
     }
 
-    void LoadSteps()
+
+    void LastStep()
     {
         //GET VEINS DE TILES
         for (int i = 0; i < creades.Count; i++)
@@ -134,18 +142,11 @@ public class SavedFile
             veins = Grid.Instance.VeinsCoordenades(creades[i].Coordenades);
             for (int v = 0; v < veins.Count; v++)
             {
-                Grid.Instance.CrearRanura(veins[v]);
+                _tempsRanura += 0.05f;
+                //Grid.Instance.CrearRanura(veins[v]);
+                XS_Coroutine.StartCoroutine_Ending_FrameDependant(_tempsRanura, Grid.Instance.CrearRanura, veins[v]);
             }
         }
-
-        //CASES / TREBALLADORS
-        /*for (int i = 0; i < creades.Count; i++)
-        {
-            for (int c = 0; c < creades[i].Cases.Count; c++)
-            {
-                creades[i].Cases[c].LoadLastStep(grid);
-            }
-        }*/
 
         //DETALLS
         for (int i = 0; i < creades.Count; i++)
@@ -169,14 +170,18 @@ public class SavedFile
         }
 
         //DEBUG
-        for (int c = 0; c < creades.Count; c++)
+        /*for (int c = 0; c < creades.Count; c++)
         {
             for (int i = 0; i < creades[c].Tiles.Length; i++)
             {
                 Debug.LogError($"Tile {i} = {creades[c].Tiles[i].Veins.Length} veins");
             }
-        }
+        }*/
+
+        enCarregat?.Invoke();
 
         if(seguent != null) seguent.Iniciar();
+
+
     }
 }

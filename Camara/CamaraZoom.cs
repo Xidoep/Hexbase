@@ -9,6 +9,9 @@ using Cinemachine;
 
 public class CamaraZoom
 {
+    readonly float factorMultiplicadorTamanyMapa = 0.9f;
+    readonly WaitForSeconds waitForSeconds = new(0.05f);
+
     [SerializeField] CinemachineVirtualCamera vCamera;
     [Space(10)]
     [SerializeField] InputActionReference keyboard;
@@ -16,6 +19,7 @@ public class CamaraZoom
     [Space(10)]
     [SerializeField] Vector3 aprop;
     [SerializeField] Vector3 lluny = new Vector3(0, 2, -5);
+    [SerializeField] Vector3 targetLluny = new Vector3(0, 2, -5);
     [Space(10)]
     [SerializeField] float speed;
     [SerializeField] float time;
@@ -23,8 +27,20 @@ public class CamaraZoom
     CinemachineTransposer transposer;
 
     float zoom;
-    public float Value => zoom;
-    public Vector2 Dimensions { set => lluny = new Vector3(0, Mathf.Max(value.x, value.y) * 1.4f + 15, -Mathf.Max(value.x, value.y) * 1.4f - 15); }
+
+    public Vector2 Dimensions 
+    {
+        set 
+        { 
+            targetLluny = new Vector3(
+                0, 
+                Mathf.Max(value.x, value.y) * factorMultiplicadorTamanyMapa + 15, 
+                -Mathf.Max(value.x, value.y) * factorMultiplicadorTamanyMapa - 15);
+
+            XS_Coroutine.StartCoroutine(LerpLlum());
+        } 
+    }
+
 
 
     public void Enable()
@@ -42,7 +58,7 @@ public class CamaraZoom
     {
         Zoom_Keyboard();
 
-        zoom = Mathf.Clamp01(zoom);
+        //zoom = Mathf.Clamp01(zoom);
         transposer.m_FollowOffset = Vector3.Lerp(transposer.m_FollowOffset, FactorToZoom(), Time.deltaTime * time);
     }
     public void Disable()
@@ -50,12 +66,22 @@ public class CamaraZoom
         keyboard.action.Disable();
     }
 
+    IEnumerator LerpLlum()
+    {
+        while (Vector3.Magnitude(targetLluny - lluny) > 0.1f)
+        {
+            lluny = Vector3.Lerp(lluny, targetLluny, 0.1f * Time.deltaTime);
+            yield return waitForSeconds;
+        }
+        yield return null;
+    }
 
     void Zoom_Keyboard()
     {
         if (!keyboard.IsZero_Float())
         {
             zoom += keyboard.GetFloat() * speed;
+            zoom = Mathf.Clamp01(zoom);
         }
     }
 

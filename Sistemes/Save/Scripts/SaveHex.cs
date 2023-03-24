@@ -13,6 +13,7 @@ public class SaveHex : ScriptableObject
     [SerializeField] int actual = 0;
     [SerializeField] List<SavedFile> files;
     [SerializeField] CapturarPantalla capturarPantalla;
+    [SerializeField] Visualitzacions visualitzacions;
 
     [Apartat("ESTATS")]
     [SerializeField] Estat[] estats;
@@ -205,12 +206,12 @@ public class SaveHex : ScriptableObject
 
 
 
-    public void Load(int index, Grups grups, Fase colocar)
+    public void Load(int index, Grups grups, Fase seguent, System.Action enCarregat = null)
     {
         actual = index;
-        Load(grups, colocar);
+        Load(grups, seguent, enCarregat);
     }
-    public void Load(Grups grups, Fase seguent) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab);
+    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, visualitzacions.Colocar, enCarregat);
 
 
 

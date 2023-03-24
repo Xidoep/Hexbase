@@ -65,7 +65,7 @@ public class Fase_Menu : Fase
             if (save.TePeces)
             {
                 Carregar();
-                continuarFondoClicable.Instantiate();
+                //continuarFondoClicable.Instantiate();
             }
             else
             {
@@ -111,15 +111,15 @@ public class Fase_Menu : Fase
         //save.SetActual(partida);
         Carregar();
     }*/
-    public void Carregar(int partida = -1)
+    public void Carregar(int partida = -1) //Si és -1 Carregarà la partida "actual"
     {
         Grid.Instance.Resetejar();
         iniciar.GridBrut();
         modes.Set((Mode)save.Mode);
 
         if (partida == -1)
-            save.Load(grups, null);
-        else save.Load(partida, grups, null);
+            save.Load(grups, null, continuarFondoClicable.Instantiate);
+        else save.Load(partida, grups, null, continuarFondoClicable.Instantiate);
     }
 
     public void Modes()

@@ -8,6 +8,7 @@ using Cinemachine;
 [System.Serializable]
 public class CamaraMoviment
 {
+    readonly WaitForSeconds waitForSeconds = new(0.05f);
 
     [SerializeField] InputActionReference keyboard;
     [SerializeField] InputActionReference mouse;
@@ -37,32 +38,26 @@ public class CamaraMoviment
     {
         movement = transform.localPosition;
     }
-    public void Update(Transform transform, float zoom)
+
+    public void Update(Transform transform)
     {
         Moviment_Keyboard(transform);
         if (!Application.isEditor)
             Moviment_Mouse(transform);
 
-        movement = Vector3.Min(movement, new Vector3(limits.x - 1, 0, limits.y - 1));
-        movement = Vector3.Max(movement, new Vector3(limits.z + 1, 0, limits.w + 1));
-
-        transform.position = Vector3.Lerp(transform.position, movement, Time.deltaTime * time * (((zoom * 3) + 1) * 5));
-    }
-    public void Update(Transform transform)
-    {
-        Moviment_Keyboard(transform);
-        //Moviment_Mouse(transform);
-
-        movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x + margeMoviment, 0, limits.y - centre.position.z + margeMoviment));
-        movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x - margeMoviment, 0, limits.w - centre.position.z - margeMoviment));
-
-
-        if (Mathf.Abs(Vector3.Magnitude(targetGroup.transform.position - centre.position)) > 0.1f)
-        {
-            centre.position = Vector3.Lerp(centre.position, targetGroup.transform.position, 1f * Time.deltaTime);
-        }
         transform.localPosition = Vector3.Lerp(transform.localPosition, movement, Time.deltaTime * time);
+        //transform.localPosition = Vector3.Lerp(transform.localPosition, movement, Time.deltaTime * time * (((zoom * 3) + 1) * 5));
     }
+    IEnumerator LerpCentre()
+    {
+        while (Mathf.Abs(Vector3.Magnitude(targetGroup.transform.position - centre.position)) > 0.1f)
+        {
+            centre.position = Vector3.Lerp(centre.position, targetGroup.transform.position, 0.1f * Time.deltaTime);
+            yield return waitForSeconds;
+        }
+        yield return null;
+    }
+
     public void Disable()
     {
         keyboard.action.Disable();
@@ -72,11 +67,7 @@ public class CamaraMoviment
     public void Centrar(Transform nord, Transform sud, Transform est, Transform oest)
     {
         targetGroup.transform.position = new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f);
-        centre.transform.position = new Vector3((est.position.x + oest.position.x) * 0.5f, 0, (nord.position.z + sud.position.z) * 0.5f);
-        /*targetGroup.m_Targets[0].target = nord;
-        targetGroup.m_Targets[1].target = sud;
-        targetGroup.m_Targets[2].target = est;
-        targetGroup.m_Targets[3].target = oest;*/
+        XS_Coroutine.StartCoroutine(LerpCentre());
     }
 
 
@@ -85,6 +76,9 @@ public class CamaraMoviment
         if (!keyboard.IsZero_Vector2())
         {
             movement += ((transform.forward * keyboard.GetVector2().y) * speed) + ((transform.right * keyboard.GetVector2().x) * speed);
+            
+            movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x + margeMoviment, 0, limits.y - centre.position.z + margeMoviment));
+            movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x - margeMoviment, 0, limits.w - centre.position.z - margeMoviment));
         }
     }
     void Moviment_Mouse(Transform transform)
