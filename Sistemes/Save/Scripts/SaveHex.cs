@@ -143,6 +143,9 @@ public class SaveHex : ScriptableObject
             List<string> captures = new List<string>();
             for (int f = 0; f < files.Count; f++)
             {
+                if (files[f].Captures.Count == 0)
+                    continue;
+
                 captures.AddRange(files[f].Captures);
             }
 

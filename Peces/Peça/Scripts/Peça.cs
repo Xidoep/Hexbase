@@ -17,14 +17,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
-        //subestat.InformacioMostrar(this, false);
-        //informacio = subestat.InformacioMostrar(this);
-
         gameObject.name = $"{estat.name}({coordenades})";
-        condicions = this.subestat.Condicions;
-        //ocupat = false;
-
-        meshRenderers = null;
     }
 
     [Apartat("ESTAT")]
@@ -38,67 +31,68 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] Peça extraccio;
     [SerializeField] Vector2Int extraccioCoordenada;
     [SerializeField] Peça productor;
-    //[SerializeField] bool ocupat;
-    //[SerializeField] public List<Casa.Necessitat> necessitatsCovertes;
     [Apartat("PRDUCTES")]
-    [SerializeField] public ProducteExtret[] productesExtrets;
+    [SerializeField] ProducteExtret[] productesExtrets;
 
     [Apartat("INFORMACIO")]
-    //[SerializeField] Informacio.Unitat[] informacio;
-    public bool blocarInformacio;
+    [SerializeField] bool blocarInformacio;
 
-    [Apartat("MESH RENDERERS")]
-    MeshRenderer[] meshRenderers;
-    public bool BlocarInformacio { set => blocarInformacio = value; }
 
-    [System.Serializable] public struct ProducteExtret
-    {
-        public Producte producte;
-        public bool gastat;
-        public Informacio.Unitat informacio;
-    }
-
-    //VARIABLES PRIVADES
+    //INTERN
     [SerializeField] TilePotencial[] tiles;
-    protected Condicio[] condicions;
 
-    //PROPIETATS
+
+    //GETTERS
     public override bool EsPeça => true;
-    public TilePotencial[] Tiles => tiles;
+
+
     public Estat Estat => estat;
     public Subestat Subestat => subestat;
-    public bool EstatIgualA(Estat altreEstat) => estat.Equals(altreEstat);
-    public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
-    public Condicio[] Condicions => condicions;
-    public Casa Casa => cases[0];
+    //vvv
+    public TilePotencial[] Tiles => tiles;
+    public bool EstatNull => estat == null;
+    public bool SubestatNull => subestat == null;
+    public string SubestatNom => subestat.name;
+    public string EstatNom => estat.name;
+
+
+    public DetallScriptable[] Detalls => subestat.Detalls;
+    public Possibilitats Possibilitats => subestat.Possibilitats(this);
+    public Connexio[] ConnexionsPossibles => subestat.ConnexionsPossibles(this);
+    public bool TeConnexionsNules => subestat.TeConnexionsNules(this);
+    public Connexio[] ConnexionsNules => subestat.ConnexionsNules(this);
+    public TileSetBase.ConnexioEspesifica ConnexionsEspesifica => subestat.ConnexionsEspesifica(this);
+    public bool Caminable => subestat.Caminable;
+    public bool Aquatic => subestat.Aquatic;
+    public Condicio[] Condicions => this.subestat.Condicions;
     public bool TeCasa => cases != null && cases.Length > 0;
-    public MeshRenderer[] MeshRenderers 
-    {
-        get
-        {
-            if(meshRenderers == null) meshRenderers = GetComponentsInChildren<MeshRenderer>();
-            if(meshRenderers.Length == 0) meshRenderers = GetComponentsInChildren<MeshRenderer>();
-            for (int i = 0; i < meshRenderers.Length; i++)
-            {
-                if(meshRenderers[i] == null)
-                {
-                    meshRenderers = GetComponentsInChildren<MeshRenderer>();
-                    break;
-                }
-            }
-            return meshRenderers;
-        }
-    }
-    //public Informacio.Unitat[] Informacio { get => informacio; set => informacio = value; }
-
-    //public Producte[] ExtreureProducte() => extraccio.Subestat.Produccio();
-    public ProducteExtret[] ExtreureProducte() => productesExtrets;
-
+    //vvv
+    public Casa Casa => cases[0];
+    //vvv
+    public ProducteExtret[] ExtreureProducte => productesExtrets;
+    //vvv
     public Peça GetExtraccio => extraccio;
-    public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
-
     public bool Ocupat => productor != null;
     public bool LLiure => productor == null;
+    public TilePotencial GetTile(int index) => tiles[index];
+    public bool EstatIgualA(Estat altreEstat) => estat.Equals(altreEstat);
+    public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
+    
+
+
+
+
+    //SETTERS
+    public ProducteExtret[] SetProductesExtrets { set => productesExtrets = value; }
+    public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
+    public bool SetBlocarInformacio { set => blocarInformacio = value; }
+
+
+
+
+
+
+
     public void FindExtraccio(Grid grid) 
     {
         if (extraccioCoordenada.EsNula())
@@ -144,35 +138,30 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
-    public TilePotencial GetTile(int index) => tiles[index];
 
     public void CrearTilesFisics()
     {
-        //XS_InstantiateGPU.Render();
         for (int i = 0; i < tiles.Length; i++)
         {
             if (tiles[i].TileFisic != null)
             {
-                //XS_InstantiateGPU.RemoveGrafic(tiles[i].TileFisic);
                 Destroy(tiles[i].TileFisic);
             }
 
             tiles[i].Crear();
-            //if(detalls)
-            //    tiles[i].Detalls(subestat);
         }
     }
-    public void Detalls()
+    public void CrearDetalls()
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            tiles[i].Detalls(subestat);
+            tiles[i].Detalls(subestat.Detalls);
         }
     }
 
     public void CanviarSubestat(Subestat subestat)
     {
-        if (condicions == null)
+        if (this.subestat.Condicions == null)
             return;
 
         amagarInformacio?.Invoke(this);
@@ -181,15 +170,10 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         amagarInformacio -= subestat.InformacioAmagar;
 
         this.subestat = subestat.Setup(this);
-        condicions = subestat.Condicions;
 
-        //ocupat = false;
-
-        TreureCasa();
+        cases = new Casa[0];
 
         gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
-
-        meshRenderers = null;
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
@@ -201,18 +185,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public void CrearCasa(Producte producte) => cases = new Casa[] { new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), };
     public void CrearCasa(Casa casa) => cases = new Casa[] { casa };
 
-    void TreureCasa() => cases = new Casa[0];
 
     public void Ocupar(Peça productor) 
     {
-        //Debug.LogError($"{productor.gameObject.name} es el productor de {gameObject.name}");
-        //ocupat = true;
         this.productor = productor;
         productor.extraccio = this;
     }
     public void DesocuparPerPrediccio()
     {
-        //Debug.LogError($"{gameObject.name} ja no te productor");
         if(productor.extraccio != this)
         {
             productor = null;
@@ -221,27 +201,67 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
 
 
-    //INTERACCIO
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
+
+
+
+
+
+
+
+
+    public override void OnPointerEnter()
     {
         if (blocarInformacio)
             return;
 
         mostrarInformacio?.Invoke(this, true);
     }
-    public void OnPointerExit(PointerEventData eventData) 
+    public override void OnPointerExit()
     {
         if (blocarInformacio)
             return;
 
-        //amagarInformacio?.Invoke(this);
         mostrarInformacio?.Invoke(this, false);
-        //informacio = amagarInformacio?.Invoke(informacio);
-    } 
+    }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+    //INTERACCIO
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => OnPointerEnter();
+    public void OnPointerExit(PointerEventData eventData) => OnPointerExit();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    [System.Serializable]
+    public struct ProducteExtret
+    {
+        public Producte producte;
+        public bool gastat;
+        public Informacio.Unitat informacio;
+    }
 }
 
 

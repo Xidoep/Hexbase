@@ -8,8 +8,8 @@ public class SavedPeça
     public SavedPeça(Peça peça, Grups grups)
     {
         coordenada = peça.Coordenades;
-        estat = peça.Estat.name;
-        subestat = peça.Subestat.name;
+        estat = peça.EstatNom;
+        subestat = peça.SubestatNom;
         extraccio = peça.GetExtraccio != null ? peça.GetExtraccio.Coordenades : GridExtensions.CoordenadaNula;
         grup = grups.GrupByPeça(grups.Grup, peça);
 
@@ -54,7 +54,7 @@ public class SavedPeça
         //PEÇA
         Peça peça = tmp.GetComponent<Peça>();
         peça.Setup(grid, coordenada, estatNomToPrefab.Invoke(estat), subestatNomToPrefab.Invoke(subestat));
-        peça.name = $"{peça.Estat.name}({peça.Coordenades})";
+        peça.name = $"{peça.EstatNom}({peça.Coordenades})";
 
         //CREAR TILES
         peça.CrearTilesPotencials();

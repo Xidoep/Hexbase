@@ -25,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1193171763713573689, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 390.77
+      value: 430.16
       objectReference: {fileID: 0}
     - target: {fileID: 1193171763713573689, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -297,12 +297,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9065859199287498528, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
       propertyPath: m_text
-      value: Sorry,this map is already loaded.
+      value: Perdona, este mapa ya esta cargado.
       objectReference: {fileID: 0}
+    - target: {fileID: 9065859199287498528, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 19c5dc1fb63d40c4281cb8589c0eedf0, type: 2}
+    - target: {fileID: 9065859199287498528, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 407802829209662782, guid: 19c5dc1fb63d40c4281cb8589c0eedf0, type: 2}
     m_RemovedComponents:
     - {fileID: -1497383675261886690, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
     - {fileID: 2328256523160656057, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
     - {fileID: 6840215285247138439, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
+    - {fileID: 6227288811108083747, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
 --- !u!1 &2440942432229276226 stripped
 GameObject:
@@ -354,7 +363,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4224293230431529238, guid: 3cd042081f8cb4d40a6d92f3f075bd8d, type: 3}
   m_PrefabInstance: {fileID: 8168768735445637438}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7053793876141386260
+--- !u!114 &5090523020623848539
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -363,12 +372,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5459206818338746408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4864b9375f238ca4c9abc06809e8e7cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 741196b4c4ef9964a87f1668da24839b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  escoltadors:
-  - {fileID: -7441254359786846622, guid: f052fa43ec0c567418585bca48df59f5, type: 3}
-  OnInteractuar:
+  temps: 2
+  frameDependent: 0
+  esdeveniment:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4224309648413580670}
@@ -383,5 +392,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  multipleInteractions: 0
-  delayRegistration: 0

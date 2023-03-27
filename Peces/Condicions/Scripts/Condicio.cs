@@ -43,7 +43,7 @@ public abstract class Condicio : ScriptableObject
     /// </summary>
     public void Canviar(Peça peça, System.Action<Peça, int> enCanviar) 
     {
-        Debugar.LogError($"[{peça.Subestat.name}] >>> Changed to >>> [{objectiu.name}]");
+        Debugar.LogError($"[{peça.SubestatNom}] >>> Changed to >>> [{objectiu.name}]");
         enCanviar?.Invoke(peça, punts);
         peça.CanviarSubestat(objectiu);
     }

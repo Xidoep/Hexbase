@@ -7,19 +7,12 @@ using XS_Utils;
 
 public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    //VARIABLES
-   /* [Linia]
-    [SerializeField] UnityEvent onEnter;
-    [SerializeField] UnityEvent onExit;
-   */
     [Apartat("FASES/PROCESSOS")]
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Prediccio prediccio;
     
     [Apartat("OUTLINE")]
-    //[SerializeField] GameObject outline;
     Coroutine compteEnrerra;
-    //System.Action accioCrear;
 
     [SerializeField] bool seleccionada;
 
@@ -28,25 +21,12 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
         set
         {
             seleccionada = value;
-            /*if (seleccionada)
-            {
-                clickDown.Play(transform);
-            }
-            else
-            {
-                clickUp.Play(transform);
-            }*/
         }
     }
-
-    //Prevé multiples clics.
-    //bool autobloquejar = false;
     public override bool EsPeça => false;
 
     private void OnEnable()
     {
-        //accioCrear = Crear;
-        
         transform.localEulerAngles = new Vector3(0, Random.Range(-5, 5), 0);
         transform.localScale = new Vector3(Random.Range(1.1f, 0.9f), 1, Random.Range(1.1f, 0.9f));
     }
@@ -65,9 +45,6 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
             return;;
 
         colocar.CrearPeça(Coordenades);
-
-        //Destroy(this.gameObject);
-
         Debugar.Log("Destruir...");
     }
 
@@ -80,39 +57,55 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     }
 
 
+
+
+
     //INTERACCIO
-    public void OnPointerDown(PointerEventData eventData) 
+    public override void OnPointerDown()
     {
         if (seleccionada)
             return;
 
         Seleccionada = true;
-        
+
         compteEnrerra = StartCoroutine(Deseleccionar());
     }
-    public void OnPointerUp(PointerEventData eventData) 
+
+    public override void OnPointerUp()
     {
         if (!seleccionada)
             return;
 
         Crear();
-        //accioCrear?.Invoke();
-    } 
-
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) 
+    }
+    public override void OnPointerEnter()
     {
-        //outline.SetActive(true);
-        //onEnter?.Invoke();
-
         prediccio.Predir(Coordenades);
     }
-    public void OnPointerExit(PointerEventData eventData) 
+    public override void OnPointerExit()
     {
         prediccio.AmagarInformacioMostrada();
 
         Seleccionada = false;
         if (compteEnrerra != null) StopCoroutine(compteEnrerra);
-
-        //onExit?.Invoke();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void OnPointerDown(PointerEventData eventData) => OnPointerDown();
+    public void OnPointerUp(PointerEventData eventData) => OnPointerUp();
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => OnPointerEnter();
+    public void OnPointerExit(PointerEventData eventData) => OnPointerExit();
+
 }

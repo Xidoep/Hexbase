@@ -29,7 +29,7 @@ public class TilePotencial
     public int altura1 = -1;
     public int altura2 = -1;
 
-    public string EstatName => $"{peça.Subestat.name}-{orientacio}";
+    public string EstatName => $"{peça.SubestatNom}-{orientacio}";
     public Peça Peça => peça;
     public Possibilitats PossibilitatsVirtuals => possibilitatsVirtuals;
     public GameObject TileFisic => tileFisic;
@@ -64,11 +64,11 @@ public class TilePotencial
 
     public void GetPossibilitats()
     {
-        if (peça.Estat == null || peça.Subestat == null)
+        if (peça.EstatNull || peça.SubestatNull)
             return;
         orientacioFisica = 0;
 
-        possibilitatsVirtuals = peça.Subestat.Possibilitats(peça);
+        possibilitatsVirtuals = peça.Possibilitats;
 
     }
 
@@ -212,7 +212,44 @@ public class TilePotencial
         //Detalls(peça.Subestat);
     }
 
-    public void Detalls(Subestat subestat)
+    public void Detalls(DetallScriptable[] detalls)
+    {
+        if (WaveFunctionColpaseScriptable.veureProces)
+        {
+            if (this.detalls != null)
+                MonoBehaviour.Destroy(this.detalls);
+        }
+
+
+        if (detalls == null || detalls.Length == 0)
+            return;
+
+        for (int d = 0; d < detalls.Length; d++)
+        {
+            int[] tiles = detalls[d].Tiles(peça);
+            for (int t = 0; t < tiles.Length; t++)
+            {
+                //Debug.LogError($"Peça {Peça.Coordenades}, Orientacio {orientacio} Tile {t}", Peça);
+                //Tiles del detalls no retorna tots els tiles, només els que s'han de instanciar. Aqui es mira si aquest està a la llista.
+                if (tiles[t] == orientacio)
+                {
+                    //Debug.LogError("TRobat!");
+                    GameObject _detall = detalls[d].GameObject(peça, this);
+                    if (_detall == null)
+                        continue;
+
+                    //detalls = GameObject.Instantiate(subestat.detalls[d].GameObject(peça), tileFisic.transform.position, Quaternion.identity, tileFisic.transform);
+                    this.detalls = GameObject.Instantiate(_detall, tileFisic.transform.position, Quaternion.identity);
+                    for (int m = 0; m < detalls[d].Modificacios.Length; m++)
+                    {
+                        detalls[d].Modificacios[m].Modificar(this, this.detalls);
+                    }
+                    this.detalls.transform.SetParent(tileFisic.transform);
+                }
+            }
+        }
+    }
+    /*public void Detalls(Subestat subestat)
     {
         if (WaveFunctionColpaseScriptable.veureProces)
         {
@@ -251,7 +288,7 @@ public class TilePotencial
             
         }
 
-    }
+    }*/
     public struct Random
     {
         public int index;

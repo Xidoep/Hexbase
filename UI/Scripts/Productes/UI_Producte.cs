@@ -8,10 +8,10 @@ public class UI_Producte : UI_InformacioPeça
     public override GameObject Setup(Peça peça, int index)
     {
         this.subestat = peça.Subestat;
-        this.producte = peça.productesExtrets[index];
+        this.producte = peça.ExtreureProducte[index];
 
         MeshRenderer.material.SetTexture(ICONE, subestat.Producte.Icone);
-        MeshRenderer.material.SetFloat(GASTADA, peça.productesExtrets[index].gastat ? 1 : 0);
+        MeshRenderer.material.SetFloat(GASTADA, peça.ExtreureProducte[index].gastat ? 1 : 0);
         MeshRenderer.material.SetFloat(PTENCIAL, peça.Ocupat ? 0 : 1);
         MeshRenderer.material.SetFloat(START_TIME, Time.time + 1000);
 

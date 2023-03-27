@@ -115,11 +115,11 @@ public class Grid : MonoBehaviour
         peçaFisica.Setup(this, coordenada, tipus, tipus.SubestatInicial);
         Set(peçaFisica);
 
-        foreach (var coodVei in grid.VeinsCoordenades(peçaFisica.Coordenades))
+        /*foreach (var coodVei in grid.VeinsCoordenades(peçaFisica.Coordenades))
         {
             CrearRanura(coodVei);
-        }
-
+        }*/
+        
         if(processar)
             this.processar.Iniciar(peçaFisica);
 
@@ -155,8 +155,8 @@ public class Grid : MonoBehaviour
         Ranura ranura = Instanciar(prefab_Ranura, coordenada.x, coordenada.y).GetComponent<Ranura>();
         ranura.Setup(this, coordenada, null, null);
         Set(ranura);
-
     }
+
     public Hexagon CrearBoto(Vector2Int coordenada, GameObject boto)
     {
         Hexagon hex = Instanciar(boto, coordenada.x, coordenada.y).GetComponent<Hexagon>();

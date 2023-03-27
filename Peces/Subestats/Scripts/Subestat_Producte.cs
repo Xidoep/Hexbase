@@ -18,7 +18,7 @@ public class Subestat_Producte : Subestat
                 gastat = false
             });
         }
-        peça.productesExtrets = productesExtrets.ToArray();
+        peça.SetProductesExtrets = productesExtrets.ToArray();
 
         return base.Setup(peça);
     }

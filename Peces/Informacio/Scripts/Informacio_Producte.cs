@@ -22,16 +22,16 @@ public class Informacio_Producte : Informacio
 
         Amagar(hexagon);
 
-        quantitat = ((Peça)hexagon).productesExtrets.Length;
+        quantitat = ((Peça)hexagon).ExtreureProducte.Length;
         for (int i = 0; i < quantitat; i++)
         {
-            if (!mostrarProveides && ((Peça)hexagon).productesExtrets[i].gastat)
+            if (!mostrarProveides && ((Peça)hexagon).ExtreureProducte[i].gastat)
                 continue;
 
             GameObject tmp = Instantiate(prefab.gameObject, hexagon.transform.position, Quaternion.identity, hexagon.transform);
             tmp.GetComponent<UI_InformacioPeça>().Setup(((Peça)hexagon), i);
             tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
-            ((Peça)hexagon).productesExtrets[i].informacio = new Unitat(tmp);
+            ((Peça)hexagon).ExtreureProducte[i].informacio = new Unitat(tmp);
             //ui.Add(peça.productesExtrets[i].informacio);
         }
         //return ui.ToArray();
@@ -39,12 +39,12 @@ public class Informacio_Producte : Informacio
 
     public override void Amagar(Hexagon hexagon)
     {
-        for (int i = 0; i < ((Peça)hexagon).productesExtrets.Length; i++)
+        for (int i = 0; i < ((Peça)hexagon).ExtreureProducte.Length; i++)
         {
-            if (((Peça)hexagon).productesExtrets[i].informacio.gameObject == null)
+            if (((Peça)hexagon).ExtreureProducte[i].informacio.gameObject == null)
                 continue;
 
-            Destroy(((Peça)hexagon).productesExtrets[i].informacio.gameObject, 0.1f);
+            Destroy(((Peça)hexagon).ExtreureProducte[i].informacio.gameObject, 0.1f);
         }
     }
 }

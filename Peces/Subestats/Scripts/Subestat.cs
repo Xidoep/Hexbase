@@ -13,9 +13,10 @@ public class Subestat : ScriptableObject
     [Tooltip("Que s'ha de crear un cami cap a ell")]
     [SerializeField] bool caminable;
     [SerializeField] bool aquatic;
+
+
     public bool Caminable => caminable;
     public bool Aquatic => aquatic;
-
     public virtual bool EsProducte => false;
 
 

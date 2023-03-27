@@ -7,7 +7,7 @@ public abstract class WfcRegla : ScriptableObject
     public abstract Subestat Subestat { get; }
     public bool Comprovar(Peça peça)
     {
-        if (peça.Subestat != Subestat)
+        if (!peça.SubestatIgualA(Subestat))
             return true;
         else return Comprovacio(peça);
     }

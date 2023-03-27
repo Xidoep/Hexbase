@@ -133,6 +133,7 @@ public class Fase_Processar : Fase
     void Produir()
     {
         Animar();
+        CrearRanures();
         produccio.Process(Guardar);
     }
 
@@ -153,7 +154,6 @@ public class Fase_Processar : Fase
             if (animades.Contains(canviades[c].Peça))
                 continue;
 
-
             visualitzacions.CanviarEstat(canviades[c].Peça);
             //actualitzar.Play(canviades[c].Parent);
             Debug.LogError($"Animar: {canviades[c].Peça}");
@@ -173,6 +173,16 @@ public class Fase_Processar : Fase
                 Debug.LogError($"Animar: {canviades[c].Peça}");
                 animades.Add(canviades[c].Peça.VeinsPeça[v]);
             }
+        }
+    }
+
+    void CrearRanures()
+    {
+        foreach (var coodVei in Grid.Instance.VeinsCoordenades(peça.Coordenades))
+        {
+            //Grid.Instance.CrearRanura(coodVei);
+            XS_Coroutine.StartCoroutine_Ending_FrameDependant(0.75f, Grid.Instance.CrearRanura, coodVei);
+            //CrearRanura(coodVei);
         }
     }
 

@@ -95,6 +95,8 @@ GameObject:
   - component: {fileID: -7452876204873259805}
   - component: {fileID: -1497383675261886690}
   - component: {fileID: 5459076180667761728}
+  - component: {fileID: 6227288811108083747}
+  - component: {fileID: 3334615530115124948}
   m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
@@ -227,6 +229,61 @@ MonoBehaviour:
   onClick: 1
   pare: {fileID: 0}
   boto: {fileID: 0}
+--- !u!114 &6227288811108083747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4224293230431529238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4864b9375f238ca4c9abc06809e8e7cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escoltadors:
+  - {fileID: 6588833117958143675, guid: f052fa43ec0c567418585bca48df59f5, type: 3}
+  OnInteractuar:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5459076180667761728}
+        m_TargetAssemblyTypeName: AnimacioPerCodi_GameObject_Referencia, AnimacioPerCodi
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3334615530115124948}
+        m_TargetAssemblyTypeName: UI_SeleccionarDesseleccionar, XS.UI
+        m_MethodName: Recuperar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  multipleInteractions: 0
+  delayRegistration: 0
+--- !u!114 &3334615530115124948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4224293230431529238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce80770b228923548995110cef55840f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6276772455473853965
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,8 +355,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ........................................
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 19c5dc1fb63d40c4281cb8589c0eedf0, type: 2}
-  m_sharedMaterial: {fileID: 407802829209662782, guid: 19c5dc1fb63d40c4281cb8589c0eedf0, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f368d98a6f1a79f4c95c98d661f8bd00, type: 2}
+  m_sharedMaterial: {fileID: 293441120184343264, guid: f368d98a6f1a79f4c95c98d661f8bd00, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -807,8 +864,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3672558213031760717, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
       propertyPath: m_text
-      value: Si
+      value: No translation found for 'Yes' in Generic
       objectReference: {fileID: 0}
+    - target: {fileID: 3672558213031760717, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: f368d98a6f1a79f4c95c98d661f8bd00, type: 2}
+    - target: {fileID: 3672558213031760717, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 293441120184343264, guid: f368d98a6f1a79f4c95c98d661f8bd00, type: 2}
     - target: {fileID: 6967168444251023443, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
       propertyPath: m_Navigation.m_Mode
       value: 4
@@ -1025,8 +1090,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3672558213031760717, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
       propertyPath: m_text
-      value: No
+      value: No translation found for 'No' in Generic
       objectReference: {fileID: 0}
+    - target: {fileID: 3672558213031760717, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: f368d98a6f1a79f4c95c98d661f8bd00, type: 2}
+    - target: {fileID: 3672558213031760717, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 293441120184343264, guid: f368d98a6f1a79f4c95c98d661f8bd00, type: 2}
     - target: {fileID: 6967168444251023443, guid: 36eec3f1e182b5e4f9c99495ebef8daa, type: 3}
       propertyPath: m_Navigation.m_Mode
       value: 4

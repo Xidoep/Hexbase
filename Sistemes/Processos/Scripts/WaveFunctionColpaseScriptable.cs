@@ -36,8 +36,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     //Actualitza les possiblitats del tile, si aquestes canvien, s'agafeix el tile a l'Stack
     Peça colocada;
     List<Peça> canviades;
-    [SerializeField] InputActionReference step;
-    [SerializeField] InputActionReference propagar;
     [SerializeField] WfcRegla[] regles;
     //[SerializeField] Fase_Colocar colocar;
     [SerializeField] List<TilePotencial> pendents;
@@ -65,22 +63,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     bool found;
     List<Connexio> _connexio;
 
-    private void OnEnable()
+    void OnEnable()
     {
-        //random = new System.Random(1);
         Random.InitState(1);
-        step.action.Enable();
-        step.OnPerformedAdd(StepManual);
-        propagar.action.Enable();
-        propagar.OnPerformedAdd(PropagarManual);
-    }
-    private void OnDisable()
-    {
-        step.OnPerformedRemove(StepManual);
-        step.action.Disable();
-        propagar.OnPerformedRemove(PropagarManual);
-        propagar.action.Disable();
-
     }
 
     //INICIACIO
@@ -401,9 +386,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 _connexio.Clear();
                 if(vei.Peça != tile.Peça)//Si el vei no es intern
                 {
-                    if (tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça) != null && tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça).subestats.Contains(vei.Peça.Subestat))
+                    if (tile.Peça.ConnexionsEspesifica != null && tile.Peça.ConnexionsEspesifica.subestats.Contains(vei.Peça.Subestat))
                     {
-                        _connexio.AddRange(tile.Peça.Subestat.ConnexionsEspesifica(tile.Peça).connexions);
+                        _connexio.AddRange(tile.Peça.ConnexionsEspesifica.connexions);
                         return _connexio.ToArray();
                     }
                 }
@@ -425,10 +410,10 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
         else
         {
-            if (tile.Peça.Subestat.TeConnexionsNules(tile.Peça))
-                return tile.Peça.Subestat.ConnexionsNules(tile.Peça);
+            if (tile.Peça.TeConnexionsNules)
+                return tile.Peça.ConnexionsNules;
 
-            return tile.Peça.Subestat.ConnexionsPossibles(tile.Peça);
+            return tile.Peça.ConnexionsPossibles;
         }
     }
 
@@ -441,11 +426,11 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         Debugar.LogError("WFC ACABAT!");
 
         colocada.CrearTilesFisics();
-        XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.Detalls);
+        XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.CrearDetalls);
         for (int i = 0; i < colocada.VeinsPeça.Count; i++)
         {
             XS_Coroutine.StartCoroutine_Ending(.5f, colocada.VeinsPeça[i].CrearTilesFisics);
-            XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.VeinsPeça[i].Detalls);
+            XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.VeinsPeça[i].CrearDetalls);
         }
 
         for (int i = 0; i < canviades.Count; i++)
@@ -454,7 +439,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 continue;
 
             XS_Coroutine.StartCoroutine_Ending(.5f, canviades[i].CrearTilesFisics);
-            XS_Coroutine.StartCoroutine_Ending(1.5f, canviades[i].Detalls);
+            XS_Coroutine.StartCoroutine_Ending(1.5f, canviades[i].CrearDetalls);
         }
 
         enFinalitzar.Invoke();

@@ -4,17 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-//**********************************************
-//FALTA: treute estat i subestat d'aqui i passarlo a la peça.
-//**********************************************
-
-/// <summary>
-/// La classe base de les peces del Grid
-/// </summary>
 [SelectionBase]
 public abstract class Hexagon : MonoBehaviour
 {
-    //protected const string SELECCIONAT_ID = "_Seleccionat";
     public virtual void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
         veins = grid.Veins;
@@ -22,11 +14,7 @@ public abstract class Hexagon : MonoBehaviour
         this.coordenades = coordenades;
     }
 
-    //VARIABLES 
     [SerializeField] Transform parent;
-
-    //[SerializeField] protected AnimacioPerCodi animacioPerCodi;
-    //[SerializeField] public AnimacioPerCodi animacio;
 
     Vector2Int coordenades;
 
@@ -36,17 +24,28 @@ public abstract class Hexagon : MonoBehaviour
     protected System.Action<Hexagon, bool> mostrarInformacio;
     protected System.Action<Hexagon> amagarInformacio;
 
+
+
+    //ABSTRACT
+    public abstract bool EsPeça { get; }
+    public abstract void OnPointerEnter();
+    public abstract void OnPointerExit();
+    public virtual void OnPointerDown() { }
+    public virtual void OnPointerUp() { }
+
+
+
+    //PROPIETATS
+    public Transform Parent => parent;
+    public Vector2Int Coordenades => coordenades;
+    public List<Hexagon> Veins => veins.Invoke(coordenades);
+    public List<Peça> VeinsPeça => veinsPeça.Invoke(coordenades);
     public System.Action<Peça, bool> MostrarInformacio => mostrarInformacio;
     public System.Action<Peça> AmagarInformacio => amagarInformacio;
 
 
-    public abstract bool EsPeça { get; }
-    public Vector2Int Coordenades => coordenades;
 
-    public Transform Parent => parent;
 
-    public List<Hexagon> Veins => veins.Invoke(coordenades);
-    public List<Peça> VeinsPeça => veinsPeça.Invoke(coordenades);
 
 
 

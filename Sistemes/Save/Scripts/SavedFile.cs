@@ -136,6 +136,7 @@ public class SavedFile
             creades[i].AssignarVeinsTiles(creades[i].Tiles);
         }
 
+        _tempsRanura = 0;
         //CREAR RANURES
         for (int i = 0; i < creades.Count; i++)
         {
@@ -153,7 +154,7 @@ public class SavedFile
         {
             for (int t = 0; t < creades[i].Tiles.Length; t++)
             {
-                creades[i].Tiles[t].Detalls(creades[i].Subestat);
+                creades[i].Tiles[t].Detalls(creades[i].Detalls);
             }
         }
 
