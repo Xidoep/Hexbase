@@ -86,7 +86,8 @@ public class SavedPeça
         //peça.CrearDetalls();
 
         //peça.Detalls();
-        animacio.Invoke(peça);
+        Debug.Log(peça.name);
+        animacio?.Invoke(peça);
 
         return peça;
     }

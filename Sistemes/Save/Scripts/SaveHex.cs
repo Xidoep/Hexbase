@@ -12,9 +12,9 @@ public class SaveHex : ScriptableObject
     [SerializeField] int partidaAnterior = -1;
     [SerializeField] int actual = 0;
     [SerializeField] List<SavedFile> files;
-    [SerializeField] CapturarPantalla capturarPantalla;
-    [SerializeField] Visualitzacions visualitzacions;
-
+    //[SerializeField] CapturarPantalla capturarPantalla;
+    //[SerializeField] Visualitzacions visualitzacions;
+    /*
     [Apartat("ESTATS")]
     [SerializeField] Estat[] estats;
     [Header("SUBESTATS")]
@@ -23,7 +23,7 @@ public class SaveHex : ScriptableObject
     [SerializeField] Producte[] productes;
     [Header("TILES")]
     [SerializeField] Tile[] tiles;
-
+    */
     Estat eTrobat;
     Subestat sTrobat;
     Producte pTrobat;
@@ -35,13 +35,13 @@ public class SaveHex : ScriptableObject
 
     private void OnEnable()
     {
-        capturarPantalla.OnCapturatRegistrar(AddCaptura);
+        //capturarPantalla.OnCapturatRegistrar(AddCaptura);
         nomesGuardats = false;
     }
 
     private void OnDisable()
     {
-        capturarPantalla.OnCapturatDesregistrar(AddCaptura);
+        //capturarPantalla.OnCapturatDesregistrar(AddCaptura);
         nomesGuardats = false;
     }
 
@@ -100,11 +100,11 @@ public class SaveHex : ScriptableObject
     Estat EstatNomToPrefab(string nom)
     {
         eTrobat = null;
-        for (int i = 0; i < estats.Length; i++)
+        for (int i = 0; i < SaveReferencies.Instance.estats.Length; i++)
         {
-            if (estats[i].name == nom)
+            if (SaveReferencies.Instance.estats[i].name == nom)
             {
-                eTrobat = estats[i];
+                eTrobat = SaveReferencies.Instance.estats[i];
                 break;
             }
         }
@@ -113,11 +113,11 @@ public class SaveHex : ScriptableObject
     Subestat SubestatNomToPrefab(string nom)
     {
         sTrobat = null;
-        for (int i = 0; i < subestats.Length; i++)
+        for (int i = 0; i < SaveReferencies.Instance.subestats.Length; i++)
         {
-            if (subestats[i].name == nom)
+            if (SaveReferencies.Instance.subestats[i].name == nom)
             {
-                sTrobat = subestats[i];
+                sTrobat = SaveReferencies.Instance.subestats[i];
                 break;
             }
         }
@@ -126,11 +126,11 @@ public class SaveHex : ScriptableObject
     public Producte ProducteNomToPrefab(string nom)
     {
         pTrobat = null;
-        for (int i = 0; i < productes.Length; i++)
+        for (int i = 0; i < SaveReferencies.Instance.productes.Length; i++)
         {
-            if (productes[i].name == nom)
+            if (SaveReferencies.Instance.productes[i].name == nom)
             {
-                pTrobat = productes[i];
+                pTrobat = SaveReferencies.Instance.productes[i];
                 break;
             }
         }
@@ -155,11 +155,11 @@ public class SaveHex : ScriptableObject
     Tile TileNomToPrefab(string nom)
     {
         tTrobat = null;
-        for (int i = 0; i < tiles.Length; i++)
+        for (int i = 0; i < SaveReferencies.Instance.tiles.Length; i++)
         {
-            if (tiles[i].name == nom)
+            if (SaveReferencies.Instance.tiles[i].name == nom)
             {
-                tTrobat = tiles[i];
+                tTrobat = SaveReferencies.Instance.tiles[i];
                 break;
             }
         }
@@ -214,19 +214,20 @@ public class SaveHex : ScriptableObject
         actual = index;
         Load(grups, seguent, enCarregat);
     }
-    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, visualitzacions.Colocar, enCarregat);
+    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, SaveReferencies.Instance.visualitzacions.Colocar, enCarregat);
 
 
 
 
 
 
-    private void OnValidate()
+    /*private void OnValidate()
     {
         estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
         productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
         tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Tiles/Tiles").ToArray();
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
-    }
+        if (visualitzacions == null) visualitzacions = XS_Editor.LoadAssetAtPath<Visualitzacions>("Assets/XidoStudio/Hexbase/Sistemes/Visualitzacions/Visualitzacions.asset");
+    }*/
 }
