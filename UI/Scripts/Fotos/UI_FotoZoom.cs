@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UI_FotoZoom : MonoBehaviour
 {
-    public void Setup(UI_Foto foto, Texture2D textura, string path, int indexPartida, bool partidaJaCarregada, System.Action amagar, System.Action<int> carregar, System.Action<string, int> borrar)
+    public void Setup(UI_Foto foto, Texture2D textura, string path, int indexPartida, bool partidaJaCarregada, System.Action amagar, System.Action<int> carregar, System.Action<string, int> borrar, System.Action seleccionarLaPrimera)
     {
         rect.sizeDelta = new Vector2(rect.sizeDelta.y, rect.sizeDelta.x * (textura.texelSize.x / textura.texelSize.y) + 140f);
         rect.sizeDelta = new Vector2(1400, rect.sizeDelta.y);
@@ -20,6 +20,7 @@ public class UI_FotoZoom : MonoBehaviour
 
         this.carregar = carregar;
         this.borrar = borrar;
+        this.seleccionarLaPrimera = seleccionarLaPrimera;
     }
 
     [SerializeField] RectTransform rect;
@@ -42,6 +43,7 @@ public class UI_FotoZoom : MonoBehaviour
 
     System.Action<int> carregar;
     System.Action<string, int> borrar;
+    System.Action seleccionarLaPrimera;
 
 
 
@@ -80,6 +82,7 @@ public class UI_FotoZoom : MonoBehaviour
         {
             this.borrar.Invoke(path, indexPartida);
             enAmagar.Invoke();
+            seleccionarLaPrimera.Invoke();
         }
         else
         {

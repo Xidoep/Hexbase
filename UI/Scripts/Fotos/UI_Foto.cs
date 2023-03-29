@@ -4,11 +4,10 @@ using TMPro;
 
 public class UI_Foto : MonoBehaviour
 {
-    public void Setup(int experiencia, CapturarPantalla.Captura captura, int indexPartida, bool seleccionar, System.Action<UI_Foto, CapturarPantalla.Captura, int> accioZoom, System.Action<UI_Foto> accioEnApuntar)
+    public void Setup(int experiencia, CapturarPantalla.Captura captura, int indexPartida, System.Action<UI_Foto, CapturarPantalla.Captura, int> accioZoom, System.Action<UI_Foto> accioEnApuntar)
     {
         rectTransform.localScale = new Vector3(1, captura.texture.texelSize.x / captura.texture.texelSize.y + 0.1f, 1);
         rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.x * (captura.texture.texelSize.x / captura.texture.texelSize.y));
-        if (seleccionar) boto.Select();
         impresio.texture = captura.texture;
         this.experiencia.text = indexPartida != -1 ? experiencia.ToString() : "";
 
@@ -31,7 +30,7 @@ public class UI_Foto : MonoBehaviour
     System.Action<UI_Foto, CapturarPantalla.Captura, int> accioZoom;
     System.Action<UI_Foto> accioEnApuntar;
 
-
+    public void Seleccionar() => boto.Select();
     public void Zoom() => accioZoom.Invoke(this, captura, indexPartida);
     public void EnApuntar() => accioEnApuntar.Invoke(this);
 

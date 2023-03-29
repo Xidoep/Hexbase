@@ -32,9 +32,10 @@ public class UI_Album : MonoBehaviour
     [SerializeField] XS_ScrollRect scrollRect;
 
     [Apartat("TRADUCCIONS")]
-    [SerializeField] TMP_Text capcalera;
-    [SerializeField] LocalizedString local_Album;
-    [SerializeField] LocalizedString local_PartidesGuardades;
+    [SerializeField] TMP_Text carpetaCaptures;
+    //[SerializeField] TMP_Text capcalera;
+    //[SerializeField] LocalizedString local_Album;
+    //[SerializeField] LocalizedString local_PartidesGuardades;
 
     #region Intern
     UI_Foto[] fotos = new UI_Foto[0];
@@ -49,6 +50,7 @@ public class UI_Album : MonoBehaviour
     void OnEnable()
     {
         scrollRect.SetContentSize((Vector2.one * 260) * (Vector2.one / (float)guardat.Get("InterficeSize", 0.8f)));
+        carpetaCaptures.text = capturarPantalla.RootPath;
         //gridLayoutGroup.cellSize = (Vector2.one * 260) * (Vector2.one / (float)guardat.Get("InterficeSize", 0.8f));
         //content.transform.localScale = Vector3.one / (float)guardat.Get("InterficeSize", 0.8f);
         Actualitzar();
@@ -98,29 +100,32 @@ public class UI_Album : MonoBehaviour
                indexPartida != -1 ? save.Experiencia(indexPartida) : 0,
                captures[i],
                indexPartida,
-               i == 0,
                ZoomIn,
                PosicionarContent
                ); ;
         }
+        SeleccionarLaPrimera();
     }
 
+    public void SeleccionarLaPrimera() 
+    {
+        if (fotos.Length == 0)
+            return;
 
+        fotos[0].Seleccionar();
+    } 
 
     void ZoomIn(UI_Foto foto, CapturarPantalla.Captura captura, int indexPartida)
     {
         fotoZoomed = Instantiate(fotoZoom);
         esdevenimentPerBinding.enabled = false;
-        fotoZoomed.GetComponent<UI_FotoZoom>().Setup(foto, captura.texture, captura.path, indexPartida, save.Actual == indexPartida, ZoomOut, Carregar, EliminarCaptura);
+        fotoZoomed.GetComponent<UI_FotoZoom>().Setup(foto, captura.texture, captura.path, indexPartida, save.Actual == indexPartida, ZoomOut, Carregar, EliminarCaptura, SeleccionarLaPrimera);
     }
     void ZoomOut()
     {
         esdevenimentPerBinding.enabled = true;
     }
 
-    //********************************************************
-    //NO CARREGAR LA PARTIDA SI TE EL MATEIX INDEX QUE LA ACTUAL
-    //********************************************************
     void Carregar(int partida)
     {
         menu.Carregar(partida);
