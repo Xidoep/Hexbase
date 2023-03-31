@@ -88,7 +88,7 @@ public class Detall_Altura : DetallScriptable
 
     void CrearPlantes(Substituible_Planta substituible, int plantes)
     {
-        Debug.Log($"Crear {plantes} plantes");
+        //Debug.Log($"Crear {plantes} plantes");
         Substituible_Planta plantaActual = substituible.Substituir(false).GetComponentInChildren<Substituible_Planta>();
 
         if (plantaActual == null)
