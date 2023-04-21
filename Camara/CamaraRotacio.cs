@@ -8,6 +8,7 @@ using XS_Utils;
 [System.Serializable]
 public class CamaraRotacio
 {
+    [SerializeField] Fase_Menu faseMenu;
     [SerializeField] InputActionReference keyboard;
     //[SerializeField] InputActionReference mouse;
     [SerializeField] float speed;
@@ -20,6 +21,7 @@ public class CamaraRotacio
     public void Enable()
     {
         keyboard.action.Enable();
+        faseMenu.OnStart += ResetRotacio;
         //mouseActivation.action.Enable();
         //mouseActivation.OnPerformedAdd(Activate);
         //mouse.action.Enable();
@@ -39,6 +41,7 @@ public class CamaraRotacio
     public void Disable()
     {
         keyboard.action.Disable();
+        faseMenu.OnStart -= ResetRotacio;
         //mouseActivation.action.Disable();
         //mouseActivation.OnPerformedRemove(Activate);
         //mouse.action.Disable();
@@ -48,6 +51,11 @@ public class CamaraRotacio
     {
         //active = context.GetBool();
         //Fase_Colocar.Bloquejar(active);
+    }
+
+    public void ResetRotacio()
+    {
+        rotacio = Quaternion.Euler(Vector3.zero);
     }
     void Rotacio_Keyboard()
     {

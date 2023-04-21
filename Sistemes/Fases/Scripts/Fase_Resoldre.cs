@@ -65,7 +65,7 @@ public class Fase_Resoldre : Fase
     {
         enTornar?.Invoke();
         capturarPantalla.OnCapturatRegistrar(TornarAMenu_DespresDeCapturar);
-        capturarPantalla.CapturarSenseVisuals();
+        capturarPantalla.Capturar(true, false);
         //Capturar();
     }
 
@@ -114,14 +114,14 @@ public class Fase_Resoldre : Fase
     {
         enTornar?.Invoke();
         capturarPantalla.OnCapturatRegistrar(TornarAMenu_DespresDeCapturar);
-        capturarPantalla.CapturarSenseVisuals();
+        capturarPantalla.Capturar(false);
         //Capturar();
     }
     void Repetir(bool guardar) //DESDE POPUP PERDRE
     {
         enRepetir?.Invoke();
         capturarPantalla.OnCapturatRegistrar(TornarAIniciar_DespresDeCapturar);
-        capturarPantalla.CapturarSenseVisuals();
+        capturarPantalla.Capturar(false);
         //Capturar();
     }
     void Continuar_Freestyle() //DESDE POPUP PERDRE
@@ -137,7 +137,7 @@ public class Fase_Resoldre : Fase
     void Capturar()
     {
         //capturarPantalla.OnCapturatRegistrar(NouArxiuDespresDeCapturar);
-        capturarPantalla.CapturarSenseVisuals();
+        capturarPantalla.Capturar(false);
 
         /*void NouArxiuDespresDeCapturar(string path)
         {

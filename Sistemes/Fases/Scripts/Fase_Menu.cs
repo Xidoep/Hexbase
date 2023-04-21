@@ -26,6 +26,7 @@ public class Fase_Menu : Fase
 
     [Apartat("UI")]
     [SerializeField] UI_Menu uiMenu;
+    [SerializeField] Utils_InstantiableFromProject titol;
     [SerializeField] Utils_InstantiableFromProject sortir1;
     [SerializeField] Utils_InstantiableFromProject sortir2;
     [SerializeField] Utils_InstantiableFromProject fadeOut;
@@ -47,6 +48,7 @@ public class Fase_Menu : Fase
     List<Boto> botons;
     List<Coroutine> coroutines;
     bool _modesMostrats;
+    AnimacioPerCodi_GameObject_Referencia animacioTitol;
 
     //OVERRIDES
     public override void FaseStart()
@@ -56,6 +58,7 @@ public class Fase_Menu : Fase
 
         OnFinish += MarcarComIniciat;
         OnFinish += uiMenu.RegistrarAccions;
+        OnFinish += AmagarTitol;
 
         Grid.Instance.CrearGrid();
         _modesMostrats = false;
@@ -69,21 +72,22 @@ public class Fase_Menu : Fase
             }
             else
             {
-                SeleccionarOpcions();
+                MostrarBotonsMenu();
             }
         }
         else
         {
-            SeleccionarOpcions();
+            MostrarBotonsMenu();
         }
 
         if(botons.Count > 0)
             OnFinish += NetejarBotonsDelGrid;
 
+        animacioTitol = titol.InstantiateReturn().GetComponent<AnimacioPerCodi_GameObject_Referencia>();
     }
 
     //PUBLIQUES
-    public void Sortir()
+    public void Sortir() //Sortir del joc
     {
         Debugar.Log("SORTIR?");
         if (!save.TePeces)
@@ -111,7 +115,7 @@ public class Fase_Menu : Fase
         //save.SetActual(partida);
         Carregar();
     }*/
-    public void Carregar(int partida = -1) //Si és -1 Carregarà la partida "actual"
+    public void Carregar(int partida = -1) //Carrega una partida guardada (Si "partida" és -1 Carregarà la partida "actual")
     {
         Grid.Instance.Resetejar();
         iniciar.GridBrut();
@@ -122,14 +126,17 @@ public class Fase_Menu : Fase
         else save.Load(partida, grups, null, continuarFondoClicable.Instantiate);
     }
 
-    public void Modes()
+    public void Modes() //Mostre les opcions dels modes
     {
         if (_modesMostrats)
             return;
 
         _modesMostrats = true;
 
-        AddBotonsModes();
+        List<Botons> botons = new List<Botons>();
+        botons.Add(standard);
+        botons.Add(freeStyle);
+        CrearBotons(botons.ToArray(), true);
     }
     public void NovaPartida()
     {
@@ -152,7 +159,7 @@ public class Fase_Menu : Fase
 
     public void ActivarBotons() => ActivarBotons(true);
     public void DesactivarBotons() => ActivarBotons(false);
-    void ActivarBotons(bool activar)
+    void ActivarBotons(bool activar) //Activa o desactiva els botons per prevenir multiples interaccions
     {
         if (botons.Count == 0)
             return;
@@ -165,7 +172,7 @@ public class Fase_Menu : Fase
     }
 
     //PRIVADES
-    void SeleccionarOpcions()
+    void MostrarBotonsMenu()
     {
         List<Botons> botons = new List<Botons>();
 
@@ -183,18 +190,10 @@ public class Fase_Menu : Fase
         botons.Add(configuracio);
         botons.Add(sortir);
 
-        CrearOpcions(botons.ToArray());
+        CrearBotons(botons.ToArray());
     }
 
-    void AddBotonsModes()
-    {
-        List<Botons> botons = new List<Botons>();
-        botons.Add(standard);
-        botons.Add(freeStyle);
-        CrearOpcions(botons.ToArray(), true);
-    }
-
-    void CrearOpcions(Botons[] opcions, bool add = false)
+    void CrearBotons(Botons[] opcions, bool add = false)
     {
         if (!add)
         {
@@ -209,13 +208,13 @@ public class Fase_Menu : Fase
        
         for (int i = 0; i < opcions.Length; i++)
         {
-            CrearOpcio(opcions[i], 1 + i * 0.5f);
+            CrearBoto(opcions[i], 1 + i * 0.5f);
         }
 
         Grid.Instance.Dimensionar(botons[0]);
     }
 
-    void CrearOpcio(Botons boto, float temps)
+    void CrearBoto(Botons boto, float temps)
     {
         Boto tmp = (Boto)boto.Crear(Grid.Instance);
         tmp.gameObject.SetActive(false);
@@ -227,11 +226,6 @@ public class Fase_Menu : Fase
     }
 
 
-    /*IEnumerator CrearBotoDelayed(GameObject prefab, Vector2Int posicio, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        botons.Add(Grid.Instance.CrearBoto(Grid.Instance.Centre + posicio, prefab));
-    }*/
 
     void NetejarBotonsDelGrid()
     {
@@ -267,7 +261,7 @@ public class Fase_Menu : Fase
     {
         inici = false;
     }
-
+    void AmagarTitol() => animacioTitol.Destroy();
 
 
     public void PopupSortir() => sortir1.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(BromaSortir);

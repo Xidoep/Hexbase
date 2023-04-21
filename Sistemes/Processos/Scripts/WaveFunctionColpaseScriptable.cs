@@ -292,6 +292,13 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     }
 
 #if UNITY_EDITOR
+                    Possibilitats possibilitats = propagables[0].Peça.Possibilitats;
+                    for (int i = 0; i < possibilitats.Count; i++)
+                    {
+                        _debug += $"{possibilitats.Get(i).Tile.name} | {possibilitats.Get(i).Tile.Exterior(0).name}, {possibilitats.Get(i).Tile.Esquerra(0).name}, {possibilitats.Get(i).Tile.Dreta(0).name}";
+                    }
+
+                    //MILLORAR AQUEST DEBUG I QUE EM MOSTRI TOTES LES LES OPCIONS POSSIBLES I COM LES HA PROVAT.
                     Debugar.LogError(_debug, propagables[0].Peça);
 #endif
                     XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);  
@@ -325,6 +332,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     bool TreuPossibilitatsImpossibles(TilePotencial tile)
     {
+        //string _debug = "";
         haCanviat = false;
 
         cExterior = GetConnexiosVirtuals(tile, tile.Veins[0], 0);
@@ -342,7 +350,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 {
                     for (int c2 = 0; c2 < cDreta.Length; c2++)
                     {
-                        //_debug += $"|-{pos.tile.Exterior(pos.orientacio).name}, {pos.tile.Esquerra(pos.orientacio).name}, {pos.tile.Dreta(pos.orientacio).name} = " +
+
+                        //_debug += $"|-{cExterior[c1].name}, {cEsquerra[c2].name}, {cDreta[c3].name} = " +
                         //    $"{cExterior[c1].name}, {cEsquerra[c3].name}, {cDreta[c2].name} ?";
                         if (tile.CompararConnexions(posibilitat, cExterior[c1], cEsquerra[c3], cDreta[c2])) 
                         {

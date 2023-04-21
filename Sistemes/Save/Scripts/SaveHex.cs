@@ -12,18 +12,7 @@ public class SaveHex : ScriptableObject
     [SerializeField] int partidaAnterior = -1;
     [SerializeField] int actual = 0;
     [SerializeField] List<SavedFile> files;
-    //[SerializeField] CapturarPantalla capturarPantalla;
-    //[SerializeField] Visualitzacions visualitzacions;
-    /*
-    [Apartat("ESTATS")]
-    [SerializeField] Estat[] estats;
-    [Header("SUBESTATS")]
-    [SerializeField] Subestat[] subestats;
-    [Header("PRODUCTES")]
-    [SerializeField] Producte[] productes;
-    [Header("TILES")]
-    [SerializeField] Tile[] tiles;
-    */
+
     Estat eTrobat;
     Subestat sTrobat;
     Producte pTrobat;
@@ -45,58 +34,45 @@ public class SaveHex : ScriptableObject
         nomesGuardats = false;
     }
 
-    //GETTERS - SETTERS
 
-    //GETTERS
-    public int Actual { get => actual; }
-    public bool HiHaPartidaAnterior => partidaAnterior != -1;
+
+    //ARCHIUS (NOU - BORRAR)
     public int FilesLength => files.Count;
+    public int Actual { get => actual; }
+    public void NouArxiu(Mode mode)
+    {
+        files.Add(new SavedFile());
+        partidaAnterior = actual;
+        actual = files.Count - 1;
+        files[actual].SetMode(mode);
+    }
+    public void BorrarPartida()
+    {
+        files.RemoveAt(actual);
+        if (files.Count == 0) files.Add(new SavedFile());
+        actual = Mathf.Clamp(actual - 1, 0, files.Count - 1);
+    }
+
+
+
+    //GUARDA - CARREGAR
     public bool NomesGuardats => nomesGuardats;
-    public int Mode => files[actual].Mode; 
-    public bool TePeces 
+    public bool HiHaPartidaAnterior => partidaAnterior != -1;
+    public void SetActual(int actual) => this.actual = actual;
+    public void Continuar(Grups grups, Fase seguent, Modes modes)
     {
-        get 
-        {
-            if (files == null || files.Count == 0) files = new List<SavedFile>() {new SavedFile() };
-            if (actual > files.Count - 1) actual = 0;
-            return files[actual].TePeces;
-        
-        }
+        BorrarPartida();
+        actual = partidaAnterior;
+        modes.Set((Mode)files[actual].Mode);
+        //files[actual].SetMode((Mode)files[actual].Mode);
+        Load(grups, seguent);
     }
-    public bool TeCaptures => files[actual].Captures != null && files[actual].Captures.Count > 0;
-    public int Experiencia(int index) => files[index].Experiencia;
-    public int CapturaToIndex(string path)
+    public void Load(int index, Grups grups, Fase seguent, System.Action enCarregat = null)
     {
-        //Debugar.Log($"Existeix {path}?");
-        int trobat = -1;
-        for (int f = 0; f < files.Count; f++)
-        {
-            if(files[f].Captures != null && files[f].Captures.Count > 0)
-            {
-                for (int c = 0; c < files[f].Captures.Count; c++)
-                {
-                    //Debugar.Log($"{files[f].Captures[c]} =? {path}");
-                    if (files[f].Captures[c] == path || files[f].Captures[c] == path.Replace(@"\", "/"))
-                    {
-                        trobat = f;
-                        break;
-                    }
-                }
-                if (trobat != -1)
-                    break;
-            }
-            
-        }
-        return trobat;
+        actual = index;
+        Load(grups, seguent, enCarregat);
     }
-    public string GetCapturaMesRecent(int index) 
-    {
-        if (files[index].Captures.Count > 0)
-            return files[index].Captures[files[index].Captures.Count - 1];
-        else return "";
-    } 
-    public bool PilaPlena => files[actual].PilaPlena;
-    public List<Estat> Pila => files[actual].Pila(EstatNomToPrefab);
+    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, SaveReferencies.Instance.visualitzacions.Colocar, enCarregat);
     Estat EstatNomToPrefab(string nom)
     {
         eTrobat = null;
@@ -123,7 +99,7 @@ public class SaveHex : ScriptableObject
         }
         return sTrobat;
     }
-    public Producte ProducteNomToPrefab(string nom)
+    Producte ProducteNomToPrefab(string nom)
     {
         pTrobat = null;
         for (int i = 0; i < SaveReferencies.Instance.productes.Length; i++)
@@ -135,6 +111,82 @@ public class SaveHex : ScriptableObject
             }
         }
         return pTrobat;
+    }
+    Tile TileNomToPrefab(string nom)
+    {
+        tTrobat = null;
+        for (int i = 0; i < SaveReferencies.Instance.tiles.Length; i++)
+        {
+            if (SaveReferencies.Instance.tiles[i].name == nom)
+            {
+                tTrobat = SaveReferencies.Instance.tiles[i];
+                break;
+            }
+        }
+        return tTrobat;
+    }
+
+
+    
+    //PECES
+    public bool TePeces 
+    {
+        get 
+        {
+            if (files == null || files.Count == 0) files = new List<SavedFile>() {new SavedFile() };
+            if (actual > files.Count - 1) actual = 0;
+            return files[actual].TePeces;
+        
+        }
+    }
+    public void Add(Peça peça, Grups grups) => files[actual].Add(peça, grups);
+    public void Actualitzar(List<Peça> peçes, Grups grups) => files[actual].Actualitzar(peçes, grups);
+    
+
+
+    //EXPERIENCIA
+    public int Experiencia(int index) => files[index].Experiencia;
+    public void ActualitzarExperiencia(int experiencia, int nivell) => files[actual].SetExperienciaNivell(experiencia, nivell);
+    
+
+
+    //MODES
+    public void SetMode(Mode mode) => files[actual].SetMode(mode);
+    public int Mode => files[actual].Mode; 
+
+
+
+    //CAPTURES
+    public bool TeCaptures => files[actual].Captures != null && files[actual].Captures.Count > 0;
+    public string GetCapturaMesRecent(int index) 
+    {
+        if (files[index].Captures.Count > 0)
+            return files[index].Captures[files[index].Captures.Count - 1];
+        else return "";
+    } 
+    public int CapturaToIndex(string path)
+    {
+        //Debugar.Log($"Existeix {path}?");
+        int trobat = -1;
+        for (int f = 0; f < files.Count; f++)
+        {
+            if(files[f].Captures != null && files[f].Captures.Count > 0)
+            {
+                for (int c = 0; c < files[f].Captures.Count; c++)
+                {
+                    //Debugar.Log($"{files[f].Captures[c]} =? {path}");
+                    if (files[f].Captures[c] == path || files[f].Captures[c] == path.Replace(@"\", "/"))
+                    {
+                        trobat = f;
+                        break;
+                    }
+                }
+                if (trobat != -1)
+                    break;
+            }
+            
+        }
+        return trobat;
     }
     public string[] Paths
     {
@@ -152,49 +204,6 @@ public class SaveHex : ScriptableObject
             return captures.ToArray();
         }
     }
-    Tile TileNomToPrefab(string nom)
-    {
-        tTrobat = null;
-        for (int i = 0; i < SaveReferencies.Instance.tiles.Length; i++)
-        {
-            if (SaveReferencies.Instance.tiles[i].name == nom)
-            {
-                tTrobat = SaveReferencies.Instance.tiles[i];
-                break;
-            }
-        }
-        return tTrobat;
-    }
-
-
-    //SETTERS / FUNCIONS
-    public void SetActual(int actual) => this.actual = actual;
-    public void MostrarNomesPartidesGuardades(bool nomesGuardats) => this.nomesGuardats = nomesGuardats;
-    public void NouArxiu(Mode mode)
-    {
-        files.Add(new SavedFile());
-        partidaAnterior = actual;
-        actual = files.Count - 1;
-        files[actual].SetMode(mode);
-    }
-    public void Continuar(Grups grups, Fase seguent, Modes modes)
-    {
-        BorrarPartida();
-        actual = partidaAnterior;
-        modes.Set((Mode)files[actual].Mode);
-        //files[actual].SetMode((Mode)files[actual].Mode);
-        Load(grups, seguent);
-    }
-    public void BorrarPartida()
-    {
-        files.RemoveAt(actual);
-        if (files.Count == 0) files.Add(new SavedFile());
-        actual = Mathf.Clamp(actual - 1, 0, files.Count - 1);
-    }
-    public void SetMode(Mode mode) => files[actual].SetMode(mode);
-    public void Add(Peça peça, Grups grups) => files[actual].Add(peça, grups);
-    public void Actualitzar(List<Peça> peçes, Grups grups) => files[actual].Actualitzar(peçes, grups);
-    public void ActualitzarExperiencia(int experiencia, int nivell) => files[actual].SetExperienciaNivell(experiencia, nivell);
     public void AddCaptura(string path) => files[actual].AddCaptura(path);
     public void RemoveCaptura(int index, string path)
     {
@@ -204,30 +213,19 @@ public class SaveHex : ScriptableObject
         if(files[index].Captures.Contains(path))
             files[index].Captures.Remove(path);
     }
+    
+
+
+    //PILA
+    public bool HiHaAlgunaPeça => files[actual].PilaPlena;
+    public List<Estat> Pila => files[actual].Pila(EstatNomToPrefab);
     public void AddToPila(Estat estat) => files[actual].AddPila(estat);
     public void RemoveLastFromPila() => files[actual].RemoveLastPila();
 
 
 
-    public void Load(int index, Grups grups, Fase seguent, System.Action enCarregat = null)
-    {
-        actual = index;
-        Load(grups, seguent, enCarregat);
-    }
-    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, SaveReferencies.Instance.visualitzacions.Colocar, enCarregat);
+    //UI
+    public void MostrarNomesPartidesGuardades(bool nomesGuardats) => this.nomesGuardats = nomesGuardats;
 
 
-
-
-
-
-    /*private void OnValidate()
-    {
-        estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
-        subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
-        productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
-        tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Tiles/Tiles").ToArray();
-        if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
-        if (visualitzacions == null) visualitzacions = XS_Editor.LoadAssetAtPath<Visualitzacions>("Assets/XidoStudio/Hexbase/Sistemes/Visualitzacions/Visualitzacions.asset");
-    }*/
 }

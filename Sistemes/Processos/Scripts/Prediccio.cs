@@ -17,6 +17,7 @@ public class Prediccio : ScriptableObject
     [SerializeField] Subestat casa;
     [SerializeField] Estat cami;
 
+
     [Apartat("Debug")]
     [SerializeField] Peça peçaSimulada;
     [SerializeField] bool predint = false;
@@ -25,6 +26,27 @@ public class Prediccio : ScriptableObject
     [SerializeField] List<Grup> grupsSimulats;
 
     bool amagarInformacioBuffer = false;
+
+    System.Action onStartPrediccio;
+    System.Action onEndPrediccio;
+
+    public System.Action OnStartPrediccio { get => onStartPrediccio; set => onStartPrediccio = value; }
+    public System.Action OnEndPrediccio { get => onEndPrediccio; set => onEndPrediccio = value; }
+
+    bool Predint
+    {
+        get
+        {
+            return predint;
+        }
+        set
+        {
+            predint = value;
+            if (predint)
+                onStartPrediccio?.Invoke();
+        }
+    }
+
 
     private void OnEnable()
     {
@@ -42,9 +64,9 @@ public class Prediccio : ScriptableObject
 
         Debugar.LogError($"--------------PREDIR ({coordenada})---------------");
 
-        if (!predint)
+        if (!Predint)
         {
-            predint = true;
+            Predint = true;
 
             CrearCopiaDeGrups();
 
@@ -56,7 +78,7 @@ public class Prediccio : ScriptableObject
         }
         else
         {
-            Debugar.LogError("simulant...");
+            Debugar.LogError("predint...");
 
             //grups.RecuperaVersioAnterior();
             Grid.Instance.SimularFinal(peçaSimulada);
@@ -137,7 +159,7 @@ public class Prediccio : ScriptableObject
         MostrarConnexions(grups);
 
         ResetCanvis(comprovades, canviades);
-        predint = false;
+        Predint = false;
         Debugar.LogError("FINALITZAT! (PREDICCIONS)");
     }
 
@@ -223,12 +245,12 @@ public class Prediccio : ScriptableObject
         }
 
         Grid.Instance.SimularFinal(peçaSimulada);
-        predint = false;
+        Predint = false;
     }
 
     public void AmagarInformacioMostrada()
     {
-        if (!predint)
+        if (!Predint)
         {
             visualitzacions.AmagarPrediccions();
         }
@@ -237,12 +259,15 @@ public class Prediccio : ScriptableObject
         Debugar.LogError("***Si hi ha informacio mostrada, s'esborra***");
         //simulant = false;
         if (peçaSimulada != null)
+        {
             Destroy(peçaSimulada.gameObject);
+            onEndPrediccio?.Invoke();
+        }
     }
     public void FinalitzacioForçada()
     {
         //grid.SimularFinal(simulada);
-        predint = false;
+        Predint = false;
         AmagarInformacioMostrada();
     }
 }

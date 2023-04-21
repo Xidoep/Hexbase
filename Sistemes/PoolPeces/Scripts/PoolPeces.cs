@@ -53,16 +53,21 @@ public class PoolPeces : ScriptableObject
     //(nivell / 2) * 10
     void AddPeces()
     {
-        if (save.PilaPlena)
+        if (save.HiHaAlgunaPeça)
+            Guardades();
+        else Noves();
+
+
+        void Guardades()
         {
             List<Estat> estats = save.Pila;
-            
+
             for (int i = 0; i < estats.Count; i++)
             {
                 peces.Add(estats[i]);
             }
         }
-        else
+        void Noves()
         {
             for (int i = 0; i < inicial; i++)
             {
@@ -83,6 +88,7 @@ public class PoolPeces : ScriptableObject
         //FALTA: Assegurar X cases?
         Estat seleccionat = disponibles[Random.Range(0, disponibles.Length)];
         peces.Add(seleccionat);
+        enAfegir?.Invoke(seleccionat);
     }
     
 
