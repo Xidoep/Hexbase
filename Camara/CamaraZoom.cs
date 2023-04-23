@@ -50,7 +50,7 @@ public class CamaraZoom
     public void Start()
     {
         transposer = vCamera.GetCinemachineComponent<CinemachineTransposer>();
-        zoom = 1f;
+        zoom = 0.25f;
 
         transposer.m_FollowOffset = FactorToZoom();
     }

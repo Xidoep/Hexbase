@@ -170,15 +170,15 @@ public class Produccio : ScriptableObject
                 if (!poble[p].TeCasa)
                     continue;
 
-                for (int n = 0; n < poble[p].Casa.Necessitats.Length; n++)
+                for (int c = 0; c < poble[p].CasesLength; c++)
                 {
                     //debug += $"Te {poble[p].Casa.Necessitats.Length} necessitats";
-                    if (poble[p].Casa.Necessitats[n].Producte == producte && !poble[p].Casa.Necessitats[n].Proveit)
+                    if (poble[p].Cases[c].Necessitats[0].Producte == producte && !poble[p].Cases[c].Necessitats[0].Proveit)
                     {
                         //debug += $" ***No estava proveida, per tant la proveixo***";
                         //poble[p].mostrarInformacio?.Invoke(poble[p], true);
-                        poble[p].Casa.Necessitats[n].Proveir();
-                        _index = n;
+                        poble[p].Cases[c].Proveir();
+                        _index = c;
                         casa = poble[p];
                     }
                     //debug += $"\n";

@@ -295,7 +295,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     Possibilitats possibilitats = propagables[0].Peça.Possibilitats;
                     for (int i = 0; i < possibilitats.Count; i++)
                     {
-                        _debug += $"{possibilitats.Get(i).Tile.name} | {possibilitats.Get(i).Tile.Exterior(0).name}, {possibilitats.Get(i).Tile.Esquerra(0).name}, {possibilitats.Get(i).Tile.Dreta(0).name}";
+                        _debug += $"{possibilitats.Get(i).Tile.name} | {possibilitats.Get(i).Tile.Exterior(0).name}, {possibilitats.Get(i).Tile.Esquerra(0).name}, {possibilitats.Get(i).Tile.Dreta(0).name} \n";
                     }
 
                     //MILLORAR AQUEST DEBUG I QUE EM MOSTRI TOTES LES LES OPCIONS POSSIBLES I COM LES HA PROVAT.

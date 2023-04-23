@@ -24,16 +24,16 @@ public class Informacio_Necessitats : Informacio
 
         Amagar(hexagon);
 
-        quantitat = ((Peça)hexagon).Casa.Necessitats.Length;
+        quantitat = ((Peça)hexagon).CasesLength;
         for (int i = 0; i < quantitat; i++)
         {
-            if (!mostrarProveides && ((Peça)hexagon).Casa.Necessitats[i].Proveit)
+            if (!mostrarProveides && ((Peça)hexagon).Cases[i].Necessitats[0].Proveit)
                 continue;
 
             GameObject tmp = Instantiate(prefab.gameObject, hexagon.transform.position, Quaternion.identity, hexagon.transform);
             tmp.GetComponent<UI_InformacioPeça>().Setup(((Peça)hexagon), i);
             tmp.transform.GetChild(0).transform.localPosition = DesplaçamentLateral(tmp.transform, quantitat, i);
-            ((Peça)hexagon).Casa.Necessitats[i].Informacio = new Unitat(tmp);
+            ((Peça)hexagon).Cases[i].Necessitats[0].Informacio = new Unitat(tmp);
             Debug.LogError("Mostrar",hexagon);
 
             //ui.Add(peça.Casa.Necessitats[i].Informacio);
@@ -45,12 +45,12 @@ public class Informacio_Necessitats : Informacio
 
     public override void Amagar(Hexagon hexagon)
     {
-        for (int i = 0; i < ((Peça)hexagon).Casa.Necessitats.Length; i++)
+        for (int i = 0; i < ((Peça)hexagon).CasesLength; i++)
         {
-            if (((Peça)hexagon).Casa.Necessitats[i].Informacio.gameObject == null)
+            if (((Peça)hexagon).Cases[i].Necessitats[0].Informacio.gameObject == null)
                 continue;
 
-            Destroy(((Peça)hexagon).Casa.Necessitats[i].Informacio.gameObject, 0.1f);
+            Destroy(((Peça)hexagon).Cases[i].Necessitats[0].Informacio.gameObject, 0.1f);
         }
         Debug.LogError("Amagar", hexagon);
         //grups.ReixarDeResaltar();

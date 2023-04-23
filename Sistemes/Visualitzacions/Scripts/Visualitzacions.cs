@@ -322,7 +322,7 @@ public class Visualitzacions : ScriptableObject
                 new Animacio_Posicio(p.transform.position, c.transform.position, false, false).Play(producte.transform, temps, Transicio.clamp);
 
                 ProducteProveir(p, producte, temps + 1);
-                NecessitatProveida(c, c.Casa.Necessitats[iNeed].Informacio.gameObject, temps + 1, ultima, enFinalitzar);
+                NecessitatProveida(c, c.Cases[iNeed].Necessitats[0].Informacio.gameObject, temps + 1, ultima, enFinalitzar);
             }
         }
         void ProducteProveir(Peça p, GameObject ui, float delay)

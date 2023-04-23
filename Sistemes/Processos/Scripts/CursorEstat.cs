@@ -19,9 +19,11 @@ public class CursorEstat : ScriptableObject
 
     void OnEnable()
     {
+        /*
         prediccio.OnStartPrediccio += AmagarCursor;
         prediccio.OnEndPrediccio += MostrarCursor;
         faseColocar.OnStart += MostrarCursor;
+    */
     }
 
     private void OnDisable()

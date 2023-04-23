@@ -15,7 +15,7 @@ public class SavedPeça
 
         if (peça.TeCasa)
         {
-            necessitats = new SavedNecessitat[] { new SavedNecessitat(peça.Casa.Necessitats) };
+            necessitats = new SavedNecessitat[] { new SavedNecessitat(peça.Cases[0].Necessitats) };
             //casa = new SavedCasa[] { new SavedCasa(peça.Casa.Necessitats) };
         }
 

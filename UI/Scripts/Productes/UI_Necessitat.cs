@@ -8,7 +8,7 @@ public class UI_Necessitat : UI_InformacioPeça
 
     public override GameObject Setup(Peça peça, int index)
     {
-        this.necessitat = peça.Casa.Necessitats[index];
+        this.necessitat = peça.Cases[index].Necessitats[0];
         this.producte = necessitat.Producte;
 
         MeshRenderer.material.SetTexture(ICONE, producte.Icone);

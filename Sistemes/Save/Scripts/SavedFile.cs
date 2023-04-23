@@ -167,7 +167,10 @@ public class SavedFile
         //PRODUCTES
         for (int i = 0; i < creades.Count; i++)
         {
-            creades[i].FindExtraccio(Grid.Instance);
+            if (creades[i].GetExtraccioCoordenada.EsNula())
+                return;
+
+            ((Peça)Grid.Instance.Get(creades[i].GetExtraccioCoordenada)).Ocupar(creades[i]);
         }
 
         //DEBUG

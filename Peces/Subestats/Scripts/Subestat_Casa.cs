@@ -9,9 +9,13 @@ public class Subestat_Casa : Subestat
     [SerializeField] Repoblar repoblar;
     public override Subestat Setup(Peça peça)
     {
+        base.Setup(peça);
+
         if (!peça.TeCasa)
-            peça.CrearCasa(repoblar.NecessitatInicial);
-        
-        return base.Setup(peça);
+        {
+            repoblar.AfegirLaPrimeraCasa(peça);
+        }
+
+        return this;
     }
 }

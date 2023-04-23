@@ -46,6 +46,7 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
 
         colocar.CrearPeça(Coordenades);
         Debugar.Log("Destruir...");
+        Destroy(this.gameObject);
     }
 
 

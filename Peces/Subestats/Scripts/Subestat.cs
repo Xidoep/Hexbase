@@ -6,7 +6,16 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Substat")]
 public class Subestat : ScriptableObject
 {
-    public virtual Subestat Setup(Peça peça) => this;
+    public virtual Subestat Setup(Peça peça) 
+    {
+        peça.ResetCases();
+
+        peça.gameObject.name = $"{this.name.ToUpper()}({peça.Coordenades})";
+
+        peça.processador.NovesReceptes(receptas, peça.CanviarSubestat);
+
+        return this;
+    } 
 
     [SerializeField] int punts;
     [Linia]
@@ -28,18 +37,14 @@ public class Subestat : ScriptableObject
     public Condicio[] Condicions => condicions;
     public DetallScriptable[] Detalls => detallsScriptables;
 
-
+    public Recepta[] receptas;
 
 
 
     [Apartat("TILES")]
     [SerializeField] TileSetBase tileset;
 
-    /*[SerializeField] TilesPossibles[] tiles;
-    [SerializeField] Connexio[] connexionsNules;
-    [SerializeField] ConnexioEspesifica connexioEspesifica;
-    */
-    //protected TilesPossibles[] Tiles => tiles;
+
     public bool TeConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça).Length > 0;
     public virtual Connexio[] ConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça);
     public TileSetBase.ConnexioEspesifica ConnexionsEspesifica(Peça peça) => tileset.ConnexionsEspesifica(peça);

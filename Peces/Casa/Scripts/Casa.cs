@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using XS_Utils;
 
 
@@ -21,8 +20,25 @@ public class Casa
     {
         this.necessitats = necessitats;
     }
+    public Casa(Peça peça, Recepta[] totesLesNecessitats) 
+    {
+        receptes = new List<Recepta>(totesLesNecessitats);
+        peça.processador.AfegirRecepta(receptes[0], SeguentNecessitat);
+    }
+
+    void SeguentNecessitat(object informacioDeQueFer)
+    {
+        receptes.RemoveAt(0);
+        //l'objecte retornat del invoke, ha de ser un ScriptableObject que em digui el que haig de fer, cosa que va escrit dins el mateix script:
+        //-donar punts
+        //-canviar d'estat
+        //-Aportar peces
+        //-etc...
+    }
+
 
     [SerializeField] Necessitat[] necessitats;
+    [SerializeField] List<Recepta> receptes; //canviar nom per necessitats
 
     System.Action enModificarNecessitats;
 
@@ -45,8 +61,13 @@ public class Casa
         enModificarNecessitats?.Invoke();
     }
 
+    public void Proveir()
+    {
+        necessitats[0].Proveir();
+        //Falta que aquesta necessitat ara desaparegui i mostri la seguent.
+    }
 
-
+    
 
 
 

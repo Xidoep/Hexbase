@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Visualitzacions;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
@@ -27,6 +28,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [Apartat("CASA")]
     [SerializeField] Casa[] cases;
 
+    [Apartat("PROCESSADOR")]
+    public Processador processador;
+
     [Apartat("EXTRACCIO")]
     [SerializeField] Peça extraccio;
     [SerializeField] Vector2Int extraccioCoordenada;
@@ -38,8 +42,10 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] bool blocarInformacio;
 
 
+
+
     //INTERN
-    [SerializeField] TilePotencial[] tiles;
+    TilePotencial[] tiles;
 
 
     //GETTERS
@@ -68,10 +74,13 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public bool TeCasa => cases != null && cases.Length > 0;
     //vvv
     public Casa Casa => cases[0];
+    public Casa[] Cases => cases;
+    public int CasesLength => cases.Length;
     //vvv
     public ProducteExtret[] ExtreureProducte => productesExtrets;
     //vvv
     public Peça GetExtraccio => extraccio;
+    public Vector2Int GetExtraccioCoordenada => extraccioCoordenada;
     public bool Ocupat => productor != null;
     public bool LLiure => productor == null;
     public TilePotencial GetTile(int index) => tiles[index];
@@ -86,20 +95,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public ProducteExtret[] SetProductesExtrets { set => productesExtrets = value; }
     public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
     public bool SetBlocarInformacio { set => blocarInformacio = value; }
+    public void ResetCases() => cases = new Casa[0];
 
 
 
 
-
-
-
-    public void FindExtraccio(Grid grid) 
-    {
-        if (extraccioCoordenada.EsNula())
-            return;
-
-        ((Peça)grid.Get(extraccioCoordenada)).Ocupar(this);
-    } 
 
 
 
@@ -159,6 +159,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+
+    public void CanviarSubestat(object subestat) => CanviarSubestat((Subestat)subestat);
     public void CanviarSubestat(Subestat subestat)
     {
         if (this.subestat.Condicions == null)
@@ -170,10 +172,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         amagarInformacio -= subestat.InformacioAmagar;
 
         this.subestat = subestat.Setup(this);
-
-        cases = new Casa[0];
-
-        gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
+        //cases = new Casa[0];
+        //gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
 
         mostrarInformacio += subestat.InformacioMostrar;
         amagarInformacio += subestat.InformacioAmagar;
@@ -182,8 +182,39 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         subestat.InformacioMostrar(this, true);
     }
 
-    public void CrearCasa(Producte producte) => cases = new Casa[] { new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), };
+    //public void CrearCasa(Producte producte) => cases = new Casa[] { new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), };
     public void CrearCasa(Casa casa) => cases = new Casa[] { casa };
+
+    public void AfegirCasa(Recepta[] necessitats)
+    {
+        if (cases == null) cases = new Casa[0];
+        List<Casa> _cases = new List<Casa>(cases)
+        {
+            new Casa(this, necessitats)
+        };
+
+        cases = _cases.ToArray();
+    } 
+    public void AfegirCasa(Producte producte) //Treure
+    {
+        if (cases == null) cases = new Casa[0];
+        List<Casa> _cases = new List<Casa>(cases)
+        {
+            new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false))
+        };
+
+        cases = _cases.ToArray();
+    }
+    public void TreureCasa()
+    {
+        if (cases == null || cases.Length == 0)
+            return;
+
+        List<Casa> _cases = new List<Casa>(cases);
+        _cases.RemoveAt(_cases.Count - 1);
+
+        cases = _cases.ToArray();
+    }
 
 
     public void Ocupar(Peça productor) 

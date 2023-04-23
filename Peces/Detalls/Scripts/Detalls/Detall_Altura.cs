@@ -116,7 +116,7 @@ public class Detall_Altura : DetallScriptable
         if (tile.TeAltura)
             return;
 
-        tile.Altura = Random.Range(1, peça.Casa.Necessitats.Length);
+        tile.Altura = Random.Range(1, peça.CasesLength);
     }
 }
 
