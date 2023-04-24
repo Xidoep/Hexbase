@@ -42,8 +42,7 @@ public class Subestat : ScriptableObject
 
 
     [Apartat("TILES")]
-    [SerializeField] TileSetBase tileset;
-
+    [SerializeScriptableObject] [SerializeField] TileSetBase tileset;
 
     public bool TeConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça).Length > 0;
     public virtual Connexio[] ConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça);

@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class Estat : ScriptableObject
 {
     [Apartat("SUBESTAT")]
-    [SerializeField] Subestat inicial;
+    [SerializeScriptableObject][SerializeField] Subestat inicial;
 
     [Apartat("Visualitzacio")]
     [SerializeField] GameObject prefab;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Xido Studio/Hex/Recurs")]
+[CreateAssetMenu(menuName = "Xido Studio/Hex/Roductes/Producte")]
 public class Producte : ScriptableObject
 {
     [SerializeField] Texture2D icone;

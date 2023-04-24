@@ -10,14 +10,14 @@ using XS_Utils;
 public class Fase_Resoldre : Fase
 {
     [Apartat("FASES")]
-    [SerializeField] Fase menu;
-    [SerializeField] Fase iniciar;
-    [SerializeField] Fase colocar;
+    [SerializeScriptableObject] [SerializeField] Fase menu;
+    [SerializeScriptableObject] [SerializeField] Fase iniciar;
+    [SerializeScriptableObject] [SerializeField] Fase colocar;
 
     [Apartat("NEEDS")]
-    [SerializeField] Modes modes;
-    [SerializeField] CapturarPantalla capturarPantalla;
-    [SerializeField] SaveHex save;
+    [SerializeScriptableObject] [SerializeField] Modes modes;
+    [SerializeScriptableObject] [SerializeField] CapturarPantalla capturarPantalla;
+    [SerializeScriptableObject] [SerializeField] SaveHex save;
 
     [Apartat("UIs")]
     [SerializeField] Utils_InstantiableFromProject prefab_uiPerdre;

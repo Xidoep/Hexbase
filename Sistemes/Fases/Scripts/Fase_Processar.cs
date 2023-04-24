@@ -10,13 +10,13 @@ using XS_Utils;
 public class Fase_Processar : Fase
 {
     [Apartat("PROCESSOS")]
-    [SerializeField] WaveFunctionColpaseScriptable wfc;
-    [SerializeField] Prediccio prediccio;
-    [SerializeField] Grups grups;
-    [SerializeField] Proximitat proximitat;
-    [SerializeField] Repoblar repoblar;
-    [SerializeField] Produccio produccio;
-    [SerializeField] SaveHex save;
+    [SerializeScriptableObject] [SerializeField] WaveFunctionColpaseScriptable wfc;
+    [SerializeScriptableObject] [SerializeField] Prediccio prediccio;
+    [SerializeScriptableObject] [SerializeField] Grups grups;
+    [SerializeScriptableObject] [SerializeField] Proximitat proximitat;
+    [SerializeScriptableObject] [SerializeField] Repoblar repoblar;
+    [SerializeScriptableObject] [SerializeField] Produccio produccio;
+    [SerializeScriptableObject] [SerializeField] SaveHex save;
 
     [Apartat("SEGÜENT FASE")]
     [SerializeField] Fase resoldre;
@@ -40,31 +40,19 @@ public class Fase_Processar : Fase
     {
         peça = (Peça)arg;
         peça.Parent.localPosition = Vector3.up * 20;
-        //Debug.LogError(peça);
-
-
 
         startTime = Time.realtimeSinceStartup;
-        //WFC();
         Agrupar();
     }
 
 
     void Agrupar()
     {
-        //grups.Agrupdar(peça, Proximitat);
+
         prediccio.FinalitzacioForçada();
         grups.Interrompre();
         grups.Agrupdar(grups.Grup, peça, WFC_Inicial);
     }
-
-    /*void Repoblacio_Primera()//Inicials
-    {
-        perComprovar = new List<Peça>() { peça };
-        perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
-
-        repoblar.Proces(perComprovar, Proximitat);
-    }*/
 
     
     void WFC_Inicial() //Primer WFC per la peça inicial.
@@ -80,24 +68,30 @@ public class Fase_Processar : Fase
     {
         Debug.LogError($"Colocar peça {peça.name}");
         visualitzacions.Colocar(peça);
-        //peça.animacio.Play(peça.Parent);
-        //animades = new List<Peça>() { peça };
         animades = new List<Peça>();
 
         for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
             visualitzacions.ReaccioVeina(peça.VeinsPeça[v]);
-            //actualitzar.Play(peça.VeinsPeça[v].Parent);
-            //animades.Add(peça.VeinsPeça[v]);
         }
 
+        //Aqui es miren les receptes referents al canvi d'estat.
+        //el que s'hauria de fer és agafar els estats veins o que estan connectats seguint certes regles.
+        //aqui hi ha una desicio de disseny.
+        //Fins ara utlitzo els veins connectats amb camins.
+        //no se si fer-ho sempre això. És interessant per les granjes, per poder separar les granjes dels camps... pero ja està.
+        //en realitat te mes sentit que el que produeix i el producte estigui junt
+        //Sino confon una mica.
+        //Els camins serviran pel transport de productes, perque una granja no hagui d'estar unida al poble que alimenta sino que pugui estar apartada.
+        //JA ferem altres tipus de receptes per els que cal enviarlos mes informacio.
+
         perComprovar = new List<Peça>() { peça };
-        List<Peça> comprovar = proximitat.GetPecesToComprovar(peça);
+        List<Peça> comprovar = proximitat.GetPecesToComprovar(peça); //Et dona totes les peces comprovables al voltant de la que has colocat, tinguent en compte grups, camins, ports, etc...
+
         for (int i = 0; i < comprovar.Count; i++)
         {
             if (!perComprovar.Contains(comprovar[i])) perComprovar.Add(comprovar[i]);
         }
-        //perComprovar.AddRange(proximitat.GetPecesToComprovar(peça));
 
         proximitat.Process(perComprovar, Repoblacio, true);
     }
@@ -134,20 +128,13 @@ public class Fase_Processar : Fase
     {
         Animar();
         CrearRanures();
+        //Aqui es miren les receptes destinades a produir productes
+        //I també es miren les receptes quan un producte es proveit.
         produccio.Process(Guardar);
     }
 
 
     void Animar() {
-        /*if (canviades.Contains(peça))
-        {
-            visualitzacions.CanviarEstat(peça);
-            for (int v = 0; v < peça.VeinsPeça.Count; v++)
-            {
-                actualitzar.Play(peça.VeinsPeça[v].Parent);
-            }
-        }*/
-
         for (int c = 0; c < canviades.Count; c++)
         {
             Debug.LogError($"Canviada: {canviades[c]}");
@@ -155,7 +142,6 @@ public class Fase_Processar : Fase
                 continue;
 
             visualitzacions.CanviarEstat(canviades[c].Peça);
-            //actualitzar.Play(canviades[c].Parent);
             Debug.LogError($"Animar: {canviades[c].Peça}");
             animades.Add(canviades[c].Peça);
             visualitzacions.GuanyarExperienciaProximitat(canviades[c].Experiencia);
@@ -169,7 +155,6 @@ public class Fase_Processar : Fase
                     continue;
 
                 visualitzacions.ReaccioVeina(canviades[c].Peça.VeinsPeça[v]);
-                //actualitzar.Play(canviades[c].VeinsPeça[v].Parent);
                 Debug.LogError($"Animar: {canviades[c].Peça}");
                 animades.Add(canviades[c].Peça.VeinsPeça[v]);
             }
@@ -180,15 +165,13 @@ public class Fase_Processar : Fase
     {
         foreach (var coodVei in Grid.Instance.VeinsCoordenades(peça.Coordenades))
         {
-            //Grid.Instance.CrearRanura(coodVei);
             XS_Coroutine.StartCoroutine_Ending_FrameDependant(0.75f, Grid.Instance.CrearRanura, coodVei);
-            //CrearRanura(coodVei);
         }
     }
 
     void Guardar()
     {
-        //Això també hauria de ser un proces.
+        //Això hauria de ser un proces.
         Debug.LogError($"Actualitzar {animades.Count}");
         for (int i = 0; i < animades.Count; i++)
         {
@@ -198,19 +181,7 @@ public class Fase_Processar : Fase
         save.Actualitzar(perComprovar, grups);
 
 
-
-        //Això ha de ser un altre proces a part.
         Grid.Instance.Dimensionar(peça);
-
-
-
-
-
-
-
-
-
-
 
 
         Debugar.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", peça);

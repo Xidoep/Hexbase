@@ -88,6 +88,43 @@ public class Proximitat : ScriptableObject
         }*/
         Step(canviar);
     }
+    public void ProcessReceptes(List<Peça> peces, System.Action<List<Peça>, List<Canvis>> enFinalitzar, bool canviar = true)
+    {
+        this.peces = new Queue<Peça>(peces);
+        comprovades = new List<Peça>();
+        canviades = new List<Canvis>();
+        this.enFinalitzar = enFinalitzar;
+        _actual = null;
+        Debugar.Log("Process");
+
+        StepRecepta(canviar);
+    }
+
+    void StepRecepta(bool canviar)
+    {
+        if (peces.Count == 0)
+        {
+            Debugar.LogError("FINALITZAT! (PROXIMITAT)");
+            enFinalitzar.Invoke(comprovades, canviades);
+            return;
+        }
+
+        _actual = peces.Dequeue();
+
+        if (_actual == null)
+        {
+            Debugar.LogError("DESTRUIDA!");
+            StepRecepta(canviar);
+        }
+
+        //FALTA: que d'alguna manera em retorni si el processador ha processat algo, una especia de funcio de callback.
+        //potser que retorni una funcio amb un bool. JA buscaré la manera ems facil de far-ho.
+        _actual.processador.IntentarProcessar(new List<object>(_actual.VeinsPeça));
+
+        if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
+
+        Step(canviar);
+    }
 
     void Step(bool canviar)
     {
@@ -107,28 +144,10 @@ public class Proximitat : ScriptableObject
             Step(canviar);
         }
 
-        //Debugar.LogError($"Comprovar peça {_actual.gameObject.name} que {_actual.Subestat.name} te {_actual.Condicions.Length} condicions");
         for (int i = 0; i < _actual.Condicions.Length; i++)
         {
-            //Debugar.LogError($"Condicio {i}?");
             if (_actual.Condicions[i].Comprovar(_actual, grups, cami, canviar, MarcarComCanviada, GunayarExperienciaIVisualitzarSiCal))
             {
-                /*Debugar.LogError("CANVIAR");
-                if (canviar) 
-                { 
-                    //_actual.Condicions[i].Canviar(_actual, GunayarExperienciaIVisualitzarSiCal);
-                    Add(_actual);
-                    canviades.Add(_actual);
-                }
-                else
-                {
-                    if (!canviades.Contains(_actual))
-                    {
-                        canviades.Add(_actual);
-                        Add(_actual);
-                    }
-                }
-                */
                 break;
             }
         }

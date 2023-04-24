@@ -8,7 +8,7 @@ using XS_Utils;
 [System.Serializable]
 public class CamaraRotacio
 {
-    [SerializeField] Fase_Menu faseMenu;
+    [SerializeScriptableObject][SerializeField] Fase_Menu faseMenu;
     [SerializeField] InputActionReference keyboard;
     //[SerializeField] InputActionReference mouse;
     [SerializeField] float speed;

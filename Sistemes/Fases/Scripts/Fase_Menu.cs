@@ -13,16 +13,16 @@ public class Fase_Menu : Fase
     //public const string SEGONA_PARTIDA = "SegonaPartida";
 
     [Apartat("GUARDAT")]
-    [SerializeField] SaveHex save;
-    [SerializeField] Guardat guardat;
-    [SerializeField] Grups grups;
-    [SerializeField] CapturarPantalla capturarPantalla;
+    [SerializeScriptableObject] [SerializeField] SaveHex save;
+    [SerializeScriptableObject] [SerializeField] Guardat guardat;
+    [SerializeScriptableObject] [SerializeField] Grups grups;
+    [SerializeScriptableObject] [SerializeField] CapturarPantalla capturarPantalla;
     [SerializeField] SavableVariable<bool> bromaVista;
     [SerializeField] SavableVariable<bool> segonaPartida;
 
     [Apartat("SEGÜENT FASE")]
-    [SerializeField] Fase_Iniciar iniciar;
-    [SerializeField] Fase colocar;
+    [SerializeScriptableObject] [SerializeField] Fase_Iniciar iniciar;
+    [SerializeScriptableObject] [SerializeField] Fase colocar;
 
     [Apartat("UI")]
     [SerializeField] UI_Menu uiMenu;
@@ -42,7 +42,7 @@ public class Fase_Menu : Fase
     [SerializeField] Botons freeStyle;
     [SerializeField] Botons standard;
     [Apartat("MODES")]
-    [SerializeField] Modes modes;
+    [SerializeScriptableObject] [SerializeField] Modes modes;
 
     bool inici = true;
     List<Boto> botons;

@@ -8,10 +8,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Fase/Iniciar")]
 public class Fase_Iniciar : Fase
 {
-    [SerializeField] Fase colocar;
-    [SerializeField] Modes modes;
-    [SerializeField] Estat inicial;
-    [SerializeField] SaveHex save;
+    [SerializeScriptableObject][SerializeField] Fase colocar;
+    [SerializeScriptableObject][SerializeField] Modes modes;
+    [SerializeScriptableObject][SerializeField] Estat inicial;
+    [SerializeScriptableObject][SerializeField] SaveHex save;
 
     bool gridNet = true;
 

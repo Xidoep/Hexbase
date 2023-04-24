@@ -7,7 +7,6 @@ public class Processador : MonoBehaviour
 {
     [SerializeField] List<ReceptaPreparada> receptes;
 
-    //Ara mes o menys he agregat les receptes a tot arreu on fan falta, crec que només falta a l'extractor...
 
     //falta quadrar la informacio
     //perque la idea era: [input1][input2][...] => [output]
@@ -40,6 +39,20 @@ public class Processador : MonoBehaviour
             }
         }
     }
+    public void IntentarProcessar(List<object> inputs)
+    {
+        if (receptes == null) receptes = new List<ReceptaPreparada>();
+
+        for (int i = 0; i < receptes.Count; i++)
+        {
+            if (receptes[i].IngredientsNecessaris(inputs))
+            {
+                receptes[i].Processar();
+                receptes.RemoveAt(i);
+            }
+        }
+    }
+
 
     public void NovesReceptes(Recepta[] receptes, System.Action<object> enProcessar)
     {
@@ -84,6 +97,7 @@ public class Processador : MonoBehaviour
 
 
         public bool IngredientsNecessaris(ScriptableObject[] inputs) => recepta.TeInputsIguals(inputs);
+        public bool IngredientsNecessaris(List<object> inputs) => recepta.TeInputsIguals(inputs);
         public void Processar() 
         {
             recepta.Processar(enProcessar);
@@ -91,17 +105,4 @@ public class Processador : MonoBehaviour
         }
     }
 
-}
-
-[CreateAssetMenu(menuName = "Xido Studio/Hex/Receptes/Recepta")]
-[System.Serializable]
-public class Recepta : ScriptableObject
-{
-    [SerializeField] ScriptableObject[] inputs;
-    [SerializeField] ScriptableObject output;
-
-
-
-    public bool TeInputsIguals(ScriptableObject[] inputs) => inputs == this.inputs;
-    public void Processar(System.Action<object> enProcessar) => enProcessar?.Invoke(output);
 }
