@@ -93,7 +93,8 @@ public class Fase_Processar : Fase
             if (!perComprovar.Contains(comprovar[i])) perComprovar.Add(comprovar[i]);
         }
 
-        proximitat.Process(perComprovar, Repoblacio, true);
+        //proximitat.Process(perComprovar, Repoblacio, true);
+        proximitat.ProcessReceptes(perComprovar, Repoblacio, true);
     }
 
 

@@ -20,10 +20,10 @@ public class Grid : MonoBehaviour
 
     const int GRID_SIZE = 200;
 
-    [SerializeField] Fase inicial;
-    [SerializeField] Fase processar;
-    [SerializeField] Grups grups;
-    [SerializeField] Produccio produccio;
+    [SerializeScriptableObject][SerializeField] Fase inicial;
+    [SerializeScriptableObject][SerializeField] Fase processar;
+    [SerializeScriptableObject][SerializeField] Grups grups;
+    [SerializeScriptableObject][SerializeField] Produccio produccio;
 
     [Apartat("PREFABS")]
     [SerializeField] GameObject prefab_Ranura;

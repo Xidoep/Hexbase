@@ -18,6 +18,7 @@ public class Modes : ScriptableObject
     public Mode Mode => mode;
     public void Set(Mode mode) 
     {
+        //Si buscques on està configurat al apretar el boto Play, és al mateix boto.
         this.mode = mode;
         save.SetMode(mode);
     }

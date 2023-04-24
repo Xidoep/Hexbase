@@ -22,8 +22,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
 
     [Apartat("ESTAT")]
-    [SerializeField] Estat estat;
-    [SerializeField] protected Subestat subestat;
+    [SerializeScriptableObject][SerializeField] Estat estat;
+    [SerializeScriptableObject][SerializeField] protected Subestat subestat;
 
     [Apartat("CASA")]
     [SerializeField] Casa[] cases;

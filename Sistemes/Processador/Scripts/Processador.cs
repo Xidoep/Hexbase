@@ -34,25 +34,39 @@ public class Processador : MonoBehaviour
         {
             if (receptes[i].IngredientsNecessaris(inputs))
             {
-                receptes[i].Processar();
+                receptes[i].Processar(EsborrarRecepta);
                 receptes.RemoveAt(i);
             }
         }
     }
-    public void IntentarProcessar(List<object> inputs)
+    public bool IntentarProcessar(List<object> inputs)
     {
+        string _debug = $"Intentar Processar amb {inputs.Count} inputs: ";
+        for (int i = 0; i < inputs.Count; i++)
+        {
+            _debug += $"{inputs[i]}, ";
+        }
+        _debug += $"\n Hi ha {receptes.Count} receptes";
+        Debug.Log(_debug);
+        //intenta processar totes les receptes que te??? aixo no pot ser,
+        //huria de ferne una i si aquesta es compleix para. Sino, pot portar problemes.
+        //ja que algunes canvies l'estat i borren les receptes existents.
         if (receptes == null) receptes = new List<ReceptaPreparada>();
 
         for (int i = 0; i < receptes.Count; i++)
         {
             if (receptes[i].IngredientsNecessaris(inputs))
             {
-                receptes[i].Processar();
-                receptes.RemoveAt(i);
+                receptes[i].Processar(EsborrarRecepta);
+                Debug.Log("Match!");
+                return true;
             }
         }
+        Debug.Log("no match...");
+        return false;
     }
 
+    void EsborrarRecepta(ReceptaPreparada recepta) => receptes.Remove(recepta);
 
     public void NovesReceptes(Recepta[] receptes, System.Action<object> enProcessar)
     {
@@ -98,9 +112,10 @@ public class Processador : MonoBehaviour
 
         public bool IngredientsNecessaris(ScriptableObject[] inputs) => recepta.TeInputsIguals(inputs);
         public bool IngredientsNecessaris(List<object> inputs) => recepta.TeInputsIguals(inputs);
-        public void Processar() 
+        public void Processar(System.Action<ReceptaPreparada> borrarDeLaLLista) 
         {
             recepta.Processar(enProcessar);
+            borrarDeLaLLista.Invoke(this);
             processada = true;
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Receptes/Recepta")]
@@ -20,7 +21,11 @@ public class Recepta : ScriptableObject
         confirmat = true;
         for (int i = 0; i < this.inputs.Length; i++)
         {
-            if (!ingredients.Contains(this.inputs[i]))
+            for (int x = 0; x < ingredients.Count; x++)
+            {
+                Debug.Log($"{this.inputs[i]} == {ingredients[x]}?");
+            }
+            if (!ingredients.Contains((object)this.inputs[i]))
             {
                 confirmat = false;
                 break;

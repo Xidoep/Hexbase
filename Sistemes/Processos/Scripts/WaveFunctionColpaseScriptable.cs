@@ -147,7 +147,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         pendents.Remove(actual);
         actual.Escollir();
 #if UNITY_EDITOR
-        Debug.Log($"Resoldre {actual.Peça.gameObject.name} amb el tile {actual.PossibilitatsVirtuals.Get(0).Tile.name}");
+        //Debug.Log($"Resoldre {actual.Peça.gameObject.name} amb el tile {actual.PossibilitatsVirtuals.Get(0).Tile.name}");
 #endif
         if (pendents.Count == 0)
         {
