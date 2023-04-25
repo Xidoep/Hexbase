@@ -4,45 +4,55 @@ using UnityEngine;
 using XS_Utils;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Substat")]
-public class Subestat : ScriptableObject
+public class Subestat : ScriptableObject, IProcessable
 {
+    public enum Tipus { Normal, Productor}
     public virtual Subestat Setup(Peça peça) 
     {
         peça.ResetCases();
 
         peça.gameObject.name = $"{this.name.ToUpper()}({peça.Coordenades})";
 
-        peça.processador.NovesReceptes(receptas, peça.CanviarSubestat);
+        if (tipus == Tipus.Productor)
+            produccio.AddProductor(peça);
+        else produccio.RemoveProductor(peça);
+
+        peça.processador.NovesReceptes(Receptes);
 
         return this;
-    } 
+    }
 
-    [SerializeField] int punts;
-    [Linia]
-    [Tooltip("Que s'ha de crear un cami cap a ell")]
+    [SerializeField] Tipus tipus;
     [SerializeField] bool caminable;
     [SerializeField] bool aquatic;
 
-
-    public bool Caminable => caminable;
-    public bool Aquatic => aquatic;
-    public virtual bool EsProducte => false;
-
-
-
     [Apartat("CONDICIONS")]
-    [SerializeField] Condicio[] condicions;
+    [SerializeField] Recepta[] receptes;
+    //[SerializeField] Condicio[] condicions;
     [SerializeField] DetallScriptable[] detallsScriptables;
-
-    public Condicio[] Condicions => condicions;
-    public DetallScriptable[] Detalls => detallsScriptables;
-
-    public Recepta[] receptas;
-
-
 
     [Apartat("TILES")]
     [SerializeScriptableObject] [SerializeField] TileSetBase tileset;
+
+    [Apartat("INFORMACIO")]
+    [SerializeScriptableObject] [SerializeField] Informacio[] informacions;
+
+    [Apartat("REFERENCIES AUTO-CONFIGURABLES")]
+    [SerializeField] Produccio produccio;
+
+
+    public bool EsProductor => tipus == Tipus.Productor;
+    public bool Caminable => caminable;
+    public bool Aquatic => aquatic;
+    //public virtual bool EsProducte => false;
+
+
+
+    public Recepta[] Receptes => receptes;
+    //public Condicio[] Condicions => condicions;
+    public DetallScriptable[] Detalls => detallsScriptables;
+
+
 
     public bool TeConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça).Length > 0;
     public virtual Connexio[] ConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça);
@@ -54,20 +64,6 @@ public class Subestat : ScriptableObject
 
 
 
-    [Apartat("PRODUCTE")]
-    [SerializeField] Producte producte;
-    [SerializeField] EstrategiaDeProduccio estrategia;
-
-    public Producte Producte => producte;
-    public Producte[] Produccio() => estrategia.Produir(producte);
-    public EstrategiaDeProduccio Estrategia => estrategia;
-
-
-
-
-
-    [Apartat("INFORMACIO")]
-    [SerializeField] Informacio[] informacions;
 
 
 
@@ -121,7 +117,23 @@ public class Subestat : ScriptableObject
         return ps;
     }
 
+    public void Processar(Peça peça)
+    {
+        Debug.Log($"PROCESSAR SUBESTAT {this.name}");
+        peça.CanviarSubestat(this);
+    }
 
+
+
+
+
+
+
+
+    void OnValidate()
+    {
+        if (produccio == null) produccio = XS_Editor.LoadAssetAtPath<Produccio>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Produccio.asset");
+    }
 
     /*[System.Serializable]
     public class TilesPossibles

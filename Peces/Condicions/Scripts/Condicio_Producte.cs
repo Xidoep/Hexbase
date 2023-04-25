@@ -21,7 +21,7 @@ public class Condicio_Producte : Condicio
 
         for (int i = 0; i < myVeins.Count; i++)
         {
-            if (myVeins[i].SubestatIgualA(subestat) && myVeins[i].LLiure)
+            if (myVeins[i].SubestatIgualA(subestat) && myVeins[i].Desconnectat)
             {
                 myVeins[i].Ocupar(peça);
 

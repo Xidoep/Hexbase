@@ -8,45 +8,24 @@ public class Processador : MonoBehaviour
     [SerializeField] List<ReceptaPreparada> receptes;
 
 
-    //falta quadrar la informacio
-    //perque la idea era: [input1][input2][...] => [output]
-    //en el cas de les condcions [subestatX][subestatY] => [subestatZ]
-    //com faig perque reconegui [producteX] => [X punts] ???
-    //o en el cas de la produccio [subestatProductor] => [producte1][producte2][...]
-    //al final tots els inputs i outputs seran ScriptableObjects que es tractaran com objectes i despres com la classe que son.
-    //aixi que necessiteria una funcio generica que es digues GetIcone que em retornes la icone per mostrar a la info.
-
-    //apunt: aixo està bé perque així pots posar com "potenciadors", que fan que un producte generi mes produccio.
-
-    //per ultim, el que caldia fer seria...
-    //Comprovar i activar les receptes i introduir el sistema dins la fase de processar... o bueno, ja descobriré on introduir-ho.
-    //bona nit!
+    //Molt be! hem posat la part mes complicada.
+    //El seguent pass es que la produccio agafi els productes de... a vera que ho porovo HA! funciona!!!
+    //nomes falta treure les referencies a ocupat i merdes aixi.
+    //Doncs el seguent pas és... Tenim canvi d'estat, tenim produccio...
+    //falta la satisfaccio de les cases.
+    //
 
 
 
 
 
-    public void IntentarProcessar(ScriptableObject[] inputs)
+    public bool IntentarProcessar(Peça peça, List<object> inputs)
     {
-        if (receptes == null) receptes = new List<ReceptaPreparada>();
-
-        for (int i = 0; i < receptes.Count; i++) 
-        {
-            if (receptes[i].IngredientsNecessaris(inputs))
-            {
-                receptes[i].Processar(EsborrarRecepta);
-                receptes.RemoveAt(i);
-            }
-        }
-    }
-    public bool IntentarProcessar(List<object> inputs)
-    {
-        string _debug = $"Intentar Processar amb {inputs.Count} inputs: ";
+        string _debug = $"Intentar Processar {peça.name} amb {inputs.Count} inputs: ";
         for (int i = 0; i < inputs.Count; i++)
         {
             _debug += $"{inputs[i]}, ";
         }
-        _debug += $"\n Hi ha {receptes.Count} receptes";
         Debug.Log(_debug);
         //intenta processar totes les receptes que te??? aixo no pot ser,
         //huria de ferne una i si aquesta es compleix para. Sino, pot portar problemes.
@@ -57,8 +36,8 @@ public class Processador : MonoBehaviour
         {
             if (receptes[i].IngredientsNecessaris(inputs))
             {
-                receptes[i].Processar(EsborrarRecepta);
                 Debug.Log("Match!");
+                receptes[i].Processar(peça, EsborrarRecepta);
                 return true;
             }
         }
@@ -68,20 +47,20 @@ public class Processador : MonoBehaviour
 
     void EsborrarRecepta(ReceptaPreparada recepta) => receptes.Remove(recepta);
 
-    public void NovesReceptes(Recepta[] receptes, System.Action<object> enProcessar)
+    public void NovesReceptes(Recepta[] receptes)
     {
         this.receptes = new List<ReceptaPreparada>();
 
         for (int i = 0; i < receptes.Length; i++)
         {
-            this.receptes.Add(new ReceptaPreparada(receptes[i], enProcessar));
+            this.receptes.Add(new ReceptaPreparada(receptes[i]));
         }
     }
-    public void AfegirRecepta(Recepta recepta, System.Action<object> enProcessar)
+    public void AfegirRecepta(Recepta recepta)
     {
         if(receptes == null) receptes = new List<ReceptaPreparada>();
 
-        receptes.Add(new ReceptaPreparada(recepta, enProcessar));
+        receptes.Add(new ReceptaPreparada(recepta));
     }
 
     public void BorrarReceptes() 
@@ -97,26 +76,19 @@ public class Processador : MonoBehaviour
     [System.Serializable]
     public struct ReceptaPreparada
     {
-        public ReceptaPreparada(Recepta recepta, System.Action<object> enProcessar)
+        public ReceptaPreparada(Recepta recepta)
         {
             this.recepta = recepta;
-            processada = false;
-            this.enProcessar = enProcessar;
         }
 
-        [SerializeField] Recepta recepta;
-        [SerializeField] bool processada;
-        System.Action<object> enProcessar;
-        
+        [SerializeScriptableObject][SerializeField] Recepta recepta;
 
-
-        public bool IngredientsNecessaris(ScriptableObject[] inputs) => recepta.TeInputsIguals(inputs);
         public bool IngredientsNecessaris(List<object> inputs) => recepta.TeInputsIguals(inputs);
-        public void Processar(System.Action<ReceptaPreparada> borrarDeLaLLista) 
+
+        public void Processar(Peça peça, System.Action<ReceptaPreparada> borrarDeLaLLista)
         {
-            recepta.Processar(enProcessar);
+            recepta.Processar(peça);
             borrarDeLaLLista.Invoke(this);
-            processada = true;
         }
     }
 

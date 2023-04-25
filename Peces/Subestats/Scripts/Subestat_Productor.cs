@@ -4,7 +4,7 @@ using UnityEngine;
 using XS_Utils;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Productor")]
-public class Subestat_Productor : Subestat
+public class Subestat_Productor : Subestat, IProcessable
 {
     public override Subestat Setup(Peça peça)
     {
@@ -13,6 +13,12 @@ public class Subestat_Productor : Subestat
         return base.Setup(peça);
     }
 
+    new public void Processar(Peça peça)
+    {
+        Debug.Log($"PROCESSAR SUBESTAT PRODUCTOR {this.name}");
+        peça.IntentarConnectar();
+        base.Processar(peça);
+    }
 
 
     [Apartat("RECURSOS")]

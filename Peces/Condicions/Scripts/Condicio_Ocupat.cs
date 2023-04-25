@@ -33,7 +33,7 @@ public class Condicio_Ocupat : Condicio
             }
         }
         return extractorAssignat;*/
-        if (peça.Ocupat) 
+        if (peça.Connectat) 
         {
             Debug.LogError("=>CONDICIO OCUPAT. Per tant el camp queda ocupat...");
 

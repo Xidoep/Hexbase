@@ -10,7 +10,7 @@ public class SavedPeça
         coordenada = peça.Coordenades;
         estat = peça.EstatNom;
         subestat = peça.SubestatNom;
-        extraccio = peça.GetExtraccio != null ? peça.GetExtraccio.Coordenades : GridExtensions.CoordenadaNula;
+        extraccio = peça.Connexio != null ? peça.Connexio.Coordenades : GridExtensions.CoordenadaNula;
         grup = grups.GrupByPeça(grups.Grup, peça);
 
         if (peça.TeCasa)

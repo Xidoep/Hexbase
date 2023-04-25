@@ -5,11 +5,21 @@ using static Visualitzacions;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
+    [System.Flags] public enum EstatConnexioEnum { 
+        NoImporta = 0, 
+        Connectat = 1, 
+        Desconnectat = 2, 
+        Pendent = 4
+    }
+
+
     public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
         base.Setup(grid, coordenades, estat, null);
 
         this.estat = estat;
+
+        estatConnexio = EstatConnexioEnum.Desconnectat;
 
         if (subestat == null)
             return;
@@ -32,6 +42,13 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Processador processador;
 
     [Apartat("EXTRACCIO")]
+    [SerializeField] EstatConnexioEnum estatConnexio;
+    //[SerializeField] bool pendent;
+    [SerializeField] Peça connexio;
+    [SerializeField] Vector2Int connexioCoordenada;
+    
+    
+    
     [SerializeField] Peça extraccio;
     [SerializeField] Vector2Int extraccioCoordenada;
     [SerializeField] Peça productor;
@@ -40,8 +57,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     [Apartat("INFORMACIO")]
     [SerializeField] bool blocarInformacio;
-
-
 
 
     //INTERN
@@ -70,7 +85,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public TileSetBase.ConnexioEspesifica ConnexionsEspesifica => subestat.ConnexionsEspesifica(this);
     public bool Caminable => subestat.Caminable;
     public bool Aquatic => subestat.Aquatic;
-    public Condicio[] Condicions => this.subestat.Condicions;
+    //public Condicio[] Condicions => this.subestat.Condicions;
     public bool TeCasa => cases != null && cases.Length > 0;
     //vvv
     public Casa Casa => cases[0];
@@ -79,10 +94,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //vvv
     public ProducteExtret[] ExtreureProducte => productesExtrets;
     //vvv
-    public Peça GetExtraccio => extraccio;
-    public Vector2Int GetExtraccioCoordenada => extraccioCoordenada;
-    public bool Ocupat => productor != null;
-    public bool LLiure => productor == null;
+
+    public Peça Connexio => connexio;
+    public Vector2Int ConnexioCoordenada => connexioCoordenada;
+    public bool Connectat => estatConnexio == EstatConnexioEnum.Connectat;
+    public bool Desconnectat => estatConnexio == EstatConnexioEnum.Desconnectat;
     public TilePotencial GetTile(int index) => tiles[index];
     public bool EstatIgualA(Estat altreEstat) => estat.Equals(altreEstat);
     public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
@@ -92,11 +108,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
     //SETTERS
+    public EstatConnexioEnum EstatConnexio { get => estatConnexio; set => estatConnexio = value; }
     public ProducteExtret[] SetProductesExtrets { set => productesExtrets = value; }
     public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
     public bool SetBlocarInformacio { set => blocarInformacio = value; }
     public void ResetCases() => cases = new Casa[0];
-
 
 
 
@@ -159,27 +175,25 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-
-    public void CanviarSubestat(object subestat) => CanviarSubestat((Subestat)subestat);
     public void CanviarSubestat(Subestat subestat)
     {
-        if (this.subestat.Condicions == null)
-            return;
+        //if (this.subestat.Condicions == null)
+        //    return;
 
-        amagarInformacio?.Invoke(this);
+        //amagarInformacio?.Invoke(this);
         
-        mostrarInformacio -= subestat.InformacioMostrar;
-        amagarInformacio -= subestat.InformacioAmagar;
+        //mostrarInformacio -= subestat.InformacioMostrar;
+        //amagarInformacio -= subestat.InformacioAmagar;
 
         this.subestat = subestat.Setup(this);
-        //cases = new Casa[0];
+        cases = new Casa[0];
         //gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
 
-        mostrarInformacio += subestat.InformacioMostrar;
-        amagarInformacio += subestat.InformacioAmagar;
+        //mostrarInformacio += subestat.InformacioMostrar;
+        //amagarInformacio += subestat.InformacioAmagar;
 
         
-        subestat.InformacioMostrar(this, true);
+        //subestat.InformacioMostrar(this, true);
     }
 
     //public void CrearCasa(Producte producte) => cases = new Casa[] { new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), };
@@ -219,21 +233,52 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void Ocupar(Peça productor) 
     {
-        this.productor = productor;
-        productor.extraccio = this;
+        connexio = productor;
+        productor.connexio = this;
+        //this.productor = productor;
+        //productor.extraccio = this;
     }
     public void DesocuparPerPrediccio()
     {
-        if(productor.extraccio != this)
+        if(Connexio.connexio != this)
+        {
+            connexio = null;
+        }
+        /*if(productor.extraccio != this)
         {
             productor = null;
-        }
-        
+        }*/
     }
 
 
+    public void IntentarConnectar()
+    {
+        if (connexio != null) //Ja està connectat
+            return;
 
+        List<Peça> _v = VeinsPeça;
+        for (int i = 0; i < _v.Count; i++)
+        {
+            if (_v[i].estatConnexio == EstatConnexioEnum.Pendent)
+            {
+                _v[i].EstatConnexio = EstatConnexioEnum.Connectat;
+                _v[i].connexio = this;
+                estatConnexio = EstatConnexioEnum.Connectat;
+                connexio = _v[i];
+            }
+        }
 
+        if(connexio == null) //No he trobat cap altre peça pendent de connectar. Quedo pendent que algú es connecti amb mi.
+        {
+            estatConnexio = EstatConnexioEnum.Pendent;
+        }
+    }
+    public void Desconnectar()
+    {
+        estatConnexio = EstatConnexioEnum.Desconnectat;
+        connexio = null;
+    }
+   
 
 
 
@@ -283,16 +328,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
-
-
-
-    [System.Serializable]
-    public struct ProducteExtret
-    {
-        public Producte producte;
-        public bool gastat;
-        public Informacio.Unitat informacio;
-    }
 }
 
 

@@ -119,14 +119,16 @@ public class Proximitat : ScriptableObject
 
         //FALTA: que d'alguna manera em retorni si el processador ha processat algo, una especia de funcio de callback.
         //potser que retorni una funcio amb un bool. JA buscaré la manera ems facil de far-ho.
-        List<Peça> veins = _actual.VeinsPeça;
-        List<object> estatsVeins = new List<object>();
+        /*List<Peça> veins = _actual.VeinsPeça;
+        List<object> estatsVeins = new List<object>(_actual.VeinsPeça);
         for (int i = 0; i < veins.Count; i++)
         {
             estatsVeins.Add(veins[i].Subestat);
-        }
-        if (_actual.processador.IntentarProcessar(estatsVeins))
+        }*/
+        if (_actual.processador.IntentarProcessar(_actual, new List<object>(_actual.VeinsPeça)))
         {
+            //aqui ja no se quin tipus es el veï...
+            //ha de ser abans de intentar processar
             Debug.Log("La recepta s'ha complert!");
             MarcarComCanviada(_actual, canviar, 0);
         }
@@ -138,6 +140,7 @@ public class Proximitat : ScriptableObject
 
     void Step(bool canviar)
     {
+        /*
         //Debugar.LogError($"Step {peces.Count}");
         if (peces.Count == 0)
         {
@@ -165,6 +168,7 @@ public class Proximitat : ScriptableObject
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
 
         Step(canviar);
+        */
     }
 
     void MarcarComCanviada(Peça peça, bool canviar, int experiencia)

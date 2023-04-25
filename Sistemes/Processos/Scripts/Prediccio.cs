@@ -120,14 +120,14 @@ public class Prediccio : ScriptableObject
             }
         }
 
-        for (int c = 0; c < peçaSimulada.Condicions.Length; c++)
+        /*for (int c = 0; c < peçaSimulada.Condicions.Length; c++)
         {
             List<Peça> veinsAcordingToOptions = peçaSimulada.Condicions[c].GetVeinsAcordingToOptions(peçaSimulada, grups, cami);
             for (int v = 0; v < veinsAcordingToOptions.Count; v++)
             {
                 if (!pecesPerComprovar.Contains(veinsAcordingToOptions[v])) pecesPerComprovar.Add(veinsAcordingToOptions[v]);
             }
-        }
+        }*/
     }
 
     void SimularProximitat() => proximitat.Process(pecesPerComprovar, MostrarCanvis, false);
@@ -197,14 +197,6 @@ public class Prediccio : ScriptableObject
                     }
                 }
             }
-            /*if (pecesPerComprovar[i].SubestatIgualA(casa) && !canviades.Contains(pecesPerComprovar[i]))
-            {
-                if (peçaSimulada.VeinsPeça.Contains(pecesPerComprovar[i]))
-                {
-                    visualitzacions.PredirMesHabitants(pecesPerComprovar[i].Coordenades);
-                    Debugar.LogError($"***Mostrar + Needs a {pecesPerComprovar[i].gameObject.name}***");
-                }
-            }*/
         }
     }
     void MostrarMenysHabitants(List<Proximitat.Canvis> canviades)
@@ -237,11 +229,11 @@ public class Prediccio : ScriptableObject
     {
         for (int i = 0; i < comprovades.Count; i++)
         {
-            if (comprovades[i].Ocupat) comprovades[i].DesocuparPerPrediccio();
+            if (comprovades[i].Connectat) comprovades[i].DesocuparPerPrediccio();
         }
         for (int i = 0; i < canviades.Count; i++)
         {
-            if (canviades[i].Peça.Ocupat) canviades[i].Peça.DesocuparPerPrediccio();
+            if (canviades[i].Peça.Connectat) canviades[i].Peça.DesocuparPerPrediccio();
         }
 
         Grid.Instance.SimularFinal(peçaSimulada);

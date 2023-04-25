@@ -17,7 +17,7 @@ public class Informacio_Producte : Informacio
 
         Debug.LogError("Extreure producte", hexagon);
 
-        if (!((Peça)hexagon).Ocupat)
+        if (!((Peça)hexagon).Connectat)
             return;
 
         Amagar(hexagon);
