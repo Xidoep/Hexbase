@@ -11,10 +11,10 @@ public class Subestat_Casa : Subestat
     {
         base.Setup(peça);
 
-        if (!peça.TeCasa)
+        /*if (!peça.TeCasa)
         {
             repoblar.AfegirLaPrimeraCasa(peça);
-        }
+        }*/
 
         return this;
     }

@@ -10,6 +10,7 @@ public class Repoblar : ScriptableObject
     [SerializeField] Subestat casa;
     [SerializeField] Detall_Tiles_Estat detall_Tiles;
     [SerializeField] Producte necessitatInicial;
+    [SerializeField] Recepta[] necessitats;
 
     [Nota("Només per debugging",NoteType.Warning)]
     [SerializeField] List<Peça> cases;
@@ -48,7 +49,7 @@ public class Repoblar : ScriptableObject
 
         if (enFinalitzar != null) enFinalitzar.Invoke();
     }
-    
+
     /*void CanviarNecessitats(Peça peça, int necessitats)
     {
         //AIXO HA DE FUNCIONAR COMPLETAMENT DIFERENT.
@@ -80,8 +81,8 @@ public class Repoblar : ScriptableObject
         if (!this.cases.Contains(peça)) this.cases.Add(peça);
     }
     */
-    
-    public void AfegirLaPrimeraCasa(Peça peça) => peça.AfegirCasa(necessitatInicial);
+    public void AfegirLaPrimeraCasa(Peça peça) => peça.AfegirCasa(necessitats);
+    //public void AfegirLaPrimeraCasa(Peça peça) => peça.AfegirCasa(necessitatInicial);
 
     void CanviarCases(Peça peça, int cases)
     {

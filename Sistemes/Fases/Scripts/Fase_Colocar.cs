@@ -14,13 +14,13 @@ public class Fase_Colocar : Fase
     [SerializeField] Estat seleccionada;
     [SerializeField] Estat perDefecte;
 
-
+    System.Action<Estat> onCanviarSeleccionada;
 
     //PROPERTIES
     public static bool PermesColoarPeça => permesColoarPeça;
     public static bool Bloquejat => bloquejat;
     public Estat Seleccionada => seleccionada;
-
+    public System.Action<Estat> OnCanviarSeleccionada { get => onCanviarSeleccionada; set => onCanviarSeleccionada = value; }
 
 
     public override void FaseStart()
@@ -42,6 +42,7 @@ public class Fase_Colocar : Fase
     {
         Debug.LogError($"SELECT {estat.name}");
         seleccionada = estat;
+        onCanviarSeleccionada?.Invoke(seleccionada);
     } 
     public void CrearPeça(Vector2Int coordenada)
     {

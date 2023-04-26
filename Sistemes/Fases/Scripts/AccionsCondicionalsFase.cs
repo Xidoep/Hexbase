@@ -19,7 +19,7 @@ public class AccionsCondicionalsFase : MonoBehaviour
         cohincidida = false;
         for (int i = 0; i < cohincidencies.Length; i++)
         {
-            if (fasesControlador.Es(cohincidencies[i]))
+            if (fasesControlador.EstaEnFase(cohincidencies[i]))
             {
                 cohincidida = true;
                 break;

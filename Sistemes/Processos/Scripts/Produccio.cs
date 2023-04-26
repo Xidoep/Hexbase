@@ -80,6 +80,22 @@ public class Produccio : ScriptableObject
         Step();
     }
 
+
+    void StepRecepta()
+    {
+        if(productors.Count == 0 || Finalitzat)
+        {
+            enFinalitzar.Invoke();
+            return;
+        }
+
+        //Si el productor no te productes, salta al seguent.
+        //Estaria be borrarlo per optmitzar
+
+        //Agafar tots els productes d'un productor.
+
+    }
+
     void Step()
     {
         if (productors.Count == 0 || Finalitzat)
@@ -91,27 +107,27 @@ public class Produccio : ScriptableObject
         visualitzacioProducte.Clear();
 
         //COMPROVAR SI L'HI QUEDEN PRODUCTES SENSE GASTAR
-        bool calVisualitzar = false;
-        for (int i = 0; i < productors[index].Connexio.ExtreureProducte.Length; i++)
+        bool hiHaProductePerGastar = false;
+        for (int i = 0; i < productors[index].Connexio.ProductesExtrets.Length; i++)
         {
-            if (!productors[index].Connexio.ExtreureProducte[i].gastat)
+            if (!productors[index].Connexio.ProductesExtrets[i].gastat)
             {
-                calVisualitzar = true;
+                hiHaProductePerGastar = true;
                 productors[index].Connexio.MostrarInformacio?.Invoke(productors[index].Connexio, true);
                 productors[index].Connexio.SetBlocarInformacio = true;
                 break;
             }
         }
 
-        if (calVisualitzar)
+        if (hiHaProductePerGastar)
         {
             //BUSCAR UNA CASA DESPROVEIDA CONNECTADA
-            for (int i = 0; i < productors[index].Connexio.ExtreureProducte.Length; i++)
+            for (int i = 0; i < productors[index].Connexio.ProductesExtrets.Length; i++)
             {
-                if (productors[index].Connexio.ExtreureProducte[i].gastat)
+                if (productors[index].Connexio.ProductesExtrets[i].gastat)
                     continue;
 
-                Peça proveida = BuscarCasaDesproveida(productors[index], productors[index].Connexio.ExtreureProducte[i].producte, out int indexNecessitat);
+                Peça proveida = BuscarCasaDesproveida(productors[index], productors[index].Connexio.ProductesExtrets[i].producte, out int indexNecessitat);
                 if (proveida != null)
                 {
                     proveida.MostrarInformacio?.Invoke(proveida, true);
@@ -119,7 +135,7 @@ public class Produccio : ScriptableObject
                     resoldre.Nivell.GuanyarExperiencia(1);
                     casesProveides.Add(proveida);
 
-                    productors[index].Connexio.ExtreureProducte[i].gastat = true;
+                    productors[index].Connexio.ProductesExtrets[i].gastat = true;
                 }
                 visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
             }
@@ -145,6 +161,7 @@ public class Produccio : ScriptableObject
         XS_Coroutine.StartCoroutine_Ending(stepTime, Step);
     }
 
+
     void MostrarInformacioFinal()
     {
         for (int i = 0; i < casesProveides.Count; i++)
@@ -155,6 +172,80 @@ public class Produccio : ScriptableObject
         {
             productors[i].Connexio.MostrarInformacio?.Invoke(productors[i].Connexio, false);
         }
+    }
+
+
+    Peça BuscarCasaDesproveidaRecepta(Peça productor, Producte producte, out int index)
+    {
+        /*
+         * Hauria de ser...
+         * a vera...
+         * fins ara tenia que, cada productor, agafava els seus productes i buscava els cases connectades i el si enviava un prodcte,
+         * si la necessitat de la casa i el producte que produi eren iguals
+         * Ara tenim varis problemes:
+         * no se quines necessitats te cada casa, ni forma de saber-ho.
+         * les necessitats poden ser 1 o 2 o mes, i no necessariament del mateix tipus (referintme a productes) Mai podran demanar un estat i un producte. Prohibit!!!
+         * Puc saber quan una de les receptes d'una peça es compleix, pero no quina d'elles ho fa.
+         *  per tant, no se quins productes s'utilitzen per completar la recepta.
+         * Tampoc es poden acumular productes, osigui, que si una casa necessita 2 productes, no en pot donar 1 una produccio i esperar pel seguent...
+         * 
+         * Bueno, a no ser que crei una clase intermitja entre la casa i la recepta que es digui: Necessitat.
+         * La necessitat tindrà una recepta que espera complir, i una llista de productes acumulats.
+         * Els productes acumulats es mantenen allà fins que es compleix la condicio.
+         * Així puc mantenir el workflow d'ara, i que es mes facil...
+         * Potser pero, que un prodcte es quedi encallat en una casa sense que hi arribin els seguents...
+         * Espera, aixo vol dir pero, que cada casa necessita el seu processador.
+         * I aquesta classe intermitja haurà de intentar processsar els elements que...
+         * A no ser... que aquesta classe i la casa per extensio guardin informacio de la peça on estan.
+         * 
+         */
+
+
+        Peça casa = null;
+        int _index = -1;
+        //string debug = "PRODUCCIO DEBUG\n";
+        connexions = grups.GrupByPeça(grups.Grup, productor).connexionsId;
+        for (int con = 0; con < connexions.Count; con++)
+        {
+            List<Peça> poble = grups.GrupById(grups.Grup, connexions[con]).Peces;
+
+            for (int p = 0; p < poble.Count; p++)
+            {
+
+                //debug += $"Casa {p}\n";
+                if (!poble[p].TeCasa)
+                    continue;
+
+
+
+                for (int c = 0; c < poble[p].CasesLength; c++)
+                {
+                    poble[p].Cases[c].need.Proveir(producte);
+                    //------------------------------------------------nou
+
+
+                    //debug += $"Te {poble[p].Casa.Necessitats.Length} necessitats";
+                    if (poble[p].Cases[c].Necessitats[0].Producte == producte && !poble[p].Cases[c].Necessitats[0].Proveit)
+                    {
+                        //debug += $" ***No estava proveida, per tant la proveixo***";
+                        //poble[p].mostrarInformacio?.Invoke(poble[p], true);
+                        poble[p].Cases[c].Proveir();
+                        _index = c;
+                        casa = poble[p];
+                    }
+                    //debug += $"\n";
+                    if (casa != null)
+                        break;
+                }
+                if (casa != null)
+                    break;
+            }
+            if (casa != null)
+                break;
+        }
+        index = _index;
+        //Debugar.LogError(debug);
+        return casa;
     }
 
 

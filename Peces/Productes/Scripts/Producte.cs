@@ -12,9 +12,9 @@ public class Producte : ScriptableObject, IProcessable
     public void Processar(Peça peça)
     {
         Debug.Log($"PROCESSAR PRODUCTE {this.name}");
-        if (peça.ExtreureProducte == null) peça.SetProductesExtrets = new ProducteExtret[0];
+        if (peça.ProductesExtrets == null) peça.SetProductesExtrets = new ProducteExtret[0];
 
-        List<ProducteExtret> _p = new List<ProducteExtret>(peça.ExtreureProducte);
+        List<ProducteExtret> _p = new List<ProducteExtret>(peça.ProductesExtrets);
         _p.Add(new ProducteExtret(this));
         peça.SetProductesExtrets = _p.ToArray();
 

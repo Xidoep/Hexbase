@@ -13,46 +13,57 @@ public class CursorEstat : MonoBehaviour
     [SerializeField] InputActionReference mousePosition; 
 
     [SerializeField] GameObject cursor;
-    Coroutine coroutine;
 
+    Estat estat;
     Ray ray;
     float distanciaDelTerra;
     Vector3 final;
+    int stepsCount;
+
+
+
+    /*FALTA:
+     * -Que s'snapy sobre la ranura.
+     * ?Que no es mostri quan per sobre d'altres peces??? s'hauria de mostrar la info. Es pot fer aixo si estas en mode Infinit només
+     * detall-Posar una mica d'animacio de tild, que es tombi cap una vanda i una altre amb el delta del mouse.
+     * detall-Que es quedi clavada allà on has clicat (sobre una ranura) i que es borri quan apareix la nova. Amb una animacio per fer veure que està tot preparat.
+     * 
+     */
+
 
     void OnEnable()
     {
-        
-        //prediccio.OnStartPrediccio += AmagarCursor;
-        //prediccio.OnEndPrediccio += MostrarCursor;
+        estat = null;
         faseColocar.OnStart += MostrarCursor;
         faseColocar.OnFinish += AmagarCursor;
+        faseColocar.OnCanviarSeleccionada += CanviarCursor;
     }
 
     private void OnDisable()
     {
-        //prediccio.OnStartPrediccio -= AmagarCursor;
-        //prediccio.OnEndPrediccio -= MostrarCursor;
         faseColocar.OnStart -= MostrarCursor;
         faseColocar.OnFinish -= AmagarCursor;
+        faseColocar.OnCanviarSeleccionada -= CanviarCursor;
     }
 
     private void LateUpdate()
     {
+        if (!cursor)
+            return;
+
         if (!cursor.activeSelf)
             return;
 
         ray = Camera.main.ScreenPointToRay(mousePosition.GetVector2());
         distanciaDelTerra = Camera.main.transform.position.y;
-        Vector3 origenDelRaig = ray.origin + ray.direction * distanciaDelTerra;
-        int step = 0;
+        stepsCount = 0;
 
-        while ((ray.origin + ray.direction * distanciaDelTerra).y > 0.1f && step < 20)
+        while ((ray.origin + ray.direction * distanciaDelTerra).y > 0.1f && stepsCount < 10)
         {
             distanciaDelTerra += (ray.origin + ray.direction * distanciaDelTerra).y * 1.5f;
-            step++;
+            stepsCount++;
         }
-        //Debug.Log($"ray to {(ray.origin + ray.direction * distanciaDelTerra)}");
-        Debug.Log(step);
+
         final = (ray.origin + ray.direction * distanciaDelTerra);
         cursor.transform.position = new Vector3(
             final.x,
@@ -61,71 +72,37 @@ public class CursorEstat : MonoBehaviour
 
     }
 
+    void CanviarCursor(Estat estat)
+    {
+        Debug.Log("Canviar");
+        if (this.estat != estat)
+        {
+            this.estat = estat;
+
+            if (cursor != null)
+                Destroy(cursor);
+
+            cursor = Instantiate(this.estat.Prefag);
+        }
+    }
     void MostrarCursor()
     {
         Debug.Log("Mostrar");
-        if(cursor != null)
-        {
-            cursor.SetActive(true);
-        }
-        else
-        {
-            cursor = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            cursor.transform.localScale = new Vector3(1, 0.1f, 1);
-            cursor.GetComponent<Collider>().enabled = false;
-        }
-        //coroutine = XS_Coroutine.StartCoroutine(SeguirRatoli());
+
+        if (cursor == null)
+            return;
+
+        cursor.SetActive(true);
     }
 
     void AmagarCursor()
     {
-        if(coroutine != null)
-        {
-            //XS_Coroutine.StopCoroutine(coroutine);
-            //coroutine = null;
-        }
+        estat = null;
+
         if (cursor == null)
             return;
 
         cursor.SetActive(false);
     }
 
-
-    IEnumerator SeguirRatoli()
-    {
-        Ray ray;
-
-        float distanciaDelTerra = Camera.main.transform.position.y;
-
-        Debug.Log("ray?");
-
-        while (cursor != null && cursor.activeSelf)
-        {
-            ray = Camera.main.ScreenPointToRay(mousePosition.GetVector2());
-            distanciaDelTerra = Camera.main.transform.position.y;
-            Vector3 origenDelRaig = ray.origin + ray.direction * distanciaDelTerra;
-            int step = 3;
-
-            while(step > 0)
-            {
-                distanciaDelTerra += (ray.origin + ray.direction * distanciaDelTerra).y;
-                /*
-                 * que coi faig aqui?
-                 * en toeria, creo un raig,
-                 * Si aquest raig + la distancia desde el terra de la camara, no es menor de zero.
-                 * Sumo la distancia desde el terra del final d'aquest raig, a la distancia desde el terra.
-                 * comença fent un origin de la posicio de la camara
-                 * Despres en cada iteracio agafa l'origin i el substitueix per el final de raig.
-                 * Al final la posicio
-                 * */
-                step--;
-            }
-            Debug.Log($"ray to {(ray.origin + ray.direction * distanciaDelTerra)}");
-
-
-            cursor.transform.position = (ray.origin + ray.direction * distanciaDelTerra);
-
-            yield return new WaitForEndOfFrame();
-        }
-    }
 }

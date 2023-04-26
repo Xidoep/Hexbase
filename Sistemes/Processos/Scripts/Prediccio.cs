@@ -56,7 +56,10 @@ public class Prediccio : ScriptableObject
 
     public void Predir(Vector2Int coordenada)
     {
-        if (!controlador.Es(colocar))
+        Debug.Log("Ara no prediu, perque no m'interessa");
+        return;
+
+        if (!controlador.EstaEnFase(colocar))
         {
             Debugar.LogError("INTENTAR PREDIR FORA DE LA FASE COLOCAR!!!!!!!!!!!!!!!!!!!!!");
             return;

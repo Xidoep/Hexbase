@@ -92,7 +92,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Casa[] Cases => cases;
     public int CasesLength => cases.Length;
     //vvv
-    public ProducteExtret[] ExtreureProducte => productesExtrets;
+    public ProducteExtret[] ProductesExtrets => productesExtrets;
     //vvv
 
     public Peça Connexio => connexio;
@@ -199,6 +199,16 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //public void CrearCasa(Producte producte) => cases = new Casa[] { new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), };
     public void CrearCasa(Casa casa) => cases = new Casa[] { casa };
 
+    /*public void AfegirCasa(Recepta[] necessitats)
+    {
+        if (cases == null) cases = new Casa[0];
+        List<Casa> _cases = new List<Casa>(cases)
+        {
+            new Casa(this, necessitats)
+        };
+
+        cases = _cases.ToArray();
+    } */
     public void AfegirCasa(Recepta[] necessitats)
     {
         if (cases == null) cases = new Casa[0];
@@ -208,7 +218,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         };
 
         cases = _cases.ToArray();
-    } 
+    }
     public void AfegirCasa(Producte producte) //Treure
     {
         if (cases == null) cases = new Casa[0];

@@ -8,7 +8,7 @@ public class Subestat_Productor : Subestat, IProcessable
 {
     public override Subestat Setup(Peça peça)
     {
-        produccio.AddProductor(peça);
+        //produccio.AddProductor(peça);
 
         return base.Setup(peça);
     }

@@ -52,6 +52,6 @@ public class TesterSimulacio
         FasesControlador controlador = AssetDatabase.LoadAssetAtPath<FasesControlador>("Assets/XidoStudio/Hexbase/Sistemes/Fases/_Controlador.asset");
         Fase colocar = AssetDatabase.LoadAssetAtPath<Fase>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Colocar.asset");
 
-        Assert.AreEqual(true, controlador.Es(colocar));
+        Assert.AreEqual(true, controlador.EstaEnFase(colocar));
     }
 }

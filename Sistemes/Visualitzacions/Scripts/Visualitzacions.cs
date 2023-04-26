@@ -308,7 +308,7 @@ public class Visualitzacions : ScriptableObject
 
         void ExtreureProducte(Peça p, int i)
         {
-            GameObject producte = p.Connexio.ExtreureProducte[i].informacio.gameObject;
+            GameObject producte = p.Connexio.ProductesExtrets[i].informacio.gameObject;
 
             Vector3 offset = producte.transform.localPosition;
             new Animacio_Posicio(p.Connexio.transform.position + offset, p.transform.position + offset, false, false).Play(producte.transform, 0.5f, Transicio.clamp);
@@ -322,7 +322,7 @@ public class Visualitzacions : ScriptableObject
                 //c.mostrarInformacio?.Invoke(c, true);
                 //c.BlocarInformacio = true;
 
-                GameObject producte = p.Connexio.ExtreureProducte[iProd].informacio.gameObject;
+                GameObject producte = p.Connexio.ProductesExtrets[iProd].informacio.gameObject;
 
                 float temps = Vector3.Distance(p.transform.position, c.transform.position) * 0.25f;
 
@@ -375,7 +375,7 @@ public class Visualitzacions : ScriptableObject
     public void DestruirProducte(Peça p, int i, bool ultima, System.Action enFinalitzar) 
     {
 
-        p.Connexio.ExtreureProducte[i].informacio.gameObject.GetComponent<UI_Producte>().Destruir(1.5f);
+        p.Connexio.ProductesExtrets[i].informacio.gameObject.GetComponent<UI_Producte>().Destruir(1.5f);
         XS_Coroutine.StartCoroutine_Ending(1.6f, RemostrarLaInformacio);
 
         void RemostrarLaInformacio()

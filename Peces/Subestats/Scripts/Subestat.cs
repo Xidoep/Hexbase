@@ -6,16 +6,29 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Substat")]
 public class Subestat : ScriptableObject, IProcessable
 {
-    public enum Tipus { Normal, Productor}
+    public enum Tipus { Normal, Casa, Productor}
     public virtual Subestat Setup(Peça peça) 
     {
         peça.ResetCases();
 
         peça.gameObject.name = $"{this.name.ToUpper()}({peça.Coordenades})";
 
-        if (tipus == Tipus.Productor)
-            produccio.AddProductor(peça);
-        else produccio.RemoveProductor(peça);
+        switch (tipus)
+        {
+            case Tipus.Normal:
+                produccio.RemoveProductor(peça);
+                break;
+            case Tipus.Casa:
+                produccio.RemoveProductor(peça);
+                if (!peça.TeCasa)
+                    repoblar.AfegirLaPrimeraCasa(peça);
+                break;
+            case Tipus.Productor:
+                produccio.AddProductor(peça);
+                break;
+            default:
+                break;
+        }
 
         peça.processador.NovesReceptes(Receptes);
 
@@ -39,7 +52,7 @@ public class Subestat : ScriptableObject, IProcessable
 
     [Apartat("REFERENCIES AUTO-CONFIGURABLES")]
     [SerializeField] Produccio produccio;
-
+    [SerializeField] Repoblar repoblar;
 
     public bool EsProductor => tipus == Tipus.Productor;
     public bool Caminable => caminable;
@@ -133,6 +146,7 @@ public class Subestat : ScriptableObject, IProcessable
     void OnValidate()
     {
         if (produccio == null) produccio = XS_Editor.LoadAssetAtPath<Produccio>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Produccio.asset");
+        if (repoblar == null) repoblar = XS_Editor.LoadAssetAtPath<Repoblar>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Repoblar.asset");
     }
 
     /*[System.Serializable]

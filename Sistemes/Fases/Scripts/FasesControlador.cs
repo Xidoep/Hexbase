@@ -16,7 +16,7 @@ public class FasesControlador : ScriptableObject
         }
     }
 
-    public bool Es(Fase fase) => actual == fase;
+    public bool EstaEnFase(Fase fase) => actual == fase;
 
     private void OnDisable() => actual = null;
 }
