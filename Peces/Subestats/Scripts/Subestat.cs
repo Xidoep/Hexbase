@@ -6,36 +6,37 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Substat")]
 public class Subestat : ScriptableObject, IProcessable
 {
-    public enum Tipus { Normal, Casa, Productor}
+    public enum TipusEnum { Normal, Casa, Productor}
     public virtual Subestat Setup(Peça peça) 
     {
         peça.ResetCases();
 
         peça.gameObject.name = $"{this.name.ToUpper()}({peça.Coordenades})";
+        
+        peça.processador.NovaRecepta(Receptes);
 
         switch (tipus)
         {
-            case Tipus.Normal:
+            case TipusEnum.Normal:
                 produccio.RemoveProductor(peça);
                 break;
-            case Tipus.Casa:
+            case TipusEnum.Casa:
                 produccio.RemoveProductor(peça);
                 if (!peça.TeCasa)
                     repoblar.AfegirLaPrimeraCasa(peça);
                 break;
-            case Tipus.Productor:
+            case TipusEnum.Productor:
                 produccio.AddProductor(peça);
                 break;
             default:
                 break;
         }
 
-        peça.processador.NovesReceptes(Receptes);
 
         return this;
     }
 
-    [SerializeField] Tipus tipus;
+    [SerializeField] TipusEnum tipus;
     [SerializeField] bool caminable;
     [SerializeField] bool aquatic;
 
@@ -54,15 +55,13 @@ public class Subestat : ScriptableObject, IProcessable
     [SerializeField] Produccio produccio;
     [SerializeField] Repoblar repoblar;
 
-    public bool EsProductor => tipus == Tipus.Productor;
+    public TipusEnum Tipus => tipus;
     public bool Caminable => caminable;
     public bool Aquatic => aquatic;
-    //public virtual bool EsProducte => false;
 
 
 
     public Recepta[] Receptes => receptes;
-    //public Condicio[] Condicions => condicions;
     public DetallScriptable[] Detalls => detallsScriptables;
 
 
@@ -78,30 +77,17 @@ public class Subestat : ScriptableObject, IProcessable
 
 
 
-
-
-
-
-
-
-
-
     public void InformacioMostrar(Hexagon peça, bool proveides) 
     {
         for (int i = 0; i < informacions.Length; i++)
         {
             informacions[i].Mostrar(peça, proveides);
         }
-
-        
     }
     public void InformacioAmagar(Hexagon peça) 
     {
         if (informacions.Length == 0)
-        {
-
             return;
-        }
 
         for (int i = 0; i < informacions.Length; i++)
         {
@@ -149,17 +135,4 @@ public class Subestat : ScriptableObject, IProcessable
         if (repoblar == null) repoblar = XS_Editor.LoadAssetAtPath<Repoblar>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Repoblar.asset");
     }
 
-    /*[System.Serializable]
-    public class TilesPossibles
-    {
-        public Tile tile;
-        [Range(1, 10)] public int pes;
-    }
-
-    [System.Serializable]
-    public class ConnexioEspesifica
-    {
-        public List<Subestat> subestats;
-        public Connexio[] connexions;
-    }*/
 }

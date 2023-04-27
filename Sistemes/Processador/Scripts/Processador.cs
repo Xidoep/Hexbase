@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Codice.Client.Common.Servers.RecentlyUsedServers;
 
-public class Processador : MonoBehaviour
+[System.Serializable]
+public class Processador : System.Object
 {
     [SerializeField] List<ReceptaPreparada> receptes;
 
@@ -37,6 +37,10 @@ public class Processador : MonoBehaviour
             {
                 Debug.Log("Match!");
                 receptes[i].Processar(peça, EsborrarRecepta);
+                if(receptes.Count > 0)
+                {
+                    i--;
+                }
                 aconseguit = true;
             }
         }
@@ -46,7 +50,8 @@ public class Processador : MonoBehaviour
 
     void EsborrarRecepta(ReceptaPreparada recepta) => receptes.Remove(recepta);
 
-    public void NovesReceptes(Recepta[] receptes)
+    public void NovaRecepta(Recepta recepta) => receptes = new List<ReceptaPreparada>() { new ReceptaPreparada(recepta, null) };
+    public void NovaRecepta(Recepta[] receptes)
     {
         this.receptes = new List<ReceptaPreparada>();
 

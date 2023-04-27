@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5919137175624590404}
   - component: {fileID: 7779913084878159373}
   - component: {fileID: 7088656447895351387}
-  - component: {fileID: 66926392984266305}
   m_Layer: 0
   m_Name: "Pe\xE7a"
   m_TagString: Untagged
@@ -50,8 +49,19 @@ MonoBehaviour:
   parent: {fileID: 1973165481425570980}
   estat: {fileID: 0}
   subestat: {fileID: 0}
-  cases: []
-  processador: {fileID: 66926392984266305}
+  cases:
+  - need:
+      "pe\xE7a": {fileID: 0}
+      receptes: []
+    necessitats: []
+    necessitatsss: []
+    processador:
+      receptes: []
+  processador:
+    receptes: []
+  estatConnexio: 0
+  connexio: {fileID: 0}
+  connexioCoordenada: {x: 0, y: 0}
   extraccio: {fileID: 0}
   extraccioCoordenada: {x: 0, y: 0}
   productor: {fileID: 0}
@@ -71,19 +81,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4575734979276873811, guid: 05d249f5ce17f46449f1240f27d65335, type: 3}
---- !u!114 &66926392984266305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5919137175624590415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2af2b1bdc49fa84e8f99ef95448dc8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  receptes: []
 --- !u!1 &7198892112095210570
 GameObject:
   m_ObjectHideFlags: 0

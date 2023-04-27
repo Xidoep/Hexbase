@@ -127,10 +127,11 @@ public class Produccio : ScriptableObject
                 if (productors[index].Connexio.ProductesExtrets[i].gastat)
                     continue;
 
-                Peça proveida = BuscarCasaDesproveida(productors[index], productors[index].Connexio.ProductesExtrets[i].producte, out int indexNecessitat);
+                //Peça proveida = BuscarCasaDesproveida(productors[index], productors[index].Connexio.ProductesExtrets[i].producte, out int indexNecessitat);
+                Peça proveida = BuscarCasaDesproveidaRecepta(productors[index], productors[index].Connexio.ProductesExtrets[i].producte, out int indexNecessitat);
                 if (proveida != null)
                 {
-                    proveida.MostrarInformacio?.Invoke(proveida, true);
+                    //proveida.MostrarInformacio?.Invoke(proveida, true);
                     proveida.SetBlocarInformacio = true;
                     resoldre.Nivell.GuanyarExperiencia(1);
                     casesProveides.Add(proveida);
@@ -177,30 +178,6 @@ public class Produccio : ScriptableObject
 
     Peça BuscarCasaDesproveidaRecepta(Peça productor, Producte producte, out int index)
     {
-        /*
-         * Hauria de ser...
-         * a vera...
-         * fins ara tenia que, cada productor, agafava els seus productes i buscava els cases connectades i el si enviava un prodcte,
-         * si la necessitat de la casa i el producte que produi eren iguals
-         * Ara tenim varis problemes:
-         * no se quines necessitats te cada casa, ni forma de saber-ho.
-         * les necessitats poden ser 1 o 2 o mes, i no necessariament del mateix tipus (referintme a productes) Mai podran demanar un estat i un producte. Prohibit!!!
-         * Puc saber quan una de les receptes d'una peça es compleix, pero no quina d'elles ho fa.
-         *  per tant, no se quins productes s'utilitzen per completar la recepta.
-         * Tampoc es poden acumular productes, osigui, que si una casa necessita 2 productes, no en pot donar 1 una produccio i esperar pel seguent...
-         * 
-         * Bueno, a no ser que crei una clase intermitja entre la casa i la recepta que es digui: Necessitat.
-         * La necessitat tindrà una recepta que espera complir, i una llista de productes acumulats.
-         * Els productes acumulats es mantenen allà fins que es compleix la condicio.
-         * Així puc mantenir el workflow d'ara, i que es mes facil...
-         * Potser pero, que un prodcte es quedi encallat en una casa sense que hi arribin els seguents...
-         * Espera, aixo vol dir pero, que cada casa necessita el seu processador.
-         * I aquesta classe intermitja haurà de intentar processsar els elements que...
-         * A no ser... que aquesta classe i la casa per extensio guardin informacio de la peça on estan.
-         * 
-         */
-
-
         Peça casa = null;
         int _index = -1;
         //string debug = "PRODUCCIO DEBUG\n";
@@ -211,28 +188,18 @@ public class Produccio : ScriptableObject
 
             for (int p = 0; p < poble.Count; p++)
             {
-
                 //debug += $"Casa {p}\n";
                 if (!poble[p].TeCasa)
                     continue;
 
-
-
                 for (int c = 0; c < poble[p].CasesLength; c++)
                 {
-                    poble[p].Cases[c].need.Proveir(producte);
-                    //------------------------------------------------nou
-
-
-                    //debug += $"Te {poble[p].Casa.Necessitats.Length} necessitats";
-                    if (poble[p].Cases[c].Necessitats[0].Producte == producte && !poble[p].Cases[c].Necessitats[0].Proveit)
+                    if (poble[p].Cases[c].Proveir(producte))
                     {
-                        //debug += $" ***No estava proveida, per tant la proveixo***";
-                        //poble[p].mostrarInformacio?.Invoke(poble[p], true);
-                        poble[p].Cases[c].Proveir();
                         _index = c;
                         casa = poble[p];
                     }
+
                     //debug += $"\n";
                     if (casa != null)
                         break;
@@ -272,7 +239,7 @@ public class Produccio : ScriptableObject
                     {
                         //debug += $" ***No estava proveida, per tant la proveixo***";
                         //poble[p].mostrarInformacio?.Invoke(poble[p], true);
-                        poble[p].Cases[c].Proveir();
+                        poble[p].Cases[c].Proveir(producte);
                         _index = c;
                         casa = poble[p];
                     }

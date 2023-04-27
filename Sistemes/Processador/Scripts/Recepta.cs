@@ -15,6 +15,8 @@ public class Recepta : ScriptableObject
     bool confirmat = true;
     List<object> estatsVeins;
 
+    public ScriptableObject[] Inputs => inputs;
+
 
     public bool TeInputsIguals(List<object> ingredients)
     {

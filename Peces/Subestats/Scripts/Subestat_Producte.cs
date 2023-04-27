@@ -8,9 +8,7 @@ public class Subestat_Producte : Subestat//, IProcessable
     //[Apartat("SUBESTAT PRODUCTE")]
     public override Subestat Setup(Peça peça)
     {
-        base.Setup(peça);
-
-        return this;
+        return base.Setup(peça);
     }
 
     /*new public void Processar(Peça peça)

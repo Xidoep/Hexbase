@@ -20,7 +20,7 @@ public class Subestat_Productor : Subestat, IProcessable
         base.Processar(peça);
     }
 
-
+    /*
     [Apartat("RECURSOS")]
     [SerializeField] Produccio produccio;
 
@@ -29,4 +29,5 @@ public class Subestat_Productor : Subestat, IProcessable
     {
         produccio = (Produccio)XS_Editor.LoadAssetAtPath<Produccio>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Produccio.asset");
     }
+    */
 }

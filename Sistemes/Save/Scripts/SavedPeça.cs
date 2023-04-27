@@ -15,7 +15,7 @@ public class SavedPeça
 
         if (peça.TeCasa)
         {
-            necessitats = new SavedNecessitat[] { new SavedNecessitat(peça.Cases[0].Necessitats) };
+            //necessitats = new SavedNecessitat[] { new SavedNecessitat(peça.Cases[0].Necessitats) };
             //casa = new SavedCasa[] { new SavedCasa(peça.Casa.Necessitats) };
         }
 
@@ -73,10 +73,10 @@ public class SavedPeça
             peça.CrearCasa(casa[0].Load(producteNomToPrefab));
         }*/
         //NECESSITATS
-        if(necessitats != null && necessitats.Length > 0)
+        /*if(necessitats != null && necessitats.Length > 0)
         {
             peça.CrearCasa(new Casa(necessitats[0].Load(producteNomToPrefab)));
-        }
+        }*/
 
         grid.Set(peça);
         //VEINS

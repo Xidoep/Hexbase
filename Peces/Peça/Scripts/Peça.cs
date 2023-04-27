@@ -196,35 +196,13 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         //subestat.InformacioMostrar(this, true);
     }
 
-    //public void CrearCasa(Producte producte) => cases = new Casa[] { new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false)), };
     public void CrearCasa(Casa casa) => cases = new Casa[] { casa };
-
-    /*public void AfegirCasa(Recepta[] necessitats)
-    {
-        if (cases == null) cases = new Casa[0];
-        List<Casa> _cases = new List<Casa>(cases)
-        {
-            new Casa(this, necessitats)
-        };
-
-        cases = _cases.ToArray();
-    } */
     public void AfegirCasa(Recepta[] necessitats)
     {
         if (cases == null) cases = new Casa[0];
         List<Casa> _cases = new List<Casa>(cases)
         {
             new Casa(this, necessitats)
-        };
-
-        cases = _cases.ToArray();
-    }
-    public void AfegirCasa(Producte producte) //Treure
-    {
-        if (cases == null) cases = new Casa[0];
-        List<Casa> _cases = new List<Casa>(cases)
-        {
-            new Casa(new Producte[] { producte }, () => mostrarInformacio?.Invoke(this, false))
         };
 
         cases = _cases.ToArray();
@@ -245,19 +223,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     {
         connexio = productor;
         productor.connexio = this;
-        //this.productor = productor;
-        //productor.extraccio = this;
     }
     public void DesocuparPerPrediccio()
     {
         if(Connexio.connexio != this)
-        {
             connexio = null;
-        }
-        /*if(productor.extraccio != this)
-        {
-            productor = null;
-        }*/
     }
 
 

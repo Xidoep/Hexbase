@@ -22,6 +22,6 @@ public class UI_Necessitat : UI_InformacioPeça
 
 
     //Debug
-    Casa.Necessitat necessitat;
+    Casa.Necessitat_old necessitat;
     Producte producte;
 }
