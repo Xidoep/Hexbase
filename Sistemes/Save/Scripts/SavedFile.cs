@@ -170,7 +170,7 @@ public class SavedFile
             if (creades[i].ConnexioCoordenada.EsNula())
                 return;
 
-            ((Peça)Grid.Instance.Get(creades[i].ConnexioCoordenada)).Ocupar(creades[i]);
+            ((Peça)Grid.Instance.Get(creades[i].ConnexioCoordenada)).Connectar(creades[i]);
         }
 
         //DEBUG

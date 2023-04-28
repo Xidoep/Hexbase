@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class SavedCasa
 {
-    public SavedCasa(Casa.Necessitat_old[] necessitats)
+    /*public SavedCasa(Casa.Necessitat_old[] necessitats)
     {
         savedNecessitats = new SavedNecessitat(necessitats);
-    }
+    }*/
 
     [SerializeField] SavedNecessitat savedNecessitats;
 

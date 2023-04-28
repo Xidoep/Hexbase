@@ -5,11 +5,10 @@ using static Visualitzacions;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
-    [System.Flags] public enum EstatConnexioEnum { 
+    [System.Flags] public enum ConnexioEnum { 
         NoImporta = 0, 
         Connectat = 1, 
-        Desconnectat = 2, 
-        Pendent = 4
+        Desconnectat = 2
     }
 
 
@@ -19,7 +18,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         this.estat = estat;
 
-        estatConnexio = EstatConnexioEnum.Desconnectat;
+        estatConnexio = ConnexioEnum.Desconnectat;
 
         if (subestat == null)
             return;
@@ -36,22 +35,18 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeScriptableObject][SerializeField] protected Subestat subestat;
 
     [Apartat("CASA")]
-    [SerializeField] Casa[] cases;
+    [SerializeField] List<Casa> cases;
 
     [Apartat("PROCESSADOR")]
     public Processador processador;
 
     [Apartat("EXTRACCIO")]
-    [SerializeField] EstatConnexioEnum estatConnexio;
+    [SerializeField] ConnexioEnum estatConnexio;
     //[SerializeField] bool pendent;
     [SerializeField] Peça connexio;
     [SerializeField] Vector2Int connexioCoordenada;
     
     
-    
-    [SerializeField] Peça extraccio;
-    [SerializeField] Vector2Int extraccioCoordenada;
-    [SerializeField] Peça productor;
     [Apartat("PRDUCTES")]
     [SerializeField] ProducteExtret[] productesExtrets;
 
@@ -86,19 +81,18 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public bool Caminable => subestat.Caminable;
     public bool Aquatic => subestat.Aquatic;
     //public Condicio[] Condicions => this.subestat.Condicions;
-    public bool TeCasa => cases != null && cases.Length > 0;
+    public bool TeCasa => cases != null && cases.Count > 0;
     //vvv
-    public Casa Casa => cases[0];
-    public Casa[] Cases => cases;
-    public int CasesLength => cases.Length;
+    public Casa[] Cases => cases.ToArray();
+    public int CasesLength => cases.Count;
     //vvv
     public ProducteExtret[] ProductesExtrets => productesExtrets;
     //vvv
 
     public Peça Connexio => connexio;
     public Vector2Int ConnexioCoordenada => connexioCoordenada;
-    public bool Connectat => estatConnexio == EstatConnexioEnum.Connectat;
-    public bool Desconnectat => estatConnexio == EstatConnexioEnum.Desconnectat;
+    public bool Connectat => estatConnexio == ConnexioEnum.Connectat;
+    public bool Desconnectat => estatConnexio == ConnexioEnum.Desconnectat;
     public TilePotencial GetTile(int index) => tiles[index];
     public bool EstatIgualA(Estat altreEstat) => estat.Equals(altreEstat);
     public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
@@ -108,11 +102,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
     //SETTERS
-    public EstatConnexioEnum EstatConnexio { get => estatConnexio; set => estatConnexio = value; }
+    public ConnexioEnum EstatConnexio { get => estatConnexio; set => estatConnexio = value; }
     public ProducteExtret[] SetProductesExtrets { set => productesExtrets = value; }
-    public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
+    //public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
     public bool SetBlocarInformacio { set => blocarInformacio = value; }
-    public void ResetCases() => cases = new Casa[0];
+    public void ResetCases() => cases = new List<Casa>();
 
 
 
@@ -186,7 +180,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         //amagarInformacio -= subestat.InformacioAmagar;
 
         this.subestat = subestat.Setup(this);
-        cases = new Casa[0];
+        cases = new List<Casa>();
         //gameObject.name = $"{subestat.name.ToUpper()}({Coordenades})";
 
         //mostrarInformacio += subestat.InformacioMostrar;
@@ -196,33 +190,32 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         //subestat.InformacioMostrar(this, true);
     }
 
-    public void CrearCasa(Casa casa) => cases = new Casa[] { casa };
+    public void CrearCasa(Casa casa) => cases = new List<Casa>() { casa };
     public void AfegirCasa(Recepta[] necessitats)
     {
-        if (cases == null) cases = new Casa[0];
-        List<Casa> _cases = new List<Casa>(cases)
-        {
-            new Casa(this, necessitats)
-        };
+        if (cases == null) cases = new List<Casa>();
 
-        cases = _cases.ToArray();
+        cases.Add(new Casa(this, necessitats));
     }
     public void TreureCasa()
     {
-        if (cases == null || cases.Length == 0)
+        if (cases == null || cases.Count == 0)
             return;
 
-        List<Casa> _cases = new List<Casa>(cases);
-        _cases.RemoveAt(_cases.Count - 1);
+        processador.BorrarRecepta(cases[cases.Count - 1].ReceptaActual);
 
-        cases = _cases.ToArray();
+        cases.RemoveAt(cases.Count - 1);
     }
 
 
-    public void Ocupar(Peça productor) 
+    public void Connectar(Peça connexio) 
     {
-        connexio = productor;
-        productor.connexio = this;
+        this.connexio = connexio;
+        estatConnexio = ConnexioEnum.Connectat;
+        connexio.connexio = this;
+        connexio.EstatConnexio = ConnexioEnum.Connectat;
+
+        processador.IntentarProcessar(this, new List<object>() { connexio }, true);
     }
     public void DesocuparPerPrediccio()
     {
@@ -231,7 +224,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
 
 
-    public void IntentarConnectar()
+    /*public void IntentarConnectar()
     {
         if (connexio != null) //Ja està connectat
             return;
@@ -239,23 +232,23 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         List<Peça> _v = VeinsPeça;
         for (int i = 0; i < _v.Count; i++)
         {
-            if (_v[i].estatConnexio == EstatConnexioEnum.Pendent)
+            if (_v[i].estatConnexio == ConnexioEnum.Pendent)
             {
-                _v[i].EstatConnexio = EstatConnexioEnum.Connectat;
+                _v[i].EstatConnexio = ConnexioEnum.Connectat;
                 _v[i].connexio = this;
-                estatConnexio = EstatConnexioEnum.Connectat;
+                estatConnexio = ConnexioEnum.Connectat;
                 connexio = _v[i];
             }
         }
 
         if(connexio == null) //No he trobat cap altre peça pendent de connectar. Quedo pendent que algú es connecti amb mi.
         {
-            estatConnexio = EstatConnexioEnum.Pendent;
+            estatConnexio = ConnexioEnum.Pendent;
         }
-    }
+    }*/
     public void Desconnectar()
     {
-        estatConnexio = EstatConnexioEnum.Desconnectat;
+        estatConnexio = ConnexioEnum.Desconnectat;
         connexio = null;
     }
    

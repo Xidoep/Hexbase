@@ -82,7 +82,7 @@ public class SavedPeça
         //VEINS
         peça.AssignarVeinsTiles(peça.Tiles);
 
-        if (extraccio != -Vector2Int.one) peça.SetExtraccio = extraccio;
+        //if (extraccio != -Vector2Int.one) peça.SetExtraccio = extraccio;
         //peça.CrearDetalls();
 
         //peça.Detalls();

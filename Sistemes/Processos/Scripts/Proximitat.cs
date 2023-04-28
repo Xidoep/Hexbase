@@ -119,9 +119,27 @@ public class Proximitat : ScriptableObject
 
         //FALTA: que d'alguna manera em retorni si el processador ha processat algo, una especia de funcio de callback.
         //potser que retorni una funcio amb un bool. JA buscaré la manera ems facil de far-ho.
-
-        if (_actual.processador.IntentarProcessar(_actual, new List<object>(_actual.VeinsPeça)))
+        List<Peça> veins = _actual.VeinsPeça;
+        if (_actual.processador.IntentarProcessar(_actual, new List<object>(veins), true))
         {
+            /*
+             */
+            if(_actual.Subestat.Tipus == Subestat.TipusEnum.Productor)
+            {
+                for (int i = 0; i < veins.Count; i++)
+                {
+                    if (veins[i].Subestat.Tipus != Subestat.TipusEnum.Extraccio)
+                        continue;
+
+                    if (veins[i].Connectat)
+                        continue;
+
+                    if (veins[i].Subestat.Producte != _actual.Subestat.Producte)
+                        continue;
+
+                    veins[i].Connectar(_actual);
+                }
+            }
             Debug.Log("La recepta s'ha complert!");
             MarcarComCanviada(_actual, canviar, 0);
         }

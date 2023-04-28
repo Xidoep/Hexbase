@@ -8,11 +8,11 @@ public class UI_Necessitat : UI_InformacioPeça
 
     public override GameObject Setup(Peça peça, int index)
     {
-        this.necessitat = peça.Cases[index].Necessitats[0];
-        this.producte = necessitat.Producte;
+        //this.necessitat = peça.Cases[index].Necessitats[0];
+        //this.producte = necessitat.Producte;
 
-        MeshRenderer.material.SetTexture(ICONE, producte.Icone);
-        MeshRenderer.material.SetFloat(COVERTA, necessitat.Proveit ? 1 : 0);
+        //MeshRenderer.material.SetTexture(ICONE, producte.Icone);
+        //MeshRenderer.material.SetFloat(COVERTA, necessitat.Proveit ? 1 : 0);
         //MeshRenderer.transform.localRotation = Quaternion.Euler(0, 0, Rotacio(index));
 
         return gameObject;
@@ -22,6 +22,6 @@ public class UI_Necessitat : UI_InformacioPeça
 
 
     //Debug
-    Casa.Necessitat_old necessitat;
-    Producte producte;
+    //Casa.Necessitat_old necessitat;
+    //Producte producte;
 }

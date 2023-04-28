@@ -18,7 +18,7 @@ public class Informacio_Necessitats : Informacio
         if (!peça.TeCasa)
             return ui.ToArray();
         */
-
+        /*
         if (!((Peça)hexagon).TeCasa)
             return;
 
@@ -38,13 +38,14 @@ public class Informacio_Necessitats : Informacio
 
             //ui.Add(peça.Casa.Necessitats[i].Informacio);
         }
-
+        */
         //grups.ResaltarGrup(peça);
         //return ui.ToArray();
     }
 
     public override void Amagar(Hexagon hexagon)
     {
+        /*
         for (int i = 0; i < ((Peça)hexagon).CasesLength; i++)
         {
             if (((Peça)hexagon).Cases[i].Necessitats[0].Informacio.gameObject == null)
@@ -53,6 +54,7 @@ public class Informacio_Necessitats : Informacio
             Destroy(((Peça)hexagon).Cases[i].Necessitats[0].Informacio.gameObject, 0.1f);
         }
         Debug.LogError("Amagar", hexagon);
+        */
         //grups.ReixarDeResaltar();
     }
 

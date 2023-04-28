@@ -52,21 +52,21 @@ public class Repoblar : ScriptableObject
 
     public void AfegirLaPrimeraCasa(Peça peça) => peça.AfegirCasa(necessitats);
 
-    void CanviarCases(Peça peça, int cases)
+    void CanviarCases(Peça peça, int casesVeines)
     {
-        if (cases > peça.CasesLength)
+        if (casesVeines > peça.CasesLength)
         {
             //peça.AmagarInformacio?.Invoke(peça);
-            for (int i = peça.CasesLength; i < cases; i++)
+            for (int i = peça.CasesLength; i < casesVeines; i++)
             {
                 peça.AfegirCasa(necessitats);
                 Debug.Log("Add casa");
             }
         }
-        else if (cases < peça.CasesLength)
+        else if (casesVeines < peça.CasesLength)
         {
             //peça.AmagarInformacio?.Invoke(peça);
-            for (int i = cases; i < peça.CasesLength; i++)
+            for (int i = casesVeines; i < peça.CasesLength; i++)
             {
                 peça.TreureCasa();
                 Debug.Log("Remove casa");

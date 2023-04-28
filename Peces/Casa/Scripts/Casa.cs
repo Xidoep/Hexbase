@@ -20,6 +20,8 @@ public class Casa
     [SerializeField] List<Producte> proveits;
     [SerializeField] List<Producte> necessitats;
 
+    public Recepta ReceptaActual => receptes[0];
+
     public bool Proveir(Producte producte)
     {
         if (!necessitats.Contains(producte))
@@ -30,6 +32,7 @@ public class Casa
 
         if (peça.processador.IntentarProcessar(peça, new List<object>(proveits)))
         {
+            receptes.RemoveAt(0);
             AgafarNecessitats();
         }
         return true;
@@ -49,57 +52,8 @@ public class Casa
         }
         peça.processador.AfegirRecepta(receptes[0]);
 
-        receptes.RemoveAt(0);
+        
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    Necessitat_old[] necessitats_old;
-    public Necessitat_old[] Necessitats => necessitats_old;
-
-
-
-
-    [System.Serializable]
-    public class Necessitat_old : System.Object
-    {
-        public Necessitat_old(Producte producte, bool proveit = false)
-        {
-            this.producte = producte;
-            this.proveit = proveit;
-        }
-
-        [SerializeField] Producte producte;
-        [SerializeField] bool proveit;
-        [SerializeField] Informacio.Unitat informacio;
-
-        public bool Proveit => proveit;
-        public Producte Producte => producte;
-        public Informacio.Unitat Informacio { get => informacio; set => informacio = value; }
-
-        public void Proveir() => proveit = true;
-    }
 }

@@ -18,7 +18,7 @@ public class Producte : ScriptableObject, IProcessable
         _p.Add(new ProducteExtret(this));
         peça.SetProductesExtrets = _p.ToArray();
 
-        peça.IntentarConnectar();
+        //peça.IntentarConnectar();
     }
 }
 

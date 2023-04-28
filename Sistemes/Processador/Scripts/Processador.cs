@@ -5,21 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class Processador : System.Object
 {
-    [SerializeField] List<ReceptaPreparada> receptes;
+    [SerializeField] List<Recepta> receptes;
 
 
-    //Molt be! hem posat la part mes complicada.
-    //El seguent pass es que la produccio agafi els productes de... a vera que ho porovo HA! funciona!!!
-    //nomes falta treure les referencies a ocupat i merdes aixi.
-    //Doncs el seguent pas és... Tenim canvi d'estat, tenim produccio...
-    //falta la satisfaccio de les cases.
-
-
-
-
-
-
-    public bool IntentarProcessar(Peça peça, List<object> inputs)
+    public bool IntentarProcessar(Peça peça, List<object> inputs, bool aLaPrimeraReceptaComplertaAturat = false)
     {
         string _debug = $"Intentar Processar {peça.name} amb {inputs.Count} inputs: ";
         for (int i = 0; i < inputs.Count; i++)
@@ -28,75 +17,52 @@ public class Processador : System.Object
         }
         Debug.Log(_debug);
 
-        if (receptes == null) receptes = new List<ReceptaPreparada>();
+        if (receptes == null) receptes = new List<Recepta>();
 
         bool aconseguit = false;
         for (int i = 0; i < receptes.Count; i++)
         {
-            if (receptes[i].IngredientsNecessaris(inputs))
+            if(receptes[i].ConnexioPropia != Peça.ConnexioEnum.NoImporta)
+            {
+                if (!peça.EstatConnexio.HasFlag(receptes[i].ConnexioPropia))
+                    continue;
+            }
+
+            if (receptes[i].TeInputsIguals(inputs))
             {
                 Debug.Log("Match!");
-                receptes[i].Processar(peça, EsborrarRecepta);
+                receptes[i].Processar(peça);
                 if(receptes.Count > 0)
                 {
+                    receptes.RemoveAt(i);
                     i--;
                 }
                 aconseguit = true;
+
+                if (aLaPrimeraReceptaComplertaAturat)
+                    return aconseguit;
             }
         }
         Debug.Log("no match...");
         return aconseguit;
     }
 
-    void EsborrarRecepta(ReceptaPreparada recepta) => receptes.Remove(recepta);
 
-    public void NovaRecepta(Recepta recepta) => receptes = new List<ReceptaPreparada>() { new ReceptaPreparada(recepta, null) };
-    public void NovaRecepta(Recepta[] receptes)
+
+
+
+
+
+    public void NovaRecepta(Recepta recepta) => receptes = new List<Recepta>() { recepta };
+    public void NovaRecepta(Recepta[] receptes) => this.receptes = new List<Recepta>(receptes);
+    public void AfegirRecepta(Recepta recepta) => receptes.Add(recepta);
+    public void BorrarRecepta(int index) => receptes.RemoveAt(index);
+    public void BorrarRecepta(Recepta recepta) 
     {
-        this.receptes = new List<ReceptaPreparada>();
-
-        for (int i = 0; i < receptes.Length; i++)
-        {
-            this.receptes.Add(new ReceptaPreparada(receptes[i], null));
-        }
-    }
-    public void AfegirRecepta(Recepta recepta, System.Action<Peça> onProcessar = null)
-    {
-        if(receptes == null) receptes = new List<ReceptaPreparada>();
-
-        receptes.Add(new ReceptaPreparada(recepta, onProcessar));
-    }
-
-    public void BorrarReceptes() 
-    {
-        if (receptes == null)
+        if (!receptes.Contains(recepta))
             return;
 
-        receptes.Clear();
-    } 
-
-
-
-    [System.Serializable]
-    public struct ReceptaPreparada
-    {
-        public ReceptaPreparada(Recepta recepta, System.Action<Peça> onProcessar)
-        {
-            this.recepta = recepta;
-            this.onProcessar = onProcessar;
-        }
-
-        [SerializeScriptableObject][SerializeField] Recepta recepta;
-        [SerializeField] System.Action<Peça> onProcessar;
-
-        public bool IngredientsNecessaris(List<object> inputs) => recepta.TeInputsIguals(inputs);
-
-        public void Processar(Peça peça, System.Action<ReceptaPreparada> borrarDeLaLLista)
-        {
-            recepta.Processar(peça);
-            onProcessar?.Invoke(peça);
-            borrarDeLaLLista.Invoke(this);
-        }
+        receptes.Remove(recepta);
     }
 
 }

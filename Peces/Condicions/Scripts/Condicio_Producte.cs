@@ -23,7 +23,7 @@ public class Condicio_Producte : Condicio
         {
             if (myVeins[i].SubestatIgualA(subestat) && myVeins[i].Desconnectat)
             {
-                myVeins[i].Ocupar(peça);
+                myVeins[i].Connectar(peça);
 
                 enConfirmar.Invoke(peça, canviar, punts);
                 if (canviar)

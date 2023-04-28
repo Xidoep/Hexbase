@@ -6,7 +6,7 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Substat")]
 public class Subestat : ScriptableObject, IProcessable
 {
-    public enum TipusEnum { Normal, Casa, Productor}
+    public enum TipusEnum { Normal, Casa, Productor, Extraccio}
     public virtual Subestat Setup(Peça peça) 
     {
         peça.ResetCases();
@@ -28,6 +28,9 @@ public class Subestat : ScriptableObject, IProcessable
             case TipusEnum.Productor:
                 produccio.AddProductor(peça);
                 break;
+            case TipusEnum.Extraccio:
+                produccio.RemoveProductor(peça);
+                break;
             default:
                 break;
         }
@@ -39,6 +42,7 @@ public class Subestat : ScriptableObject, IProcessable
     [SerializeField] TipusEnum tipus;
     [SerializeField] bool caminable;
     [SerializeField] bool aquatic;
+    [SerializeField] Producte producte;
 
     [Apartat("CONDICIONS")]
     [SerializeField] Recepta[] receptes;
@@ -58,7 +62,7 @@ public class Subestat : ScriptableObject, IProcessable
     public TipusEnum Tipus => tipus;
     public bool Caminable => caminable;
     public bool Aquatic => aquatic;
-
+    public Producte Producte => producte;
 
 
     public Recepta[] Receptes => receptes;

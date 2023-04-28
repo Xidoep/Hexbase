@@ -7,7 +7,14 @@ using UnityEngine;
 public class Recepta : ScriptableObject
 {
     [SerializeField] ScriptableObject[] inputs;
-    [SerializeField] Peça.EstatConnexioEnum connexio;
+
+    [Tooltip("La connexio de la peça que porta la recepta ha de cohincidir amb el que s'ha posat aquí.")]
+    [SerializeField] Peça.ConnexioEnum connexioPropia;
+    
+    [Tooltip("En el cas que l'input sigui una Peça, la connexio d'aquesta ha de coincidir amb el que s'ha posat aquí.")]
+    [SerializeField] Peça.ConnexioEnum connexioInputs;
+
+    [Space(20)]
     [SerializeField] ScriptableObject[] output;
 
 
@@ -16,36 +23,45 @@ public class Recepta : ScriptableObject
     List<object> estatsVeins;
 
     public ScriptableObject[] Inputs => inputs;
+    public Peça.ConnexioEnum ConnexioPropia => connexioPropia;
 
-
-    public bool TeInputsIguals(List<object> ingredients)
+    public bool TeInputsIguals(List<object> inputsPassats)
     {
-        if (ingredients.Count == 0)
+        if (inputsPassats.Count == 0)
+        {
+            Debug.Log("No s'han passat ingredients...");
             return false;
+        }
 
+        Debug.Log($"{inputsPassats[0]} is Peça? = {inputsPassats[0] is Peça}");
 
-        if (connexio == Peça.EstatConnexioEnum.NoImporta || ingredients[0] is not Peça)
-            return ConfirmarRecepta(ingredients);
+        if (inputsPassats[0] is not Peça)
+            return ConfirmarRecepta(inputsPassats);
+
+        //if (connexioInputs == Peça.ConnexioEnum.NoImporta)
+        //    return ConfirmarRecepta(inputsPassats);
 
 
         estatsVeins = new List<object>();
-        for (int i = 0; i < ingredients.Count; i++)
+        for (int i = 0; i < inputsPassats.Count; i++)
         {
-            if(connexio.HasFlag(((Peça)ingredients[i]).EstatConnexio)) estatsVeins.Add(((Peça)ingredients[i]).Subestat);
+            if(connexioInputs.HasFlag(((Peça)inputsPassats[i]).EstatConnexio) || connexioInputs == Peça.ConnexioEnum.NoImporta) 
+                estatsVeins.Add(((Peça)inputsPassats[i]).Subestat);
         }
         return ConfirmarRecepta(estatsVeins);
     }
 
-    bool ConfirmarRecepta(List<object> ingredients)
+    bool ConfirmarRecepta(List<object> inputsPassats)
     {
         confirmat = true;
-        for (int i = 0; i < this.inputs.Length; i++)
+        for (int i = 0; i < inputs.Length; i++)
         {
-            for (int x = 0; x < ingredients.Count; x++)
+            for (int x = 0; x < inputsPassats.Count; x++)
             {
-                Debug.Log($"{this.inputs[i]} == {ingredients[x]}?");
+                Debug.Log($"{this.inputs[i]} == {inputsPassats[x]}?");
             }
-            if (!ingredients.Contains((object)this.inputs[i]))
+
+            if (!inputsPassats.Contains((object)inputs[i]))
             {
                 confirmat = false;
                 break;
@@ -54,23 +70,6 @@ public class Recepta : ScriptableObject
         return confirmat;
     }
 
-
-
-
-
-
-
-
-
-
-
-    public void Processar(System.Action<object> enProcessar) 
-    {
-        for (int i = 0; i < output.Length; i++)
-        {
-            enProcessar?.Invoke(output[i]);
-        }
-    } 
     public void Processar(Peça peça)
     {
         for (int i = 0; i < output.Length; i++)

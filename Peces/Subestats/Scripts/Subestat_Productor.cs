@@ -13,12 +13,12 @@ public class Subestat_Productor : Subestat, IProcessable
         return base.Setup(peça);
     }
 
-    new public void Processar(Peça peça)
+    /*new public void Processar(Peça peça)
     {
         Debug.Log($"PROCESSAR SUBESTAT PRODUCTOR {this.name}");
         peça.IntentarConnectar();
         base.Processar(peça);
-    }
+    }*/
 
     /*
     [Apartat("RECURSOS")]

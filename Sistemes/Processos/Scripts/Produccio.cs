@@ -81,21 +81,6 @@ public class Produccio : ScriptableObject
     }
 
 
-    void StepRecepta()
-    {
-        if(productors.Count == 0 || Finalitzat)
-        {
-            enFinalitzar.Invoke();
-            return;
-        }
-
-        //Si el productor no te productes, salta al seguent.
-        //Estaria be borrarlo per optmitzar
-
-        //Agafar tots els productes d'un productor.
-
-    }
-
     void Step()
     {
         if (productors.Count == 0 || Finalitzat)
@@ -145,24 +130,25 @@ public class Produccio : ScriptableObject
 
             index++;
 
+            /*
             //VISUALITZAR
             for (int i = 0; i < visualitzacioProducte.Count; i++)
             {
                 Debugar.Log($"index = {index}. Productors = {productors.Count}|| i = {i}. visualitzacioProducte = {visualitzacioProducte.Count - 1}|| {index == productors.Count && i == visualitzacioProducte.Count - 1}");
                 visualitzacions.Produccio(visualitzacioProducte[i], index == productors.Count && i == visualitzacioProducte.Count - 1, MostrarInformacioFinal);
             }
-
+            */
         }
         else
         {
-            //ESBORRAR PRODUCTORS QUE JA NO CALGUI VISUALITZAR (ESGOTATS)
+            //ESBORRAR PRODUCTORS PERQUE JA NO CALGUI VISUALITZAR (ESGOTATS)
             productors.RemoveAt(index);
         }
 
         XS_Coroutine.StartCoroutine_Ending(stepTime, Step);
     }
 
-
+    /*
     void MostrarInformacioFinal()
     {
         for (int i = 0; i < casesProveides.Count; i++)
@@ -174,7 +160,7 @@ public class Produccio : ScriptableObject
             productors[i].Connexio.MostrarInformacio?.Invoke(productors[i].Connexio, false);
         }
     }
-
+    */
 
     Peça BuscarCasaDesproveidaRecepta(Peça productor, Producte producte, out int index)
     {
@@ -215,7 +201,7 @@ public class Produccio : ScriptableObject
         return casa;
     }
 
-
+    /*
     Peça BuscarCasaDesproveida(Peça productor, Producte producte, out int index)
     {
         Peça casa = null;
@@ -257,7 +243,7 @@ public class Produccio : ScriptableObject
         //Debugar.LogError(debug);
         return casa;
     }
-
+    */
 
 
 

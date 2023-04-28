@@ -75,16 +75,6 @@ public class Fase_Processar : Fase
             visualitzacions.ReaccioVeina(peça.VeinsPeça[v]);
         }
 
-        //Aqui es miren les receptes referents al canvi d'estat.
-        //el que s'hauria de fer és agafar els estats veins o que estan connectats seguint certes regles.
-        //aqui hi ha una desicio de disseny.
-        //Fins ara utlitzo els veins connectats amb camins.
-        //no se si fer-ho sempre això. És interessant per les granjes, per poder separar les granjes dels camps... pero ja està.
-        //en realitat te mes sentit que el que produeix i el producte estigui junt
-        //Sino confon una mica.
-        //Els camins serviran pel transport de productes, perque una granja no hagui d'estar unida al poble que alimenta sino que pugui estar apartada.
-        //JA ferem altres tipus de receptes per els que cal enviarlos mes informacio.
-
         perComprovar = new List<Peça>() { peça };
         List<Peça> comprovar = proximitat.GetPecesToComprovar(peça); //Et dona totes les peces comprovables al voltant de la que has colocat, tinguent en compte grups, camins, ports, etc...
 

@@ -281,7 +281,7 @@ public class Visualitzacions : ScriptableObject
         this.actualitzarNivell = actualitzarNivell;
     }
 
-
+    /*
     public void Produccio(Visualitzacions.Producte v, bool ultima, System.Action enFinalitzar)
     {
         XS_Coroutine.StartCoroutine_Ending(0.55f + (v.indexProducte * 0.3f), Animacio);
@@ -363,6 +363,7 @@ public class Visualitzacions : ScriptableObject
 
         
     }
+    */
 
     void InstanciarParticulesPunts(Vector3 posicio, int particules)
     {
