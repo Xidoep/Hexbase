@@ -120,7 +120,7 @@ public class Visualitzacions : ScriptableObject
         if (destacar)
         {
             Grup grup = grups.GrupByPeça(grups.Grup, peça);
-            grup.resaltat = true;
+            grup.Resaltat = true;
 
             //Destacar el grup en si.
             DestacarPeces(grup.Peces, true);
@@ -129,18 +129,18 @@ public class Visualitzacions : ScriptableObject
             for (int i = 0; i < grup.Camins.Count; i++)
             {
                 Grup cami = grups.GrupByPeça(grups.Grup, grup.Camins[i]);
-                cami.resaltat = true;
+                cami.Resaltat = true;
                 DestacarPeces(cami.Peces, true);
             }
 
             //Destacar els grups de les connexionsId.
-            for (int i = 0; i < grup.connexionsId.Count; i++)
+            for (int i = 0; i < grup.ConnexionsId.Count; i++)
             {
-                if (grup.connexionsId[i] == grup.Id)
+                if (grup.ConnexionsId[i] == grup.Id)
                     continue;
 
-                Grup connectat = grups.GrupById(grups.Grup, grup.connexionsId[i]);
-                connectat.resaltat = true;
+                Grup connectat = grups.GrupById(grups.Grup, grup.ConnexionsId[i]);
+                connectat.Resaltat = true;
                 DestacarPeces(connectat.Peces, true);
             }
 
@@ -148,7 +148,7 @@ public class Visualitzacions : ScriptableObject
             for (int i = 0; i < grup.Ports.Count; i++)
             {
                 Grup port = grups.GrupByPeça(grups.Grup, grup.Ports[i]);
-                port.resaltat = true;
+                port.Resaltat = true;
                 //Dibuixar una linia entre els ports connectats.
                 /*for (int c = 0; c < port.connexionsId.Count; c++)
                 {
@@ -168,10 +168,10 @@ public class Visualitzacions : ScriptableObject
         {
             for (int i = 0; i < grups.Grup.Count; i++)
             {
-                if (grups.Grup[i].resaltat)
+                if (grups.Grup[i].Resaltat)
                 {
                     DestacarPeces(grups.Grup[i].Peces, false);
-                    grups.Grup[i].resaltat = false;
+                    grups.Grup[i].Resaltat = false;
                 }
                 
             }
@@ -381,7 +381,7 @@ public class Visualitzacions : ScriptableObject
 
         void RemostrarLaInformacio()
         {
-            p.Connexio.SetBlocarInformacio = false;
+            //p.Connexio.SetBlocarInformacio = false;
 
             if (ultima)
                 XS_Coroutine.StartCoroutine_Ending(0.5f, enFinalitzar);

@@ -6,9 +6,12 @@ using UnityEngine;
 public class Sumari : ScriptableObject
 {
     [SerializeField] Fase_Processar faseProcessar;
+    [SerializeField] Grups grups;
     [SerializeField] Produccio produccio;
 
-    [SerializeField]
+    //Aixo ha de ser una classe amb una opcio per resaltar la peça seleccionada.
+    [SerializeField] List<Producte> necessitats;
+    [SerializeField] List<Producte> produits;
 
     void OnEnable()
     {
@@ -21,11 +24,48 @@ public class Sumari : ScriptableObject
 
     void Mostrar()
     {
-        //Busca tots els pobles a Grups. i mostrar quants habitants te cada poble
-        //o de moment només mostrar els habitants totals.
+        AgafarInformacio();
+        Visualitzar();
+    }
 
-        //Buscar totes les necessitats no covertes dels habitants.
+    void AgafarInformacio()
+    {
+        necessitats = new List<Producte>();
+        for (int g = 0; g < grups.Grup.Count; g++)
+        {
+            if (!grups.Grup[g].EsPoble)
+                continue;
 
-        //Buscar totes les extraccions i mostrar quins productes tenen productor pero no es gasten i quins productes no tenen productor.
+            for (int p = 0; p < grups.Grup[g].Peces.Count; p++)
+            {
+                for (int c = 0; c < grups.Grup[g].Peces[p].CasesLength; c++)
+                {
+                    for (int n = 0; n < grups.Grup[g].Peces[p].Cases[c].Necessitats.Count; n++)
+                    {
+                        necessitats.Add(grups.Grup[g].Peces[p].Cases[c].Necessitats[n]);
+                    }
+                }
+            }
+        }
+
+        produits = new List<Producte>();
+        for (int p = 0; p < produccio.Productors.Count; p++)
+        {
+            if (!produccio.Productors[p].Connectat)
+                continue;
+
+            for (int pe = 0; pe < produccio.Productors[p].Connexio.ProductesExtrets.Length; pe++)
+            {
+                if (produccio.Productors[p].Connexio.ProductesExtrets[pe].gastat)
+                    continue;
+
+                produits.Add(produccio.Productors[p].Connexio.ProductesExtrets[pe].producte);
+            }
+        }
+    }
+
+    void Visualitzar()
+    {
+
     }
 }

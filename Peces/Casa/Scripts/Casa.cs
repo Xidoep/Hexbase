@@ -21,6 +21,7 @@ public class Casa
     [SerializeField] List<Producte> necessitats;
 
     public Recepta ReceptaActual => receptes[0];
+    public List<Producte> Necessitats => necessitats;
 
     public bool Proveir(Producte producte)
     {

@@ -27,10 +27,17 @@ public class Produccio : ScriptableObject
 
     [SerializeField] Utils_InstantiableFromProject EfecteGuanyarPunts;
     */
+    
     //PROPIETATS
+    public List<Peça> Productors => productors;
+
+
+
     bool Finalitzat => index == productors.Count;
 
+
     //INTERN
+    
     System.Action enFinalitzar;
     int index;
     List<Peça> veins;
@@ -39,7 +46,10 @@ public class Produccio : ScriptableObject
     List<Peça> casesProveides;
     List<Peça> productorsActualitzables;
     Vector3 offset;
-    public List<Visualitzacions.Producte> visualitzacioProducte;
+    [SerializeField] List<Visualitzacions.Producte> visualitzacioProducte;
+
+
+
 
     int productesAVisualitzar = 0;
 
@@ -99,7 +109,7 @@ public class Produccio : ScriptableObject
             {
                 hiHaProductePerGastar = true;
                 productors[index].Connexio.MostrarInformacio?.Invoke(productors[index].Connexio, true);
-                productors[index].Connexio.SetBlocarInformacio = true;
+                //productors[index].Connexio.SetBlocarInformacio = true;
                 break;
             }
         }
@@ -117,7 +127,7 @@ public class Produccio : ScriptableObject
                 if (proveida != null)
                 {
                     //proveida.MostrarInformacio?.Invoke(proveida, true);
-                    proveida.SetBlocarInformacio = true;
+                    //proveida.SetBlocarInformacio = true;
                     resoldre.Nivell.GuanyarExperiencia(1);
                     casesProveides.Add(proveida);
 
@@ -167,7 +177,7 @@ public class Produccio : ScriptableObject
         Peça casa = null;
         int _index = -1;
         //string debug = "PRODUCCIO DEBUG\n";
-        connexions = grups.GrupByPeça(grups.Grup, productor).connexionsId;
+        connexions = grups.GrupByPeça(grups.Grup, productor).ConnexionsId;
         for (int con = 0; con < connexions.Count; con++)
         {
             List<Peça> poble = grups.GrupById(grups.Grup, connexions[con]).Peces;

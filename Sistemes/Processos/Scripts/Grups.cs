@@ -105,10 +105,10 @@ public class Grups : ScriptableObject
             if (!grups[g].EsPoble)
                 continue;
 
-            if (grups[g].connexionsId == null) grups[g].connexionsId = new List<string>();
-            for (int c = 0; c < grups[g].connexionsId.Count; c++)
+            if (grups[g].ConnexionsId == null) grups[g].ConnexionsId = new List<string>();
+            for (int c = 0; c < grups[g].ConnexionsId.Count; c++)
             {
-                if (!idsPobles.Contains(grups[g].connexionsId[c])) grups[g].connexionsId.RemoveAt(c);
+                if (!idsPobles.Contains(grups[g].ConnexionsId[c])) grups[g].ConnexionsId.RemoveAt(c);
             }
         }
 
@@ -387,15 +387,15 @@ public class Grups : ScriptableObject
             Debugar.LogError($"Connectar ({grups[grups.IndexOf(elMeuGrup)].Peces[0].name}) amb  ({objectiu.name}");
 
             //CONNECTOR EL MEU GRUP AMB EL GRUP DE L'OBJECTIU
-            if (!elMeuGrup.connexionsId.Contains(grupObjectiu.Id)) 
+            if (!elMeuGrup.ConnexionsId.Contains(grupObjectiu.Id)) 
             {
-                elMeuGrup.connexionsId.Add(grupObjectiu.Id);
+                elMeuGrup.ConnexionsId.Add(grupObjectiu.Id);
                 if (!connexionsFetes.Contains(objectiu)) connexionsFetes.Add(objectiu);
             } 
 
             //SI L'OBJECTIU NO EM TE A MI, S'ENVÀ A PENDENTS
-            if (grupObjectiu.connexionsId == null) grupObjectiu.connexionsId = new List<string>();
-            if (!grupObjectiu.connexionsId.Contains(elMeuGrup.Id)) grupsPendents.Add(grupObjectiu);
+            if (grupObjectiu.ConnexionsId == null) grupObjectiu.ConnexionsId = new List<string>();
+            if (!grupObjectiu.ConnexionsId.Contains(elMeuGrup.Id)) grupsPendents.Add(grupObjectiu);
 
             
         }
@@ -404,8 +404,8 @@ public class Grups : ScriptableObject
         {
             Grup grupPort1 = GrupByPeça(grups, port1);
             Grup grupPort2 = GrupByPeça(grups, port2);
-            if (!grupPort1.connexionsId.Contains(grupPort2.Id)) grupPort1.connexionsId.Add(grupPort2.Id);
-            if (!grupPort2.connexionsId.Contains(grupPort1.Id)) grupPort2.connexionsId.Add(grupPort1.Id);
+            if (!grupPort1.ConnexionsId.Contains(grupPort2.Id)) grupPort1.ConnexionsId.Add(grupPort2.Id);
+            if (!grupPort2.ConnexionsId.Contains(grupPort1.Id)) grupPort2.ConnexionsId.Add(grupPort1.Id);
         }
     }
 
@@ -580,7 +580,7 @@ public class Grup : System.Object
             coordenades.Add(peces[i].Coordenades);
         }
         if (this.poble)
-            connexionsId = new List<string>() { id };
+            ConnexionsId = new List<string>() { id };
     }
     //>>> CREAR COPIA DE GRUP
     public Grup(Grup copia)
@@ -647,13 +647,13 @@ public class Grup : System.Object
     [SerializeField] List<Peça> peces;
     [SerializeField] List<Vector2Int> coordenades;
     [SerializeField] List<Peça> pecesVeines;
-    public List<string> connexionsId;
+    [SerializeField] List<string> connexionsId;
 
-    List<Peça> cases;
+    [SerializeField] List<Peça> cases;
     [SerializeField] List<Peça> camins;
     [SerializeField] List<Peça> ports;
 
-    public bool resaltat;
+    [SerializeField] bool resaltat;
 
     public string Id => id;
     public List<Peça> Peces => peces;
@@ -661,10 +661,11 @@ public class Grup : System.Object
     public bool EsPoble => poble;
     public List<Peça> Veins => pecesVeines;
 
+    public List<string> ConnexionsId { get => connexionsId; set => connexionsId = value; }
     public List<Peça> Cases { set => cases = value; get => cases; }
     public List<Peça> Camins { set => camins = value; get => camins; }
     public List<Peça> Ports { set => ports = value; get => ports; }
-
+    public bool Resaltat { set => resaltat = value; get => resaltat; }
 
 
     //INTERN

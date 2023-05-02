@@ -8,6 +8,9 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/CursorEstat")]
 public class CursorEstat : MonoBehaviour
 {
+    static bool mostrar = true;
+    static Vector3 snap;
+
     [SerializeField] Fase_Colocar faseColocar;
 
     [SerializeField] InputActionReference mousePosition; 
@@ -22,6 +25,7 @@ public class CursorEstat : MonoBehaviour
 
 
 
+
     /*FALTA:
      * -Que s'snapy sobre la ranura.
      * ?Que no es mostri quan per sobre d'altres peces??? s'hauria de mostrar la info. Es pot fer aixo si estas en mode Infinit només
@@ -29,10 +33,14 @@ public class CursorEstat : MonoBehaviour
      * detall-Que es quedi clavada allà on has clicat (sobre una ranura) i que es borri quan apareix la nova. Amb una animacio per fer veure que està tot preparat.
      * 
      */
-
+    public static void Mostrar(bool _mostrar) => mostrar = _mostrar;
+    public static void Snap(Vector3 _snap) => snap = _snap;
+    public static void NoSnap() => snap = Vector3.down;
 
     void OnEnable()
     {
+        mostrar = true;
+        snap = Vector3.down;
         estat = null;
         faseColocar.OnStart += MostrarCursor;
         faseColocar.OnFinish += AmagarCursor;
@@ -51,8 +59,19 @@ public class CursorEstat : MonoBehaviour
         if (!cursor)
             return;
 
+        if(!mostrar && cursor.activeSelf)
+            AmagarCursor();
+        else if(mostrar && !cursor.activeSelf)
+            MostrarCursor();
+
         if (!cursor.activeSelf)
             return;
+
+        if(snap != Vector3.down)
+        {
+            cursor.transform.position = snap;
+            return;
+        }
 
         ray = Camera.main.ScreenPointToRay(mousePosition.GetVector2());
         distanciaDelTerra = Camera.main.transform.position.y;
@@ -97,7 +116,7 @@ public class CursorEstat : MonoBehaviour
 
     void AmagarCursor()
     {
-        estat = null;
+        //estat = null;
 
         if (cursor == null)
             return;

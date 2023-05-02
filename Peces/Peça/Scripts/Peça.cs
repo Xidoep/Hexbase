@@ -50,9 +50,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [Apartat("PRDUCTES")]
     [SerializeField] ProducteExtret[] productesExtrets;
 
-    [Apartat("INFORMACIO")]
-    [SerializeField] bool blocarInformacio;
-
 
     //INTERN
     TilePotencial[] tiles;
@@ -105,7 +102,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public ConnexioEnum EstatConnexio { get => estatConnexio; set => estatConnexio = value; }
     public ProducteExtret[] SetProductesExtrets { set => productesExtrets = value; }
     //public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
-    public bool SetBlocarInformacio { set => blocarInformacio = value; }
     public void ResetCases() => cases = new List<Casa>();
 
 
@@ -224,35 +220,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
 
 
-    /*public void IntentarConnectar()
-    {
-        if (connexio != null) //Ja està connectat
-            return;
-
-        List<Peça> _v = VeinsPeça;
-        for (int i = 0; i < _v.Count; i++)
-        {
-            if (_v[i].estatConnexio == ConnexioEnum.Pendent)
-            {
-                _v[i].EstatConnexio = ConnexioEnum.Connectat;
-                _v[i].connexio = this;
-                estatConnexio = ConnexioEnum.Connectat;
-                connexio = _v[i];
-            }
-        }
-
-        if(connexio == null) //No he trobat cap altre peça pendent de connectar. Quedo pendent que algú es connecti amb mi.
-        {
-            estatConnexio = ConnexioEnum.Pendent;
-        }
-    }*/
-    public void Desconnectar()
-    {
-        estatConnexio = ConnexioEnum.Desconnectat;
-        connexio = null;
-    }
-   
-
 
 
 
@@ -260,16 +227,12 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public override void OnPointerEnter()
     {
-        if (blocarInformacio)
-            return;
-
+        CursorEstat.Mostrar(false);
         mostrarInformacio?.Invoke(this, true);
     }
     public override void OnPointerExit()
     {
-        if (blocarInformacio)
-            return;
-
+        CursorEstat.Mostrar(true);
         mostrarInformacio?.Invoke(this, false);
     }
 

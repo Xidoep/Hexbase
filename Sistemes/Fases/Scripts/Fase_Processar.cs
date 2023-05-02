@@ -119,8 +119,7 @@ public class Fase_Processar : Fase
     {
         Animar();
         CrearRanures();
-        //Aqui es miren les receptes destinades a produir productes
-        //I també es miren les receptes quan un producte es proveit.
+
         produccio.Process(Guardar);
     }
 
