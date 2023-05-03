@@ -7,8 +7,7 @@ using UnityEngine.Localization.Components;
 
 public class UI_InformacioPeça : MonoBehaviour
 {
-    [SerializeField] LocalizedString texte;
-
+    //Aixo ha de ser per la bombolla general
     protected const string ICONE = "_Icone";
     protected const string COVERTA = "_Coverta";
     protected const string GASTADA = "_Gastada";
@@ -49,10 +48,18 @@ public class UI_InformacioPeça : MonoBehaviour
         return gameObject;
     }
 
+    [SerializeField] Sprite iconeHabitants;
+
     //Referencies
-    [SerializeField] TMP_Text etiquetaPrimera;
-    [SerializeField] TMP_Text etiquetaSegona;
-    [SerializeField] LocalizeStringEvent localizeStringEvent;
+    [SerializeField] Transform Informacio1;
+    [SerializeField] LocalizeStringEvent localizeStringEvent1;
+    //[SerializeField] TMP_Text Informacio1_texte;
+
+    [SerializeField] Transform Informacio2;
+    [SerializeField] LocalizeStringEvent localizeStringEvent2;
+    //[SerializeField] TMP_Text Informacio2_texte;
+
+
 
     //Idiomes
     [SerializeField] LocalizedString habitants;
@@ -61,30 +68,19 @@ public class UI_InformacioPeça : MonoBehaviour
     [SerializeField] LocalizedString potProduir;
     [SerializeField] LocalizedString produit;
 
-    void SetEtiqueta(string text)
+    void SeInformacio1(string text)
     {
         if (string.IsNullOrEmpty(text))
         {
-            etiquetaPrimera.gameObject.SetActive(false);
+            localizeStringEvent1.gameObject.SetActive(false);
             return;
         }
 
-        if(!etiquetaPrimera.gameObject.activeSelf)
-            etiquetaPrimera.gameObject.SetActive(true);
+        if(!localizeStringEvent1.gameObject.activeSelf)
+            localizeStringEvent1.gameObject.SetActive(true);
 
-        //etiquetaPrimera.text
+
     }
 
 
-
-
-
-
-
-
-
-    [SerializeField] MeshRenderer meshRenderer;
-
-
-    protected MeshRenderer MeshRenderer => meshRenderer;
 }

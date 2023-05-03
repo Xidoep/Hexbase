@@ -6,8 +6,14 @@ using UnityEngine;
 public class Producte : ScriptableObject, IProcessable
 {
     [SerializeField] Texture2D icone;
-
+    [SerializeField] Sprite sprite;
     public Texture2D Icone => icone;
+    public Sprite Sprite => sprite;
+
+    void OnEnable()
+    {
+        sprite = Sprite.Create(icone, new Rect(0, 0, icone.width, icone.height), Vector2.zero);
+    }
 
     public void Processar(Peça peça)
     {

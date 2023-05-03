@@ -1,32 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UI_Producte : UI_InformacioPeça
+public class UI_Producte : MonoBehaviour
 {
+    const string ICONE = "_Icone";
+    //const string COVERTA = "_Coverta";
+    const string GASTADA = "_Gastada";
+    //const string PTENCIAL = "_Potencial";
+    const string START_TIME = "_StartTime";
 
-    public override GameObject Setup(Peça peça, int index)
+    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] Image image;
+
+    [Apartat("Debug")]
+    [SerializeField] Peça peça;
+
+    public GameObject Setup(Peça peça, int index)
     {
-        this.subestat = peça.Subestat;
-        this.producte = peça.ProductesExtrets[index];
+        this.peça = peça;
 
-        MeshRenderer.material.SetTexture(ICONE, peça.ProductesExtrets[index].producte.Icone);
-        MeshRenderer.material.SetFloat(GASTADA, peça.ProductesExtrets[index].gastat ? 1 : 0);
-        MeshRenderer.material.SetFloat(PTENCIAL, peça.Connectat ? 0 : 1);
-        MeshRenderer.material.SetFloat(START_TIME, Time.time + 1000);
+        //meshRenderer.material.SetTexture(ICONE, peça.ProductesExtrets[index].producte.Icone);
+        //meshRenderer.material.SetFloat(GASTADA, peça.ProductesExtrets[index].gastat ? 1 : 0);
+        //meshRenderer.material.SetFloat(PTENCIAL, peça.Connectat ? 0 : 1);
+        //meshRenderer.material.SetFloat(START_TIME, Time.time + 1000);
+
+        return gameObject;
+    }
+    public GameObject Setup(Producte producte, bool gastat)
+    {
+        if (meshRenderer)
+        {
+            meshRenderer.material.SetTexture(ICONE, producte.Icone);
+            meshRenderer.material.SetFloat(GASTADA, gastat ? 1 : 0);
+        }
+        if (image)
+        {
+            image.sprite = producte.Sprite;
+        }
 
         return gameObject;
     }
 
 
-
     public void Destruir(float time)
     {
-        MeshRenderer.material.SetFloat(START_TIME, Time.time + time);
-        //Destroy(gameObject, time + .5f);
+        //meshRenderer.material.SetFloat(START_TIME, Time.time + time);
+        Destroy(gameObject);
     }
 
     //Debug
-    ProducteExtret producte;
-    Subestat subestat;
+    //ProducteExtret producte;
+    //Subestat subestat;
 }

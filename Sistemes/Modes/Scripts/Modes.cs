@@ -11,6 +11,7 @@ public class Modes : ScriptableObject
     [Apartat("REFERNCIES")]
     [SerializeField] GameObject prefabs_FreeSyle;
     [SerializeField] GameObject prefabs_Pila;
+    [SerializeField] GameObject prefabs_Sumari;
     [SerializeField] PoolPeces pool;
 
     GameObject menu;
@@ -33,6 +34,7 @@ public class Modes : ScriptableObject
         {
             case Mode.FreeStyle:
                 menu = Instantiate(prefabs_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
+                
                 SetupMenuCanvasWorldCamera();
 
                 break;
@@ -43,6 +45,8 @@ public class Modes : ScriptableObject
 
                 break;
         }
+        Instantiate(prefabs_Sumari, UI_CameraMenu_Access.CameraMenu.transform);
+
         void SetupMenuCanvasWorldCamera() => menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
     }
 

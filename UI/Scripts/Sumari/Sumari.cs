@@ -13,6 +13,12 @@ public class Sumari : ScriptableObject
     [SerializeField] List<Producte> necessitats;
     [SerializeField] List<Producte> produits;
 
+
+    System.Action<List<Producte>, List<Producte>> enMostrar;
+    public System.Action<List<Producte>, List<Producte>> EnMostrar { get => enMostrar; set => enMostrar = value; }
+
+
+
     void OnEnable()
     {
         faseProcessar.OnFinish += Mostrar;
@@ -22,10 +28,12 @@ public class Sumari : ScriptableObject
         faseProcessar.OnFinish -= Mostrar;
     }
 
-    void Mostrar()
+
+
+    public void Mostrar()
     {
         AgafarInformacio();
-        Visualitzar();
+        enMostrar?.Invoke(necessitats, produits);
     }
 
     void AgafarInformacio()
@@ -64,8 +72,4 @@ public class Sumari : ScriptableObject
         }
     }
 
-    void Visualitzar()
-    {
-
-    }
 }
