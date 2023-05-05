@@ -134,7 +134,7 @@ public class Fase_Processar : Fase
             visualitzacions.CanviarEstat(canviades[c].Peça);
             Debug.LogError($"Animar: {canviades[c].Peça}");
             animades.Add(canviades[c].Peça);
-            visualitzacions.GuanyarExperienciaProximitat(canviades[c].Experiencia);
+            //visualitzacions.GuanyarExperienciaProximitat(canviades[c].Experiencia);
         }
 
         for (int c = 0; c < canviades.Count; c++)

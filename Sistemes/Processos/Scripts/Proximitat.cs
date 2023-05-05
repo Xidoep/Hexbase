@@ -201,7 +201,7 @@ public class Proximitat : ScriptableObject
         }
     }
 
-    void GunayarExperienciaIVisualitzarSiCal(Peça peça, int experiencia)
+    /*void GunayarExperienciaIVisualitzarSiCal(Peça peça, int experiencia)
     {
         resoldre.Nivell.GuanyarExperiencia(experiencia);
         if (experiencia > 0) 
@@ -210,7 +210,7 @@ public class Proximitat : ScriptableObject
             //canviades.Add(new Canvis(peça, experiencia));
             //visualitzacions.GuanyarPunts(peça.transform.position, 1.5f);
         }
-    }
+    }*/
 
 
     public struct Canvis

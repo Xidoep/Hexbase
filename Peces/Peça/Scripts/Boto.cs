@@ -4,15 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization;
+using XS_Utils;
 
 public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
         base.Setup(grid, coordenades, estat, null);
-
-        mostrarInformacio += InformacioMostrar;
-        amagarInformacio += InformacioAmagar;
 
         boto.onClick.AddListener(onClick.Invoke);
         boto.OnEnter += OnPointerEnter;
@@ -25,12 +24,11 @@ public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointe
     [SerializeField] UnityEvent onClick;
     [SerializeField] XS_Button boto;
     [Apartat("INFORMACIO")]
-    [SerializeField] Informacio[] informacions;
-    Informacio.Unitat informacioMostrada;
-
-    public Informacio.Unitat InformacioMostrada { get => informacioMostrada; set => informacioMostrada = value; }
+    [SerializeField] LocalizedString texte;
+    [SerializeField] Informacio informacio;
 
     public override bool EsPeça => false;
+    public LocalizedString Texte => texte;
 
     void OnEnable()
     {
@@ -57,25 +55,6 @@ public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointe
     }
     public void Seleccionar() => boto.Select();
 
-    public void InformacioMostrar(Hexagon hexagon, bool proveides)
-    {
-        for (int i = 0; i < informacions.Length; i++)
-        {
-            informacions[i].Mostrar(hexagon, proveides);
-        }
-    }
-    public void InformacioAmagar(Hexagon hexagon)
-    {
-        if (informacions.Length == 0)
-        {
-            return;
-        }
-
-        for (int i = 0; i < informacions.Length; i++)
-        {
-            informacions[i].Amagar(hexagon);
-        }
-    }
 
 
 
@@ -84,8 +63,8 @@ public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointe
 
 
 
-    public override void OnPointerEnter() => mostrarInformacio?.Invoke(this, true);
-    public override void OnPointerExit() => amagarInformacio?.Invoke(this);
+    public override void OnPointerEnter() => informacio.Mostrar(this);
+    public override void OnPointerExit() => informacio.Amagar(this);
 
 
 
@@ -110,5 +89,7 @@ public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointe
     void OnValidate()
     {
         collider = GetComponent<Collider>();
+
+        if(informacio == null) informacio = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Texte.asset");
     }
 }

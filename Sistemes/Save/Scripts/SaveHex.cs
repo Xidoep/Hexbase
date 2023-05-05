@@ -24,13 +24,11 @@ public class SaveHex : ScriptableObject
 
     private void OnEnable()
     {
-        //capturarPantalla.OnCapturatRegistrar(AddCaptura);
         nomesGuardats = false;
     }
 
     private void OnDisable()
     {
-        //capturarPantalla.OnCapturatDesregistrar(AddCaptura);
         nomesGuardats = false;
     }
 
@@ -72,15 +70,15 @@ public class SaveHex : ScriptableObject
         actual = index;
         Load(grups, seguent, enCarregat);
     }
-    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, SaveReferencies.Instance.visualitzacions.Colocar, enCarregat);
+    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, Referencies.Instance.Visualitzacions.Colocar, enCarregat);
     Estat EstatNomToPrefab(string nom)
     {
         eTrobat = null;
-        for (int i = 0; i < SaveReferencies.Instance.estats.Length; i++)
+        for (int i = 0; i < Referencies.Instance.Estats.Length; i++)
         {
-            if (SaveReferencies.Instance.estats[i].name == nom)
+            if (Referencies.Instance.Estats[i].name == nom)
             {
-                eTrobat = SaveReferencies.Instance.estats[i];
+                eTrobat = Referencies.Instance.Estats[i];
                 break;
             }
         }
@@ -89,11 +87,11 @@ public class SaveHex : ScriptableObject
     Subestat SubestatNomToPrefab(string nom)
     {
         sTrobat = null;
-        for (int i = 0; i < SaveReferencies.Instance.subestats.Length; i++)
+        for (int i = 0; i < Referencies.Instance.Subestats.Length; i++)
         {
-            if (SaveReferencies.Instance.subestats[i].name == nom)
+            if (Referencies.Instance.Subestats[i].name == nom)
             {
-                sTrobat = SaveReferencies.Instance.subestats[i];
+                sTrobat = Referencies.Instance.Subestats[i];
                 break;
             }
         }
@@ -102,11 +100,11 @@ public class SaveHex : ScriptableObject
     Producte ProducteNomToPrefab(string nom)
     {
         pTrobat = null;
-        for (int i = 0; i < SaveReferencies.Instance.productes.Length; i++)
+        for (int i = 0; i < Referencies.Instance.Productes.Length; i++)
         {
-            if (SaveReferencies.Instance.productes[i].name == nom)
+            if (Referencies.Instance.Productes[i].name == nom)
             {
-                pTrobat = SaveReferencies.Instance.productes[i];
+                pTrobat = Referencies.Instance.Productes[i];
                 break;
             }
         }
@@ -115,11 +113,11 @@ public class SaveHex : ScriptableObject
     Tile TileNomToPrefab(string nom)
     {
         tTrobat = null;
-        for (int i = 0; i < SaveReferencies.Instance.tiles.Length; i++)
+        for (int i = 0; i < Referencies.Instance.Tiles.Length; i++)
         {
-            if (SaveReferencies.Instance.tiles[i].name == nom)
+            if (Referencies.Instance.Tiles[i].name == nom)
             {
-                tTrobat = SaveReferencies.Instance.tiles[i];
+                tTrobat = Referencies.Instance.Tiles[i];
                 break;
             }
         }

@@ -5,14 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Informacio/Grups")]
 public class Informacio_Grup : Informacio
 {
+    [Apartat("Grup")]
     [SerializeField] Grups grups;
 
-    public override void Mostrar(Hexagon peça, bool mostrarProveides = false)
+    public override void Mostrar(Hexagon peça)
     {
-        if (mostrarProveides)
-            grups.ResaltarGrup((Peça)peça);
-        else
-            grups.ReixarDeResaltar();
+        grups.ResaltarGrup((Peça)peça);
     }
     public override void Amagar(Hexagon peça)
     {

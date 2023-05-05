@@ -53,7 +53,7 @@ public class Subestat : ScriptableObject, IProcessable
     [SerializeScriptableObject] [SerializeField] TileSetBase tileset;
 
     [Apartat("INFORMACIO")]
-    [SerializeScriptableObject] [SerializeField] Informacio[] informacions;
+    [SerializeScriptableObject] [SerializeField] List<Informacio> informacions;
 
     [Apartat("REFERENCIES AUTO-CONFIGURABLES")]
     [SerializeField] Produccio produccio;
@@ -81,19 +81,19 @@ public class Subestat : ScriptableObject, IProcessable
 
 
 
-    public void InformacioMostrar(Hexagon peça, bool proveides) 
+    public void InformacioMostrar(Hexagon peça) 
     {
-        for (int i = 0; i < informacions.Length; i++)
+        for (int i = 0; i < informacions.Count; i++)
         {
-            informacions[i].Mostrar(peça, proveides);
+            informacions[i].Mostrar(peça);
         }
     }
     public void InformacioAmagar(Hexagon peça) 
     {
-        if (informacions.Length == 0)
+        if (informacions.Count == 0)
             return;
 
-        for (int i = 0; i < informacions.Length; i++)
+        for (int i = 0; i < informacions.Count; i++)
         {
             informacions[i].Amagar(peça);
         }
@@ -137,6 +137,45 @@ public class Subestat : ScriptableObject, IProcessable
     {
         if (produccio == null) produccio = XS_Editor.LoadAssetAtPath<Produccio>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Produccio.asset");
         if (repoblar == null) repoblar = XS_Editor.LoadAssetAtPath<Repoblar>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Repoblar.asset");
+
+        if (tipus == TipusEnum.Normal)
+            return;
+
+        Informacio casa = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Casa.asset");
+        Informacio connexio = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Connexio.asset");
+        Informacio extraccio = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Extraccio.asset");
+        Informacio grup = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Grup.asset");
+        Informacio productor = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Productor.asset");
+
+        switch (tipus)
+        {
+            case TipusEnum.Casa:
+                if (!informacions.Contains(casa) || !informacions.Contains(grup))
+                {
+                    informacions = new List<Informacio>();
+                    informacions.Add(casa);
+                    informacions.Add(grup);
+                }
+                break;
+            case TipusEnum.Productor:
+                if (!informacions.Contains(grup) || !informacions.Contains(connexio) || !informacions.Contains(productor))
+                {
+                    informacions = new List<Informacio>();
+                    informacions.Add(grup);
+                    informacions.Add(connexio);
+                    informacions.Add(productor);
+                }
+                break;
+            case TipusEnum.Extraccio:
+                if (!informacions.Contains(connexio) || !informacions.Contains(extraccio))
+                {
+                    informacions = new List<Informacio>();
+                    informacions.Add(connexio);
+                    informacions.Add(extraccio);
+                }
+                break;
+        }
+
     }
 
 }

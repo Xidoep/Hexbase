@@ -7,12 +7,63 @@ public class Producte : ScriptableObject, IProcessable
 {
     [SerializeField] Texture2D icone;
     [SerializeField] Sprite sprite;
+    [SerializeField] Texture2D gastada;
+    [SerializeField] Sprite spriteGastada;
     public Texture2D Icone => icone;
-    public Sprite Sprite => sprite;
+    public Sprite Sprite 
+    {
+        get
+        {
+            if(sprite == null)
+            {
+                GenerarSprite();
+            }
+            return sprite;
+        }
+    } 
+    public Sprite Gastada 
+    {
+        get 
+        {
+            if(spriteGastada == null)
+            {
+                GenerarGastada();
+            }
+            return spriteGastada;
+        }
+    } 
 
-    void OnEnable()
+    void GenerarSprite()
     {
         sprite = Sprite.Create(icone, new Rect(0, 0, icone.width, icone.height), Vector2.zero);
+    }
+
+    [ContextMenu("Gastada")]
+    void GenerarGastada()
+    {
+        gastada = new Texture2D(icone.width, icone.height, TextureFormat.ARGB32, false);
+        for (int x = 0; x < icone.width; x++)
+        {
+            for (int y = 0; y < icone.height; y++)
+            {
+                /*if(icone.GetPixel(x,y) == Color.black)
+                {
+                    gastada.SetPixel(x, y, new Color(1,0,0, icone.GetPixel(x, y).a));
+                }
+                else
+                {
+                    gastada.SetPixel(x, y, new Color(0, 0, 0, icone.GetPixel(x, y).a));
+                }*/
+                gastada.SetPixel(x, y, 
+                    Color.Lerp(
+                        new Color(.75f, 0, 0, icone.GetPixel(x, y).a), 
+                        new Color(0, 0, 0, 0), 
+                        icone.GetPixel(x, y).r + icone.GetPixel(x, y).g + icone.GetPixel(x, y).b));
+            }
+        }
+        gastada.Apply();
+
+        spriteGastada = Sprite.Create(gastada, new Rect(0, 0, gastada.width, gastada.height), Vector2.zero);
     }
 
     public void Processar(Peça peça)
@@ -26,14 +77,8 @@ public class Producte : ScriptableObject, IProcessable
 
         //peça.IntentarConnectar();
     }
+
 }
-
-public abstract class EstrategiaDeProduccio : ScriptableObject
-{
-    public abstract Producte[] Produir(Producte recurs);
-}
-
-
 
 
 

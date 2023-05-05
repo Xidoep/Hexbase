@@ -11,10 +11,11 @@ public class PoolPeces : ScriptableObject
     [SerializeField] Fase_Colocar colocar;
     [SerializeField] Fase_Resoldre resoldre;
     [SerializeField] SaveHex save;
+    [SerializeField] Referencies referencies;
 
     [SerializeField] List<Estat> peces;
     [Linia]
-    [SerializeField] Estat[] disponibles;
+    //[SerializeField] Estat[] disponibles;
     [SerializeField] int inicial;
 
     bool iniciat = false;
@@ -86,7 +87,7 @@ public class PoolPeces : ScriptableObject
     void AddPeça()
     {
         //FALTA: Assegurar X cases?
-        Estat seleccionat = disponibles[Random.Range(0, disponibles.Length)];
+        Estat seleccionat = referencies.Estats[Random.Range(0, referencies.Estats.Length)];
         peces.Add(seleccionat);
         enAfegir?.Invoke(seleccionat);
     }
@@ -118,8 +119,4 @@ public class PoolPeces : ScriptableObject
         enTreure = null;
     }
 
-    private void OnValidate()
-    {
-        disponibles = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
-    }
 }

@@ -6,10 +6,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Estats/Basic")]
 public class Estat : ScriptableObject
 {
-    [Apartat("SUBESTAT")]
     [SerializeScriptableObject][SerializeField] Subestat inicial;
-
-    [Apartat("Visualitzacio")]
     [SerializeField] GameObject prefab;
 
 

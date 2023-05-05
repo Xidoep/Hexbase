@@ -6,6 +6,29 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Visualitzacions")]
 public class Visualitzacions : ScriptableObject
 {
+
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //RES HAURIA DE CRIDAR FUNCIONS D'AQUEST SCRIPT. TOT HAURIEN DE SER ACCIONS DELEGADES.
+    //PER NO HAVERME DE PREOCUPAR PER SI S'HA VISUALITZAT ALGO O NO...
+    //L'ACCIO ANIRÀ LLIGADA A UNS VISUALS
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+    //*********************************************************
+
+
+
     [SerializeField] Animacions animacions;
     [Space(20)]
     [SerializeField] Prefabs prefabs;
@@ -231,12 +254,12 @@ public class Visualitzacions : ScriptableObject
         animacions.colocarPeçaParent.Play(transform.parent.GetComponent<RectTransform>());
     }
 
-    public void AddGuanyarPunts(Vector3 posicio)
+    /*public void AddGuanyarPunts(Vector3 posicio)
     {
         if (posicions == null) posicions = new List<Vector3>();
 
         posicions.Add(posicio);
-    }
+    }*/
    
     public void GuanyarExperiencia(Vector3 posicio, int experiencia)
     {
@@ -245,7 +268,7 @@ public class Visualitzacions : ScriptableObject
         actualitzarNivell?.Invoke();
     }
 
-    public void GuanyarExperienciaProximitat(int experiencia)
+    /*public void GuanyarExperienciaProximitat(int experiencia)
     {
         XS_Coroutine.StartCoroutine_Ending(1.5f, Animacio);
 
@@ -260,7 +283,7 @@ public class Visualitzacions : ScriptableObject
                 actualitzarNivell?.Invoke();
             }
         } 
-    }
+    }*/
     public void GuanyarExperienciaProduccio()
     {
         animacioGuanyarExperiencia?.Invoke();
@@ -365,18 +388,18 @@ public class Visualitzacions : ScriptableObject
     }
     */
 
-    void InstanciarParticulesPunts(Vector3 posicio, int particules)
+    void InstanciarParticulesPunts(Vector3 posicio, int punts)
     {
         prefabs.guanyarPunts.InstantiateReturn(
             posicio - Utils_MainCamera_Acces.Camera.transform.forward * 1, 
-            Quaternion.Euler(Utils_MainCamera_Acces.Camera.transform.forward)).GetComponent<Utils_TextSetup>().Setup(particules);
-        Debug.LogError($"{particules} particules");
+            Quaternion.Euler(Utils_MainCamera_Acces.Camera.transform.forward)).GetComponent<Utils_TextSetup>().Setup(punts);
+        Debug.LogError($"{punts} particules");
     }
 
     public void DestruirProducte(Peça p, int i, bool ultima, System.Action enFinalitzar) 
     {
 
-        p.Connexio.ProductesExtrets[i].informacio.gameObject.GetComponent<UI_Producte>().Destruir(1.5f);
+        //p.Connexio.ProductesExtrets[i].informacio.gameObject.GetComponent<UI_Producte>().Destruir(1.5f);
         XS_Coroutine.StartCoroutine_Ending(1.6f, RemostrarLaInformacio);
 
         void RemostrarLaInformacio()

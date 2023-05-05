@@ -21,9 +21,7 @@ public abstract class Hexagon : MonoBehaviour
     System.Func<Vector2Int, List<Hexagon>> veins;
     System.Func<Vector2Int, List<Peça>> veinsPeça;
 
-    protected System.Action<Hexagon, bool> mostrarInformacio;
-    protected System.Action<Hexagon> amagarInformacio;
-
+    Informacio.Unitat informacioMostrada;
 
 
     //ABSTRACT
@@ -40,10 +38,8 @@ public abstract class Hexagon : MonoBehaviour
     public Vector2Int Coordenades => coordenades;
     public List<Hexagon> Veins => veins.Invoke(coordenades);
     public List<Peça> VeinsPeça => veinsPeça.Invoke(coordenades);
-    public System.Action<Peça, bool> MostrarInformacio => mostrarInformacio;
-    public System.Action<Peça> AmagarInformacio => amagarInformacio;
 
-
+    public Informacio.Unitat InformacioMostrada { get => informacioMostrada; set => informacioMostrada = value; }
 
 
 

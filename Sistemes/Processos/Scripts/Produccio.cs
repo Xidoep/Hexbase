@@ -108,7 +108,7 @@ public class Produccio : ScriptableObject
             if (!productors[index].Connexio.ProductesExtrets[i].gastat)
             {
                 hiHaProductePerGastar = true;
-                productors[index].Connexio.MostrarInformacio?.Invoke(productors[index].Connexio, true);
+                //productors[index].Connexio.MostrarInformacio?.Invoke(productors[index].Connexio);
                 //productors[index].Connexio.SetBlocarInformacio = true;
                 break;
             }

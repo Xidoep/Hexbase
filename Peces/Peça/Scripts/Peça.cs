@@ -15,18 +15,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
     {
         base.Setup(grid, coordenades, estat, null);
-
         this.estat = estat;
 
         estatConnexio = ConnexioEnum.Desconnectat;
 
-        if (subestat == null)
-            return;
-
         this.subestat = subestat.Setup(this);
-
-        mostrarInformacio += subestat.InformacioMostrar;
-        amagarInformacio += subestat.InformacioAmagar;
         gameObject.name = $"{estat.name}({coordenades})";
     }
 
@@ -171,9 +164,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         //    return;
 
         //amagarInformacio?.Invoke(this);
-        
-        //mostrarInformacio -= subestat.InformacioMostrar;
-        //amagarInformacio -= subestat.InformacioAmagar;
+
+        subestat.InformacioAmagar(this);
 
         this.subestat = subestat.Setup(this);
         cases = new List<Casa>();
@@ -228,12 +220,12 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public override void OnPointerEnter()
     {
         CursorEstat.Mostrar(false);
-        mostrarInformacio?.Invoke(this, true);
+        subestat.InformacioMostrar(this);
     }
     public override void OnPointerExit()
     {
         CursorEstat.Mostrar(true);
-        mostrarInformacio?.Invoke(this, false);
+        subestat.InformacioAmagar(this);
     }
 
 
