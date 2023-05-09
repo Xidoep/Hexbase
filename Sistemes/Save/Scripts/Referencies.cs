@@ -8,9 +8,9 @@ public class Referencies : ScriptableObject
 {
     public static Referencies Instance;
 
-    [SerializeField] SaveHex save;
-    [SerializeField] CapturarPantalla capturarPantalla;
-    [SerializeField] Visualitzacions visualitzacions;
+    [SerializeScriptableObject] [SerializeField] SaveHex save;
+    [SerializeScriptableObject] [SerializeField] CapturarPantalla capturarPantalla;
+    [SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
 
     [Linia]
     [SerializeField] Estat[] estats;

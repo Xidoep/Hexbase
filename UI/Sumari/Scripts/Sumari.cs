@@ -10,14 +10,15 @@ public class Sumari : ScriptableObject
     [SerializeField] Produccio produccio;
 
     //Aixo ha de ser una classe amb una opcio per resaltar la peça seleccionada.
-    [SerializeField] List<Producte> necessitats;
-    [SerializeField] List<Producte> produits;
+    //[SerializeField] List<Producte> necessitats;
+    //[SerializeField] List<Producte> produits;
+    [SerializeField] List<Informacio> infoNecessitats;
+    [SerializeField] List<Informacio> infoProduits;
 
-
-    System.Action<List<Producte>> enMostrarNecessitats;
-    System.Action<List<Producte>> enMostrarProduits;
-    public System.Action<List<Producte>> EnMostrarNecessitats { get => enMostrarNecessitats; set => enMostrarNecessitats = value; }
-    public System.Action<List<Producte>> EnMostrarProduits { get => enMostrarProduits; set => enMostrarProduits = value; }
+    System.Action<List<Informacio>> enMostrarNecessitats;
+    System.Action<List<Informacio>> enMostrarProduits;
+    public System.Action<List<Informacio>> EnMostrarNecessitats { get => enMostrarNecessitats; set => enMostrarNecessitats = value; }
+    public System.Action<List<Informacio>> EnMostrarProduits { get => enMostrarProduits; set => enMostrarProduits = value; }
 
 
 
@@ -35,13 +36,15 @@ public class Sumari : ScriptableObject
     public void Mostrar()
     {
         AgafarInformacio();
-        enMostrarNecessitats?.Invoke(necessitats);
-        enMostrarProduits?.Invoke(produits);
+        enMostrarNecessitats?.Invoke(infoNecessitats);
+        enMostrarProduits?.Invoke(infoProduits);
     }
 
     void AgafarInformacio()
     {
-        necessitats = new List<Producte>();
+        Debug.Log("MOSTRAR INFORMACIO");
+        //necessitats = new List<Producte>();
+        infoNecessitats = new List<Informacio>();
         for (int g = 0; g < grups.Grup.Count; g++)
         {
             if (!grups.Grup[g].EsPoble)
@@ -53,13 +56,19 @@ public class Sumari : ScriptableObject
                 {
                     for (int n = 0; n < grups.Grup[g].Peces[p].Cases[c].Necessitats.Count; n++)
                     {
-                        necessitats.Add(grups.Grup[g].Peces[p].Cases[c].Necessitats[n]);
+                        //necessitats.Add(grups.Grup[g].Peces[p].Cases[c].Necessitats[n]);
+                        infoNecessitats.Add(new Informacio()
+                        {
+                            peça = grups.Grup[g].Peces[p],
+                            producte = grups.Grup[g].Peces[p].Cases[c].Necessitats[n]
+                        });
                     }
                 }
             }
         }
 
-        produits = new List<Producte>();
+        //produits = new List<Producte>();
+        infoProduits = new List<Informacio>();
         for (int p = 0; p < produccio.Productors.Count; p++)
         {
             if (!produccio.Productors[p].Connectat)
@@ -70,9 +79,21 @@ public class Sumari : ScriptableObject
                 if (produccio.Productors[p].Connexio.ProductesExtrets[pe].gastat)
                     continue;
 
-                produits.Add(produccio.Productors[p].Connexio.ProductesExtrets[pe].producte);
+                //produits.Add(produccio.Productors[p].Connexio.ProductesExtrets[pe].producte);
+                infoProduits.Add(new Informacio()
+                {
+                    peça = produccio.Productors[p].Connexio,
+                    producte = produccio.Productors[p].Connexio.ProductesExtrets[pe].producte
+                });
             }
         }
     }
 
+
+    [System.Serializable]
+    public struct Informacio
+    {
+        public Peça peça;
+        public Producte producte;
+    }
 }

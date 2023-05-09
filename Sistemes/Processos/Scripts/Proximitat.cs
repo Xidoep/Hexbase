@@ -6,18 +6,15 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Proximitat")]
 public class Proximitat : ScriptableObject
 {
-    [SerializeField] PoolPeces pool;
-    //ACTIVADORS
-    //1.- Si estas aprop d'1 o + peces d'un tipus. i d'un nivell concret o de qualsevol.
-    //2.- Si formen part d'un grup de X o +.
-    //3.- Com l'1, pero en tot el grup.
-    [SerializeField] Grups grups;
-    [SerializeField] Estat cami;
+    [SerializeScriptableObject] [SerializeField] PoolPeces pool;
 
-    [SerializeField] Fase_Colocar colocar;
-    [SerializeField] Fase_Resoldre resoldre;
-    
-    [SerializeField] Visualitzacions visualitzacions;
+    [SerializeScriptableObject] [SerializeField] Grups grups;
+    [SerializeScriptableObject] [SerializeField] Estat cami;
+
+    [SerializeScriptableObject] [SerializeField] Fase_Colocar colocar;
+    [SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
+
+    [SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
 
 
     //INTERN
@@ -117,13 +114,9 @@ public class Proximitat : ScriptableObject
             StepRecepta(canviar);
         }
 
-        //FALTA: que d'alguna manera em retorni si el processador ha processat algo, una especia de funcio de callback.
-        //potser que retorni una funcio amb un bool. JA buscaré la manera ems facil de far-ho.
         List<Peça> veins = _actual.VeinsPeça;
         if (_actual.processador.IntentarProcessar(_actual, new List<object>(veins), true))
         {
-            /*
-             */
             if(_actual.Subestat.Tipus == Subestat.TipusEnum.Productor)
             {
                 for (int i = 0; i < veins.Count; i++)
@@ -141,12 +134,19 @@ public class Proximitat : ScriptableObject
                 }
             }
             Debug.Log("La recepta s'ha complert!");
+
             MarcarComCanviada(_actual, canviar, 0);
+            //visualitzacions.CanviarEstat(_actual);
+            if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
+            XS_Coroutine.StartCoroutine_Ending_FrameDependant(1, NextStep);
+
+            return;
         }
 
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
-
         StepRecepta(canviar);
+
+        void NextStep() => StepRecepta(canviar);
     }
 
     void Step(bool canviar)

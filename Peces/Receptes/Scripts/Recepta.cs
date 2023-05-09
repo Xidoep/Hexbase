@@ -16,7 +16,7 @@ public class Recepta : ScriptableObject
 
     [Space(20)]
     [SerializeField] ScriptableObject[] output;
-
+    [SerializeField] Produccio produccio;
 
     //INTERN
     bool confirmat = true;
@@ -76,6 +76,11 @@ public class Recepta : ScriptableObject
         {
             ((IProcessable)output[i]).Processar(peça);
         }
+
+        if (produccio == null)
+            return;
+
+        produccio.AddProductor(peça);
     }
 
 
@@ -86,7 +91,6 @@ public class Recepta : ScriptableObject
     int tipus = -1;
     private void OnValidate()
     {
-        
         if(inputs.Length > 1)
         {
             tipus = inputs[0] is Producte ? 1 : 2;
@@ -98,7 +102,6 @@ public class Recepta : ScriptableObject
                 }
             }
         }
-        
 
         for (int i = output.Length -1; i >= 0; i--)
         {
@@ -109,6 +112,15 @@ public class Recepta : ScriptableObject
                 _o.RemoveAt(i);
                 output = _o.ToArray();
             } 
+        }
+
+        for (int i = 0; i < output.Length; i++)
+        {
+            if(output[i] is Producte)
+            {
+                produccio = XS_Utils.XS_Editor.LoadAssetAtPath<Produccio>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Produccio.asset");
+                break;
+            }
         }
     }
 

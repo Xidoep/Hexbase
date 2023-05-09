@@ -6,8 +6,8 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Produccio")]
 public class Produccio : ScriptableObject
 {
-    [SerializeField] Grups grups;
-    [SerializeField] Fase_Resoldre resoldre;
+    [SerializeScriptableObject][SerializeField] Grups grups;
+    [SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
     //[SerializeField] PoolPeces pool;
 
     [Nota("Ara es mostra només per debugar", NoteType.Warning)]
@@ -19,7 +19,7 @@ public class Produccio : ScriptableObject
     [SerializeField] Subestat casa;
 
     [Space(30)]
-    [SerializeField] Visualitzacions visualitzacions;
+    [SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
     /*
     [Apartat("ANIMACIONS")]
     [SerializeField] Animacio_Scriptable producteProveir;

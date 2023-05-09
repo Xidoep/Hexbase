@@ -32,10 +32,19 @@ public class Processador : System.Object
             {
                 Debug.Log("Match!");
                 receptes[i].Processar(peça);
+                //receptes.Remove(receptes[i]);
                 if(receptes.Count > 0)
                 {
-                    receptes.RemoveAt(i);
-                    i--;
+                    Debug.Log($"i = {i}");
+                    if (i == Mathf.Clamp(i, 0, receptes.Count - 1))
+                    {
+                        Debug.Log("IN RANGE!");
+                        receptes.RemoveAt(i);
+                        i--;
+                        i = Mathf.Clamp(i, 0, receptes.Count - 1);
+                    }
+
+                    
                 }
                 aconseguit = true;
 
