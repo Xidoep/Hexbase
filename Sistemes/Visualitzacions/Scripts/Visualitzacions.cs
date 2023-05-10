@@ -59,8 +59,9 @@ public class Visualitzacions : ScriptableObject
 
         [Apartat("PECES")]
         public AnimacioPerCodi colocar;
+        public AnimacioPerCodi colocar_reaccioVei;
         public AnimacioPerCodi canviarEstat;
-        public AnimacioPerCodi reaccioVeines;
+        public AnimacioPerCodi canviarEstat_reaccioVei;
     }
 
     [System.Serializable]
@@ -235,7 +236,8 @@ public class Visualitzacions : ScriptableObject
 
     public void Colocar(Peça peça) => animacions.colocar.Play(peça.Parent);
     public void CanviarEstat(Peça peça) => animacions.canviarEstat.Play(peça.Parent);
-    public void ReaccioVeina(Peça veina) => animacions.reaccioVeines.Play(veina.Parent);
+    public void Colocar_ReaccioVei(Peça veina) => animacions.colocar_reaccioVei.Play(veina.Parent);
+    public void CanviarEstat_ReaccioVei(Peça veina) => animacions.canviarEstat_reaccioVei.Play(veina.Parent);
 
     public void PrimeraPosicio(Transform transform) 
     {

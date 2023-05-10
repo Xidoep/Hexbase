@@ -23,12 +23,15 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
     Coroutine coroutine;
     float factor;
     float actual;
+    bool enable;
 
     float Spacing(int tamany) => -(Mathf.LerpUnclamped(10, 40, tamany / 15f));
 
     private void OnEnable()
     {
+        enable = false;
         parent.GetComponent<XS_Button>().OnEnter = Desresaltar;
+
     }
 
     public void Crear(List<Sumari.Informacio> nous)
@@ -78,10 +81,12 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
         if (!mostrat)
             numero.text = productes.Count.ToString("#0");
 
-        boto.enabled = productes.Count > 0;
+        if(enable)
+            boto.enabled = productes.Count > 0;
 
         parent.spacing = Spacing(productes.Count);
 
+        enable = true;
     }
 
     IEnumerator Comprimir(bool comprimir)

@@ -176,17 +176,8 @@ public class Fase_Menu : Fase
     {
         List<Botons> botons = new List<Botons>();
 
-        if (!segonaPartida.Valor)
-            botons.Add(novaPartida);
-        else botons.Add(mostarModes);
-
+        botons.Add(novaPartida);
         if (save.HiHaPartidaAnterior) botons.Add(continuar);
-
-        /*if (segonaPartida.Valor)
-        {
-            botons.Add(freeStyle);
-        }*/
-
         botons.Add(configuracio);
         botons.Add(sortir);
 

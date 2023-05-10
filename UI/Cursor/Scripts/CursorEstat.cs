@@ -42,14 +42,14 @@ public class CursorEstat : MonoBehaviour
         mostrar = true;
         snap = Vector3.down;
         estat = null;
-        faseColocar.OnStart += MostrarCursor;
+        faseColocar.OnStart += MostrarCursorReset;
         faseColocar.OnFinish += AmagarCursor;
         faseColocar.OnCanviarSeleccionada += CanviarCursor;
     }
 
     private void OnDisable()
     {
-        faseColocar.OnStart -= MostrarCursor;
+        faseColocar.OnStart -= MostrarCursorReset;
         faseColocar.OnFinish -= AmagarCursor;
         faseColocar.OnCanviarSeleccionada -= CanviarCursor;
     }
@@ -113,13 +113,18 @@ public class CursorEstat : MonoBehaviour
 
         cursor.SetActive(true);
     }
+    void MostrarCursorReset()
+    {
+        MostrarCursor();
+        snap = Vector3.down;
+    }
 
     void AmagarCursor()
     {
         //estat = null;
 
-        if (cursor == null)
-            return;
+        //if (cursor == null)
+        //    return;
 
         cursor.SetActive(false);
     }

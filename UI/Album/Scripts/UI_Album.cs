@@ -147,7 +147,7 @@ public class UI_Album : MonoBehaviour
         posicio = -(foto.GetComponent<RectTransform>().anchoredPosition.x - 130) + 600;
         Debug.Log(posicio);
         //content.anchoredPosition = new Vector3(posicio, 0, 0);
-        scrollRect.content.SetupAndPlay(lector, new Animacio_RectPosicio(scrollRect.content.anchoredPosition, new Vector2(posicio, 0), Corba.EasyInEasyOut), 1, Transicio.clamp);
+        scrollRect.content.SetupAndPlay(lector, new Animacio_RectPosicio(scrollRect.content.anchoredPosition, new Vector2(posicio, 0), Corba.EasyInEasyOut), 1, 0, Transicio.clamp);
 
     }
 

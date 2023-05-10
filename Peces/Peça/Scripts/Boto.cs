@@ -27,8 +27,10 @@ public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointe
     [SerializeField] LocalizedString texte;
     [SerializeField] Informacio informacio;
 
+    [SerializeField] bool interactable = true;
     public override bool EsPeça => false;
     public LocalizedString Texte => texte;
+    public bool Interactable { get => interactable; set => interactable = value; }
 
     void OnEnable()
     {
@@ -43,8 +45,31 @@ public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointe
 
     public void OnPointerClick(PointerEventData eventData) => Click();
 
-    public void Click() => onClick?.Invoke();
+    public void Click() 
+    {
+        if (!interactable)
+            return;
 
+        onClick?.Invoke();
+    } 
+
+
+
+
+    public override void OnPointerEnter() 
+    {
+        if (!interactable)
+            return;
+
+        informacio.Mostrar(this);
+    }
+    public override void OnPointerExit() 
+    {
+        if (!interactable)
+            return;
+
+        informacio.Amagar(this);
+    }
 
     public void Navegacio(bool activar)
     {
@@ -54,17 +79,6 @@ public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointe
         boto.navigation = navigation;
     }
     public void Seleccionar() => boto.Select();
-
-
-
-
-
-
-
-
-
-    public override void OnPointerEnter() => informacio.Mostrar(this);
-    public override void OnPointerExit() => informacio.Amagar(this);
 
 
 
@@ -88,7 +102,7 @@ public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointe
 
     void OnValidate()
     {
-        collider = GetComponent<Collider>();
+        //collider = GetComponent<Collider>();
 
         if(informacio == null) informacio = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Texte.asset");
     }

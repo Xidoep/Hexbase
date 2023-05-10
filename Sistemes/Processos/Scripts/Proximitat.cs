@@ -136,17 +136,10 @@ public class Proximitat : ScriptableObject
             Debug.Log("La recepta s'ha complert!");
 
             MarcarComCanviada(_actual, canviar, 0);
-            //visualitzacions.CanviarEstat(_actual);
-            if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
-            XS_Coroutine.StartCoroutine_Ending_FrameDependant(1, NextStep);
-
-            return;
         }
 
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
         StepRecepta(canviar);
-
-        void NextStep() => StepRecepta(canviar);
     }
 
     void Step(bool canviar)

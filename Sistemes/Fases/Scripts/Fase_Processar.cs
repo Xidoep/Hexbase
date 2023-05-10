@@ -72,7 +72,7 @@ public class Fase_Processar : Fase
 
         for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
-            visualitzacions.ReaccioVeina(peça.VeinsPeça[v]);
+            visualitzacions.Colocar_ReaccioVei(peça.VeinsPeça[v]);
         }
 
         perComprovar = new List<Peça>() { peça };
@@ -131,13 +131,13 @@ public class Fase_Processar : Fase
             if (animades.Contains(canviades[c].Peça))
                 continue;
 
-            visualitzacions.CanviarEstat(canviades[c].Peça);
+            XS_Coroutine.StartCoroutine_Ending_FrameDependant(c * 0.5f, CanviarEstat, canviades[c].Peça);
+
             Debug.LogError($"Animar: {canviades[c].Peça}");
             animades.Add(canviades[c].Peça);
-            //visualitzacions.GuanyarExperienciaProximitat(canviades[c].Experiencia);
         }
 
-        for (int c = 0; c < canviades.Count; c++)
+        /*for (int c = 0; c < canviades.Count; c++)
         {
             for (int v = 0; v < canviades[c].Peça.VeinsPeça.Count; v++)
             {
@@ -147,6 +147,18 @@ public class Fase_Processar : Fase
                 visualitzacions.ReaccioVeina(canviades[c].Peça.VeinsPeça[v]);
                 Debug.LogError($"Animar: {canviades[c].Peça}");
                 animades.Add(canviades[c].Peça.VeinsPeça[v]);
+            }
+        }*/
+
+        void CanviarEstat(Peça peça)
+        {
+            visualitzacions.CanviarEstat(peça);
+            for (int i = 0; i < peça.VeinsPeça.Count; i++)
+            {
+                if (animades.Contains(peça.VeinsPeça[i]))
+                    continue;
+
+                visualitzacions.CanviarEstat_ReaccioVei(peça.VeinsPeça[i]);
             }
         }
     }

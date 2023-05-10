@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9006850192819737637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnEnabled
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 1
+  animacions:
+  - rid: 7861626019761618948
+  - rid: 7861626019761618949
+  references:
+    version: 2
+    RefIds:
+    - rid: 7861626019761618948
+      type: {class: Animacio_Enable, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Activar BotoFisic
+        moment: 0
+        accio: 1
+    - rid: 7861626019761618949
+      type: {class: Animacio_Enable, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Activar BotoFisic
+        moment: 1
+        accio: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e338258b784a52c46b250e540248476b, type: 3}
+  m_Name: BotoFisic_Enable
+  m_EditorClassIdentifier: 
+  onEnabled: {fileID: -9006850192819737637}
+  idle: {fileID: 0}
+  onPointerEnter: {fileID: 0}
+  apuntat: {fileID: 0}
+  onPointerDown: {fileID: 0}
+  onPointerUp: {fileID: 0}
+  onPointerExit: {fileID: 0}
+  onDestroyOrDisable: {fileID: 0}

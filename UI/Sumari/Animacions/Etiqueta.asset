@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2866480538712086566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnEnter
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.5
+  delay: 1
+  animacions:
+  - rid: 7861626019761618954
+  references:
+    version: 2
+    RefIds:
+    - rid: 7861626019761618954
+      type: {class: Animacio_Text_Gradient, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Text color
+        gradient:
+          serializedVersion: 2
+          key0: {r: 0, g: 0, b: 0, a: 0}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0f495f513239a4ca643040e54e24d6, type: 3}
+  m_Name: Etiqueta
+  m_EditorClassIdentifier: 
+  onEnter: {fileID: -2866480538712086566}
+  onExit: {fileID: 5595153294650270284}
+--- !u!114 &5595153294650270284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnExit
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.5
+  delay: 0
+  animacions:
+  - rid: 7861626019761618956
+  references:
+    version: 2
+    RefIds:
+    - rid: 7861626019761618956
+      type: {class: Animacio_Text_Color, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Text color
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {r: 1, g: 1, b: 1, a: 1}
+        final: {r: 0, g: 0, b: 0, a: 0}
+        dinamic: 1

@@ -87,8 +87,8 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  informacions:
-  - {fileID: 11400000, guid: c4d07515572222140a322ea39a1cca11, type: 2}
+  informacio: {fileID: 11400000, guid: c4d07515572222140a322ea39a1cca11, type: 2}
+  interactable: 1
   references:
     version: 2
     RefIds: []
@@ -267,6 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1973165481425570980}
+  - component: {fileID: 4029919168828713889}
   m_Layer: 0
   m_Name: Parent
   m_TagString: Untagged
@@ -292,6 +293,24 @@ Transform:
   m_Father: {fileID: 5919137175624590404}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4029919168828713889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198892112095210570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7212ac3ee04da8c42832ecee15826df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  component: {fileID: -5234112299733751658}
+  animacio: {fileID: 11400000, guid: d4d184c6c9c034f4aa023908bfd62ace, type: 2}
+  interactuable: 0
+  onClick: 0
+  pare: {fileID: 2820747690159962595}
+  boto: {fileID: 0}
 --- !u!1 &7399046207126405381
 GameObject:
   m_ObjectHideFlags: 0
