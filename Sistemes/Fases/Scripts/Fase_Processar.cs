@@ -67,9 +67,9 @@ public class Fase_Processar : Fase
     void Proximitat()
     {
         Debug.LogError($"Colocar peça {peça.name}");
+
         visualitzacions.Colocar(peça);
         animades = new List<Peça>();
-
         for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
             visualitzacions.Colocar_ReaccioVei(peça.VeinsPeça[v]);
@@ -115,16 +115,39 @@ public class Fase_Processar : Fase
         }
     }
 
+    List<Peça> recreades;
     void Produir()
     {
-        Animar();
+        Crear_i_Animar();
         CrearRanures();
 
         produccio.Process(Guardar);
     }
+    void Crear_i_Animar() 
+    {
+        recreades = new List<Peça>();
+
+        //LA COLOCADA
+        peça.CrearTilesFisics();
+        recreades.Add(peça);
+
+        //ELS VEINS DE LA COLOCADA
+        for (int i = 0; i < peça.VeinsPeça.Count; i++)
+        {
+
+            peça.VeinsPeça[i].CrearTilesFisics();
+            recreades.Add(peça.VeinsPeça[i]);
+        }
+
+        //ANIMAR I CREAR LES CANVIADES I ELS SEUS VEINS
+        for (int i = 0; i < canviades.Count; i++)
+        {
+            //...............A MITG FER................
+            if (recreades.Contains(canviades[i].Peça)) { }
+        }
 
 
-    void Animar() {
+        //VERSIO VELLA
         for (int c = 0; c < canviades.Count; c++)
         {
             Debug.LogError($"Canviada: {canviades[c]}");
@@ -137,18 +160,6 @@ public class Fase_Processar : Fase
             animades.Add(canviades[c].Peça);
         }
 
-        /*for (int c = 0; c < canviades.Count; c++)
-        {
-            for (int v = 0; v < canviades[c].Peça.VeinsPeça.Count; v++)
-            {
-                if (animades.Contains(canviades[c].Peça.VeinsPeça[v]))
-                    continue;
-
-                visualitzacions.ReaccioVeina(canviades[c].Peça.VeinsPeça[v]);
-                Debug.LogError($"Animar: {canviades[c].Peça}");
-                animades.Add(canviades[c].Peça.VeinsPeça[v]);
-            }
-        }*/
 
         void CanviarEstat(Peça peça)
         {

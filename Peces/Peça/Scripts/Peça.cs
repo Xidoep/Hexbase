@@ -149,6 +149,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
             tiles[i].Crear();
         }
+        CrearDetalls();
     }
     public void CrearDetalls()
     {

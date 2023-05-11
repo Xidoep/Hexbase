@@ -178,6 +178,12 @@ public class Produccio : ScriptableObject
         int _index = -1;
         //string debug = "PRODUCCIO DEBUG\n";
         connexions = grups.GrupByPeça(grups.Grup, productor).ConnexionsId;
+        if (connexions == null)
+        {
+            index = -1;
+            return null;
+        }
+
         for (int con = 0; con < connexions.Count; con++)
         {
             List<Peça> poble = grups.GrupById(grups.Grup, connexions[con]).Peces;

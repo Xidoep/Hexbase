@@ -7,6 +7,17 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/WFC")]
 public class WaveFunctionColpaseScriptable : ScriptableObject
 {
+    //*********************************************************************
+    //*********************************************************************
+    //*********************************************************************
+    //*********************************************************************
+    //FALTARIA FER QUE FOS CONTENT AGNOSTIC
+    //*********************************************************************
+    //*********************************************************************
+    //*********************************************************************
+    //*********************************************************************
+
+
     //1.-Triar tots els tiles que formaran part del WFC.
     //Estaria be que només fossin els del voltant de la peça.
     //Osigui, els veins exteriors i els veins del veins.
@@ -25,15 +36,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     //Si nomes te una solcio, la seleccionar, si en te mes d'una tries en random.
 
 
-
-    //Apunt!
-    //només el falta agregar la propagació, i els tiles inicials. que de fet, ja torna
-    //ambiguus els tiles del voltant de la peça, només faltaria que els de la peça fosin "fixos".
-
-    //Proces de la propagacio
-    //Affegir el tile que acabem de colapsar a un Stack
-    //Per ara només hi ha un tile al stack. Per tant treiem l'ultim valor.
-    //Actualitza les possiblitats del tile, si aquestes canvien, s'agafeix el tile a l'Stack
     Peça colocada;
     List<Peça> canviades;
     [SerializeField] WfcRegla[] regles;
@@ -434,12 +436,38 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     {
         Debugar.LogError("WFC ACABAT!");
 
-        colocada.CrearTilesFisics();
-        XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.CrearDetalls);
-        for (int i = 0; i < colocada.VeinsPeça.Count; i++)
+        //colocada.CrearTilesFisics();
+        //colocada.CrearDetalls();
+        
+        //ADD
+
+        /*List<Peça> toRecrear = new List<Peça>() { colocada };
+        toRecrear.AddRange(colocada.VeinsPeça);
+        for (int i = 0; i < canviades.Count; i++)
         {
-            XS_Coroutine.StartCoroutine_Ending(.5f, colocada.VeinsPeça[i].CrearTilesFisics);
-            XS_Coroutine.StartCoroutine_Ending(1.5f, colocada.VeinsPeça[i].CrearDetalls);
+            if (!toRecrear.Contains(canviades[i]))
+                toRecrear.Add(canviades[i]);
+
+            for (int v = 0; v < canviades[i].VeinsPeça.Count; v++)
+            {
+                if (toRecrear.Contains(canviades[i].VeinsPeça[i]))
+                    continue;
+
+                toRecrear.Add(canviades[i].VeinsPeça[i]);
+            }
+        }
+
+        //CREAR
+        for (int i = 0; i < toRecrear.Count; i++)
+        {
+            toRecrear[i].CrearTilesFisics();
+            toRecrear[i].CrearDetalls();
+        }*/
+
+        /*for (int i = 0; i < colocada.VeinsPeça.Count; i++)
+        {
+            colocada.VeinsPeça[i].CrearTilesFisics();
+            colocada.VeinsPeça[i].CrearDetalls();
         }
 
         for (int i = 0; i < canviades.Count; i++)
@@ -447,9 +475,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             if (canviades[i] == colocada)
                 continue;
 
-            XS_Coroutine.StartCoroutine_Ending(.5f, canviades[i].CrearTilesFisics);
-            XS_Coroutine.StartCoroutine_Ending(1.5f, canviades[i].CrearDetalls);
-        }
+            canviades[i].CrearTilesFisics();
+            canviades[i].CrearDetalls();
+        }*/
 
         enFinalitzar.Invoke();
     }
