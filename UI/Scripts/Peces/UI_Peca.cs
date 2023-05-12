@@ -21,6 +21,8 @@ public class UI_Peca : MonoBehaviour
 
     public bool Seleccionada => estat == colocar.Seleccionada;
 
+    UI_Peca instanciada;
+
     public void Seleccionar() 
     {
         Debug.Log("Seleccionar");
@@ -53,12 +55,29 @@ public class UI_Peca : MonoBehaviour
         else outline.PointerExit();
     }
 
-    private void OnEnable()
+    public UI_Peca Crear(bool capa_UIPeces = true)
+    {
+        instanciada = Instantiate(this);
+
+        if (capa_UIPeces)
+        {
+            childs = instanciada.transform.GetComponentsInChildren<Transform>(true);
+            for (int i = 0; i < childs.Length; i++)
+            {
+                childs[i].SetCapa_UIPeces();
+            }
+        }
+
+        return instanciada;
+    }
+
+
+    /*private void OnEnable()
     {
         childs = transform.GetComponentsInChildren<Transform>(true);
         for (int i = 0; i < childs.Length; i++)
         {
             childs[i].SetCapa_UIPeces();
         }
-    }
+    }*/
 }

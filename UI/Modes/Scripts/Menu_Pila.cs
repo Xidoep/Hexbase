@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XS_Utils;
 
 public class Menu_Pila : MonoBehaviour
 {
@@ -58,17 +59,22 @@ public class Menu_Pila : MonoBehaviour
         parent.GetComponent<RectTransform>().sizeDelta = new Vector2(170, 20);
         parent.transform.localScale = new Vector3(1, 0.2f, 1);
 
-        GameObject peça = Instantiate(estat.Prefag, Vector3.zero, Quaternion.identity, parent.transform);
+        //UI_Peca uiPeca = estat.Prefab.Crear();
+        //uiPeca.SetTransform(Vector3.zero, Vector3.zero, Vector3.one * 100, parent.transform);
 
-        RectTransform rect = parent.GetComponent<RectTransform>();
-        rect.anchoredPosition3D = Vector3.zero;
+        //GameObject peça = Instantiate(estat.Prefag, Vector3.zero, Quaternion.identity, parent.transform);
+        ((RectTransform)parent.transform).anchoredPosition3D = Vector3.zero;
+        //parent.GetComponent<RectTransform>()
+        //RectTransform rect = parent.GetComponent<RectTransform>();
+        //rect.anchoredPosition3D = Vector3.zero;
 
-        peça.transform.localScale = new Vector3(100, 100, 100);
-        peça.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        //peça.transform.localScale = new Vector3(100, 100, 100);
+        //peça.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
-        UI_Peca uiPeca = peça.GetComponent<UI_Peca>();
+        //UI_Peca uiPeca = peça.GetComponent<UI_Peca>();
 
-        creades.Add(uiPeca);
+        //creades.Add(uiPeca);
+        creades.Add((UI_Peca)(estat.Prefab.Crear().SetTransform(Vector3.zero, Vector3.zero, Vector3.one * 100, parent.transform)));
     }
 
     [ContextMenu("Remove")]

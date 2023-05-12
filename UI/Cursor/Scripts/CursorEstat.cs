@@ -101,7 +101,8 @@ public class CursorEstat : MonoBehaviour
             if (cursor != null)
                 Destroy(cursor);
 
-            cursor = Instantiate(this.estat.Prefag);
+            cursor = this.estat.Prefab.Crear(false).gameObject;
+            //cursor = Instantiate(this.estat.Prefag);
         }
     }
     void MostrarCursor()

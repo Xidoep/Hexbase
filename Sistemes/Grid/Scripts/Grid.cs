@@ -129,8 +129,8 @@ public class Grid : MonoBehaviour
     public Peça SimularInici(Estat estat, Vector2Int coordenada)
     {
         ranuraSimulada = grid.Get(coordenada);
-
-        simulada = Instanciar(estat.Prefag, coordenada).AddComponent<Peça>();
+        simulada = Instanciar(estat.Prefab.gameObject, coordenada).AddComponent<Peça>();
+        //simulada = Instanciar(estat.Prefag, coordenada).AddComponent<Peça>();
         simulada.Setup(this, coordenada, estat, estat.SubestatInicial);
         grid.Set(simulada); //Es salta el Dimensionament
         return simulada;

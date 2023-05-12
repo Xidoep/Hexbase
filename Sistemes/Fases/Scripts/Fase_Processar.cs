@@ -127,51 +127,67 @@ public class Fase_Processar : Fase
     {
         recreades = new List<Peça>();
 
-        //LA COLOCADA
+        //CREAR LA COLOCADA
         peça.CrearTilesFisics();
         recreades.Add(peça);
 
-        //ELS VEINS DE LA COLOCADA
+        //CREAR ELS VEINS DE LA COLOCADA, QUE NO HAGUIN CANVIAR
         for (int i = 0; i < peça.VeinsPeça.Count; i++)
         {
+            if (CanviadesContains(peça.VeinsPeça[i]))
+                continue;
 
             peça.VeinsPeça[i].CrearTilesFisics();
             recreades.Add(peça.VeinsPeça[i]);
         }
 
-        //ANIMAR I CREAR LES CANVIADES I ELS SEUS VEINS
-        for (int i = 0; i < canviades.Count; i++)
+        //PRIMER: RECREAR LES PECES CANVIADES I LES PECES VEINES QUE NO HAGUIN SET RECREADES.
+        //SEGON: ANIMAR LES PECES CANVIADES I LES PECES VEINES
+        Debug.Log($"{canviadesPeça.Count} Peces canviades!!!!");
+        for (int c = 0; c < canviadesPeça.Count; c++)
         {
-            //...............A MITG FER................
-            if (recreades.Contains(canviades[i].Peça)) { }
+            XS_Coroutine.StartCoroutine_Ending_FrameDependant(c * 0.5f, CrearIAnimar, canviadesPeça[c]);
         }
 
-
-        //VERSIO VELLA
-        for (int c = 0; c < canviades.Count; c++)
+        void CrearIAnimar(Peça peça)
         {
-            Debug.LogError($"Canviada: {canviades[c]}");
-            if (animades.Contains(canviades[c].Peça))
-                continue;
-
-            XS_Coroutine.StartCoroutine_Ending_FrameDependant(c * 0.5f, CanviarEstat, canviades[c].Peça);
-
-            Debug.LogError($"Animar: {canviades[c].Peça}");
-            animades.Add(canviades[c].Peça);
-        }
-
-
-        void CanviarEstat(Peça peça)
-        {
-            visualitzacions.CanviarEstat(peça);
-            for (int i = 0; i < peça.VeinsPeça.Count; i++)
+            if (!recreades.Contains(peça))
             {
-                if (animades.Contains(peça.VeinsPeça[i]))
+                recreades.Add(peça);
+                peça.CrearTilesFisics();
+            }
+
+            visualitzacions.CanviarEstat(peça);
+
+            for (int v = 0; v < peça.VeinsPeça.Count; v++)
+            {
+                if (CanviadesContains(peça.VeinsPeça[v]))
                     continue;
 
-                visualitzacions.CanviarEstat_ReaccioVei(peça.VeinsPeça[i]);
+                //Aquí si que pot ser que ja l'hagui crecreat, per tant, s'ha de mirar.
+                if (!recreades.Contains(peça.VeinsPeça[v]))
+                {
+                    recreades.Add(peça.VeinsPeça[v]);
+                    peça.VeinsPeça[v].CrearTilesFisics();
+                }
+                visualitzacions.CanviarEstat_ReaccioVei(peça.VeinsPeça[v]);
             }
         }
+        
+    }
+
+    bool CanviadesContains(Peça peça)
+    {
+        return canviadesPeça.Contains(peça);
+
+        for (int i = 0; i < canviades.Count; i++)
+        {
+            if (!Equals(peça, canviades[i]))
+                continue;
+
+            return true;
+        }
+        return false;
     }
 
     void CrearRanures()

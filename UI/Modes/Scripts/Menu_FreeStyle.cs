@@ -31,16 +31,23 @@ public class Menu_FreeStyle : MonoBehaviour
             GameObject parent = Instantiate(prefab, this.parent);
             parent.transform.position = Vector3.zero;
 
-            GameObject peça = Instantiate(referencies.Estats[i].Prefag, Vector3.zero, Quaternion.identity, parent.transform);
+            UI_Peca uiPeca = (UI_Peca)(referencies.Estats[i].Prefab.Crear().SetTransform(Vector3.zero, Quaternion.Euler(-30, 0, 0), new Vector3(100, 75, 100), parent.transform));
+            //UI_Peca uiPeca = referencies.Estats[i].Prefab.Crear();
+            //uiPeca.SetTransform(Vector3.zero, Quaternion.Euler(-30, 0, 0), new Vector3(100, 75, 100), parent.transform);
 
-            RectTransform rect = parent.GetComponent<RectTransform>();
-            rect.anchoredPosition3D = Vector3.zero;
+            ((RectTransform)parent.transform).anchoredPosition3D = Vector3.zero;
 
-            peça.transform.localScale = new Vector3(100, 75, 100);
-            peça.transform.localRotation = Quaternion.Euler(-30, 0, 0);
+
+            //GameObject peça = Instantiate(referencies.Estats[i].Prefag, Vector3.zero, Quaternion.identity, parent.transform);
+
+            //RectTransform rect = parent.GetComponent<RectTransform>();
+            //rect.anchoredPosition3D = Vector3.zero;
+
+            //peça.transform.localScale = new Vector3(100, 75, 100);
+           // peça.transform.localRotation = Quaternion.Euler(-30, 0, 0);
 
             XS_Button button = parent.GetComponent<XS_Button>();
-            UI_Peca uiPeca = peça.GetComponent<UI_Peca>();
+            //UI_Peca uiPeca = peça.GetComponent<UI_Peca>();
 
             button.onClick.AddListener(uiPeca.Seleccionar);
             button.onClick.AddListener(MostrarSeleccionada);

@@ -7,13 +7,11 @@ using UnityEngine.Events;
 public class Estat : ScriptableObject
 {
     [SerializeScriptableObject][SerializeField] Subestat inicial;
-    [SerializeField] GameObject prefab;
+    [SerializeField] UI_Peca peça;
 
 
     public Subestat SubestatInicial => inicial;
-    public GameObject Prefag => prefab;
-
-
+    public UI_Peca Prefab => peça;
 
 
 
