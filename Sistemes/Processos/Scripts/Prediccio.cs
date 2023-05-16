@@ -8,7 +8,7 @@ public class Prediccio : ScriptableObject
 {
     [SerializeField] FasesControlador controlador;
     [SerializeField] Fase_Colocar colocar;
-    [SerializeField] Visualitzacions visualitzacions;
+    //[SerializeField] Visualitzacions visualitzacions;
     [Space(10)]
     [SerializeField] Grups grups;
     [SerializeField] Proximitat proximitat;
@@ -171,7 +171,7 @@ public class Prediccio : ScriptableObject
     {
         for (int i = 0; i < canviades.Count; i++)
         {
-            visualitzacions.PredirCanvi(canviades[i].Peça.Coordenades);
+            //visualitzacions.PredirCanvi(canviades[i].Peça.Coordenades);
             Debugar.LogError($"***Mostrar Canvis a {canviades[i].Peça.gameObject.name}***");
         }
     }
@@ -195,7 +195,7 @@ public class Prediccio : ScriptableObject
                 {
                     if (peçaSimulada.VeinsPeça.Contains(pecesPerComprovar[i]))
                     {
-                        visualitzacions.PredirMesHabitants(pecesPerComprovar[i].Coordenades);
+                        //visualitzacions.PredirMesHabitants(pecesPerComprovar[i].Coordenades);
                         Debugar.LogError($"***Mostrar + Needs a {pecesPerComprovar[i].gameObject.name}***");
                     }
                 }
@@ -209,7 +209,7 @@ public class Prediccio : ScriptableObject
             //En el cas que: Jo NO vulgui colocar una casa, i alguna de les peces canviades fos una casa.
             if (canviades[i].Peça.SubestatIgualA(casa))
             {
-                visualitzacions.PredirMenysHabitants(canviades[i].Peça.Coordenades);
+                //visualitzacions.PredirMenysHabitants(canviades[i].Peça.Coordenades);
                 Debugar.LogError($"***Mostrar - Needs a {canviades[i].Peça.gameObject.name}***");
             }
         }
@@ -218,7 +218,7 @@ public class Prediccio : ScriptableObject
     {
         for (int i = 0; i < grups.ConnexionsFetes.Count; i++)
         {
-            visualitzacions.PredirConnexio(grups.ConnexionsFetes[i].Coordenades);
+            //visualitzacions.PredirConnexio(grups.ConnexionsFetes[i].Coordenades);
             Debugar.LogError($"***Mostrar Connexio a {grups.ConnexionsFetes[i].gameObject.name}***");
         }
         grups.ConnexionsFetes.Clear();
@@ -247,7 +247,7 @@ public class Prediccio : ScriptableObject
     {
         if (!Predint)
         {
-            visualitzacions.AmagarPrediccions();
+            //visualitzacions.AmagarPrediccions();
         }
         else
             amagarInformacioBuffer = true;

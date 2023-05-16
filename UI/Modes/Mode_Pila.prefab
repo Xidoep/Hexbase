@@ -121,7 +121,6 @@ MonoBehaviour:
   resoldre: {fileID: 11400000, guid: 48945bddc88abd84bacb9e6f674dde72, type: 2}
   parent: {fileID: 3342785490786779737}
   pool: {fileID: 11400000, guid: e8a59afd3fba1464487e42db5d46c5af, type: 2}
-  visualitzacions: {fileID: 11400000, guid: 9c9e677074d07854ca1e0d8ce0e6ec5d, type: 2}
 --- !u!114 &3628930017549148802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,9 +147,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   component: {fileID: 3342785490786779737}
-  onClick: 0
   animacio: {fileID: 11400000, guid: 7250f3442c976e648a888a9d499a95ef, type: 2}
+  interactuable: 0
+  onClick: 0
   pare: {fileID: 0}
+  boto: {fileID: 0}
 --- !u!1 &3342785490786779738
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,8 +790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resoldre: {fileID: 11400000, guid: 48945bddc88abd84bacb9e6f674dde72, type: 2}
-  visualitzacions: {fileID: 11400000, guid: 9c9e677074d07854ca1e0d8ce0e6ec5d, type: 2}
-  pivot: {fileID: 8058596610240375326}
+  nivell: {fileID: 11400000, guid: fc59fa1300be37d42a20662a8b0c56e1, type: 2}
   uiCercle: {fileID: 8401985219140862255}
   uiNivell: {fileID: 6291382612033714993}
   uiExperencia: {fileID: 8401985220508731663}

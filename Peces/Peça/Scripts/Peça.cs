@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static Visualitzacions;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
@@ -166,6 +165,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
         //amagarInformacio?.Invoke(this);
 
+        productesExtrets = new ProducteExtret[0];
         subestat.InformacioAmagar(this);
 
         this.subestat = subestat.Setup(this);

@@ -9,7 +9,7 @@ public class PoolPeces : ScriptableObject
 
 
     [SerializeField] Fase_Colocar colocar;
-    [SerializeField] Fase_Resoldre resoldre;
+    [SerializeField] Nivell nivell;
     [SerializeField] SaveHex save;
     [SerializeField] Referencies referencies;
 
@@ -38,7 +38,7 @@ public class PoolPeces : ScriptableObject
         if (peces == null) peces = new List<Estat>();
 
         colocar.OnFinish += RemovePeça;
-        resoldre.Nivell.EnPujarNivell += AddPecesPerNivell;
+        nivell.EnPujarNivell += AddPecesPerNivell;
         enAfegir += save.AddToPila;
         enTreure += save.RemoveLastFromPila;
         
@@ -51,7 +51,6 @@ public class PoolPeces : ScriptableObject
         colocar.Seleccionar(peces[0]);
     }
 
-    //(nivell / 2) * 10
     void AddPeces()
     {
         if (save.HiHaAlgunaPeça)
@@ -76,7 +75,7 @@ public class PoolPeces : ScriptableObject
             }
         }
     }
-    public void AddPecesPerNivell(int nivell, int experiencia)
+    public void AddPecesPerNivell(int nivell)
     {
         for (int i = 0; i < PecesPerNivell(nivell); i++)
         {
@@ -106,7 +105,7 @@ public class PoolPeces : ScriptableObject
     public void Reset()
     {
         colocar.OnFinish -= RemovePeça;
-        resoldre.Nivell.EnPujarNivell -= AddPecesPerNivell;
+        nivell.EnPujarNivell -= AddPecesPerNivell;
         enAfegir -= save.AddToPila;
         enTreure -= save.RemoveLastFromPila;
     }

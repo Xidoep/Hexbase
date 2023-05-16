@@ -21,8 +21,8 @@ public class Fase_Processar : Fase
     [Apartat("SEGÜENT FASE")]
     [SerializeField] Fase resoldre;
 
-    [Apartat("ANIMACIONS")]
-    [SerializeField] Visualitzacions visualitzacions;
+    //[Apartat("ANIMACIONS")]
+    //[SerializeField] Visualitzacions visualitzacions;
 
     [Apartat("RIU")]
     [SerializeField] Estat riu;
@@ -33,8 +33,17 @@ public class Fase_Processar : Fase
     List<Peça> perComprovar;
     List<Proximitat.Canvis> canviades;
     List<Peça> canviadesPeça;
-    List<Peça> animades;
+    //List<Peça> animades;
+    List<Peça> recreades;
 
+
+    System.Action<Transform, List<Peça>> enColocar;
+    System.Action<Transform> enCanviarEstat;
+    System.Action<Transform> enCanviarEstatVeins;
+
+    public System.Action<Transform, List<Peça>> EnColocar { get => enColocar; set => enColocar = value; }
+    public System.Action<Transform> EnCanviarEstat { get => enCanviarEstat; set => enCanviarEstat = value; }
+    public System.Action<Transform> EnCanviarEstatVeins { get => enCanviarEstatVeins; set => enCanviarEstatVeins = value; }
 
     public override void FaseStart()
     {
@@ -68,12 +77,13 @@ public class Fase_Processar : Fase
     {
         Debug.LogError($"Colocar peça {peça.name}");
 
-        visualitzacions.Colocar(peça);
-        animades = new List<Peça>();
+       // animades = new List<Peça>();
+        /*visualitzacions.Colocar(peça);
         for (int v = 0; v < peça.VeinsPeça.Count; v++)
         {
             visualitzacions.Colocar_ReaccioVei(peça.VeinsPeça[v]);
-        }
+        }*/
+        enColocar(peça.Parent, peça.VeinsPeça);
 
         perComprovar = new List<Peça>() { peça };
         List<Peça> comprovar = proximitat.GetPecesToComprovar(peça); //Et dona totes les peces comprovables al voltant de la que has colocat, tinguent en compte grups, camins, ports, etc...
@@ -115,7 +125,7 @@ public class Fase_Processar : Fase
         }
     }
 
-    List<Peça> recreades;
+    
     void Produir()
     {
         Crear_i_Animar();
@@ -157,7 +167,8 @@ public class Fase_Processar : Fase
                 peça.CrearTilesFisics();
             }
 
-            visualitzacions.CanviarEstat(peça);
+            //visualitzacions.CanviarEstat(peça);
+            enCanviarEstat(peça.Parent);
 
             for (int v = 0; v < peça.VeinsPeça.Count; v++)
             {
@@ -170,25 +181,27 @@ public class Fase_Processar : Fase
                     recreades.Add(peça.VeinsPeça[v]);
                     peça.VeinsPeça[v].CrearTilesFisics();
                 }
-                visualitzacions.CanviarEstat_ReaccioVei(peça.VeinsPeça[v]);
+                enCanviarEstatVeins(peça.VeinsPeça[v].Parent);
+                //visualitzacions.CanviarEstat_ReaccioVei(peça.VeinsPeça[v]);
             }
         }
-        
-    }
 
-    bool CanviadesContains(Peça peça)
-    {
-        return canviadesPeça.Contains(peça);
-
-        for (int i = 0; i < canviades.Count; i++)
+        bool CanviadesContains(Peça peça)
         {
-            if (!Equals(peça, canviades[i]))
-                continue;
+            return canviadesPeça.Contains(peça);
 
-            return true;
+            for (int i = 0; i < canviades.Count; i++)
+            {
+                if (!Equals(peça, canviades[i]))
+                    continue;
+
+                return true;
+            }
+            return false;
         }
-        return false;
     }
+
+    
 
     void CrearRanures()
     {
@@ -201,11 +214,11 @@ public class Fase_Processar : Fase
     void Guardar()
     {
         //Això hauria de ser un proces.
-        Debug.LogError($"Actualitzar {animades.Count}");
+        /*Debug.LogError($"Actualitzar {animades.Count}");
         for (int i = 0; i < animades.Count; i++)
         {
             Debug.LogError($"Actualitzar {animades[i].Coordenades}");
-        }
+        }*/
         save.Add(peça, grups);
         save.Actualitzar(perComprovar, grups);
 

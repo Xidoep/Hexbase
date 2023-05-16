@@ -6,15 +6,15 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Proximitat")]
 public class Proximitat : ScriptableObject
 {
-    [SerializeScriptableObject] [SerializeField] PoolPeces pool;
+    //[SerializeScriptableObject] [SerializeField] PoolPeces pool;
 
     [SerializeScriptableObject] [SerializeField] Grups grups;
-    [SerializeScriptableObject] [SerializeField] Estat cami;
+    //[SerializeScriptableObject] [SerializeField] Estat cami;
 
-    [SerializeScriptableObject] [SerializeField] Fase_Colocar colocar;
-    [SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
+    //[SerializeScriptableObject] [SerializeField] Fase_Colocar colocar;
+    //[SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
 
-    [SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
+    //[SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
 
 
     //INTERN

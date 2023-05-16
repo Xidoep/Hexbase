@@ -19,8 +19,8 @@ public class SaveHex : ScriptableObject
     Tile tTrobat;
     [SerializeField] bool nomesGuardats;
 
-
-
+    System.Action<Peça> enColocar;
+    public System.Action<Peça> EnColocar { get => enColocar; set => enColocar = value; }
 
     private void OnEnable()
     {
@@ -70,7 +70,7 @@ public class SaveHex : ScriptableObject
         actual = index;
         Load(grups, seguent, enCarregat);
     }
-    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, Referencies.Instance.Visualitzacions.Colocar, enCarregat);
+    public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, enColocar, enCarregat);
     Estat EstatNomToPrefab(string nom)
     {
         eTrobat = null;
@@ -144,8 +144,8 @@ public class SaveHex : ScriptableObject
 
     //EXPERIENCIA
     public int Experiencia(int index) => files[index].Experiencia;
-    public void ActualitzarExperiencia(int experiencia, int nivell) => files[actual].SetExperienciaNivell(experiencia, nivell);
-    
+    public void GuardarExperiencia(int experiencia) => files[actual].SetExperiencia(experiencia);
+    public void guardarNivell(int nivell) => files[actual].SetNivell(nivell);
 
 
     //MODES

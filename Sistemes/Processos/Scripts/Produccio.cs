@@ -7,19 +7,18 @@ using XS_Utils;
 public class Produccio : ScriptableObject
 {
     [SerializeScriptableObject][SerializeField] Grups grups;
-    [SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
+    //[SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
+    [SerializeScriptableObject] [SerializeField] Nivell nivell;
     //[SerializeField] PoolPeces pool;
 
     [Nota("Ara es mostra només per debugar", NoteType.Warning)]
     [SerializeField] List<Peça> productors;
     
     
-    [Apartat("ESTATS NECESSARIS")]
-    [SerializeField] Estat cami;
-    [SerializeField] Subestat casa;
+    //[Apartat("ESTATS NECESSARIS")]
+    //[SerializeField] Estat cami;
+    //[SerializeField] Subestat casa;
 
-    [Space(30)]
-    [SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
     /*
     [Apartat("ANIMACIONS")]
     [SerializeField] Animacio_Scriptable producteProveir;
@@ -40,13 +39,13 @@ public class Produccio : ScriptableObject
     
     System.Action enFinalitzar;
     int index;
-    List<Peça> veins;
+    //List<Peça> veins;
     List<string> connexions;
     float stepTime = 0.1f;
     List<Peça> casesProveides;
-    List<Peça> productorsActualitzables;
-    Vector3 offset;
-    [SerializeField] List<Visualitzacions.Producte> visualitzacioProducte;
+    //List<Peça> productorsActualitzables;
+    //Vector3 offset;
+    //[SerializeField] List<Visualitzacions.Producte> visualitzacioProducte;
 
 
 
@@ -85,7 +84,7 @@ public class Produccio : ScriptableObject
         else 
             casesProveides.Clear();
 
-        if (visualitzacioProducte == null) visualitzacioProducte = new List<Visualitzacions.Producte>();
+        //if (visualitzacioProducte == null) visualitzacioProducte = new List<Visualitzacions.Producte>();
         //CleanAllNeeds();
         Step();
     }
@@ -99,7 +98,7 @@ public class Produccio : ScriptableObject
             return;
         }
 
-        visualitzacioProducte.Clear();
+        //visualitzacioProducte.Clear();
 
         //COMPROVAR SI L'HI QUEDEN PRODUCTES SENSE GASTAR
         bool hiHaProductePerGastar = false;
@@ -128,12 +127,15 @@ public class Produccio : ScriptableObject
                 {
                     //proveida.MostrarInformacio?.Invoke(proveida, true);
                     //proveida.SetBlocarInformacio = true;
-                    resoldre.Nivell.GuanyarExperiencia(1);
+
+                    //resoldre.Nivell.GuanyarExperiencia(1);
+                    nivell.GuanyarExperiencia(1, 3);
+
                     casesProveides.Add(proveida);
 
                     productors[index].Connexio.ProductesExtrets[i].gastat = true;
                 }
-                visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
+                //visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
             }
 
 

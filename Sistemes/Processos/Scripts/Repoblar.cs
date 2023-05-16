@@ -7,9 +7,6 @@ using static Casa;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/Repoblar")]
 public class Repoblar : ScriptableObject
 {
-    [SerializeField] Subestat casa;
-    [SerializeField] Detall_Tiles_Estat detall_Tiles;
-    [SerializeField] Producte necessitatInicial;
     [SerializeField] Recepta[] necessitats;
 
     [Nota("Només per debugging",NoteType.Warning)]
@@ -25,6 +22,7 @@ public class Repoblar : ScriptableObject
         cases = new List<Peça>();
     }
 
+    public void AfegirLaPrimeraCasa(Peça peça) => peça.AfegirCasa(necessitats);
     public void Proces(List<Peça> peces, System.Action enFinalitzar)
     {
         Debugar.LogError("--------------REPOBLAR---------------");
@@ -50,7 +48,6 @@ public class Repoblar : ScriptableObject
         if (enFinalitzar != null) enFinalitzar.Invoke();
     }
 
-    public void AfegirLaPrimeraCasa(Peça peça) => peça.AfegirCasa(necessitats);
 
     void CanviarCases(Peça peça, int casesVeines)
     {

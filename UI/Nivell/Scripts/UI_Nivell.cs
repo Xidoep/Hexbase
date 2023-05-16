@@ -6,54 +6,56 @@ using TMPro;
 
 public class UI_Nivell : MonoBehaviour
 {
-    [SerializeField] Fase_Resoldre resoldre;
-    [SerializeField] Visualitzacions visualitzacions;
+    [SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
+    [SerializeScriptableObject] [SerializeField] Nivell nivell;
 
     [Apartat("UI")]
-    [SerializeField] Transform pivot;
     [SerializeField] Image uiCercle;
     [SerializeField] TMP_Text uiNivell;
     [SerializeField] TMP_Text uiExperencia;
 
-    int nivell, experiencia;
-
     private void OnEnable()
     {
-        resoldre.Nivell.EnGuanyarExperiencia += EsperarAnimacioGuanyarPunts;
-        resoldre.Nivell.EnPujarNivell += EsperarAnimacioGuanyarPunts;
+        nivell.EnGuanyarExperiencia += PujarExperiencia;
+        nivell.EnPujarNivell += PujarNivell;
         resoldre.EnTornar += Amagar;
         resoldre.EnRepetir += Amagar;
         resoldre.EnContinuar += Amagar;
 
-        ActualitarUI(1, 0);
+        SetNivell(1);
+        SetExperiencia(0);
     }
 
     void OnDisable()
     {
-        resoldre.Nivell.EnGuanyarExperiencia -= EsperarAnimacioGuanyarPunts;
-        resoldre.Nivell.EnPujarNivell -= EsperarAnimacioGuanyarPunts;
+        nivell.EnGuanyarExperiencia -= PujarExperiencia;
+        nivell.EnPujarNivell -= PujarNivell;
         resoldre.EnTornar -= Amagar;
         resoldre.EnRepetir -= Amagar;
         resoldre.EnContinuar -= Amagar;
     }
 
-    void ActualitarUI() => ActualitarUI(nivell, experiencia);
-    void ActualitarUI(int nivell, int experiencia)
+    void PujarNivell(int nivell)
     {
-        uiCercle.fillAmount = resoldre.Nivell.FactorExperienciaNivellActual;
-        uiNivell.text = nivell.ToString();
-        uiExperencia.text = $"{experiencia} / {resoldre.Nivell.ProximNivell(nivell)}";
+        //ANIMACIOOOO!!!
+        SetNivell(nivell);
     }
-    void EsperarAnimacioGuanyarPunts(int nivell, int experiencia)
+    void PujarExperiencia(int experiencia)
     {
-        this.nivell = nivell;
-        this.experiencia = experiencia;
-        visualitzacions.Delegar_ActualitzarNivell(pivot, ActualitarUI);
+        Debug.Log("UI Pujar experiencia");
+        //ANIMACIO!!!
+        SetExperiencia(experiencia);
     }
 
-    public void Amagar()
+
+
+    void SetNivell(int nivell) => uiNivell.text = nivell.ToString();
+    void SetExperiencia(int experiencia)
     {
-        Destroy(this.gameObject);
+        uiCercle.fillAmount = this.nivell.FactorExperienciaNivellActual;
+        uiExperencia.text = $"{experiencia} / {this.nivell.ExperienciaNecessariaProximNivell}";
     }
+
+    public void Amagar() => Destroy(this.gameObject);
 
 }

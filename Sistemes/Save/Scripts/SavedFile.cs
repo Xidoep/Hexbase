@@ -85,11 +85,8 @@ public class SavedFile
         Step(estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab, animacio);
     }
     public void SetMode(Mode mode) => this.mode = (int)mode;
-    public void SetExperienciaNivell(int experiencia, int nivell)
-    {
-        this.experiencia = experiencia;
-        this.nivell = nivell;
-    }
+    public void SetNivell(int nivell) => this.nivell = nivell;
+    public void SetExperiencia(int experiencia) => this.experiencia = experiencia;
     public void AddPila(Estat estat)
     {
         if (pila == null) pila = new List<string>();

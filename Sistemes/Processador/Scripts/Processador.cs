@@ -7,7 +7,7 @@ public class Processador : System.Object
 {
     [SerializeField] List<Recepta> receptes;
 
-
+    bool aconseguit;
     public bool IntentarProcessar(Peça peça, List<object> inputs, bool aLaPrimeraReceptaComplertaAturat = false)
     {
         string _debug = $"Intentar Processar {peça.name} amb {inputs.Count} inputs: ";
@@ -19,7 +19,7 @@ public class Processador : System.Object
 
         if (receptes == null) receptes = new List<Recepta>();
 
-        bool aconseguit = false;
+        aconseguit = false;
         for (int i = 0; i < receptes.Count; i++)
         {
             if(receptes[i].ConnexioPropia != Peça.ConnexioEnum.NoImporta)
@@ -30,10 +30,19 @@ public class Processador : System.Object
 
             if (receptes[i].TeInputsIguals(inputs))
             {
-                Debug.Log("Match!");
-                receptes[i].Processar(peça);
+                Debug.Log($"Match! ({receptes[i].name})");
+
+                /*
+                 * PROBLEMA!!! Destrueix les receptes si es un canvi d'estat.
+                 * Osigui, que canvia les receptes perque canvia l'estat
+                 * i després borra la recepta...
+                 * Aixo va bé per la produccio que no canvia d'estat i per tant no modifica les receptes
+                 */
                 //receptes.Remove(receptes[i]);
-                if(receptes.Count > 0)
+
+                Recepta _confirmada = receptes[i];
+
+                if (receptes.Count > 0)
                 {
                     Debug.Log($"i = {i}");
                     if (i == Mathf.Clamp(i, 0, receptes.Count - 1))
@@ -43,15 +52,25 @@ public class Processador : System.Object
                         i--;
                         i = Mathf.Clamp(i, 0, receptes.Count - 1);
                     }
-
-                    
                 }
-                aconseguit = true;
 
+                _confirmada.Processar(peça);
+                //receptes[i].Processar(peça);
+
+                aconseguit = true;
                 if (aLaPrimeraReceptaComplertaAturat)
                     return aconseguit;
+                //aconseguit = true;
+                //if (aLaPrimeraReceptaComplertaAturat)
+                //    return aconseguit;
             }
         }
+        /*for (int i = 0; i < length; i++)
+        {
+
+        }*/
+
+
         Debug.Log("no match...");
         return aconseguit;
     }
@@ -62,12 +81,17 @@ public class Processador : System.Object
 
 
 
-    public void NovaRecepta(Recepta recepta) => receptes = new List<Recepta>() { recepta };
-    public void NovaRecepta(Recepta[] receptes) => this.receptes = new List<Recepta>(receptes);
+    //public void NovaRecepta(Recepta recepta) => receptes = new List<Recepta>() { recepta };
+    public void NovaRecepta(Recepta[] receptes) 
+    {
+        Debug.Log($"RECEPTES - Nou amb {receptes.Length} receptes");
+        this.receptes = new List<Recepta>(receptes);
+    } 
     public void AfegirRecepta(Recepta recepta) => receptes.Add(recepta);
-    public void BorrarRecepta(int index) => receptes.RemoveAt(index);
+    //public void BorrarRecepta(int index) => receptes.RemoveAt(index);
     public void BorrarRecepta(Recepta recepta) 
     {
+        Debug.Log($"RECEPTES - Borrar recepta {recepta.name}");
         if (!receptes.Contains(recepta))
             return;
 

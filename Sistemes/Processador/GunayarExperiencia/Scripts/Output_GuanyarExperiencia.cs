@@ -5,22 +5,24 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Roductes/Puntuacio")]
 public class Output_GuanyarExperiencia : ScriptableObject, IProcessable
 {
+    [SerializeScriptableObject][SerializeField] Nivell nivell;
     [SerializeField] int puntuacio;
 
-    [Apartat("Auto-configurable")]
-    [SerializeField] Fase_Resoldre resoldre;
-    [SerializeField] Visualitzacions visualitzacions;
+    //[Apartat("Auto-configurable")]
+    //[SerializeField] Fase_Resoldre resoldre;
+
+    System.Action<Peça, int> enPuntuar;
+    public System.Action<Peça, int> EnPuntuar { get => enPuntuar; set => enPuntuar = value; }
 
     public void Processar(Peça peça)
     {
-        resoldre.Nivell.GuanyarExperiencia(puntuacio);
-        visualitzacions.GuanyarExperiencia(peça.transform.position, puntuacio);
+        nivell.GuanyarExperiencia(puntuacio, 2);
+        enPuntuar(peça, puntuacio);
     }
 
 
     private void OnValidate()
     {
-        if (resoldre == null) resoldre = XS_Utils.XS_Editor.LoadAssetAtPath<Fase_Resoldre>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Resoldre.asset");
-        if (visualitzacions == null) visualitzacions = XS_Utils.XS_Editor.LoadAssetAtPath<Visualitzacions>("Assets/XidoStudio/Hexbase/Sistemes/Visualitzacions/Visualitzacions.asset");
+        if (nivell == null) nivell = XS_Utils.XS_Editor.LoadAssetAtPath<Nivell>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Nivell.asset");
     }
 }

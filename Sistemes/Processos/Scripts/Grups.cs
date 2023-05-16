@@ -8,16 +8,12 @@ using XS_Utils;
 public class Grups : ScriptableObject
 {
     [SerializeField] List<Grup> grups;
-    [SerializeField] Visualitzacions visualitzacions;
 
     [Apartat("ESTATS NECESSARIS")]
     [SerializeField] Estat casa;
     [SerializeField] Estat cami;
     [SerializeField] Subestat port;
     [SerializeField] Estat aigua;
-
-    [Apartat("MATERIALS")]
-    [SerializeField] Shader[] reseltables;
 
     public List<Grup> Grup => grups;
     public List<Peça> ConnexionsFetes => connexionsFetes;
@@ -35,6 +31,7 @@ public class Grups : ScriptableObject
     List<Grup> grupsVeinsPeça;
     Grup buscat;
     List<Peça> connexionsFetes;
+
 
 
 
@@ -225,9 +222,9 @@ public class Grups : ScriptableObject
     public void Resetejar() => grups = new List<Grup>();
 
     //AIXO HA D'ANAR A VISUALITZACIONS!!!
-    public void ResaltarGrup(Peça peça) => visualitzacions.Destacar(this, peça, true);
+    //public void ResaltarGrup(Peça peça) => visualitzacions.Destacar(this, peça, true);
 
-    public void ReixarDeResaltar() => visualitzacions.Destacar(this, null, false);
+    //public void ReixarDeResaltar() => visualitzacions.Destacar(this, null, false);
 
     public List<Peça> Peces(List<Grup> grups, Peça peça) 
     {

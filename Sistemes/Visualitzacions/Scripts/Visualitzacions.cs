@@ -6,37 +6,239 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Visualitzacions")]
 public class Visualitzacions : ScriptableObject
 {
+    const string DESTACAT = "_Destacat";
 
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //RES HAURIA DE CRIDAR FUNCIONS D'AQUEST SCRIPT. TOT HAURIEN DE SER ACCIONS DELEGADES.
-    //PER NO HAVERME DE PREOCUPAR PER SI S'HA VISUALITZAT ALGO O NO...
-    //L'ACCIO ANIRÀ LLIGADA A UNS VISUALS
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
-    //*********************************************************
+    [Header("LISTENERS")]
+    [SerializeField] Output_GuanyarExperiencia[] guanyarExperiencia;
+    [SerializeField] SaveHex save;
+    [SerializeField] Fase_Processar faseProcessar;
+    [SerializeField] Informacio_Grup informacioGrup;
+    [SerializeField] Informacio_Connexio informacioConnexio;
+    [SerializeField] Menu_Pila menuPila;
+    [SerializeField] Nivell nivell;
+    [Space(20)]
+    [SerializeField] Grups grups;
+
+    [Apartat("PREFABS / NEEDS")]
+    [SerializeField] Utils_TextSetup puntsFlotants;
+    WaitForSeconds wfs_puntsFlotants;
+
+    [Space(20)]
+    [SerializeField] AnimacioPerCodi caure;
+    [SerializeField] AnimacioPerCodi colocar;
+    [SerializeField] AnimacioPerCodi colocar_reaccioVei;
+    [SerializeField] AnimacioPerCodi canviarEstat;
+    [SerializeField] AnimacioPerCodi canviarEstat_reaccioVei;
+
+    [Space(20)]
+    [SerializeField] MaterialPropertyBlock resaltar;
+    [SerializeField] MaterialPropertyBlock noResaltar;
+
+    [Space(20)]
+    [SerializeField] AnimacioPerCodi desapareixre;
+    [SerializeField] AnimacioPerCodi desapareixreParent;
+    [SerializeField] AnimacioPerCodi pilaPosicio1, pilaPosicio1Parent;
+    [SerializeField] AnimacioPerCodi pilaPosicio2, pilaPosicio2Parent;
 
 
+
+    private void OnEnable()
+    {
+        //PUNTS FLOTANTS
+        for (int i = 0; i < guanyarExperiencia.Length; i++)
+        {
+            guanyarExperiencia[i].EnPuntuar += PuntsFlotants;
+        }
+        wfs_puntsFlotants = new WaitForSeconds(1);
+
+        //PROCESSAR
+        save.EnColocar += Caure;
+        faseProcessar.EnColocar += Colocar;
+        faseProcessar.EnCanviarEstat += CanviEstat;
+        faseProcessar.EnCanviarEstatVeins += CanviEstatVei;
+
+        //RESALTAR
+        informacioGrup.EnResaltar += Resaltar;
+        informacioGrup.EnDesresaltar += Desresaltar;
+        informacioConnexio.EnResaltar += DestacarPeça;
+
+        resaltar = new MaterialPropertyBlock();
+        resaltar.SetInt(DESTACAT, 1);
+        noResaltar = new MaterialPropertyBlock();
+        noResaltar.SetInt(DESTACAT, 0);
+
+        //PILA
+        menuPila.EnDesapareixre += Desapareixre;
+        menuPila.EnPosicio1 += PrimeraPosicio;
+        menuPila.EnPosicio2 += SegonaPosicio;
+
+        //NIVELL
+        nivell.EnGuanyarExperiencia += UIExperiencia;
+        nivell.EnPujarNivell += UINivell;
+    }
+    private void OnDisable()
+    {
+        //PUNTS FLOTANTS
+        for (int i = 0; i < guanyarExperiencia.Length; i++)
+        {
+            guanyarExperiencia[i].EnPuntuar -= PuntsFlotants;
+        }
+
+        //PROCESSAR
+        save.EnColocar -= Caure;
+        faseProcessar.EnColocar -= Colocar;
+        faseProcessar.EnCanviarEstat -= CanviEstat;
+        faseProcessar.EnCanviarEstatVeins -= CanviEstatVei;
+
+        //RESALTAR
+        informacioGrup.EnResaltar -= Resaltar;
+        informacioGrup.EnDesresaltar -= Desresaltar;
+        informacioConnexio.EnResaltar -= DestacarPeça;
+
+        //PILA
+        menuPila.EnDesapareixre -= Desapareixre;
+        menuPila.EnPosicio1 -= PrimeraPosicio;
+        menuPila.EnPosicio2 -= SegonaPosicio;
+
+        //NIVELL
+        nivell.EnGuanyarExperiencia -= UIExperiencia;
+        nivell.EnPujarNivell -= UINivell;
+    }
+
+
+    #region PUNTS FLOTANTS
+    void PuntsFlotants(Peça peça, int experiencia) => XS_Coroutine.StartCoroutine(PuntsFlotants_Corrutina(peça, experiencia));
+    IEnumerator PuntsFlotants_Corrutina(Peça peça, int experiencia)
+    {
+        Debug.Log("Crear punts flotants");
+        yield return wfs_puntsFlotants;
+        Instantiate(
+            puntsFlotants,
+            peça.transform.position - Utils_MainCamera_Acces.Camera.transform.forward * 1,
+            Quaternion.Euler(Utils_MainCamera_Acces.Camera.transform.forward)).Setup(experiencia);
+    }
+
+    
+    #endregion
+
+    #region COLOCAR
+    void Caure(Peça peça) => caure.Play(peça.Parent);
+    void Colocar(Transform parent, List<Peça> veins)
+    {
+        colocar.Play(parent);
+        for (int i = 0; i < veins.Count; i++)
+        {
+            colocar_reaccioVei.Play(veins[i].Parent);
+        }
+    }
+    void CanviEstat(Transform parent) => canviarEstat.Play(parent);
+    void CanviEstatVei(Transform parent) => canviarEstat_reaccioVei.Play(parent);
+    #endregion
+
+    #region RESALTAR
+    void Resaltar(Peça peça)
+    {
+        Grup grup = grups.GrupByPeça(grups.Grup, peça);
+        grup.Resaltat = true;
+
+        //Destacar el grup en si.
+        DestacarPeces(grup.Peces, true);
+
+        //Destacar el grup dels cammins connectats, que també contenen els ports.
+        for (int i = 0; i < grup.Camins.Count; i++)
+        {
+            Grup cami = grups.GrupByPeça(grups.Grup, grup.Camins[i]);
+            cami.Resaltat = true;
+            DestacarPeces(cami.Peces, true);
+        }
+
+        //Destacar els grups de les connexionsId.
+        for (int i = 0; i < grup.ConnexionsId.Count; i++)
+        {
+            if (grup.ConnexionsId[i] == grup.Id)
+                continue;
+
+            Grup connectat = grups.GrupById(grups.Grup, grup.ConnexionsId[i]);
+            connectat.Resaltat = true;
+            DestacarPeces(connectat.Peces, true);
+        }
+
+        //Destacar els ports als que estan connectats els ports connectats.
+        for (int i = 0; i < grup.Ports.Count; i++)
+        {
+            Grup port = grups.GrupByPeça(grups.Grup, grup.Ports[i]);
+            port.Resaltat = true;
+        }
+    }
+    void Desresaltar()
+    {
+        for (int i = 0; i < grups.Grup.Count; i++)
+        {
+            if (grups.Grup[i].Resaltat)
+            {
+                DestacarPeces(grups.Grup[i].Peces, false);
+                grups.Grup[i].Resaltat = false;
+            }
+
+        }
+    }
+    void DestacarPeces(List<Peça> peces, bool destacar)
+    {
+        for (int p = 0; p < peces.Count; p++)
+        {
+            DestacarPeça(peces[p], destacar);
+        }
+    }
+    void DestacarPeça(Hexagon hexagon, bool destacar)
+    {
+        MeshRenderer[] meshRenderers = hexagon.GetComponentsInChildren<MeshRenderer>();
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            meshRenderers[i].SetPropertyBlock(destacar ? resaltar : noResaltar);
+        }
+    }
+    #endregion
+
+    #region PILA
+    void PrimeraPosicio(Transform transform)
+    {
+        pilaPosicio1.Play(transform);
+        pilaPosicio1Parent.Play(transform.parent.GetComponent<RectTransform>());
+        //animacions.primeraPosicio.Play(transform);
+        //animacions.primeraPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
+    }
+    void SegonaPosicio(Transform transform)
+    {
+        pilaPosicio2.Play(transform);
+        pilaPosicio2Parent.Play(transform.parent.GetComponent<RectTransform>());
+        //animacions.segonaPosicio.Play(transform);
+        //animacions.segonaPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
+    }
+
+    void Desapareixre(Transform transform)
+    {
+        desapareixre.Play(transform);
+        desapareixreParent.Play(transform.parent.GetComponent<RectTransform>());
+        //animacions.colocarPeça.Play(transform);
+        //animacions.colocarPeçaParent.Play(transform.parent.GetComponent<RectTransform>());
+    }
+    #endregion
+
+    #region NIVELL
+    public void UINivell(int nivell)
+    {
+
+    }
+    public void UIExperiencia(int experiencia)
+    {
+
+    }
+    #endregion
 
     [SerializeField] Animacions animacions;
     [Space(20)]
     [SerializeField] Prefabs prefabs;
-    [Space(20)]
-    [SerializeField] Materials materials;
 
-    List<Vector3> posicions;
-    //Grid grid;
 
     [System.Serializable]
     public struct Animacions
@@ -67,8 +269,6 @@ public class Visualitzacions : ScriptableObject
     [System.Serializable]
     public struct Prefabs
     {
-        [Header("PUNTS")]
-        public Utils_InstantiableFromProject guanyarPunts;
 
         [Header("PREDICCIONS")]
         public GameObject canvi;
@@ -116,304 +316,13 @@ public class Visualitzacions : ScriptableObject
     }
 
 
-    [System.Serializable]
-    public struct Materials
-    {
-        public const string DESTACAT = "_Destacat";
-
-        [Header("GRUPS")]
-        public MaterialPropertyBlock resaltar;
-        public MaterialPropertyBlock noResaltar;
-
-        public void Setup()
-        {
-            resaltar = new MaterialPropertyBlock();
-            resaltar.SetInt(DESTACAT, 1);
-            noResaltar = new MaterialPropertyBlock();
-            noResaltar.SetInt(DESTACAT, 0);
-        }
-    }
-
-    private void OnEnable()
-    {
-        materials.Setup();
-    }
-
-    public void Destacar(Grups grups, Peça peça, bool destacar)
-    {
-        if (destacar)
-        {
-            Grup grup = grups.GrupByPeça(grups.Grup, peça);
-            grup.Resaltat = true;
-
-            //Destacar el grup en si.
-            DestacarPeces(grup.Peces, true);
-
-            //Destacar el grup dels cammins connectats, que també contenen els ports.
-            for (int i = 0; i < grup.Camins.Count; i++)
-            {
-                Grup cami = grups.GrupByPeça(grups.Grup, grup.Camins[i]);
-                cami.Resaltat = true;
-                DestacarPeces(cami.Peces, true);
-            }
-
-            //Destacar els grups de les connexionsId.
-            for (int i = 0; i < grup.ConnexionsId.Count; i++)
-            {
-                if (grup.ConnexionsId[i] == grup.Id)
-                    continue;
-
-                Grup connectat = grups.GrupById(grups.Grup, grup.ConnexionsId[i]);
-                connectat.Resaltat = true;
-                DestacarPeces(connectat.Peces, true);
-            }
-
-            //Destacar els ports als que estan connectats els ports connectats.
-            for (int i = 0; i < grup.Ports.Count; i++)
-            {
-                Grup port = grups.GrupByPeça(grups.Grup, grup.Ports[i]);
-                port.Resaltat = true;
-                //Dibuixar una linia entre els ports connectats.
-                /*for (int c = 0; c < port.connexionsId.Count; c++)
-                {
-                    LineRenderer linia = new GameObject("Connexió maritima").AddComponent<LineRenderer>();
-                    linia.transform.SetParent(grup.Ports[i].transform);
-                    linia.SetPositions(new Vector3[]
-                    {
-                        grup.Ports[i].transform.position,
-                        grups.GrupById(grups.Grup,port.connexionsId[c]).Peces[0].transform.position
-                    });
-                }*/
-
-            }
-
-        }
-        else
-        {
-            for (int i = 0; i < grups.Grup.Count; i++)
-            {
-                if (grups.Grup[i].Resaltat)
-                {
-                    DestacarPeces(grups.Grup[i].Peces, false);
-                    grups.Grup[i].Resaltat = false;
-                }
-                
-            }
-        }
 
 
 
 
-        void DestacarPeces(List<Peça> peces, bool destacar)
-        {
-            for (int p = 0; p < peces.Count; p++)
-            {
-                //Debugar.LogError($"Resaltar peça: {peces[p].gameObject.name}");
-                DestacarPeça(peces[p], destacar);
-                /*MeshRenderer[] meshRenderers = peces[p].GetComponentsInChildren<MeshRenderer>();
-                for (int i = 0; i < meshRenderers.Length; i++)
-                    meshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
-                }*/
-                /*if (peces[p].SubestatIgualA(port))
-                {
-                    LineRenderer[] lineRenderers = peces[p].GetComponentsInChildren<LineRenderer>();
-                    for (int l = lineRenderers.Length; l > 0; l--)
-                    {
-                        Destroy(lineRenderers[l]);
-                    }
-                }*/
-            }
-        }
-    }
-    public void DestacarPeça(Hexagon hexagon, bool destacar)
-    {
-        MeshRenderer[] meshRenderers = hexagon.GetComponentsInChildren<MeshRenderer>();
-        for (int i = 0; i < meshRenderers.Length; i++)
-        {
-            meshRenderers[i].SetPropertyBlock(destacar ? materials.resaltar : materials.noResaltar);
-        }
-    }
 
-    public void Colocar(Peça peça) => animacions.colocar.Play(peça.Parent);
-    public void CanviarEstat(Peça peça) => animacions.canviarEstat.Play(peça.Parent);
-    public void Colocar_ReaccioVei(Peça veina) => animacions.colocar_reaccioVei.Play(veina.Parent);
-    public void CanviarEstat_ReaccioVei(Peça veina) => animacions.canviarEstat_reaccioVei.Play(veina.Parent);
 
-    public void PrimeraPosicio(Transform transform) 
-    {
-        animacions.primeraPosicio.Play(transform);
-        animacions.primeraPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
-    } 
-    public void SegonaPosicio(Transform transform) 
-    {
-        animacions.segonaPosicio.Play(transform);
-        animacions.segonaPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
-    } 
 
-    public void ColocarPeça(Transform transform) 
-    {
-        animacions.colocarPeça.Play(transform);
-        animacions.colocarPeçaParent.Play(transform.parent.GetComponent<RectTransform>());
-    }
-
-    /*public void AddGuanyarPunts(Vector3 posicio)
-    {
-        if (posicions == null) posicions = new List<Vector3>();
-
-        posicions.Add(posicio);
-    }*/
-   
-    public void GuanyarExperiencia(Vector3 posicio, int experiencia)
-    {
-        InstanciarParticulesPunts(posicio, experiencia);
-        animacioGuanyarExperiencia?.Invoke();
-        actualitzarNivell?.Invoke();
-    }
-
-    /*public void GuanyarExperienciaProximitat(int experiencia)
-    {
-        XS_Coroutine.StartCoroutine_Ending(1.5f, Animacio);
-
-        void Animacio() 
-        {
-            for (int i = 0; i < posicions.Count; i++)
-            {
-                InstanciarParticulesPunts(posicions[0], experiencia);
-                posicions.RemoveAt(0);
-
-                animacioGuanyarExperiencia?.Invoke();
-                actualitzarNivell?.Invoke();
-            }
-        } 
-    }*/
-    public void GuanyarExperienciaProduccio()
-    {
-        animacioGuanyarExperiencia?.Invoke();
-        actualitzarNivell?.Invoke();
-    }
-
-    public void AmagarInformacio(GameObject gameObject)
-    {
-        animacions.amagarInformacio.Play(gameObject.transform);
-        Destroy(gameObject, 0.51f);
-    }
-
-    public System.Action animacioGuanyarExperiencia;
-    public System.Action actualitzarNivell;
-    public void Delegar_ActualitzarNivell(Transform transform, System.Action actualitzarNivell) 
-    {
-        animacioGuanyarExperiencia = () => animacions.guanyarExperiencia.Play(transform);
-        this.actualitzarNivell = actualitzarNivell;
-    }
-
-    /*
-    public void Produccio(Visualitzacions.Producte v, bool ultima, System.Action enFinalitzar)
-    {
-        XS_Coroutine.StartCoroutine_Ending(0.55f + (v.indexProducte * 0.3f), Animacio);
-        //v.productor.Extraccio.mostrarInformacio?.Invoke(v.productor, true);
-        //v.productor.Extraccio.BlocarInformacio = true;
-
-        void Animacio()
-        {
-            
-            if (v.productor == null)
-            {
-                DestruirProducte(v.productor, v.indexProducte, ultima, enFinalitzar);
-            }
-            else
-            {
-                ExtreureProducte(v.productor, v.indexProducte);
-
-                if (v.casa != null)
-                    RepartirProducte(v.productor, v.indexProducte, v.casa, v.indexNecessitat, ultima, enFinalitzar);
-                else
-                    DestruirProducte(v.productor, v.indexProducte, ultima, enFinalitzar);
-            }
-        }
-
-        void ExtreureProducte(Peça p, int i)
-        {
-            GameObject producte = p.Connexio.ProductesExtrets[i].informacio.gameObject;
-
-            Vector3 offset = producte.transform.localPosition;
-            new Animacio_Posicio(p.Connexio.transform.position + offset, p.transform.position + offset, false, false).Play(producte.transform, 0.5f, Transicio.clamp);
-        }
-        void RepartirProducte(Peça p, int iProd, Peça c, int iNeed, bool ultima, System.Action enFinalitzar)
-        {
-            XS_Coroutine.StartCoroutine_Ending(0.75f, Animacio);
-
-            void Animacio()
-            {
-                //c.mostrarInformacio?.Invoke(c, true);
-                //c.BlocarInformacio = true;
-
-                GameObject producte = p.Connexio.ProductesExtrets[iProd].informacio.gameObject;
-
-                float temps = Vector3.Distance(p.transform.position, c.transform.position) * 0.25f;
-
-                new Animacio_Posicio(p.transform.position, c.transform.position, false, false).Play(producte.transform, temps, Transicio.clamp);
-
-                ProducteProveir(p, producte, temps + 1);
-                NecessitatProveida(c, c.Cases[iNeed].Necessitats[0].Informacio.gameObject, temps + 1, ultima, enFinalitzar);
-            }
-        }
-        void ProducteProveir(Peça p, GameObject ui, float delay)
-        {
-            XS_Coroutine.StartCoroutine_Ending(delay, Animacio);
-
-            void Animacio()
-            {
-                animacions.producteProveir.Play(ui.transform);
-                //Destroy(gameObject, 1.5f);
-                p.Connexio.SetBlocarInformacio = false;
-                //p.Extraccio.mostrarInformacio?.Invoke(p.Extraccio, false);
-            }
-        }
-
-        void NecessitatProveida(Peça peça, GameObject ui, float delay, bool ultima, System.Action enFinalitzar)
-        {
-            XS_Coroutine.StartCoroutine_Ending(delay, Animacio);
-
-            void Animacio()
-            {
-                animacions.necessitatProveida.Play(ui.transform);
-                InstanciarParticulesPunts(ui.transform.position, 1);
-                peça.SetBlocarInformacio = false;
-                //peça.mostrarInformacio?.Invoke(peça, false);
-
-                if(ultima)
-                    XS_Coroutine.StartCoroutine_Ending(0.5f, enFinalitzar);
-            }
-        }
-
-        
-    }
-    */
-
-    void InstanciarParticulesPunts(Vector3 posicio, int punts)
-    {
-        prefabs.guanyarPunts.InstantiateReturn(
-            posicio - Utils_MainCamera_Acces.Camera.transform.forward * 1, 
-            Quaternion.Euler(Utils_MainCamera_Acces.Camera.transform.forward)).GetComponent<Utils_TextSetup>().Setup(punts);
-        Debug.LogError($"{punts} particules");
-    }
-
-    public void DestruirProducte(Peça p, int i, bool ultima, System.Action enFinalitzar) 
-    {
-
-        //p.Connexio.ProductesExtrets[i].informacio.gameObject.GetComponent<UI_Producte>().Destruir(1.5f);
-        XS_Coroutine.StartCoroutine_Ending(1.6f, RemostrarLaInformacio);
-
-        void RemostrarLaInformacio()
-        {
-            //p.Connexio.SetBlocarInformacio = false;
-
-            if (ultima)
-                XS_Coroutine.StartCoroutine_Ending(0.5f, enFinalitzar);
-            //productor.Extraccio.mostrarInformacio?.Invoke(productor.Extraccio.Informacio, productor, false);
-        }
-        
-    }
 
     [System.Serializable]
     public struct Producte

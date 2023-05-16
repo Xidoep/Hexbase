@@ -20,10 +20,12 @@ public class Recepta : ScriptableObject
 
     //INTERN
     bool confirmat = true;
-    List<object> estatsVeins;
+    List<object> statsPassats;
 
     public ScriptableObject[] Inputs => inputs;
     public Peça.ConnexioEnum ConnexioPropia => connexioPropia;
+
+    public bool EsCanviEstat => output[0] is Subestat;
 
     public bool TeInputsIguals(List<object> inputsPassats)
     {
@@ -35,20 +37,17 @@ public class Recepta : ScriptableObject
 
         Debug.Log($"{inputsPassats[0]} is Peça? = {inputsPassats[0] is Peça}");
 
+        //SI no es peça, no necessito confirmar connexions.
         if (inputsPassats[0] is not Peça)
             return ConfirmarRecepta(inputsPassats);
 
-        //if (connexioInputs == Peça.ConnexioEnum.NoImporta)
-        //    return ConfirmarRecepta(inputsPassats);
-
-
-        estatsVeins = new List<object>();
+        statsPassats = new List<object>();
         for (int i = 0; i < inputsPassats.Count; i++)
         {
             if(connexioInputs.HasFlag(((Peça)inputsPassats[i]).EstatConnexio) || connexioInputs == Peça.ConnexioEnum.NoImporta) 
-                estatsVeins.Add(((Peça)inputsPassats[i]).Subestat);
+                statsPassats.Add(((Peça)inputsPassats[i]).Subestat);
         }
-        return ConfirmarRecepta(estatsVeins);
+        return ConfirmarRecepta(statsPassats);
     }
 
     bool ConfirmarRecepta(List<object> inputsPassats)

@@ -10,7 +10,8 @@ public class Referencies : ScriptableObject
 
     [SerializeScriptableObject] [SerializeField] SaveHex save;
     [SerializeScriptableObject] [SerializeField] CapturarPantalla capturarPantalla;
-    [SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
+    [SerializeScriptableObject] [SerializeField] Nivell nivell;
+    [SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
 
     [Linia]
     [SerializeField] Estat[] estats;
@@ -23,17 +24,21 @@ public class Referencies : ScriptableObject
     public Producte[] Productes => productes;
     public Tile[] Tiles => tiles;
 
-    public Visualitzacions Visualitzacions => visualitzacions;
-
 
     private void OnEnable()
     {
         Instance = this; 
         capturarPantalla.OnCapturatRegistrar(save.AddCaptura);
+        nivell.EnGuanyarExperiencia += save.GuardarExperiencia;
+        nivell.EnPujarNivell += save.guardarNivell;
+        resoldre.EnNetejar += save.NouArxiu;
     }
     private void OnDisable()
     {
         capturarPantalla.OnCapturatDesregistrar(save.AddCaptura);
+        nivell.EnGuanyarExperiencia -= save.GuardarExperiencia;
+        nivell.EnPujarNivell -= save.guardarNivell;
+        resoldre.EnNetejar -= save.NouArxiu;
     }
 
     private void OnValidate()
@@ -43,6 +48,5 @@ public class Referencies : ScriptableObject
         productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
         tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Tiles/Tiles").ToArray();
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
-        if (visualitzacions == null) visualitzacions = XS_Editor.LoadAssetAtPath<Visualitzacions>("Assets/XidoStudio/Hexbase/Sistemes/Visualitzacions/Visualitzacions.asset");
     }
 }
