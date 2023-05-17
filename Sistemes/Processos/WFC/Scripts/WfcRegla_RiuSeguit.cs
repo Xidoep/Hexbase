@@ -30,7 +30,7 @@ public class WfcRegla_RiuSeguit : WfcRegla
         totConnectat = true;
         for (int i = 0; i < peça.Tiles.Length; i++)
         {
-            if (peça.Tiles[i].Veins[0] == null || !peça.Tiles[i].Veins[0].Peça.Aquatic)
+            if (peça.Tiles[i].Veins[0] == null || !peça.Tiles[i].Veins[0].Peça.EsAquatic)
                 continue;
 
             acceptat = false;
@@ -67,7 +67,7 @@ public class WfcRegla_RiuSeguit : WfcRegla
                 continue;
             }
 
-            if (!tiles[i].Veins[0].Peça.Aquatic)
+            if (!tiles[i].Veins[0].Peça.EsAquatic)
             {
                 Debugar.Log($"Tile[{i}] no te vei aquatic");
                 tiles.RemoveAt(i);

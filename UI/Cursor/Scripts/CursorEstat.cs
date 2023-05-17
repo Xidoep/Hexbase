@@ -10,8 +10,11 @@ public class CursorEstat : MonoBehaviour
 {
     static bool mostrar = true;
     static Vector3 snap;
+    static FasesControlador Controlador;
+    static Fase Colocar;
 
-    [SerializeField] Fase_Colocar faseColocar;
+    [SerializeField] FasesControlador controlador;
+    [SerializeField] Fase_Colocar colocar;
 
     [SerializeField] InputActionReference mousePosition; 
 
@@ -23,17 +26,15 @@ public class CursorEstat : MonoBehaviour
     Vector3 final;
     int stepsCount;
 
+    static bool EsFaseColocar => Controlador.Actual = Colocar;
 
+    public static void Mostrar(bool _mostrar) 
+    {
+        if (_mostrar && !EsFaseColocar)
+            return;
 
-
-    /*FALTA:
-     * -Que s'snapy sobre la ranura.
-     * ?Que no es mostri quan per sobre d'altres peces??? s'hauria de mostrar la info. Es pot fer aixo si estas en mode Infinit només
-     * detall-Posar una mica d'animacio de tild, que es tombi cap una vanda i una altre amb el delta del mouse.
-     * detall-Que es quedi clavada allà on has clicat (sobre una ranura) i que es borri quan apareix la nova. Amb una animacio per fer veure que està tot preparat.
-     * 
-     */
-    public static void Mostrar(bool _mostrar) => mostrar = _mostrar;
+        mostrar = _mostrar;
+    } 
     public static void Snap(Vector3 _snap) => snap = _snap;
     public static void NoSnap() => snap = Vector3.down;
 
@@ -42,16 +43,19 @@ public class CursorEstat : MonoBehaviour
         mostrar = true;
         snap = Vector3.down;
         estat = null;
-        faseColocar.OnStart += MostrarCursorReset;
-        faseColocar.OnFinish += AmagarCursor;
-        faseColocar.OnCanviarSeleccionada += CanviarCursor;
+        colocar.OnStart += MostrarCursorReset;
+        colocar.OnFinish += AmagarCursor;
+        colocar.OnCanviarSeleccionada += CanviarCursor;
+
+        Controlador = controlador;
+        Colocar = colocar;
     }
 
     private void OnDisable()
     {
-        faseColocar.OnStart -= MostrarCursorReset;
-        faseColocar.OnFinish -= AmagarCursor;
-        faseColocar.OnCanviarSeleccionada -= CanviarCursor;
+        colocar.OnStart -= MostrarCursorReset;
+        colocar.OnFinish -= AmagarCursor;
+        colocar.OnCanviarSeleccionada -= CanviarCursor;
     }
 
     private void LateUpdate()

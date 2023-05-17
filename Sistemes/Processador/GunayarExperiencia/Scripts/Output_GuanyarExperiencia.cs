@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Xido Studio/Hex/Roductes/Puntuacio")]
+[CreateAssetMenu(menuName = "Xido Studio/Hex/Productes/Puntuacio")]
 public class Output_GuanyarExperiencia : ScriptableObject, IProcessable
 {
     [SerializeScriptableObject][SerializeField] Nivell nivell;

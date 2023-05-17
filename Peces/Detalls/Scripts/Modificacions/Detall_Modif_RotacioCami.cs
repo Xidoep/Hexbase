@@ -25,7 +25,7 @@ public class Detall_Modif_RotacioCami : Detall_Modificacio
             {
                 if (tile.Peça.EstatIgualA(cami))
                 {
-                    binary += ((Peça)veins[i]).Caminable ? "1" : "0";
+                    binary += ((Peça)veins[i]).EsCaminable ? "1" : "0";
                 }
                 else binary += ((Peça)veins[i]).EstatIgualA(cami) ? "1" : "0";
 

@@ -64,7 +64,7 @@ public class TilePotencial
 
     public void GetPossibilitats()
     {
-        if (peça.EstatNull || peça.SubestatNull)
+        if (peça.EsEstatNull || peça.EsSubestatNull)
             return;
         orientacioFisica = 0;
 

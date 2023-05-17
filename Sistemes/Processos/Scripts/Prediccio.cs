@@ -232,11 +232,11 @@ public class Prediccio : ScriptableObject
     {
         for (int i = 0; i < comprovades.Count; i++)
         {
-            if (comprovades[i].Connectat) comprovades[i].DesocuparPerPrediccio();
+            if (comprovades[i].EstaConnectat) comprovades[i].DesocuparPerPrediccio();
         }
         for (int i = 0; i < canviades.Count; i++)
         {
-            if (canviades[i].Peça.Connectat) canviades[i].Peça.DesocuparPerPrediccio();
+            if (canviades[i].Peça.EstaConnectat) canviades[i].Peça.DesocuparPerPrediccio();
         }
 
         Grid.Instance.SimularFinal(peçaSimulada);

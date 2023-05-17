@@ -71,7 +71,7 @@ public class Sumari : ScriptableObject
         infoProduits = new List<Informacio>();
         for (int p = 0; p < produccio.Productors.Count; p++)
         {
-            if (!produccio.Productors[p].Connectat)
+            if (!produccio.Productors[p].EstaConnectat)
                 continue;
 
             for (int pe = 0; pe < produccio.Productors[p].Connexio.ProductesExtrets.Length; pe++)

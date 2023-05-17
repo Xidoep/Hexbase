@@ -34,7 +34,7 @@ public class Informacio : ScriptableObject
         {
             peça = (Peça)hexagon;
 
-            if (peça.Connectat == connexioEsperada)
+            if (peça.EstaConnectat == connexioEsperada)
                 return true;
             else return false;
         }

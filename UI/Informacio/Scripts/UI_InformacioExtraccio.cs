@@ -17,7 +17,7 @@ public class UI_InformacioExtraccio : UI_Informacio
         peça = (Peça)hexagon;
 
 
-        if (peça.Connectat)
+        if (peça.EstaConnectat)
         {
             Produit();
         }

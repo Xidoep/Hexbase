@@ -83,7 +83,6 @@ public class Fase_Processar : Fase
         {
             visualitzacions.Colocar_ReaccioVei(peça.VeinsPeça[v]);
         }*/
-        enColocar(peça.Parent, peça.VeinsPeça);
 
         perComprovar = new List<Peça>() { peça };
         List<Peça> comprovar = proximitat.GetPecesToComprovar(peça); //Et dona totes les peces comprovables al voltant de la que has colocat, tinguent en compte grups, camins, ports, etc...
@@ -95,6 +94,12 @@ public class Fase_Processar : Fase
 
         //proximitat.Process(perComprovar, Repoblacio, true);
         proximitat.ProcessReceptes(perComprovar, Repoblacio, true);
+
+        Debug.Log($"peça == null ? {peça == null}");
+        Debug.Log($"peça.Parent == null ? {peça.Parent == null}");
+        Debug.Log($"peça.VeinsPeça == null ? {peça.VeinsPeça == null}");
+        if (peça != null)
+            enColocar?.Invoke(peça.Parent, peça.VeinsPeça);
     }
 
 
