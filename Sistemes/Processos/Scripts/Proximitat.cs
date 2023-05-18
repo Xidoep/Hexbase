@@ -118,14 +118,11 @@ public class Proximitat : ScriptableObject
         Debug.Log($"Processar {_actual.name}");
         if (_actual.processador.IntentarProcessar(_actual, new List<object>(veins), true))
         {
-            //Debug.Log($"Processar {_actual.name}");
             Debug.Log("La recepta s'ha complert!");
 
             MarcarComCanviada(_actual, canviar, 0);
         }
 
-        //Ara, cada com que aconsegueix processar, en el cas que sigui un productor, pos connecta.
-        //
 
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
         StepRecepta(canviar);

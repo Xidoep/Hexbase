@@ -167,12 +167,6 @@ public class Recepta : ScriptableObject
                 confirmat = false;
                 break;
             }
-
-            /*if (!peces.Contains(inputs[i]))
-            {
-                confirmat = false;
-                break;
-            }*/
         }
 
 
