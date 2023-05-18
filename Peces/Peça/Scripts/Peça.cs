@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
-    [System.Flags] public enum ConnexioEnum { 
+    /*[System.Flags]*/ public enum ConnexioEnum { 
         NoImporta = 0, 
         Connectat = 1, 
         Desconnectat = 2,
@@ -37,7 +37,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //[SerializeField] ConnexioEnum estatConnexio;
     //[SerializeField] bool pendent;
     [SerializeField] Peça connexio;
-    [SerializeField] Vector2Int connexioCoordenada;
+    //[SerializeField] Vector2Int connexioCoordenada;
     
     
     [Apartat("PRDUCTES")]
@@ -81,7 +81,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //vvv
 
     public Peça Connexio => connexio;
-    public Vector2Int ConnexioCoordenada => connexioCoordenada;
+    //public Vector2Int ConnexioCoordenada => connexioCoordenada;
     public TilePotencial GetTile(int index) => tiles[index];
     public bool EstatIgualA(Estat altreEstat) => estat.Equals(altreEstat);
     public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
@@ -91,7 +91,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
     //SETTERS
-    public ConnexioEnum GetEstatConnexio => Connexio != null ? ConnexioEnum.Connectat : ConnexioEnum.Desconnectat;
+    public ConnexioEnum GetEstatConnexio => connexio != null ? ConnexioEnum.Connectat : ConnexioEnum.Desconnectat;
     public ProducteExtret[] SetProductesExtrets { set => productesExtrets = value; }
     //public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
     public void ResetCases() => cases = new List<Casa>();

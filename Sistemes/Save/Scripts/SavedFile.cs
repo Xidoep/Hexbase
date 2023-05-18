@@ -164,8 +164,8 @@ public class SavedFile
         //PRODUCTES
         for (int i = 0; i < creades.Count; i++)
         {
-            if (creades[i].ConnexioCoordenada.EsNula())
-                return;
+            //if (creades[i].ConnexioCoordenada.EsNula())
+            //    return;
 
             //((Peça)Grid.Instance.Get(creades[i].ConnexioCoordenada)).Connectar(creades[i]);
         }

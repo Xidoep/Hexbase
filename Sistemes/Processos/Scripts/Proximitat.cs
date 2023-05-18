@@ -115,24 +115,10 @@ public class Proximitat : ScriptableObject
         }
 
         List<Peça> veins = _actual.VeinsPeça;
+        Debug.Log($"Processar {_actual.name}");
         if (_actual.processador.IntentarProcessar(_actual, new List<object>(veins), true))
         {
-            if(_actual.Subestat.Tipus == Subestat.TipusEnum.Productor)
-            {
-                /*for (int i = 0; i < veins.Count; i++)
-                {
-                    if (veins[i].Subestat.Tipus != Subestat.TipusEnum.Extraccio)
-                        continue;
-
-                    if (veins[i].Connectat)
-                        continue;
-
-                    if (veins[i].Subestat.Producte != _actual.Subestat.Producte)
-                        continue;
-
-                    veins[i].Connectar(_actual);
-                }*/
-            }
+            //Debug.Log($"Processar {_actual.name}");
             Debug.Log("La recepta s'ha complert!");
 
             MarcarComCanviada(_actual, canviar, 0);

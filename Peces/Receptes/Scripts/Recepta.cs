@@ -25,11 +25,12 @@ public class Recepta : ScriptableObject
 
     //INTERN
     bool confirmat = true;
-    List<object> estats;
+    bool trobat = false;
+    List<Peça> peces;
 
 
     public ScriptableObject[] Inputs => inputs;
-
+    //public Peça.ConnexioEnum Connexio => connexio;
 
 
 
@@ -54,25 +55,33 @@ public class Recepta : ScriptableObject
             return false;
 
         if(!InputPeça(inputs[0]))
-            return ConfirmarRecepta(peça, inputs);
+            return ConfirmarRecepta(inputs);
 
         //agafar els estats que tinguin les connexions com les demano.
-        estats = new List<object>();
+        peces = new List<Peça>();
         for (int i = 0; i < inputs.Count; i++)
         {
             if (ConnexioNoImporta(inputs[i]))
             {
-                estats.Add(((Peça)inputs[i]).Subestat);
+                /*
+                 * clar, aquest es el primer filtre.
+                 * s'han de confirmar tots els filtres abans de continuar.
+                 */
+                Debug.Log("Added perque la connexio no importa");
+                peces.Add((Peça)inputs[i]);
                 continue;
             }
 
-            if (ConnectatAmbMi(ref estats, peça, inputs[i]))
+            if (ConnectatAmbMi(ref peces, peça, inputs[i]))
                 continue;
 
-            if(ConnexionsIguals(inputs[i]))
-                estats.Add(((Peça)inputs[i]).Subestat);
+            if (ConnexionsIguals(inputs[i]))
+            {
+                Debug.Log($"Added perque et les connexions com demano. Busco ({connexioInput}) i he trobat ({((Peça)inputs[i]).GetEstatConnexio})");
+                peces.Add((Peça)inputs[i]);
+            }
         }
-        return ConfirmarRecepta(peça, estats);
+        return ConfirmarRecepta(peça, peces);
     }
 
     bool HiHaInputs(List<object> inputsPassats) => inputsPassats.Count != 0;
@@ -81,17 +90,17 @@ public class Recepta : ScriptableObject
         if (connexioPropia == Peça.ConnexioEnum.NoImporta)
             return true;
 
-        return peça.GetEstatConnexio.HasFlag(connexioPropia);
+        return peça.GetEstatConnexio == connexioPropia;
     }
     bool InputPeça(object input) 
     {
         Debug.Log($"{input} is Peça? = {input is Peça}");
         return input is Peça;
     }
-    bool ConnexioNoImporta(object input) => connexioInput.HasFlag(Peça.ConnexioEnum.NoImporta);
-    bool ConnectatAmbMi(ref List<object> passats, Peça peça, object input)
+    bool ConnexioNoImporta(object input) => connexioInput == Peça.ConnexioEnum.NoImporta;
+    bool ConnectatAmbMi(ref List<Peça> passats, Peça peça, object input)
     {
-        if (connexioInput.HasFlag(Peça.ConnexioEnum.ConnectatAmbMi))
+        if (connexioInput == Peça.ConnexioEnum.ConnectatAmbMi)
         {
             if (!((Peça)input).EstaConnectat)
                 return true; //Ha d'estar connectat pero no ho està a res, per tant no el puc deixar contiuar
@@ -99,22 +108,23 @@ public class Recepta : ScriptableObject
             if (((Peça)input).Connexio != peça)
                 return true; //Ha d'estar connectat amb mi, pero no ho està amb mi. per tant no el puc deixar continuar
 
-            passats.Add(((Peça)input).Subestat);
+            Debug.Log("Added perque està conncetada amb mi.");
+            passats.Add((Peça)input);
             return true; //Està connectat amb mi, per tant no cal que continui.
         }
         return false; //No està marcat com connectat per tant haig de continuar mirant.
     }
-    bool ConnexionsIguals(object input) => connexioInput.HasFlag(((Peça)input).GetEstatConnexio);
+    bool ConnexionsIguals(object input) => connexioInput == ((Peça)input).GetEstatConnexio;
 
 
-    bool ConfirmarRecepta(Peça peça, List<object> passats)
+    bool ConfirmarRecepta(List<object> passats)
     {
         confirmat = true;
         for (int i = 0; i < inputs.Length; i++)
         {
             for (int x = 0; x < passats.Count; x++)
             {
-                Debug.Log($"{inputs[i]} == {passats[x]}?");
+                Debug.Log($"{inputs[i]} == {passats[x]}? = {inputs[i] == passats[x]}");
             }
 
             if (!passats.Contains(inputs[i]))
@@ -124,21 +134,47 @@ public class Recepta : ScriptableObject
             }
         }
 
-        if (connexio.HasFlag(Peça.ConnexioEnum.NoImporta))
-            return confirmat;
-
-        if (confirmat)
+        return confirmat;
+    }
+    bool ConfirmarRecepta(Peça peça, List<Peça> peces)
+    {
+        confirmat = true;
+        for (int i = 0; i < inputs.Length; i++)
         {
-            switch (connexio)
+            for (int p = 0; p < peces.Count; p++)
             {
-                case Peça.ConnexioEnum.Connectat:
-                    peça.Connectar(((Peça)passats[0]));
-                    break;
-                case Peça.ConnexioEnum.Desconnectat:
-                    peça.Desconnectar();
-                    break;
+                Debug.Log($"{inputs[i]} == {peces[p].Subestat}? = {inputs[i] == peces[p].Subestat}");
             }
+
+            trobat = false;
+            for (int p = 0; p < peces.Count; p++)
+            {
+                if(peces[p].Subestat == inputs[i])
+                {
+                    trobat = true;
+
+                    if (connexio == Peça.ConnexioEnum.Connectat)
+                        peça.Connectar(peces[p]);
+                    else if (connexio == Peça.ConnexioEnum.Desconnectat)
+                        peça.Desconnectar();
+
+                    break;
+                }
+            }
+
+            if (!trobat)
+            {
+                confirmat = false;
+                break;
+            }
+
+            /*if (!peces.Contains(inputs[i]))
+            {
+                confirmat = false;
+                break;
+            }*/
         }
+
 
         return confirmat;
     }

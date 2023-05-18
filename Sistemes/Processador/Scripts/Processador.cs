@@ -20,7 +20,8 @@ public class Processador : System.Object
             if (receptes[i].TeInputsIguals(peça, inputs))
             {
                 Debug.Log($"Match! ({receptes[i].name})");
-                 confirmada = receptes[i];
+                
+                confirmada = receptes[i];
 
                 i = BorrarRecepta(i);
 

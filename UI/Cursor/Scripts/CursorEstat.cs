@@ -10,10 +10,7 @@ public class CursorEstat : MonoBehaviour
 {
     static bool mostrar = true;
     static Vector3 snap;
-    static FasesControlador Controlador;
-    static Fase Colocar;
 
-    [SerializeField] FasesControlador controlador;
     [SerializeField] Fase_Colocar colocar;
 
     [SerializeField] InputActionReference mousePosition; 
@@ -25,14 +22,10 @@ public class CursorEstat : MonoBehaviour
     float distanciaDelTerra;
     Vector3 final;
     int stepsCount;
-
-    static bool EsFaseColocar => Controlador.Actual = Colocar;
+    WaitForSeconds waitForSeconds;
 
     public static void Mostrar(bool _mostrar) 
     {
-        if (_mostrar && !EsFaseColocar)
-            return;
-
         mostrar = _mostrar;
     } 
     public static void Snap(Vector3 _snap) => snap = _snap;
@@ -47,8 +40,7 @@ public class CursorEstat : MonoBehaviour
         colocar.OnFinish += AmagarCursor;
         colocar.OnCanviarSeleccionada += CanviarCursor;
 
-        Controlador = controlador;
-        Colocar = colocar;
+        waitForSeconds = new WaitForSeconds(1);
     }
 
     private void OnDisable()
@@ -60,6 +52,7 @@ public class CursorEstat : MonoBehaviour
 
     private void LateUpdate()
     {
+
         if (!cursor)
             return;
 
@@ -118,18 +111,18 @@ public class CursorEstat : MonoBehaviour
 
         cursor.SetActive(true);
     }
-    void MostrarCursorReset()
+    void MostrarCursorReset() => StartCoroutine(MostrarCursorReset_Corrutine());
+
+    IEnumerator MostrarCursorReset_Corrutine()
     {
+        yield return waitForSeconds;
         MostrarCursor();
         snap = Vector3.down;
     }
 
     void AmagarCursor()
     {
-        //estat = null;
-
-        //if (cursor == null)
-        //    return;
+        snap = Vector3.down;
 
         cursor.SetActive(false);
     }
