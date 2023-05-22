@@ -10,11 +10,44 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Tiles/Tile")]
 public class Tile : ScriptableObject
 {
+    public void Setup(Object prefab)
+    {
+        this.prefab = (GameObject)prefab;
+        this.posicions = this.posicions = new Tile.Posicions[]
+            {
+                new Tile.Posicions(  0, new Vector2(    0,       0)),
+                new Tile.Posicions(120, new Vector2(-0.5f,  0.866f)),
+                new Tile.Posicions(240, new Vector2( 0.5f, -0.866f))
+            };
+    }
     public void Setup(Object prefab, Posicions[] posicions)
     {
         this.prefab = (GameObject)prefab;
         this.posicions = posicions;
     }
+   
+    public void Setup(Object prefab, Connexio[] connexions)
+    {
+        this.prefab = (GameObject)prefab;
+        exterior = connexions[0];
+        dreta = connexions[1];
+        esquerra = connexions[2];
+        this.posicions = new Tile.Posicions[]
+            {
+                new Tile.Posicions(  0, new Vector2(    0,       0)),
+                new Tile.Posicions(120, new Vector2(-0.5f,  0.866f)),
+                new Tile.Posicions(240, new Vector2( 0.5f, -0.866f))
+            };
+    }
+    public void Setup(Object prefab, Connexio[] connexions, Posicions[] posicions)
+    {
+        this.prefab = (GameObject)prefab;
+        exterior = connexions[0];
+        dreta = connexions[1];
+        esquerra = connexions[2];
+        this.posicions = posicions;
+    }
+
 
     [SerializeField] GameObject prefab;
     [Linia]
@@ -130,13 +163,7 @@ public class TileCreator
 
         //Create Scriptable and sets it.
         Tile tile = ScriptableObject.CreateInstance<Tile>();
-        tile.Setup(prefab,
-            new Tile.Posicions[]
-            {
-                new Tile.Posicions(  0, new Vector2(    0,       0)),
-                new Tile.Posicions(120, new Vector2(-0.5f,  0.866f)),
-                new Tile.Posicions(240, new Vector2( 0.5f, -0.866f))
-            });
+        tile.Setup(prefab);
 
         //Create an asset on the project and save it.
         AssetDatabase.CreateAsset(tile, $"{folder[0]}{name}.asset");
