@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Detalls/Tiles/Estat")]
 public class Detall_Tiles_Estat : Detall_Tiles
 {
-    [SerializeField] Estat estat;
+    [SerializeField] EstatColocable estat;
     public override int[] Get(Peça peça)
     {
         List<int> tmp = new List<int>();

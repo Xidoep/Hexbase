@@ -72,7 +72,7 @@ public class SavedFile
             peçes.Add(new SavedPeça(peces[i], grups));
         }
     }
-    public void Load(Grups grups, Fase seguent, System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio, System.Action enCarregat)
+    public void Load(Grups grups, Fase seguent, System.Func<string, EstatColocable> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio, System.Action enCarregat)
     {
         if (this.grups == null) this.grups = grups;
         this.seguent = seguent;
@@ -87,7 +87,7 @@ public class SavedFile
     public void SetMode(Mode mode) => this.mode = (int)mode;
     public void SetNivell(int nivell) => this.nivell = nivell;
     public void SetExperiencia(int experiencia) => this.experiencia = experiencia;
-    public void AddPila(Estat estat)
+    public void AddPila(EstatColocable estat)
     {
         if (pila == null) pila = new List<string>();
         pila.Add(estat.name);
@@ -97,9 +97,9 @@ public class SavedFile
         if(pila != null) 
             pila.RemoveAt(0);
     }
-    public List<Estat> Pila(System.Func<string, Estat> estatNomToPrefab)
+    public List<EstatColocable> Pila(System.Func<string, EstatColocable> estatNomToPrefab)
     {
-        List<Estat> estats = new List<Estat>();
+        List<EstatColocable> estats = new List<EstatColocable>();
         for (int i = 0; i < pila.Count; i++)
         {
             estats.Add(estatNomToPrefab(pila[i]));
@@ -107,7 +107,7 @@ public class SavedFile
         return estats;
     }
 
-    void Step(System.Func<string, Estat> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio)
+    void Step(System.Func<string, EstatColocable> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio)
     {
         creades.Add(peçes[index].Load(Grid.Instance, grups, estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab, animacio));
         Grid.Instance.Dimensionar(creades[index]);

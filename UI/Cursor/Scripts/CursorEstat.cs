@@ -17,7 +17,7 @@ public class CursorEstat : MonoBehaviour
 
     [SerializeField] GameObject cursor;
 
-    Estat estat;
+    EstatColocable estat;
     Ray ray;
     float distanciaDelTerra;
     Vector3 final;
@@ -88,7 +88,7 @@ public class CursorEstat : MonoBehaviour
 
     }
 
-    void CanviarCursor(Estat estat)
+    void CanviarCursor(EstatColocable estat)
     {
         Debug.Log("Canviar");
         if (this.estat != estat)

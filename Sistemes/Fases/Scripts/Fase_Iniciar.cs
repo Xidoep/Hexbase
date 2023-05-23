@@ -10,7 +10,7 @@ public class Fase_Iniciar : Fase
 {
     [SerializeScriptableObject][SerializeField] Fase colocar;
     [SerializeScriptableObject][SerializeField] Modes modes;
-    [SerializeScriptableObject][SerializeField] Estat inicial;
+    [SerializeScriptableObject][SerializeField] EstatColocable inicial;
     [SerializeScriptableObject][SerializeField] SaveHex save;
 
     bool gridNet = true;

@@ -6,7 +6,7 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Tester")]
 public class Tester : ScriptableObject
 {
-    [SerializeField] Estat[] peces;
+    [SerializeField] EstatColocable[] peces;
     [SerializeField] Fase_Processar processar;
     [SerializeField] Fase_Colocar colocar;
 

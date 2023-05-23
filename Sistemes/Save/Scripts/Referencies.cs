@@ -14,12 +14,12 @@ public class Referencies : ScriptableObject
     [SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
 
     [Linia]
-    [SerializeField] Estat[] estats;
+    [SerializeField] EstatColocable[] estats;
     [SerializeField] Subestat[] subestats;
     [SerializeField] Producte[] productes;
     [SerializeField] Tile[] tiles;
 
-    public Estat[] Estats => estats;
+    public EstatColocable[] Estats => estats;
     public Subestat[] Subestats => subestats;
     public Producte[] Productes => productes;
     public Tile[] Tiles => tiles;
@@ -43,7 +43,7 @@ public class Referencies : ScriptableObject
 
     private void OnValidate()
     {
-        estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
+        estats = XS_Editor.LoadAllAssetsAtPath<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
         productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
         tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Tiles/Tiles").ToArray();

@@ -15,7 +15,7 @@ public class Prediccio : ScriptableObject
     [SerializeField] Repoblar repoblar;
     [Space(10)]
     [SerializeField] Subestat casa;
-    [SerializeField] Estat cami;
+    [SerializeField] EstatColocable cami;
 
 
     [Apartat("Debug")]

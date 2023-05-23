@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class UI_Peca : MonoBehaviour
 {
-    public void Setup(Estat estat)
+    public void Setup(EstatColocable estat)
     {
         this.estat = estat;
     }
 
     [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
     [SerializeField] Fase_Colocar colocar;
-    [SerializeField] Estat estat;
+    [SerializeField] EstatColocable estat;
     Transform[] childs;
     public bool resaltat;
 
@@ -48,7 +48,7 @@ public class UI_Peca : MonoBehaviour
         resaltat = false;
         //outline.Amagar();
     }
-    public void MostrarOAmagar(Estat seleccionat)
+    public void MostrarOAmagar(EstatColocable seleccionat)
     {
         if(estat == seleccionat)
             outline.PointerEnter();

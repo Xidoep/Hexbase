@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Detalls/GameObject/Tile dependent")]
 public class Detall_GameObject_CamiEntrada : Detall_GameObject
 {
-    [SerializeField] Estat vei;
+    [SerializeField] EstatColocable vei;
     [SerializeField] Dependencia[] dependencies;
 
     //INTERN
@@ -30,5 +30,5 @@ public class Detall_GameObject_CamiEntrada : Detall_GameObject
         return tmp != null ? tmp : detalls[0];
     }
 
-    bool Cohincidieix(Estat estat) => estat == vei;
+    bool Cohincidieix(EstatColocable estat) => estat == vei;
 }

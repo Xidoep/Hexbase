@@ -25,7 +25,7 @@ public class Fase_Processar : Fase
     //[SerializeField] Visualitzacions visualitzacions;
 
     [Apartat("RIU")]
-    [SerializeField] Estat riu;
+    [SerializeField] EstatColocable riu;
 
     //PRIVADES
     float startTime;

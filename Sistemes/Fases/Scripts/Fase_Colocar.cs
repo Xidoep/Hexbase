@@ -11,16 +11,16 @@ public class Fase_Colocar : Fase
     static bool permesColoarPeça = false;
     static bool bloquejat = false;
 
-    [SerializeField] Estat seleccionada;
-    [SerializeField] Estat perDefecte;
+    [SerializeField] EstatColocable seleccionada;
+    [SerializeField] EstatColocable perDefecte;
 
-    System.Action<Estat> onCanviarSeleccionada;
+    System.Action<EstatColocable> onCanviarSeleccionada;
 
     //PROPERTIES
     public static bool PermesColoarPeça => permesColoarPeça;
     public static bool Bloquejat => bloquejat;
-    public Estat Seleccionada => seleccionada;
-    public System.Action<Estat> OnCanviarSeleccionada { get => onCanviarSeleccionada; set => onCanviarSeleccionada = value; }
+    public EstatColocable Seleccionada => seleccionada;
+    public System.Action<EstatColocable> OnCanviarSeleccionada { get => onCanviarSeleccionada; set => onCanviarSeleccionada = value; }
 
 
     public override void FaseStart()
@@ -38,7 +38,7 @@ public class Fase_Colocar : Fase
         OnFinish -= BloqujarColocacio;
     }
 
-    public void Seleccionar(Estat estat) 
+    public void Seleccionar(EstatColocable estat) 
     {
         Debug.LogError($"SELECT {estat.name}");
         seleccionada = estat;

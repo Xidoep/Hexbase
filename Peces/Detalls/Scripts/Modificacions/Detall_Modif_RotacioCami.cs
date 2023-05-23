@@ -7,7 +7,7 @@ public class Detall_Modif_RotacioCami : Detall_Modificacio
 {
     const string NO_CAMI = "000000";
 
-    [SerializeField] Estat cami;
+    [SerializeField] EstatColocable cami;
 
     public string binary;
     string codi = "";

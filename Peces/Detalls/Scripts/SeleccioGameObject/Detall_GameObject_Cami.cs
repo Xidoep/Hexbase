@@ -7,7 +7,7 @@ public class Detall_GameObject_Cami : Detall_GameObject
 {
     const string NO_CAMI = "000000";
 
-    [SerializeField] Estat cami;
+    [SerializeField] EstatColocable cami;
     //[SerializeField] List<Estat> estatsCaminables;
     //[SerializeField] Detall_Tiles_Subestats estatsCaminables;
     [SerializeField] Dependencia[] tilesProhibits;

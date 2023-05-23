@@ -13,36 +13,36 @@ public class PoolPeces : ScriptableObject
     [SerializeField] SaveHex save;
     [SerializeField] Referencies referencies;
 
-    [SerializeField] List<Estat> peces;
+    [SerializeField] List<EstatColocable> peces;
     [Linia]
     //[SerializeField] Estat[] disponibles;
     [SerializeField] int inicial;
 
     bool iniciat = false;
 
-    System.Action<Estat> enAfegir;
+    System.Action<EstatColocable> enAfegir;
     System.Action enTreure;
 
     int PecesPerNivell(int nivell) => (nivell / 2) * 10;
 
     public int Quantitat => peces.Count;
-    public Estat Peça(int index) => peces[index];
+    public EstatColocable Peça(int index) => peces[index];
     public bool Iniciat => iniciat;
-    public System.Action<Estat> EnAfegir { get => enAfegir; set => enAfegir = value; }
+    public System.Action<EstatColocable> EnAfegir { get => enAfegir; set => enAfegir = value; }
     public System.Action EnTreure { get => enTreure; set => enTreure = value; }
 
 
 
     public void Iniciar()
     {
-        if (peces == null) peces = new List<Estat>();
+        if (peces == null) peces = new List<EstatColocable>();
 
         colocar.OnFinish += RemovePeça;
         nivell.EnPujarNivell += AddPecesPerNivell;
         enAfegir += save.AddToPila;
         enTreure += save.RemoveLastFromPila;
         
-        peces = new List<Estat>();
+        peces = new List<EstatColocable>();
 
         AddPeces();
 
@@ -60,7 +60,7 @@ public class PoolPeces : ScriptableObject
 
         void Guardades()
         {
-            List<Estat> estats = save.Pila;
+            List<EstatColocable> estats = save.Pila;
 
             for (int i = 0; i < estats.Count; i++)
             {
@@ -86,7 +86,7 @@ public class PoolPeces : ScriptableObject
     void AddPeça()
     {
         //FALTA: Assegurar X cases?
-        Estat seleccionat = referencies.Estats[Random.Range(0, referencies.Estats.Length)];
+        EstatColocable seleccionat = referencies.Estats[Random.Range(0, referencies.Estats.Length)];
         peces.Add(seleccionat);
         enAfegir?.Invoke(seleccionat);
     }
@@ -112,7 +112,7 @@ public class PoolPeces : ScriptableObject
 
     private void OnDisable()
     {
-        peces = new List<Estat>();
+        peces = new List<EstatColocable>();
         iniciat = false;
         enAfegir = null;
         enTreure = null;

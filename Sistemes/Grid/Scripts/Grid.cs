@@ -94,7 +94,7 @@ public class Grid : MonoBehaviour
         grid = new Hexagon[GRID_SIZE, GRID_SIZE];
     }
 
-    public void CrearDesdeRanura(Estat tipus, Vector2Int coordenada)
+    public void CrearDesdeRanura(EstatColocable tipus, Vector2Int coordenada)
     {
         processar.Iniciar(coordenada);
     }
@@ -102,7 +102,7 @@ public class Grid : MonoBehaviour
     /// <summary>
     /// Crea el prefab peça, declarant la peça i les coordenades.
     /// </summary>
-    public void CrearPeça(Estat tipus, Vector2Int coordenada, bool processar = true)
+    public void CrearPeça(EstatColocable tipus, Vector2Int coordenada, bool processar = true)
     {
         if (simulada != null) 
         {
@@ -126,7 +126,7 @@ public class Grid : MonoBehaviour
     }
 
 
-    public Peça SimularInici(Estat estat, Vector2Int coordenada)
+    public Peça SimularInici(EstatColocable estat, Vector2Int coordenada)
     {
         ranuraSimulada = grid.Get(coordenada);
         simulada = Instanciar(estat.Prefab.gameObject, coordenada).AddComponent<Peça>();

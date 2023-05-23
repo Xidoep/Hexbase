@@ -9,7 +9,7 @@ using XS_Utils;
 
 public class Boto : Hexagon, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public override void Setup(Grid grid, Vector2Int coordenades, Estat estat, Subestat subestat)
+    public override void Setup(Grid grid, Vector2Int coordenades, EstatColocable estat, Subestat subestat)
     {
         base.Setup(grid, coordenades, estat, null);
 

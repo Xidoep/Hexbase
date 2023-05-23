@@ -63,7 +63,7 @@ public class Menu_Pila : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void AddPeça(Estat estat)
+    public void AddPeça(EstatColocable estat)
     {
         GameObject parent = Instantiate(prefab, this.parent);
         parent.transform.position = Vector3.zero;

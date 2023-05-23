@@ -10,10 +10,10 @@ public class Grups : ScriptableObject
     [SerializeField] List<Grup> grups;
 
     [Apartat("ESTATS NECESSARIS")]
-    [SerializeField] Estat casa;
-    [SerializeField] Estat cami;
+    [SerializeField] EstatColocable casa;
+    [SerializeField] EstatColocable cami;
     [SerializeField] Subestat port;
-    [SerializeField] Estat aigua;
+    [SerializeField] EstatColocable aigua;
 
     public List<Grup> Grup => grups;
     public List<Peça> ConnexionsFetes => connexionsFetes;
@@ -565,7 +565,7 @@ public class Grup : System.Object
     public Grup() { }
 
     //>>> CREAR NOU GRUP
-    public Grup(Estat estat, List<Peça> peces, Estat casa, int index)
+    public Grup(EstatColocable estat, List<Peça> peces, EstatColocable casa, int index)
     {
         id = estat.name + "_" + RandomString(index, 20);
         //this.estat = estat;

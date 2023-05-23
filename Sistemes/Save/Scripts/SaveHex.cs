@@ -13,7 +13,7 @@ public class SaveHex : ScriptableObject
     [SerializeField] int actual = 0;
     [SerializeField] List<SavedFile> files;
 
-    Estat eTrobat;
+    EstatColocable eTrobat;
     Subestat sTrobat;
     Producte pTrobat;
     Tile tTrobat;
@@ -71,7 +71,7 @@ public class SaveHex : ScriptableObject
         Load(grups, seguent, enCarregat);
     }
     public void Load(Grups grups, Fase seguent, System.Action enCarregat = null) => files[actual].Load(grups, seguent, EstatNomToPrefab, SubestatNomToPrefab, ProducteNomToPrefab, TileNomToPrefab, enColocar, enCarregat);
-    Estat EstatNomToPrefab(string nom)
+    EstatColocable EstatNomToPrefab(string nom)
     {
         eTrobat = null;
         for (int i = 0; i < Referencies.Instance.Estats.Length; i++)
@@ -216,8 +216,8 @@ public class SaveHex : ScriptableObject
 
     //PILA
     public bool HiHaAlgunaPeça => files[actual].PilaPlena;
-    public List<Estat> Pila => files[actual].Pila(EstatNomToPrefab);
-    public void AddToPila(Estat estat) => files[actual].AddPila(estat);
+    public List<EstatColocable> Pila => files[actual].Pila(EstatNomToPrefab);
+    public void AddToPila(EstatColocable estat) => files[actual].AddPila(estat);
     public void RemoveLastFromPila() => files[actual].RemoveLastPila();
 
 
