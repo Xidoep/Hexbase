@@ -18,11 +18,13 @@ public class Referencies : ScriptableObject
     [SerializeField] Subestat[] subestats;
     [SerializeField] Producte[] productes;
     [SerializeField] Tile[] tiles;
+    [SerializeField] TileSetBase[] tilesets;
 
     public EstatColocable[] Estats => estats;
     public Subestat[] Subestats => subestats;
     public Producte[] Productes => productes;
     public Tile[] Tiles => tiles;
+    public TileSetBase[] Tilesets => tilesets;
 
 
     private void OnEnable()
@@ -41,12 +43,15 @@ public class Referencies : ScriptableObject
         resoldre.EnNetejar -= save.NouArxiu;
     }
 
-    private void OnValidate()
+    private void OnValidate() => Refrex();
+
+    public void Refrex()
     {
-        estats = XS_Editor.LoadAllAssetsAtPath<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
+        estats = XS_Editor.LoadAllAssetsAtPath<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Subestats/Colocables").ToArray();
         subestats = XS_Editor.LoadAllAssetsAtPath<Subestat>("Assets/XidoStudio/Hexbase/Peces/Subestats").ToArray();
         productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
         tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Tiles/Tiles").ToArray();
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
+
     }
 }
