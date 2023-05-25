@@ -12,7 +12,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
 
 
-    public override void Setup(Grid grid, Vector2Int coordenades, EstatColocable estat, Subestat subestat)
+    public override void Setup(Grid grid, Vector2Int coordenades, EstatColocable estat, Estat subestat)
     {
         base.Setup(grid, coordenades, estat, null);
         this.estat = estat;
@@ -25,7 +25,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     [Apartat("ESTAT")]
     [SerializeScriptableObject][SerializeField] EstatColocable estat;
-    [SerializeScriptableObject][SerializeField] protected Subestat subestat;
+    [SerializeScriptableObject][SerializeField] protected Estat subestat;
 
     [Apartat("CASA")]
     [SerializeField] List<Casa> cases;
@@ -60,7 +60,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
     public EstatColocable Estat => estat;
-    public Subestat Subestat => subestat;
+    public Estat Subestat => subestat;
     //vvv
     public TilePotencial[] Tiles => tiles;
     public string SubestatNom => subestat.name;
@@ -84,7 +84,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //public Vector2Int ConnexioCoordenada => connexioCoordenada;
     public TilePotencial GetTile(int index) => tiles[index];
     public bool EstatIgualA(EstatColocable altreEstat) => estat.Equals(altreEstat);
-    public bool SubestatIgualA(Subestat altreSubestat) => subestat.Equals(altreSubestat);
+    public bool SubestatIgualA(Estat altreSubestat) => subestat.Equals(altreSubestat);
     
 
 
@@ -158,7 +158,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public void CanviarSubestat(Subestat subestat)
+    public void CanviarSubestat(Estat subestat)
     {
         productesExtrets = new ProducteExtret[0];
         subestat.InformacioAmagar(this);

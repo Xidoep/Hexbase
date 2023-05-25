@@ -14,7 +14,7 @@ public class SaveHex : ScriptableObject
     [SerializeField] List<SavedFile> files;
 
     EstatColocable eTrobat;
-    Subestat sTrobat;
+    Estat sTrobat;
     Producte pTrobat;
     Tile tTrobat;
     [SerializeField] bool nomesGuardats;
@@ -74,24 +74,24 @@ public class SaveHex : ScriptableObject
     EstatColocable EstatNomToPrefab(string nom)
     {
         eTrobat = null;
-        for (int i = 0; i < Referencies.Instance.Estats.Length; i++)
+        for (int i = 0; i < Referencies.Instance.Colocables.Length; i++)
         {
-            if (Referencies.Instance.Estats[i].name == nom)
+            if (Referencies.Instance.Colocables[i].name == nom)
             {
-                eTrobat = Referencies.Instance.Estats[i];
+                eTrobat = Referencies.Instance.Colocables[i];
                 break;
             }
         }
         return eTrobat;
     }
-    Subestat SubestatNomToPrefab(string nom)
+    Estat SubestatNomToPrefab(string nom)
     {
         sTrobat = null;
-        for (int i = 0; i < Referencies.Instance.Subestats.Length; i++)
+        for (int i = 0; i < Referencies.Instance.Estats.Length; i++)
         {
-            if (Referencies.Instance.Subestats[i].name == nom)
+            if (Referencies.Instance.Estats[i].name == nom)
             {
-                sTrobat = Referencies.Instance.Subestats[i];
+                sTrobat = Referencies.Instance.Estats[i];
                 break;
             }
         }

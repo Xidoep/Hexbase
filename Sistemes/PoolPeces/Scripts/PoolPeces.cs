@@ -86,7 +86,7 @@ public class PoolPeces : ScriptableObject
     void AddPeça()
     {
         //FALTA: Assegurar X cases?
-        EstatColocable seleccionat = referencies.Estats[Random.Range(0, referencies.Estats.Length)];
+        EstatColocable seleccionat = referencies.Colocables[Random.Range(0, referencies.Colocables.Length)];
         peces.Add(seleccionat);
         enAfegir?.Invoke(seleccionat);
     }

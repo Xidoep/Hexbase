@@ -72,7 +72,7 @@ public class SavedFile
             peçes.Add(new SavedPeça(peces[i], grups));
         }
     }
-    public void Load(Grups grups, Fase seguent, System.Func<string, EstatColocable> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio, System.Action enCarregat)
+    public void Load(Grups grups, Fase seguent, System.Func<string, EstatColocable> estatNomToPrefab, System.Func<string, Estat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio, System.Action enCarregat)
     {
         if (this.grups == null) this.grups = grups;
         this.seguent = seguent;
@@ -107,7 +107,7 @@ public class SavedFile
         return estats;
     }
 
-    void Step(System.Func<string, EstatColocable> estatNomToPrefab, System.Func<string, Subestat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio)
+    void Step(System.Func<string, EstatColocable> estatNomToPrefab, System.Func<string, Estat> subestatNomToPrefab, System.Func<string, Producte> producteNomToPrefab, System.Func<string, Tile> tileNomToPrefab, System.Action<Peça> animacio)
     {
         creades.Add(peçes[index].Load(Grid.Instance, grups, estatNomToPrefab, subestatNomToPrefab, producteNomToPrefab, tileNomToPrefab, animacio));
         Grid.Instance.Dimensionar(creades[index]);

@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 [SelectionBase]
 public abstract class Hexagon : MonoBehaviour
 {
-    public virtual void Setup(Grid grid, Vector2Int coordenades, EstatColocable estat, Subestat subestat)
+    public virtual void Setup(Grid grid, Vector2Int coordenades, EstatColocable estat, Estat subestat)
     {
         veins = grid.Veins;
         veinsPeça = grid.VeinsPeça;

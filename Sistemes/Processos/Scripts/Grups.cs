@@ -12,7 +12,7 @@ public class Grups : ScriptableObject
     [Apartat("ESTATS NECESSARIS")]
     [SerializeField] EstatColocable casa;
     [SerializeField] EstatColocable cami;
-    [SerializeField] Subestat port;
+    [SerializeField] Estat port;
     [SerializeField] EstatColocable aigua;
 
     public List<Grup> Grup => grups;

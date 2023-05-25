@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/WFC Regles/SubstituirTile")]
 public class WfcRegla_SubstituirTile : WfcRegla
 {
-    [SerializeField] Subestat objectiu;
+    [SerializeField] Estat objectiu;
 
     [Linia]
     [SerializeField] Substitucio[] substitucions;
@@ -19,7 +19,7 @@ public class WfcRegla_SubstituirTile : WfcRegla
     List<TilePotencial> veins;
 
 
-    public override Subestat Subestat => objectiu;
+    public override Estat Subestat => objectiu;
 
     protected override bool Comprovacio(Peça peça)
     {

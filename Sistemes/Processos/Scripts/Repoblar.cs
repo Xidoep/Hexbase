@@ -29,7 +29,7 @@ public class Repoblar : ScriptableObject
         List<int> cases = new List<int>();
         for (int p = 0; p < peces.Count; p++)
         {
-            if (peces[p].Subestat.Tipus != Subestat.TipusEnum.Casa)
+            if (peces[p].Subestat.Tipus != Estat.TipusEnum.Casa)
                 continue;
 
             casesVeines = 0;
@@ -38,7 +38,7 @@ public class Repoblar : ScriptableObject
             //Suma les cases que hi ha al voltant.
             for (int v = 0; v < veins.Count; v++)
             {
-                if (veins[v].Subestat.Tipus == Subestat.TipusEnum.Casa) casesVeines++;
+                if (veins[v].Subestat.Tipus == Estat.TipusEnum.Casa) casesVeines++;
             }
 
             CanviarCases(peces[p], 1 + casesVeines);

@@ -26,12 +26,12 @@ public class Menu_FreeStyle : MonoBehaviour
             return;
 
         creades = new List<UI_Peca>();
-        for (int i = 0; i < referencies.Estats.Length; i++)
+        for (int i = 0; i < referencies.Colocables.Length; i++)
         {
             GameObject parent = Instantiate(prefab, this.parent);
             parent.transform.position = Vector3.zero;
 
-            UI_Peca uiPeca = (UI_Peca)(referencies.Estats[i].Prefab.Crear().SetTransform(Vector3.zero, Quaternion.Euler(-30, 0, 0), new Vector3(100, 75, 100), parent.transform));
+            UI_Peca uiPeca = (UI_Peca)(referencies.Colocables[i].Prefab.Crear().SetTransform(Vector3.zero, Quaternion.Euler(-30, 0, 0), new Vector3(100, 75, 100), parent.transform));
             //UI_Peca uiPeca = referencies.Estats[i].Prefab.Crear();
             //uiPeca.SetTransform(Vector3.zero, Quaternion.Euler(-30, 0, 0), new Vector3(100, 75, 100), parent.transform);
 
@@ -54,7 +54,7 @@ public class Menu_FreeStyle : MonoBehaviour
             button.OnEnter += uiPeca.Resaltar;
             button.OnExit += uiPeca.Desresaltar;
 
-            if(referencies.Estats[i] == colocar.Seleccionada)
+            if(referencies.Colocables[i] == colocar.Seleccionada)
             {
                 uiPeca.Resaltar();
                 uiPeca.Seleccionar();

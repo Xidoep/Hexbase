@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class WfcRegla : ScriptableObject
 {
-    public abstract Subestat Subestat { get; }
+    public abstract Estat Subestat { get; }
     public bool Comprovar(Peça peça)
     {
         if (!peça.SubestatIgualA(Subestat))

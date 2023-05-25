@@ -6,7 +6,7 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/WFC Regles/Riu seguit")]
 public class WfcRegla_RiuSeguit : WfcRegla
 {
-    [SerializeField] Subestat objectiu;
+    [SerializeField] Estat objectiu;
 
     [SerializeField] bool aquatic;
     [SerializeField] List<Possibilitat> tilesAcceptats;
@@ -22,7 +22,7 @@ public class WfcRegla_RiuSeguit : WfcRegla
     int comprovats;
     int ir;
     List<TilePotencial> tiles;
-    public override Subestat Subestat => objectiu;
+    public override Estat Subestat => objectiu;
     bool totConnectat;
 
     protected override bool Comprovacio(Peça peça)

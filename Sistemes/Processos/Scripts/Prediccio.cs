@@ -14,7 +14,7 @@ public class Prediccio : ScriptableObject
     [SerializeField] Proximitat proximitat;
     [SerializeField] Repoblar repoblar;
     [Space(10)]
-    [SerializeField] Subestat casa;
+    [SerializeField] Estat casa;
     [SerializeField] EstatColocable cami;
 
 

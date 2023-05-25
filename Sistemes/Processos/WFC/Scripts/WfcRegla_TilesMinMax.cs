@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/WFC Regles/Tiles MinMax")]
 public class WfcRegla_TilesMinMax : WfcRegla
 {
-    [SerializeField] Subestat objectiu;
+    [SerializeField] Estat objectiu;
 
     [SerializeField] List<Tile> tilesAcceptats;
     [Tooltip("Es la quantitat de Tiles que pot deixar sense cohincidir")] [SerializeField] [Range(0, 6)] int minim;
@@ -15,7 +15,7 @@ public class WfcRegla_TilesMinMax : WfcRegla
     bool complert;
     int encerts;
     List<TilePotencial> tiles;
-    public override Subestat Subestat => objectiu;
+    public override Estat Subestat => objectiu;
 
     protected override bool Comprovacio(Peça peça)
     {

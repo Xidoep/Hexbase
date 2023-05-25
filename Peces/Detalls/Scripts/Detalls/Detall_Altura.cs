@@ -6,7 +6,7 @@ using UnityEngine;
 public class Detall_Altura : DetallScriptable
 {
     [SerializeField][Range(1,3)] int cantonsConnectats;
-    [SerializeField] Subestat casa;
+    [SerializeField] Estat casa;
     //[SerializeField] Substituible_Planta substituible;
     public override GameObject GameObject(Peça peça, TilePotencial tile)
     {
@@ -102,7 +102,7 @@ public class Detall_Altura : DetallScriptable
         }
     }
 
-    void SetAlturaVeinaSiEsCasa(TilePotencial tile, Subestat casa)
+    void SetAlturaVeinaSiEsCasa(TilePotencial tile, Estat casa)
     {
         if (tile == null)
             return;
