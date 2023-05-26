@@ -6,7 +6,17 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Receptes/Recepta")]
 public class Recepta : ScriptableObject
 {
-    [Header("CONNEXIO")]
+    public void Setup(Peça.ConnexioEnum connexioPropia, List<ScriptableObject> inputs, Peça.ConnexioEnum connexioInput, List<ScriptableObject> output, Peça.ConnexioEnum conneixo)
+    {
+        this.connexioPropia = connexioPropia;
+        this.inputs = inputs.ToArray();
+        this.connexioInput = connexioInput;
+        this.output = output.ToArray();
+        this.connexio = conneixo;
+        AgafarProduccioSiCal();
+    }
+
+    [Header("PROPI")]
     [Tooltip("La connexio de la peça que porta la recepta ha de cohincidir amb el que s'ha posat aquí.")]
     [SerializeField] Peça.ConnexioEnum connexioPropia;
     //[SerializeField] Peça.ConnexioEnum connectada;
@@ -217,15 +227,19 @@ public class Recepta : ScriptableObject
             } 
         }
 
+        AgafarProduccioSiCal();
+    }
+
+    void AgafarProduccioSiCal()
+    {
         for (int i = 0; i < output.Length; i++)
         {
-            if(output[i] is Producte)
+            if (output[i] is Producte)
             {
                 produccio = XS_Utils.XS_Editor.LoadAssetAtPath<Produccio>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Produccio.asset");
                 break;
             }
         }
-
     }
 
 }

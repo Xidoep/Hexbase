@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6891792503458967003
+--- !u!1 &6263834063015815467
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8141097727306204386}
-  - component: {fileID: 2164553756698529219}
-  - component: {fileID: 4788689047700225897}
+  - component: {fileID: 704034749786047339}
+  - component: {fileID: 5192602423751698879}
+  - component: {fileID: 3402082846454719172}
   m_Layer: 0
-  m_Name: Casa-Pla_CDeTuro_TuroPla
+  m_Name: (Casa2D).006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8141097727306204386
+--- !u!4 &704034749786047339
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6891792503458967003}
-  m_LocalRotation: {x: -1.0588878e-14, y: 1, z: -0.00000014106499, w: -0.0000000754979}
-  m_LocalPosition: {x: -20, y: 2.0387285e-13, z: -7}
+  m_GameObject: {fileID: 6263834063015815467}
+  m_LocalRotation: {x: 0.00000004797313, y: 0.9659259, z: -0.00000022366375, w: -0.25881884}
+  m_LocalPosition: {x: 0.54999924, y: -0.00000029007265, z: 0.95262766}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8253953667174958318}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 5651487104317940849}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2164553756698529219
+--- !u!33 &5192602423751698879
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6891792503458967003}
-  m_Mesh: {fileID: -7833776774912644279, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &4788689047700225897
+  m_GameObject: {fileID: 6263834063015815467}
+  m_Mesh: {fileID: 6096404495592615781, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
+--- !u!23 &3402082846454719172
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6891792503458967003}
+  m_GameObject: {fileID: 6263834063015815467}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -62,8 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: accba63b5fbbc694da92fc6542cd34f7, type: 2}
-  - {fileID: 2100000, guid: e8fc384898a8fa840ba7b124b8d62bfe, type: 2}
+  - {fileID: 2100000, guid: c198ab2fbb2f80e4f9b9e48c500a1bef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &8497317574011354363
+--- !u!1 &6277839244907280584
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,46 +91,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8253953667174958318}
-  - component: {fileID: 1569692727289007070}
-  - component: {fileID: 2723656372706633513}
+  - component: {fileID: 5651487104317940849}
+  - component: {fileID: 3768538543416722863}
+  - component: {fileID: 902106210033971420}
   m_Layer: 0
-  m_Name: (Casa2D).006
+  m_Name: Casa-Pla_CDeTuro_TuroPla
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8253953667174958318
+--- !u!4 &5651487104317940849
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8497317574011354363}
-  m_LocalRotation: {x: 0.00000004797313, y: 0.9659259, z: -0.00000022366375, w: -0.25881884}
-  m_LocalPosition: {x: 0.54999924, y: -0.00000029007265, z: 0.95262766}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 6277839244907280584}
+  m_LocalRotation: {x: -1.0588878e-14, y: 1, z: -0.00000014106499, w: -0.0000000754979}
+  m_LocalPosition: {x: -20, y: 2.0387285e-13, z: -7}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8141097727306204386}
+  m_Children:
+  - {fileID: 704034749786047339}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1569692727289007070
+--- !u!33 &3768538543416722863
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8497317574011354363}
-  m_Mesh: {fileID: 6096404495592615781, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &2723656372706633513
+  m_GameObject: {fileID: 6277839244907280584}
+  m_Mesh: {fileID: -7833776774912644279, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
+--- !u!23 &902106210033971420
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8497317574011354363}
+  m_GameObject: {fileID: 6277839244907280584}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -146,7 +145,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c198ab2fbb2f80e4f9b9e48c500a1bef, type: 2}
+  - {fileID: 2100000, guid: accba63b5fbbc694da92fc6542cd34f7, type: 2}
+  - {fileID: 2100000, guid: e8fc384898a8fa840ba7b124b8d62bfe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

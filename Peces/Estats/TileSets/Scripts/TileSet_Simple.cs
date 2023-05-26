@@ -18,7 +18,7 @@ public class TileSet_Simple : TileSetBase
     public override Connexio[] ConnexioinsPossibles(Peça peça = null) => tileSet.ConnexionsPossibles;
 
 
-    public TileSet GetTileSet => tileSet;
+    public TileSet TileSet => tileSet;
 
     protected void OnValidate()
     {

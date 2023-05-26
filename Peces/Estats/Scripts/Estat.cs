@@ -6,6 +6,14 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Substat")]
 public class Estat : ScriptableObject, IProcessable
 {
+    public void SetupCreacio(TipusEnum tipus, bool aquatic, Producte producte)
+    {
+        this.tipus = tipus;
+        this.aquatic = aquatic;
+        this.producte = producte;
+        informacions = new List<Informacio>();
+        SetupInformacio();
+    }
     public enum TipusEnum { Normal, Casa, Productor, Extraccio}
     public virtual Estat Setup(Peça peça) 
     {
@@ -72,12 +80,17 @@ public class Estat : ScriptableObject, IProcessable
 
     public bool TeConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça).Length > 0;
     public virtual Connexio[] ConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça);
-    public TileSetBase.ConnexioEspesifica ConnexionsEspesifica(Peça peça) => tileset.ConnexionsEspesifica(peça);
+    public ConnexioEspesifica ConnexionsEspesifica(Peça peça) => tileset.ConnexionsEspesifica(peça);
     public Connexio[] ConnexionsPossibles(Peça peça) => tileset.ConnexioinsPossibles(peça);
     
 
 
-
+    public void AddRecepta(Recepta recepta)
+    {
+        List<Recepta> tmp = new List<Recepta>(receptes);
+        tmp.Add(recepta);
+        receptes = tmp.ToArray();
+    }
 
 
 
@@ -106,7 +119,7 @@ public class Estat : ScriptableObject, IProcessable
     public Possibilitats Possibilitats(Peça peça)
     {
         Possibilitats ps = new Possibilitats(new List<Possibilitat>());
-        TileSetBase.TilesPossibles[] tiles = tileset.Tiles(peça);
+        TilesPossibles[] tiles = tileset.Tiles(peça);
         for (int i = 0; i < tiles.Length; i++)
         {
             if (!tiles[i].tile.ConnexionsIguals)
@@ -140,7 +153,12 @@ public class Estat : ScriptableObject, IProcessable
 
         if (tipus == TipusEnum.Normal)
             return;
+        SetupInformacio();
 
+    }
+
+    void SetupInformacio()
+    {
         Informacio casa = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Casa.asset");
         Informacio connexio = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Connexio.asset");
         Informacio extraccio = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Extraccio.asset");
@@ -175,7 +193,5 @@ public class Estat : ScriptableObject, IProcessable
                 }
                 break;
         }
-
     }
-
 }

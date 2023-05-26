@@ -5,7 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Roductes/Producte")]
 public class Producte : ScriptableObject, IProcessable
 {
+    public void Setup(Texture2D icone)
+    {
+        this.icone = icone;
+    }
+
     [SerializeField] Texture2D icone;
+
+    [Apartat("Autogenerat")]
     [SerializeField] Sprite sprite;
     [SerializeField] Texture2D gastada;
     [SerializeField] Sprite spriteGastada;
@@ -33,6 +40,8 @@ public class Producte : ScriptableObject, IProcessable
         }
     } 
 
+
+
     void GenerarSprite()
     {
         sprite = Sprite.Create(icone, new Rect(0, 0, icone.width, icone.height), Vector2.zero);
@@ -46,14 +55,6 @@ public class Producte : ScriptableObject, IProcessable
         {
             for (int y = 0; y < icone.height; y++)
             {
-                /*if(icone.GetPixel(x,y) == Color.black)
-                {
-                    gastada.SetPixel(x, y, new Color(1,0,0, icone.GetPixel(x, y).a));
-                }
-                else
-                {
-                    gastada.SetPixel(x, y, new Color(0, 0, 0, icone.GetPixel(x, y).a));
-                }*/
                 gastada.SetPixel(x, y, 
                     Color.Lerp(
                         new Color(.75f, 0, 0, icone.GetPixel(x, y).a), 

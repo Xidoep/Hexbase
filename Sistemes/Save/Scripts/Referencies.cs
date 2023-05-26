@@ -33,6 +33,9 @@ public class Referencies : ScriptableObject
     //bool trobat;
     Connexio cTrobada;
     Estat eTrobat;
+    Producte pTrobat;
+
+
 
     public Connexio GetConnexio(string nom)
     {
@@ -51,6 +54,15 @@ public class Referencies : ScriptableObject
         }
         return cTrobada;
     }
+    public bool EstatsContains(string nom)
+    {
+        for (int i = 0; i < estats.Length; i++)
+        {
+            if (estats[i].name.Equals(nom))
+                return true;
+        }
+        return false;
+    }
     public Estat GetEstat(string nom)
     {
         eTrobat = null;
@@ -68,6 +80,35 @@ public class Referencies : ScriptableObject
         }
         return eTrobat;
     }
+    public bool ProductesContains(string nom)
+    {
+        for (int i = 0; i < productes.Length; i++)
+        {
+            if (productes[i].name.Equals(nom))
+                return true;
+        }
+        return false;
+    }
+    public Producte GetProducte(string nom)
+    {
+        pTrobat = null;
+        for (int i = 0; i < productes.Length; i++)
+        {
+            if (productes[i].name.Equals(nom))
+            {
+                pTrobat = productes[i];
+                break;
+            }
+        }
+        if (pTrobat == null)
+        {
+            Debug.LogError($"el producte amb el nom {nom} no existeix");
+        }
+        return pTrobat;
+    }
+
+
+
 
 
     private void OnEnable()

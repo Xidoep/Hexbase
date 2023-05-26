@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &654665608935268807
+--- !u!1 &2614490607338630467
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1594009201115478130}
-  - component: {fileID: 7977138680359970581}
-  - component: {fileID: 1757652123976607389}
+  - component: {fileID: 1800594623689364237}
+  - component: {fileID: 5879957430225471716}
+  - component: {fileID: 6664163163161087599}
   m_Layer: 0
-  m_Name: (CasaRecta3D)
+  m_Name: Casa-CD_Pla_Pla
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1594009201115478130
+--- !u!4 &1800594623689364237
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654665608935268807}
-  m_LocalRotation: {x: -8.7760776e-30, y: -0.00000023841858, z: -0.0000000019364315, w: 1}
-  m_LocalPosition: {x: 0.10000038, y: -4.0904524e-10, z: -0.00000047683716}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 2614490607338630467}
+  m_LocalRotation: {x: 0.000000075497894, y: -0.00000015695824, z: 1, w: 0.000000043711402}
+  m_LocalPosition: {x: -12, y: 0, z: -6}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3110622372033686370}
+  m_Children:
+  - {fileID: 2298352581971071066}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7977138680359970581
+--- !u!33 &5879957430225471716
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654665608935268807}
-  m_Mesh: {fileID: -3997961075199975233, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &1757652123976607389
+  m_GameObject: {fileID: 2614490607338630467}
+  m_Mesh: {fileID: -228435869638018641, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
+--- !u!23 &6664163163161087599
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654665608935268807}
+  m_GameObject: {fileID: 2614490607338630467}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,7 +62,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c198ab2fbb2f80e4f9b9e48c500a1bef, type: 2}
+  - {fileID: 2100000, guid: accba63b5fbbc694da92fc6542cd34f7, type: 2}
+  - {fileID: 2100000, guid: e8fc384898a8fa840ba7b124b8d62bfe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &9113013997955701319
+--- !u!1 &3351512268192124602
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,47 +93,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3110622372033686370}
-  - component: {fileID: 5344100967187773795}
-  - component: {fileID: 279740486705055000}
+  - component: {fileID: 2298352581971071066}
+  - component: {fileID: 4139407452465195503}
+  - component: {fileID: 3747166492481352904}
   m_Layer: 0
-  m_Name: Casa-CD_Pla_Pla
+  m_Name: (CasaRecta3D)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3110622372033686370
+--- !u!4 &2298352581971071066
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9113013997955701319}
-  m_LocalRotation: {x: 0.000000075497894, y: -0.00000015695824, z: 1, w: 0.000000043711402}
-  m_LocalPosition: {x: -12, y: 0, z: -6}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_GameObject: {fileID: 3351512268192124602}
+  m_LocalRotation: {x: -8.7760776e-30, y: -0.00000023841858, z: -0.0000000019364315, w: 1}
+  m_LocalPosition: {x: 0.10000038, y: -4.0904524e-10, z: -0.00000047683716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1594009201115478130}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 1800594623689364237}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5344100967187773795
+--- !u!33 &4139407452465195503
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9113013997955701319}
-  m_Mesh: {fileID: -228435869638018641, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &279740486705055000
+  m_GameObject: {fileID: 3351512268192124602}
+  m_Mesh: {fileID: -3997961075199975233, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
+--- !u!23 &3747166492481352904
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9113013997955701319}
+  m_GameObject: {fileID: 3351512268192124602}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -145,8 +146,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: accba63b5fbbc694da92fc6542cd34f7, type: 2}
-  - {fileID: 2100000, guid: e8fc384898a8fa840ba7b124b8d62bfe, type: 2}
+  - {fileID: 2100000, guid: c198ab2fbb2f80e4f9b9e48c500a1bef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -21,8 +21,8 @@ public class TileSet_Ocupable : TileSetBase
     public override Connexio[] ConnexioinsPossibles(Peça peça = null) => peça.EstaConnectat ? ocupat.ConnexionsPossibles : lliure.ConnexionsPossibles;
 
 
-    public TileSet GetTileSetLliure => lliure;
-    public TileSet GetTileSetOcupat => ocupat;
+    public TileSet TileSetLliure => lliure;
+    public TileSet TileSetOcupat => ocupat;
 
 
     protected void OnValidate()
