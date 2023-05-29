@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Roductes/Producte")]
 public class Producte : ScriptableObject, IProcessable
@@ -8,14 +9,15 @@ public class Producte : ScriptableObject, IProcessable
     public void Setup(Texture2D icone)
     {
         this.icone = icone;
+        GenerarGastada();
     }
 
+    [PropertyOrder(-2)][PreviewField][OnValueChanged("GenerarGastada")]
     [SerializeField] Texture2D icone;
 
-    [Apartat("Autogenerat")]
-    [SerializeField] Sprite sprite;
-    [SerializeField] Texture2D gastada;
-    [SerializeField] Sprite spriteGastada;
+    [ReadOnly] [SerializeField] Sprite sprite;
+    [ReadOnly] [SerializeField] Texture2D gastada;
+    [PropertyOrder(-1)] [ReadOnly] [PreviewField] [SerializeField] Sprite spriteGastada;
     public Texture2D Icone => icone;
     public Sprite Sprite 
     {

@@ -7,8 +7,8 @@ public class TileSet_Ocupable : TileSetBase
 {
     public override void Setup()
     {
-        lliure = new TileSet();
-        ocupat = new TileSet();
+        lliure = new TileSet().Setup();
+        ocupat = new TileSet().Setup();
     }
 
     [SerializeField] TileSet lliure;
@@ -27,8 +27,8 @@ public class TileSet_Ocupable : TileSetBase
 
     protected void OnValidate()
     {
-        lliure.Setup();
-        ocupat.Setup();
+        lliure.SetConnexionsPossibles();
+        ocupat.SetConnexionsPossibles();
     }
 
     

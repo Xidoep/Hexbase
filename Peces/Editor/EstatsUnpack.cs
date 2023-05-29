@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Sirenix.OdinInspector;
+
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/UnpackEstats")]
 public class EstatsUnpack : ScriptableObject
@@ -34,16 +36,20 @@ public class EstatsUnpack : ScriptableObject
 
 
 
+    [OnInspectorInit("GetEstats"), PropertyOrder(-1), SerializeField] 
+    Dictionary<string, bool> estats;
 
 
 
-    [ContextMenu("Unpack")]
+    [PropertyOrder(-2), HideIf("@this.estats != null && this.estats.Count == 0")][Button(ButtonSizes.Large, Icon = SdfIconType.Archive, IconAlignment = IconAlignment.LeftOfText)]
     void Unpack()
     {
+
         string debug = "";
 
         //Crear linies i columnes
         linies = System.IO.File.ReadAllLines(AssetDatabase.GetAssetPath(csv));
+
         for (int i = 3; i < linies.Length; i++)
         {
             if (!LiniaActiva(i))
@@ -65,11 +71,35 @@ public class EstatsUnpack : ScriptableObject
 
         Debug.Log("FALTA: Crear un proces més gran que ho fagi tot en ordre. Estats(Productes, Estats), Tilesets i Tiles");
 
-        Debug.Log("FALTA! Assignar el tile set a l'estat. I potser per reordenar i que estigui tot en sucarpetes de Estats...");
 
+        //tilesetUnpack.Unpack();
     }
 
+    [ContextMenu("GetEStats")]
+    [PropertyOrder(-2), ShowIf("@this.estats != null && this.estats.Count == 0")][Button(ButtonSizes.Large, Icon = SdfIconType.Eye, IconAlignment = IconAlignment.LeftOfText)]
+    void GetEstats()
+    {
+        Dictionary<string, bool> tmp = new Dictionary<string, bool>();
+        estats = new Dictionary<string, bool>();
+        linies = System.IO.File.ReadAllLines(AssetDatabase.GetAssetPath(csv));
+        for (int i = 3; i < linies.Length; i++)
+        {
+            if (i.Equals(liniaProductes))
+                break;
 
+            GetColumnes(i);
+
+            if (!Activat)
+                continue;
+
+            if (!TeNom)
+                continue;
+
+            tmp.Add(Nom, estats.ContainsKey(Nom) ? estats[Nom] : false);
+            //estats.Add(Nom, false);
+        }
+        estats = new Dictionary<string, bool>(tmp);
+    }
 
     private void CrearReceptes()
     {
@@ -320,6 +350,9 @@ public class EstatsUnpack : ScriptableObject
             if (!TeNom)
                 continue;
 
+            if (!estats[Nom])
+                continue;
+
             debug += $"{Nom}";
             if (TeTipus) debug += $" ({Tipus})";
 
@@ -384,13 +417,23 @@ public class EstatsUnpack : ScriptableObject
             Estat estat = CreateInstance<Estat>();
             estat.SetupCreacio(tipus, EsAquatic, producte);
 
-            AssetDatabase.CreateAsset(estat, $"{outputPath}/{Nom}.asset");
-            Debug.Log("FALTA: Crear el prefab i l'EstatColocable, amb l'estat i el prefab associats");
-            Debug.Log("FALTA: crear una carpeta per cada estat amb tota la seva info anidada");
+            if (!AssetDatabase.IsValidFolder($"{outputPath}/{Nom}"))
+            {
+                AssetDatabase.CreateFolder($"{outputPath}", $"{Nom}");
+                AssetDatabase.CreateFolder($"{outputPath}/{Nom}", "Prefab");
+                AssetDatabase.CreateFolder($"{outputPath}/{Nom}", "Colocable");
+            }
+            AssetDatabase.CreateAsset(estat, $"{outputPath}/{Nom}/{Nom}.asset");
+
+
+
+
+            referencies.Refrex();
+            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}");
         }
         Debug.Log(debug);
 
-        referencies.Refrex();
+        
     }
 
 
@@ -427,4 +470,14 @@ public class EstatsUnpack : ScriptableObject
     bool HiHaConnexioInputs => !string.IsNullOrEmpty(ConnexioInputs) || !ConnexioInputs.Equals(NO_IMPORTA);
     //bool HiHaXP => !string.IsNullOrEmpty(XP);
     bool HiHaAccioConnectar => !string.IsNullOrEmpty(AccioConnectar) || !AccioConnectar.Equals(NO_IMPORTA);
+}
+
+
+public static class UnpackEditor
+{
+    [MenuItem("Window/Unpack")]
+    static void OpenMenu()
+    {
+        EditorWindow.GetWindow(typeof(EstatsUnpack));
+    }
 }

@@ -2,24 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/SaveRefencies")]
 public class Referencies : ScriptableObject
 {
     public static Referencies Instance;
 
-    [SerializeScriptableObject] [SerializeField] SaveHex save;
-    [SerializeScriptableObject] [SerializeField] CapturarPantalla capturarPantalla;
-    [SerializeScriptableObject] [SerializeField] Nivell nivell;
-    [SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
+    [InlineEditor][SerializeField] SaveHex save;
+    [InlineEditor] [SerializeField] CapturarPantalla capturarPantalla;
+    [InlineEditor] [SerializeField] Nivell nivell;
+    [InlineEditor] [SerializeField] Fase_Resoldre resoldre;
 
     [Linia]
-    [SerializeField] EstatColocable[] colocables;
-    [SerializeField] Estat[] estats;
-    [SerializeField] Producte[] productes;
-    [SerializeField] Tile[] tiles;
-    [SerializeField] TileSetBase[] tilesets;
-    [SerializeField] Connexio[] connexions;
+    [ReadOnly] [SerializeField] EstatColocable[] colocables;
+    [ReadOnly] [SerializeField] Estat[] estats;
+    [ReadOnly] [SerializeField] Producte[] productes;
+    [ReadOnly] [SerializeField] Tile[] tiles;
+    [ReadOnly] [SerializeField] TileSetBase[] tilesets;
+    [ReadOnly] [SerializeField] Connexio[] connexions;
 
     public EstatColocable[] Colocables => colocables;
     public Estat[] Estats => estats;

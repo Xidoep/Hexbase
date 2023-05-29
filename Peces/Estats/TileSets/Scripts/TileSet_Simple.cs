@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/TileSet/Simple")]
 public class TileSet_Simple : TileSetBase
 {
     public override void Setup()
     {
-        tileSet = new TileSet();
+        tileSet = new TileSet().Setup();
     }
 
-    [SerializeField] TileSet tileSet;
+    [ShowInInspector][InlineEditor] TileSet tileSet;
+
 
     public override TilesPossibles[] Tiles(Peça peça = null) => tileSet.Tiles;
     public override Connexio[] ConnexionsNules(Peça peça = null) => tileSet.ConnexionsNules;
@@ -22,7 +24,7 @@ public class TileSet_Simple : TileSetBase
 
     protected void OnValidate()
     {
-        tileSet.Setup();
+        tileSet.SetConnexionsPossibles();
     }
 
 }

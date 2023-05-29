@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
+using Sirenix.OdinInspector;
 
 
 public abstract class TileSetBase : ScriptableObject
@@ -22,12 +23,25 @@ public abstract class TileSetBase : ScriptableObject
 [System.Serializable]
 public class TileSet
 {
+    public TileSet Setup()
+    {
+        tiles = new TilesPossibles[0];
+        connexionsNules = new Connexio[0];
+        connexioEspesifica = new ConnexioEspesifica(new List<Estat>(), new List<Connexio>());
+        return this;
+    }
+
+    [TableList(AlwaysExpanded = true, DrawScrollView = false), BoxGroup("Tiles", centerLabel: true)]
     [SerializeField] TilesPossibles[] tiles;
+
+    [BoxGroup("Connexions", centerLabel: true), BoxGroup("Connexions/Nules", centerLabel: true), AssetSelector(Paths = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats")]
     [SerializeField] Connexio[] connexionsNules;
+
+    [BoxGroup("Connexions/Especifiques", centerLabel: true)]
     [SerializeField] ConnexioEspesifica connexioEspesifica;
 
     [Space(20)]
-    [Nota("S'emplena automaticament")]
+    [ReadOnly]
     [SerializeField] Connexio[] connexionsPossibles;
 
     public TilesPossibles[] Tiles => tiles;
@@ -39,11 +53,19 @@ public class TileSet
     {
         List<TilesPossibles> tiles = new List<TilesPossibles>(this.tiles);
         tiles.Add(new TilesPossibles(tile, pes));
+        if(tiles.Count > 1)
+        {
+            for (int i = 0; i < tiles.Count; i++)
+            {
+
+            }
+        }
+
         this.tiles = tiles.ToArray();
     }
     public void NetejarTiles() => tiles = new TilesPossibles[0];
 
-    public void Setup()
+    public void SetConnexionsPossibles()
     {
         List<Connexio> tmpConnexions = new List<Connexio>();
         for (int i = 0; i < tiles.Length; i++)
@@ -55,7 +77,6 @@ public class TileSet
 
         connexionsPossibles = tmpConnexions.ToArray();
     }
-
    
 }
 
@@ -68,8 +89,12 @@ public struct TilesPossibles
         this.pes = pes;
     }
 
+    //[PreviewField(Height = 20)]
+    [TableColumnWidth(40)]
     public Tile tile;
-    [Range(1, 10)] public int pes;
+
+    [TableColumnWidth(200, Resizable = false)]
+    [Range(0,10)]public int pes;
 }
 
 [System.Serializable]

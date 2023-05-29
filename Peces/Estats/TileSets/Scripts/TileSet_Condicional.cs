@@ -39,7 +39,7 @@ public class TileSet_Condicional : TileSetBase
     {
         public Condicio Setup()
         {
-            tileSet = new TileSet();
+            tileSet = new TileSet().Setup();
             return this;
         }
 
@@ -93,17 +93,14 @@ public class TileSet_Condicional : TileSetBase
 
             return false;
         }
-
-        public void Refrex() => tileSet.Setup();
     }
 
     protected void OnValidate()
     {
         for (int i = 0; i < condicions.Length; i++)
         {
-            condicions[i].Refrex();
+            condicions[i].TileSet.SetConnexionsPossibles();
         }
-        List<Connexio> tmpConnexions = new List<Connexio>();
     }
 
 

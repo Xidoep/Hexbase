@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
 using UnityEditor;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/UnpackTiles")]
 public class TilesUnpack : ScriptableObject
 {
-    const string TERRA = "Terra";
-    const string CASA = "Casa";
-    const string RIU = "Riu";
+    const string PREFAB = "Prefab";
 
     const string AUTOGENERATS_PATH = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats";
     const char SEPARADO = '_';
@@ -19,14 +18,11 @@ public class TilesUnpack : ScriptableObject
     const char VARIACIO = '#';
 
 
+
     [SerializeField] Referencies referencies;
     [SerializeField] Object tiles;
+    [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
     [SerializeField] string outputPath;
-
-    [Space(20)]
-    [SerializeField] bool terra;
-    [SerializeField] bool casa;
-    [SerializeField] bool riu;
 
     [Apartat("Auto-configurable")]
    // [SerializeField] List<Object> connexions;
@@ -51,64 +47,83 @@ public class TilesUnpack : ScriptableObject
 
 
 
-
-    string Path_Asset(string root) => $"{outputPath}/{root}/{nom}.asset";
-    string Path_AssetPrefab(string root) => $"{outputPath}/{root}/Prefab/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.prefab";
+    string Main(string root) => $"{outputPath}/{root}";
+    string Path_Estat(string root) => $"{Main(root)}/{root.ToUpper()}.asset";
+    string Path_Tile(string root) => $"{Main(root)}/Tiles/{nom}.asset";
+    string Path_Tileset(string root) => $"{Main(root)}/Tiles/{root}.asset";
+    string Path_Connexio(string nom) => $"{AUTOGENERATS_PATH}/{nom}.asset";
+    string Path_PrefabTile(string root) => $"{Main(root)}/Tiles/Prefabs/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.prefab";
     //string Path_AssetPrefab(string root) => $"{outputPath}/{root}/Prefab/{nom}.prefab";
+    string Path_Colocable(string root) => $"{Main(root)}/Colocable/{root}.asset";
+    string Path_PrefabEstat(string root) => $"{Main(root)}/Prefab/{root}.prefab";
 
 
 
-
-
-    [ContextMenu("Unpack")]
-    void Unpack()
-    {
-        subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
-
-        if (terra) Unpack(TERRA);
-        if (casa) Unpack(CASA);
-        if (riu) Unpack(RIU);
-    }
-
-
-
-
-    private void Unpack(string root)
+    public void Unpack(string root)
     {
         NetejarTileset(root);
+
+        
+        List<Tile> oldTiles = XS_Editor.LoadAllAssetsAtPath<Tile>($"{outputPath}/{root}/Tiles");
+        for (int i = 0; i < oldTiles.Count; i++)
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldTiles[i]));
+        }
+        List<GameObject> oldPrefabs = XS_Editor.LoadAllAssetsAtPath<GameObject>($"{outputPath}/{root}/Tiles/Prefabs");
+        for (int i = 0; i < oldPrefabs.Count; i++)
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldPrefabs[i]));
+        }
+
 
         for (int i = 0; i < subobjects.Length; i++)
         {
             if (!EsGameObject(i))
                 continue;
 
+            //FOR DEBUGING
+            /*if (EsPrefab(i, root))
+                CrearPrefabEstat(i, root);
+
+            continue;*/
+
             if (!EsPeça(i, root))
+            {
+                if (!EsPrefab(i, root))
+                    continue;
+
+                CrearPrefabEstat(i, root);
                 continue;
+            }
 
             if (subobjects[i].name.Contains('.'))
                 continue;
 
-            Debug.Log(subobjects[i].name);
+            Debug.Log($"Tot el nom = {subobjects[i].name}");
 
             GetVariacio(i);
             GetPes(i);
             GetInvertit(i);
 
+            //EliminarAssetAntic(root);
 
-            EliminarAssetAntic(root);
+            if (TileJaExisteix(root))
+                continue;
 
-            CrearPrefab(root, i);
+            CrearPrefabTile(i, root);
             CrearConnexions(root);
             CrearTile(root);
 
             AddTileToTileset(root);
+
+            Debug.Log("---------------------");
         }
 
     }
 
     void NetejarTileset(string root)
     {
-        tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>($"{outputPath}/{root}/{root}.asset");
+        tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>($"{outputPath}/{root}/Tiles/{root}.asset");
 
         if (tileset == null)
         {
@@ -136,6 +151,36 @@ public class TilesUnpack : ScriptableObject
     }
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
+    bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"{PREFAB}_{root}");
+
+
+    void CrearPrefabEstat(int i, string root)
+    {
+
+        //LOAD PEÇA
+        Estat estat = AssetDatabase.LoadAssetAtPath<Estat>(Path_Estat(root));
+
+        //CREAR PREFAB & NEEDS
+        intance = (GameObject)Instantiate(subobjects[i]);
+        UI_Peca peça = intance.AddComponent<UI_Peca>();
+        AnimacioPerCodi_GameObject_Referencia tmpOutline = (AnimacioPerCodi_GameObject_Referencia)PrefabUtility.InstantiatePrefab(outline, intance.transform);
+        //AnimacioPerCodi_GameObject_Referencia tmpOutline = Instantiate(outline, Vector3.down * 0.3f, Quaternion.identity, intance.transform);
+
+        //CREAR COLOCABLE
+        EstatColocable colocable = CreateInstance<EstatColocable>();
+        AssetDatabase.CreateAsset(colocable, Path_Colocable(root));
+
+        //SETUP PEÇA
+        peça.Setup(AssetDatabase.LoadAssetAtPath<EstatColocable>(Path_Colocable(root)), tmpOutline);
+
+        //GUARDAR PREFAB
+        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_PrefabEstat(root));
+
+        //SETUP COLOCALBE
+        colocable.Setup(estat, prefab.GetComponent<UI_Peca>());
+
+        DestroyImmediate(intance);
+    }
 
     void GetVariacio(int i)
     {
@@ -181,29 +226,25 @@ public class TilesUnpack : ScriptableObject
         string[] second = first[1].Split(')');
         nom = $"{first[0]}{second[1]}";
         */
-        Debug.Log(nom);
+        Debug.Log($"Nom final = {nom}");
     }
 
 
 
-    void EliminarAssetAntic(string root)
-    {
-        AssetDatabase.DeleteAsset($"{outputPath}/{root}/{nom}.asset");
-        AssetDatabase.DeleteAsset($"{outputPath}/{root}/Prefab/{nom}.prefab");
-    }
 
 
 
-    void CrearPrefab(string root, int i)
+    void CrearPrefabTile(int i, string root)
     {
         intance = (GameObject)Instantiate(subobjects[i]);
 
         if(invertit)
             intance.transform.localScale = new Vector3(-1, 1, 1);
 
-        Debug.Log("Potser aqui es podrien afegir els efectes i elements extres i logiques");
+        //Debug.Log("Potser aqui es podrien afegir els efectes i elements extres i logiques");
+
         //AssetDatabase.CreateAsset(intance, Path_AssetPrefab(root));
-        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_AssetPrefab(root));
+        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_PrefabTile(root));
         //prefab = PrefabUtility.SaveAsPrefabAsset(intance, $"{outputPath}/{root}/Prefab/{nom}.asset".Replace("/",@"\"));
         //prefab = PrefabUtility.SaveAsPrefabAsset(intance, $"Assets/XidoStudio/Hexbase/Peces/Tiles/Proves/{nom}.asset");
         DestroyImmediate(intance);
@@ -215,7 +256,7 @@ public class TilesUnpack : ScriptableObject
         for (int nc = 0; nc < 3; nc++)
         {
             trobat = false;
-            Debug.Log($"{nomsConnexions[nc]}");
+            //Debug.Log($"{nomsConnexions[nc]}");
             if (nomsConnexions[nc].Contains(PES))
             {
                 nomsConnexions[nc] = nomsConnexions[nc].Split(PES)[0];
@@ -233,21 +274,32 @@ public class TilesUnpack : ScriptableObject
             {
                 connexio = CreateInstance<Connexio>();
                 connexio.name = nomsConnexions[nc];
-                AssetDatabase.CreateAsset(connexio, $"{AUTOGENERATS_PATH}/{connexio.name}.asset");
-                connexionsTile[nc] = AssetDatabase.LoadAssetAtPath<Connexio>($"{AUTOGENERATS_PATH}/{connexio.name}.asset");
+                AssetDatabase.CreateAsset(connexio, Path_Connexio(connexio.name));
+                connexionsTile[nc] = AssetDatabase.LoadAssetAtPath<Connexio>(Path_Connexio(connexio.name));
 
                 referencies.Refrex();
             }
         }
     }
+
+   
     private void CrearTile(string root)
     {
         tile = CreateInstance<Tile>();
         tile.Setup(prefab, connexionsTile);
 
-        AssetDatabase.CreateAsset(tile, Path_Asset(root));
+        AssetDatabase.CreateAsset(tile, Path_Tile(root));
     }
 
+    bool TileJaExisteix(string root)
+    {
+        if (AssetDatabase.LoadAssetAtPath<Tile>(Path_Tile(root)) != null)
+        {
+            Debug.LogError($"El Tile amb el nom {nom} ja existeix. Es possible que hagis duplicat el tipus de peça. Mira si es pot eliminar o s'ha de crear com una versio.");
+            return true;
+        }
+        return false;
+    }
 
 
     void AddTileToTileset(string root)
@@ -259,7 +311,7 @@ public class TilesUnpack : ScriptableObject
         }
 
 
-        tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>($"{outputPath}/{root}/{root}.asset");
+        tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>(Path_Tileset(root));
 
         if (tileset == null)
         {
@@ -267,6 +319,7 @@ public class TilesUnpack : ScriptableObject
             return;
         }
 
+        Debug.Log($"Add {tile.name}");
         if (tileset is TileSet_Simple)
         {
             ((TileSet_Simple)tileset).TileSet.AddTile(tile, pes);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Substat")]
 public class Estat : ScriptableObject, IProcessable
@@ -47,25 +48,33 @@ public class Estat : ScriptableObject, IProcessable
         return this;
     }
 
+    [TabGroup("Propietats")]
     [SerializeField] TipusEnum tipus;
+    [TabGroup("Propietats")]
     [SerializeField] bool caminable;
+    [TabGroup("Propietats")]
     [SerializeField] bool aquatic;
+    [TabGroup("Propietats")]
     [SerializeField] Producte producte;
 
-    [Apartat("CONDICIONS")]
+    //[Apartat("CONDICIONS")]
+    [TabGroup("Condicions")]
     [SerializeField] Recepta[] receptes;
     //[SerializeField] Condicio[] condicions;
+    [Space(10)]
+    [TabGroup("Condicions")]
     [SerializeField] DetallScriptable[] detallsScriptables;
 
-    [Apartat("TILES")]
+    //[Apartat("TILES")]
+    [TabGroup("Tiles")]
     [SerializeScriptableObject] [SerializeField] TileSetBase tileset;
 
-    [Apartat("INFORMACIO")]
+    //[Apartat("INFORMACIO")]
+    [TabGroup("Informacio")]
     [SerializeScriptableObject] [SerializeField] List<Informacio> informacions;
 
-    [Apartat("REFERENCIES AUTO-CONFIGURABLES")]
-    [SerializeField] Produccio produccio;
-    [SerializeField] Repoblar repoblar;
+    [HideInInspector] [SerializeField] Produccio produccio;
+    [HideInInspector] [SerializeField] Repoblar repoblar;
 
     public TipusEnum Tipus => tipus;
     public bool Caminable => caminable;
@@ -82,7 +91,7 @@ public class Estat : ScriptableObject, IProcessable
     public virtual Connexio[] ConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça);
     public ConnexioEspesifica ConnexionsEspesifica(Peça peça) => tileset.ConnexionsEspesifica(peça);
     public Connexio[] ConnexionsPossibles(Peça peça) => tileset.ConnexioinsPossibles(peça);
-    
+    public TileSetBase SetTileset { set => tileset = value; }
 
 
     public void AddRecepta(Recepta recepta)

@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
 using UnityEditor;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/UnpackTileset")]
 public class TilesetUnpack : ScriptableObject
 {
     public enum Tipus { Simple, Ocupable, Condicional}
     //Ordre: Estats, Tiles i Subtiles
-
-    const string TERRA = "Terra";
-    const string CASA = "Casa";
-    const string RIU = "Riu";
-
     const string TIPUS_SIMPLE = "TS";
     const string TIPUS_OCUPABLE = "TO";
     const string TIPUS_CONDICIONAL = "TC";
@@ -24,17 +20,15 @@ public class TilesetUnpack : ScriptableObject
     const char IGUAL = '=';
 
 
-    [SerializeField] Referencies referencies;
     [SerializeField] Object tiles;
     [SerializeField] string outputPath;
     [SerializeField] TilesUnpack tilesUnpack;
-    [Space(20)]
-    [SerializeField] bool terra;
-    [SerializeField] bool casa;
-    [SerializeField] bool riu;
+
+    [ReadOnly][SerializeField] Referencies referencies;
 
     //INTERN
     Object[] subobjects;
+    TileSetBase tileset;
     bool tilesetCreat = false;
     Tipus tipus;
     TileSet_Simple simple;
@@ -44,35 +38,21 @@ public class TilesetUnpack : ScriptableObject
     int indexCondicio;
 
 
-    string Path_Folder(string root) => $"{outputPath}/{root}";
-    string Path_FolderPrefab(string root) => $"{outputPath}/{root}/Prefab";
+    string Path_Folder(string root) => $"{outputPath}/{root}/Tiles";
+    string Path_FolderPrefab(string root) => $"{outputPath}/{root}/Tiles/Prefabs";
 
 
     string IndexCondicio(int i, string root) => subobjects[i].name.Substring(root.Length + 4, 1);
 
 
-    void CrearFoldersSiCal(string root)
-    {
-        if (!AssetDatabase.IsValidFolder(Path_Folder(root)))
-            AssetDatabase.CreateFolder(outputPath, root);
-
-        if (!AssetDatabase.IsValidFolder(Path_FolderPrefab(root)))
-            AssetDatabase.CreateFolder(Path_Folder(root), "Prefab");
-    }
 
 
-    [ContextMenu("Unpack")]
-    public void Unpack()
+
+    public void Unpack(string root)
     {
         subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
 
-        if (terra) Unpack(TERRA);
-        if (casa) Unpack(CASA);
-        if (riu) Unpack(RIU);
-    }
-
-    void Unpack(string root)
-    {
+        Debug.Log($"Unpack {root}");
         CrearFoldersSiCal(root);
 
         debug = "";
@@ -123,17 +103,30 @@ public class TilesetUnpack : ScriptableObject
 
             CrearAsset(root);
 
+            AssignarAEstat(root);
         }
+
+        tilesUnpack.Unpack(root);
+
+    }
+
+    void CrearFoldersSiCal(string root)
+    {
+        if (!AssetDatabase.IsValidFolder(Path_Folder(root)))
+            AssetDatabase.CreateFolder($"{outputPath}/{root}", "Tiles");
+
+        if (!AssetDatabase.IsValidFolder(Path_FolderPrefab(root)))
+            AssetDatabase.CreateFolder(Path_Folder(root), "Prefabs");
     }
 
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsInfo(int i, string root) => subobjects[i].name.StartsWith($"_{root}-");
     void EliminarAssetAntic(string root)
     {
-        if (AssetDatabase.LoadAssetAtPath($"{outputPath}/{root}/{root}.asset", typeof(Object)) == null)
+        if (AssetDatabase.LoadAssetAtPath($"{Path_Folder(root)}/{root}.asset", typeof(Object)) == null)
             return;
 
-        AssetDatabase.DeleteAsset($"{outputPath}/{root}/{root}.asset");
+        AssetDatabase.DeleteAsset($"{Path_Folder(root)}/{root}.asset");
     }
 
 
@@ -143,12 +136,14 @@ public class TilesetUnpack : ScriptableObject
         {
             if (EsSimple(i, root))
             {
+
                 tipus = Tipus.Simple;
                 simple = CreateInstance<TileSet_Simple>();
                 simple.name = root;
                 simple.Setup();
                 Debug.Log("Crear TileSet Tipus simple"); 
                 tilesetCreat = true;
+                tileset = simple;
             }
             else if (EsOcupable(i, root))
             {
@@ -158,6 +153,7 @@ public class TilesetUnpack : ScriptableObject
                 ocupable.Setup();
                 Debug.Log("Crear TileSet Tipus ocupable");
                 tilesetCreat = true;
+                tileset = ocupable;
             }
             else if (EsCondicional(i, root))
             {
@@ -168,6 +164,7 @@ public class TilesetUnpack : ScriptableObject
                 condicional.Setup();
                 Debug.Log("Crear TileSet Tipus condicional");
                 tilesetCreat = true;
+                tileset = condicional;
             }
         }
 
@@ -351,24 +348,28 @@ public class TilesetUnpack : ScriptableObject
         if (!tilesetCreat)
             return;
 
-        if (AssetDatabase.LoadAssetAtPath($"{outputPath}/{root}/{root}.asset", typeof(Object)) != null)
+        if (AssetDatabase.LoadAssetAtPath($"{Path_Folder(root)}/{root}.asset", typeof(Object)) != null)
             return;
 
         switch (tipus)
         {
             case Tipus.Simple:
-                AssetDatabase.CreateAsset(simple, $"{outputPath}/{root}/{root}.asset");
+                AssetDatabase.CreateAsset(simple, $"{Path_Folder(root)}/{root}.asset");
                 break;
             case Tipus.Ocupable:
-                AssetDatabase.CreateAsset(ocupable, $"{outputPath}/{root}/{root}.asset");
+                AssetDatabase.CreateAsset(ocupable, $"{Path_Folder(root)}/{root}.asset");
                 break;
             case Tipus.Condicional:
-                AssetDatabase.CreateAsset(condicional, $"{outputPath}/{root}/{root}.asset");
+                AssetDatabase.CreateAsset(condicional, $"{Path_Folder(root)}/{root}.asset");
                 break;
         }
-
     }
 
+    void AssignarAEstat(string root)
+    {
+        Estat estat = AssetDatabase.LoadAssetAtPath<Estat>($"{outputPath}/{root}/{root.ToUpper()}.asset");
+        estat.SetTileset = tileset;
+    }
 
 
 

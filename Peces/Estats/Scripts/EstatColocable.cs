@@ -6,6 +6,12 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Estats/Coloca")]
 public class EstatColocable : ScriptableObject
 {
+    public void Setup(Estat inicial, UI_Peca peça)
+    {
+        this.inicial = inicial;
+        this.peça = peça;
+    }
+
     [SerializeScriptableObject][SerializeField] Estat inicial;
     [SerializeField] UI_Peca peça;
 

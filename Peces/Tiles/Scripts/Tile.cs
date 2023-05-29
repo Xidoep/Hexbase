@@ -5,6 +5,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 using XS_Utils;
+using Sirenix.OdinInspector;
 #endif
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Tiles/Tile")]
@@ -56,6 +57,7 @@ public class Tile : ScriptableObject
     [SerializeField] Connexio dreta;
     [SerializeField] Connexio esquerra;
 
+    [InlineProperty(LabelWidth = 50)]
     [SerializeField] Posicions[] posicions;
     //[Header("Punta")]
     //[SerializeField] Estat punta;
@@ -117,8 +119,8 @@ public class Tile : ScriptableObject
             this.orientacio = orientacio;
             this.posicio = posicio;
         }
-        public int orientacio;
-        public Vector2 posicio;
+        [HorizontalGroup] public int orientacio;
+        [HorizontalGroup] public Vector2 posicio;
 
 
     }

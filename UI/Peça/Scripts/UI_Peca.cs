@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XS_Utils;
+using Sirenix.OdinInspector;
 
 public class UI_Peca : MonoBehaviour
 {
-    public void Setup(EstatColocable estat)
+    public void Setup(EstatColocable estat, AnimacioPerCodi_GameObject_Referencia outline)
     {
         this.estat = estat;
+        this.outline = outline;
     }
 
-    [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
-    [SerializeField] Fase_Colocar colocar;
     [SerializeField] EstatColocable estat;
+    [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
     Transform[] childs;
     public bool resaltat;
+    [SerializeField] Fase_Colocar colocar;
 
     //Posar una var que posi RESALTADA.
     //Quan vagi el MostrarSeleccioanda de Menu_FreeStyle,
@@ -80,4 +83,9 @@ public class UI_Peca : MonoBehaviour
             childs[i].SetCapa_UIPeces();
         }
     }*/
+
+    private void OnValidate()
+    {
+        if (colocar == null) colocar = XS_Editor.LoadAssetAtPath<Fase_Colocar>("Assets/XidoStudio/Hexbase/Sistemes/Fases/Colocar.asset");
+    }
 }
