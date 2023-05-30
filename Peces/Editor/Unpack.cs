@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class Unpack : MonoBehaviour
+public class Unpack : Editor
 {
-    // Start is called before the first frame update
-    void Start()
+    [MenuItem("Unpack/Editor")]
+    static void OpenMenu()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        EditorUtility.OpenPropertyEditor(AssetDatabase.LoadAssetAtPath<EstatsUnpack>("Assets/XidoStudio/Hexbase/Peces/Editor/Estats Unpack.asset"));
+        //Editor editor = Editor.CreateEditor(AssetDatabase.LoadAssetAtPath<EstatsUnpack>("Assets/XidoStudio/Hexbase/Peces/Editor/Estats Unpack.asset"));
+        //editor.Repaint();
     }
 }

@@ -11,7 +11,7 @@ public class TileSet_Simple : TileSetBase
         tileSet = new TileSet().Setup();
     }
 
-    [ShowInInspector][InlineEditor] TileSet tileSet;
+    [ShowInInspector] TileSet tileSet;
 
 
     public override TilesPossibles[] Tiles(Peça peça = null) => tileSet.Tiles;

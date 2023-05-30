@@ -19,25 +19,34 @@ public class EstatsUnpack : ScriptableObject
     const string MAR = "Mar";
     const string NO_IMPORTA = "No Importa";
 
+    [BoxGroup("EXTERNAL FILES", centerLabel: true)]
     [SerializeField] Object csv;
-    [SerializeField] string outputPath;
-    [SerializeField] string outputProductes;
-    [SerializeField] string outputReceptes;
-    [SerializeField] Referencies referencies;
-    [SerializeField] TilesetUnpack tilesetUnpack;
+    
+    [BoxGroup("EXTERNAL FILES", centerLabel: true)]
+    [SerializeField] Object tiles;
+
+    [BoxGroup("PATHS", centerLabel: true), FolderPath, SerializeField] 
+    string outputPath, outputProductes, outputReceptes;
 
 
+    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] 
+    TilesetUnpack tilesetUnpack;
+
+    [Space(20), ReadOnly, SerializeField]
+    Referencies referencies;
+
+    //INTERN
+    [OnInspectorInit("GetEstats"), PropertyOrder(-1), SerializeField] 
+    Dictionary<string, bool> estats;
 
     string[] linies;
     string[] columnes;
+    Object[] subobjects;
     int liniaProductes;
     List<string> llistaProductes;
     bool viable;
 
 
-
-    [OnInspectorInit("GetEstats"), PropertyOrder(-1), SerializeField] 
-    Dictionary<string, bool> estats;
 
 
 
@@ -61,9 +70,10 @@ public class EstatsUnpack : ScriptableObject
             GetColumnes(i);
         }
 
-
-        //Agafar productes
         CreaProductes();
+
+        //GET MESHES
+        subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
 
         CrearEstats();
 
@@ -85,6 +95,9 @@ public class EstatsUnpack : ScriptableObject
         for (int i = 3; i < linies.Length; i++)
         {
             if (i.Equals(liniaProductes))
+                break;
+
+            if (IniciProductes(i))
                 break;
 
             GetColumnes(i);
@@ -427,9 +440,8 @@ public class EstatsUnpack : ScriptableObject
 
 
 
-
             referencies.Refrex();
-            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}");
+            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, referencies);
         }
         Debug.Log(debug);
 
@@ -470,14 +482,14 @@ public class EstatsUnpack : ScriptableObject
     bool HiHaConnexioInputs => !string.IsNullOrEmpty(ConnexioInputs) || !ConnexioInputs.Equals(NO_IMPORTA);
     //bool HiHaXP => !string.IsNullOrEmpty(XP);
     bool HiHaAccioConnectar => !string.IsNullOrEmpty(AccioConnectar) || !AccioConnectar.Equals(NO_IMPORTA);
-}
 
 
-public static class UnpackEditor
-{
-    [MenuItem("Window/Unpack")]
-    static void OpenMenu()
+
+
+    protected void OnValidate()
     {
-        EditorWindow.GetWindow(typeof(EstatsUnpack));
+        if (referencies != null) referencies = XS_Utils.XS_Editor.LoadAssetAtPath<Referencies>("Assets/XidoStudio/Hexbase/Sistemes/Referencies.asset");
     }
 }
+
+

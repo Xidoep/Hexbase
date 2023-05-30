@@ -19,18 +19,19 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    [SerializeField] Referencies referencies;
-    [SerializeField] Object tiles;
+    //[SerializeField] Object tiles;
     [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
-    [SerializeField] string outputPath;
 
-    [Apartat("Auto-configurable")]
+    //[Apartat("Auto-configurable")]
    // [SerializeField] List<Object> connexions;
 
 
 
     //INTERN
     Object[] subobjects;
+    string outputPath;
+    Referencies referencies;
+
     string nom;
     bool invertit;
     string[] nomsConnexions;
@@ -59,22 +60,15 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    public void Unpack(string root)
+    public void Unpack(string root, Object[] subobjects, string outputPath, Referencies referencies)
     {
+        this.subobjects = subobjects;
+        this.outputPath = outputPath;
+        this.referencies = referencies;
+
         NetejarTileset(root);
 
-        
-        List<Tile> oldTiles = XS_Editor.LoadAllAssetsAtPath<Tile>($"{outputPath}/{root}/Tiles");
-        for (int i = 0; i < oldTiles.Count; i++)
-        {
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldTiles[i]));
-        }
-        List<GameObject> oldPrefabs = XS_Editor.LoadAllAssetsAtPath<GameObject>($"{outputPath}/{root}/Tiles/Prefabs");
-        for (int i = 0; i < oldPrefabs.Count; i++)
-        {
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldPrefabs[i]));
-        }
-
+        EliminarAntics(root, outputPath);
 
         for (int i = 0; i < subobjects.Length; i++)
         {
@@ -119,6 +113,20 @@ public class TilesUnpack : ScriptableObject
             Debug.Log("---------------------");
         }
 
+    }
+
+    private static void EliminarAntics(string root, string outputPath)
+    {
+        List<Tile> oldTiles = XS_Editor.LoadAllAssetsAtPath<Tile>($"{outputPath}/{root}/Tiles");
+        for (int i = 0; i < oldTiles.Count; i++)
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldTiles[i]));
+        }
+        List<GameObject> oldPrefabs = XS_Editor.LoadAllAssetsAtPath<GameObject>($"{outputPath}/{root}/Tiles/Prefabs");
+        for (int i = 0; i < oldPrefabs.Count; i++)
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldPrefabs[i]));
+        }
     }
 
     void NetejarTileset(string root)

@@ -20,14 +20,15 @@ public class TilesetUnpack : ScriptableObject
     const char IGUAL = '=';
 
 
-    [SerializeField] Object tiles;
-    [SerializeField] string outputPath;
+    //[SerializeField] Object tiles;
     [SerializeField] TilesUnpack tilesUnpack;
 
-    [ReadOnly][SerializeField] Referencies referencies;
 
     //INTERN
     Object[] subobjects;
+    string outputPath;
+    Referencies referencies;
+
     TileSetBase tileset;
     bool tilesetCreat = false;
     Tipus tipus;
@@ -48,9 +49,12 @@ public class TilesetUnpack : ScriptableObject
 
 
 
-    public void Unpack(string root)
+    public void Unpack(string root, Object[] subobjects, string outputPath, Referencies referencies)
     {
-        subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
+        //subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
+        this.subobjects = subobjects;
+        this.outputPath = outputPath;
+        this.referencies = referencies;
 
         Debug.Log($"Unpack {root}");
         CrearFoldersSiCal(root);
@@ -106,7 +110,7 @@ public class TilesetUnpack : ScriptableObject
             AssignarAEstat(root);
         }
 
-        tilesUnpack.Unpack(root);
+        tilesUnpack.Unpack(root, subobjects, outputPath, referencies);
 
     }
 

@@ -51,14 +51,12 @@ public class Tile : ScriptableObject
 
 
     [SerializeField] GameObject prefab;
-    [Linia]
-    [Header("Connexions")]
-    [SerializeField] Connexio exterior;
-    [SerializeField] Connexio dreta;
-    [SerializeField] Connexio esquerra;
 
-    [InlineProperty(LabelWidth = 50)]
-    [SerializeField] Posicions[] posicions;
+    [BoxGroup("Connexions", centerLabel:true), SerializeField] 
+    Connexio exterior, dreta, esquerra;
+
+    [InlineProperty(LabelWidth = 70), SerializeField] 
+    Posicions[] posicions;
     //[Header("Punta")]
     //[SerializeField] Estat punta;
 
@@ -119,8 +117,8 @@ public class Tile : ScriptableObject
             this.orientacio = orientacio;
             this.posicio = posicio;
         }
-        [HorizontalGroup] public int orientacio;
-        [HorizontalGroup] public Vector2 posicio;
+        [HorizontalGroup(marginRight: 20)] public int orientacio;
+        [HorizontalGroup(marginLeft: 20)] public Vector2 posicio;
 
 
     }
