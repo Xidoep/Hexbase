@@ -26,7 +26,7 @@ public class EstatsUnpack : ScriptableObject
     [SerializeField] Object tiles;
 
     [BoxGroup("PATHS", centerLabel: true), FolderPath, SerializeField] 
-    string outputPath, outputProductes, outputReceptes;
+    string outputPath, outputProductes, outputReceptes, outputColocables;
 
 
     [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] 
@@ -260,7 +260,7 @@ public class EstatsUnpack : ScriptableObject
             }
 
             recepta.Setup(cPropia, inputs, cInputs, outputs, accioConnectar);
-            AssetDatabase.CreateAsset(recepta, $"{outputReceptes}/{nom}.asset");
+            AssetDatabase.CreateAsset(recepta, Path_Recepta(nom));
 
 
 
@@ -305,6 +305,8 @@ public class EstatsUnpack : ScriptableObject
         return tmp;
     }
 
+
+
     void CreaProductes()
     {
         string debug = "PRODUCTES:\n";
@@ -334,7 +336,7 @@ public class EstatsUnpack : ScriptableObject
         {
             debug += $"-{llistaProductes[i]}\n";
             Producte producte = CreateInstance<Producte>();
-            Texture2D icone = AssetDatabase.LoadAssetAtPath<Texture2D>($"{outputProductes}/Textures/{llistaProductes[i]}.png");
+            Texture2D icone = AssetDatabase.LoadAssetAtPath<Texture2D>(Path_IconeTexture(llistaProductes[i]));
             if(icone == null)
             {
                 Debug.LogError($"No he trobat la icone amb el nom {llistaProductes[i]}");
@@ -342,7 +344,7 @@ public class EstatsUnpack : ScriptableObject
             }
             producte.Setup(icone);
 
-            AssetDatabase.CreateAsset(producte, $"{outputProductes}/{llistaProductes[i]}.asset");
+            AssetDatabase.CreateAsset(producte, Path_Producte(llistaProductes[i]));
         }
         Debug.Log(debug);
 
@@ -436,7 +438,7 @@ public class EstatsUnpack : ScriptableObject
                 AssetDatabase.CreateFolder($"{outputPath}/{Nom}", "Prefab");
                 AssetDatabase.CreateFolder($"{outputPath}/{Nom}", "Colocable");
             }
-            AssetDatabase.CreateAsset(estat, $"{outputPath}/{Nom}/{Nom}.asset");
+            AssetDatabase.CreateAsset(estat, Path_Estat());
 
 
 
@@ -452,6 +454,16 @@ public class EstatsUnpack : ScriptableObject
 
 
 
+
+
+    string Path_Recepta(string nom) => $"{outputReceptes}/{nom}.asset";
+    string Path_Estat() => $"{outputPath}/{Nom}/{Nom}.asset";
+    string Path_Producte(string nom) => $"{outputProductes}/{nom}.asset";
+    string Path_IconeTexture(string nom) => $"{outputProductes}/Textures/{nom}.png";
+
+
+
+
     void GetColumnes(int i) => columnes = linies[i].Split(SEPARADOR);
     bool IniciProductes(int i) => linies[i].StartsWith(PRODUCTES);
     bool LiniaActiva(int i) => linies[i].StartsWith(TRUE);
@@ -462,12 +474,13 @@ public class EstatsUnpack : ScriptableObject
     string NomProducte => columnes[5];
     string From => columnes[7];
 
+
     string ConnexioPropia => columnes[8];
     string Input(int i) => columnes[9 + i];
     string Output(int i) => columnes[17 + i];
     string ConnexioInputs => columnes[16];
-    //string XP => columnes[18];
     string AccioConnectar => columnes[24];
+
 
 
 
@@ -482,6 +495,9 @@ public class EstatsUnpack : ScriptableObject
     bool HiHaConnexioInputs => !string.IsNullOrEmpty(ConnexioInputs) || !ConnexioInputs.Equals(NO_IMPORTA);
     //bool HiHaXP => !string.IsNullOrEmpty(XP);
     bool HiHaAccioConnectar => !string.IsNullOrEmpty(AccioConnectar) || !AccioConnectar.Equals(NO_IMPORTA);
+
+
+
 
 
 

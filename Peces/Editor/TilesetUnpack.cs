@@ -123,6 +123,8 @@ public class TilesetUnpack : ScriptableObject
             AssetDatabase.CreateFolder(Path_Folder(root), "Prefabs");
     }
 
+
+
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsInfo(int i, string root) => subobjects[i].name.StartsWith($"_{root}-");
     void EliminarAssetAntic(string root)
@@ -132,6 +134,7 @@ public class TilesetUnpack : ScriptableObject
 
         AssetDatabase.DeleteAsset($"{Path_Folder(root)}/{root}.asset");
     }
+
 
 
     void CrearTileset(int i, string root)
@@ -176,6 +179,7 @@ public class TilesetUnpack : ScriptableObject
         bool EsOcupable(int i, string root) => subobjects[i].name.Substring(root.Length + 2).StartsWith(TIPUS_OCUPABLE);
         bool EsCondicional(int i, string root) => subobjects[i].name.Substring(root.Length + 2).StartsWith(TIPUS_CONDICIONAL);
     }
+
 
 
     void CrearCondicions(int i, string root, int index)
@@ -243,6 +247,7 @@ public class TilesetUnpack : ScriptableObject
         string InfoNom(int i, string root) => subobjects[i].name.Substring(root.Length + 6).Split(SEPARADOR_INFO)[0];
         string[] InfoEstats(int i, string root) => subobjects[i].name.Substring(root.Length + 6).Split(SEPARADOR_INFO)[1].Split(SEPARADO);
     }
+
 
 
     void Nules(int index, string root, int condicio = 0)
@@ -347,6 +352,7 @@ public class TilesetUnpack : ScriptableObject
     }
 
 
+
     void CrearAsset(string root)
     {
         if (!tilesetCreat)
@@ -369,15 +375,13 @@ public class TilesetUnpack : ScriptableObject
         }
     }
 
+
+
     void AssignarAEstat(string root)
     {
         Estat estat = AssetDatabase.LoadAssetAtPath<Estat>($"{outputPath}/{root}/{root.ToUpper()}.asset");
         estat.SetTileset = tileset;
     }
-
-
-
-
 
 
 

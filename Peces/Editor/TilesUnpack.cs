@@ -115,19 +115,6 @@ public class TilesUnpack : ScriptableObject
 
     }
 
-    private static void EliminarAntics(string root, string outputPath)
-    {
-        List<Tile> oldTiles = XS_Editor.LoadAllAssetsAtPath<Tile>($"{outputPath}/{root}/Tiles");
-        for (int i = 0; i < oldTiles.Count; i++)
-        {
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldTiles[i]));
-        }
-        List<GameObject> oldPrefabs = XS_Editor.LoadAllAssetsAtPath<GameObject>($"{outputPath}/{root}/Tiles/Prefabs");
-        for (int i = 0; i < oldPrefabs.Count; i++)
-        {
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldPrefabs[i]));
-        }
-    }
 
     void NetejarTileset(string root)
     {
@@ -157,11 +144,25 @@ public class TilesUnpack : ScriptableObject
             }
         }
     }
+    void EliminarAntics(string root, string outputPath)
+    {
+        List<Tile> oldTiles = XS_Editor.LoadAllAssetsAtPath<Tile>($"{outputPath}/{root}/Tiles");
+        for (int i = 0; i < oldTiles.Count; i++)
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldTiles[i]));
+        }
+        List<GameObject> oldPrefabs = XS_Editor.LoadAllAssetsAtPath<GameObject>($"{outputPath}/{root}/Tiles/Prefabs");
+        for (int i = 0; i < oldPrefabs.Count; i++)
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldPrefabs[i]));
+        }
+    }
+
+
+
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
     bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"{PREFAB}_{root}");
-
-
     void CrearPrefabEstat(int i, string root)
     {
 
@@ -189,6 +190,8 @@ public class TilesUnpack : ScriptableObject
 
         DestroyImmediate(intance);
     }
+
+
 
     void GetVariacio(int i)
     {
@@ -239,6 +242,15 @@ public class TilesUnpack : ScriptableObject
 
 
 
+    bool TileJaExisteix(string root)
+    {
+        if (AssetDatabase.LoadAssetAtPath<Tile>(Path_Tile(root)) != null)
+        {
+            Debug.LogError($"El Tile amb el nom {nom} ja existeix. Es possible que hagis duplicat el tipus de peça. Mira si es pot eliminar o s'ha de crear com una versio.");
+            return true;
+        }
+        return false;
+    }
 
 
 
@@ -289,8 +301,6 @@ public class TilesUnpack : ScriptableObject
             }
         }
     }
-
-   
     private void CrearTile(string root)
     {
         tile = CreateInstance<Tile>();
@@ -299,15 +309,6 @@ public class TilesUnpack : ScriptableObject
         AssetDatabase.CreateAsset(tile, Path_Tile(root));
     }
 
-    bool TileJaExisteix(string root)
-    {
-        if (AssetDatabase.LoadAssetAtPath<Tile>(Path_Tile(root)) != null)
-        {
-            Debug.LogError($"El Tile amb el nom {nom} ja existeix. Es possible que hagis duplicat el tipus de peça. Mira si es pot eliminar o s'ha de crear com una versio.");
-            return true;
-        }
-        return false;
-    }
 
 
     void AddTileToTileset(string root)
