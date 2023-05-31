@@ -75,6 +75,9 @@ public class TilesetUnpack : ScriptableObject
             if (!EsInfo(i, root))
                 continue;
 
+            if (subobjects[i].name.Contains('.'))
+                continue;
+
             EliminarAssetAntic(root);
         }
 
@@ -85,6 +88,9 @@ public class TilesetUnpack : ScriptableObject
                 continue;
 
             if (!EsInfo(i, root))
+                continue;
+
+            if (subobjects[i].name.Contains('.'))
                 continue;
 
             Debug.Log(subobjects[i].name);
@@ -379,7 +385,9 @@ public class TilesetUnpack : ScriptableObject
 
     void AssignarAEstat(string root)
     {
+        Debug.Log($"Assignar a {outputPath}/{root}/{root.ToUpper()}.asset");
         Estat estat = AssetDatabase.LoadAssetAtPath<Estat>($"{outputPath}/{root}/{root.ToUpper()}.asset");
+        Debug.Log($"Hi ha aquest estat? {estat != null}");
         estat.SetTileset = tileset;
     }
 

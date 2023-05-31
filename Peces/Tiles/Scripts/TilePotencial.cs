@@ -15,9 +15,9 @@ public class TilePotencial
         GetPossibilitats();
     }
 
-    Peça peça;
+    [HideInInspector] Peça peça;
 
-    [SerializeField] int orientacio;
+    [HideInInspector] int orientacio;
     [SerializeField] Possibilitats possibilitatsVirtuals;
     int orientacioFisica = 0;
 

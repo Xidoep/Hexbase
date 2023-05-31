@@ -31,8 +31,8 @@ public class TileSet
         return this;
     }
 
-    [TableList(AlwaysExpanded = true, DrawScrollView = false), BoxGroup("Tiles", centerLabel: true)]
-    [SerializeField] TilesPossibles[] tiles;
+    [TableList(AlwaysExpanded = true, DrawScrollView = false), BoxGroup("Tiles", centerLabel: true), SerializeField] 
+    TilesPossibles[] tiles;
 
     [BoxGroup("Connexions", centerLabel: true), BoxGroup("Connexions/Nules", centerLabel: true), AssetSelector(Paths = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats")]
     [SerializeField] Connexio[] connexionsNules;
@@ -52,13 +52,21 @@ public class TileSet
     public void AddTile(Tile tile, int pes)
     {
         List<TilesPossibles> tiles = new List<TilesPossibles>(this.tiles);
-        tiles.Add(new TilesPossibles(tile, pes));
+        //tiles.Add(new TilesPossibles(tile, pes));
         if(tiles.Count > 1)
         {
             for (int i = 0; i < tiles.Count; i++)
             {
-
+                if (tiles[i].pes < pes || i == tiles.Count - 1)
+                {
+                    tiles.Insert(i, new TilesPossibles(tile, pes));
+                    break;
+                }
             }
+        }
+        else
+        {
+            tiles.Add(new TilesPossibles(tile, pes));
         }
 
         this.tiles = tiles.ToArray();
@@ -90,11 +98,15 @@ public struct TilesPossibles
     }
 
     //[PreviewField(Height = 20)]
-    [TableColumnWidth(40)]
+
     public Tile tile;
 
     [TableColumnWidth(200, Resizable = false)]
     [Range(0,10)]public int pes;
+
+
+    [TableColumnWidth(56, resizable: false),HideInPlayMode,ShowInInspector,PreviewField,PropertyOrder(-1)]
+    Object Prefab => tile?.Prefab;
 }
 
 [System.Serializable]

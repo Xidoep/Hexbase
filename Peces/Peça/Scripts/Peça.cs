@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Sirenix.OdinInspector;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
     /*[System.Flags]*/ public enum ConnexioEnum { 
-        NoImporta = 0, 
-        Connectat = 1, 
-        Desconnectat = 2,
-        ConnectatAmbMi = 4
+        [LabelText(" ", SdfIconType.DashLg, IconColor = "gray")] NoImporta = 0, 
+        [LabelText(" ", SdfIconType.Link45deg, IconColor = "RGB(0,1,0)")] Connectat = 1,
+        [LabelText(" ", SdfIconType.XCircle, IconColor = "red")] Desconnectat = 2,
+        [LabelText(" ", SdfIconType.People, IconColor = "blue")] ConnectatAmbMi = 4
     }
 
 

@@ -36,8 +36,8 @@ public class EstatsUnpack : ScriptableObject
     Referencies referencies;
 
     //INTERN
-    [OnInspectorInit("GetEstats"), PropertyOrder(-1), SerializeField] 
-    Dictionary<string, bool> estats;
+    //[OnInspectorInit("GetEstats"), PropertyOrder(-1), SerializeField] 
+    //Dictionary<string, bool> estats;
 
     string[] linies;
     string[] columnes;
@@ -45,13 +45,81 @@ public class EstatsUnpack : ScriptableObject
     int liniaProductes;
     List<string> llistaProductes;
     bool viable;
+    bool confirmat;
+    int trobat;
+
+    [TableList(), SerializeField, PropertyOrder(-1)]
+    Confirmacio[] confirmacions;
+
+    [System.Serializable]
+    public struct Confirmacio
+    {
+        [SerializeField] string nom;
+        [SerializeField, VerticalGroup("E"), TableColumnWidth(23, resizable: false), LabelText("")] 
+        bool estat;
+
+        [SerializeField, VerticalGroup("T"), TableColumnWidth(23, resizable: false), LabelText("")] 
+        bool tiles;
+
+        [DisableIf("@!this.estat && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), VerticalGroup("Importar")]
+        public void Importar() => importar?.Invoke(new Confirmacio[] { this });
+        
+
+        System.Action<Confirmacio[]> importar;
+
+        public System.Action<Confirmacio[]> SetImporar { set => importar = value; }
+
+        public string Nom => nom;
+        public bool Estat => estat;
+        public bool Tiles => tiles;
+    }
+
+    Confirmacio GetConfirmacio(string nom)
+    {
+        trobat = -1;
+        for (int i = 0; i < confirmacions.Length; i++)
+        {
+            if (confirmacions[i].Nom.Equals(nom))
+            {
+                trobat = i;
+                break;
+            }
+        }
+        return confirmacions[trobat];
+    }
+    bool ConfirmarTiles(Confirmacio[] confirmacions, string nom)
+    {
+        confirmat = false;
+        for (int i = 0; i < confirmacions.Length; i++)
+        {
+            if (confirmacions[i].Nom.Equals(nom))
+            {
+                confirmat = confirmacions[i].Tiles;
+                break;
+            }
+        }
+        return confirmat;
+    }
+    bool ConfirmarEstat(Confirmacio[] confirmacions, string nom)
+    {
+        confirmat = false;
+        for (int i = 0; i < confirmacions.Length; i++)
+        {
+            if (confirmacions[i].Nom.Equals(nom))
+            {
+                confirmat = confirmacions[i].Estat;
+                break;
+            }
+        }
+        return confirmat;
+    }
 
 
 
 
-
-    [PropertyOrder(-2), HideIf("@this.estats != null && this.estats.Count == 0")][Button(ButtonSizes.Large, Icon = SdfIconType.Archive, IconAlignment = IconAlignment.LeftOfText)]
-    void Unpack()
+    [PropertyOrder(-2), Button(ButtonSizes.Large, Icon = SdfIconType.Archive, IconAlignment = IconAlignment.LeftOfText)]
+    void Unpack() => Unpack(confirmacions);
+    void Unpack(Confirmacio[] confirmacions)
     {
 
         string debug = "";
@@ -75,46 +143,13 @@ public class EstatsUnpack : ScriptableObject
         //GET MESHES
         subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
 
-        CrearEstats();
+        CrearEstats(confirmacions);
 
-        CrearReceptes();
+        CrearReceptes(confirmacions);
 
-        Debug.Log("FALTA: Crear un proces més gran que ho fagi tot en ordre. Estats(Productes, Estats), Tilesets i Tiles");
-
-
-        //tilesetUnpack.Unpack();
     }
 
-    [ContextMenu("GetEStats")]
-    [PropertyOrder(-2), ShowIf("@this.estats != null && this.estats.Count == 0")][Button(ButtonSizes.Large, Icon = SdfIconType.Eye, IconAlignment = IconAlignment.LeftOfText)]
-    void GetEstats()
-    {
-        Dictionary<string, bool> tmp = new Dictionary<string, bool>();
-        estats = new Dictionary<string, bool>();
-        linies = System.IO.File.ReadAllLines(AssetDatabase.GetAssetPath(csv));
-        for (int i = 3; i < linies.Length; i++)
-        {
-            if (i.Equals(liniaProductes))
-                break;
-
-            if (IniciProductes(i))
-                break;
-
-            GetColumnes(i);
-
-            if (!Activat)
-                continue;
-
-            if (!TeNom)
-                continue;
-
-            tmp.Add(Nom, estats.ContainsKey(Nom) ? estats[Nom] : false);
-            //estats.Add(Nom, false);
-        }
-        estats = new Dictionary<string, bool>(tmp);
-    }
-
-    private void CrearReceptes()
+    private void CrearReceptes(Confirmacio[] confirmacions)
     {
         string debug = "RECEPTES:\n";
        
@@ -125,6 +160,9 @@ public class EstatsUnpack : ScriptableObject
         {
             if (i.Equals(liniaProductes))
                 break;
+
+            if (!ConfirmarTiles(confirmacions, Nom))
+                continue;
 
             GetColumnes(i);
             if (!Activat)
@@ -350,7 +388,7 @@ public class EstatsUnpack : ScriptableObject
 
         referencies.Refrex();
     }
-    private void CrearEstats()
+    private void CrearEstats(Confirmacio[] confirmacions)
     {
         string debug = "ESTATS:\n";
         for (int i = 3; i < linies.Length; i++)
@@ -365,8 +403,15 @@ public class EstatsUnpack : ScriptableObject
             if (!TeNom)
                 continue;
 
-            if (!estats[Nom])
+            if (!ConfirmarEstat(confirmacions, Nom))
+            {
+                if (!ConfirmarTiles(confirmacions, Nom))
+                    continue;
+
+                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, referencies);
+
                 continue;
+            }
 
             debug += $"{Nom}";
             if (TeTipus) debug += $" ({Tipus})";
@@ -441,6 +486,8 @@ public class EstatsUnpack : ScriptableObject
             AssetDatabase.CreateAsset(estat, Path_Estat());
 
 
+            if (!ConfirmarTiles(confirmacions, Nom))
+                continue;
 
             referencies.Refrex();
             tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, referencies);
@@ -505,6 +552,11 @@ public class EstatsUnpack : ScriptableObject
     protected void OnValidate()
     {
         if (referencies != null) referencies = XS_Utils.XS_Editor.LoadAssetAtPath<Referencies>("Assets/XidoStudio/Hexbase/Sistemes/Referencies.asset");
+
+        for (int i = 0; i < confirmacions.Length; i++)
+        {
+            confirmacions[i].SetImporar = Unpack;
+        }
     }
 }
 

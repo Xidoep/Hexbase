@@ -196,8 +196,16 @@ public class TilesUnpack : ScriptableObject
     void GetVariacio(int i)
     {
         variacio = 0;
+
+        Debug.Log($"Trobar variacio a {subobjects[i].name}");
+
         if (!subobjects[i].name.Contains(VARIACIO))
+        {
+            nom = subobjects[i].name;
             return;
+        }
+
+        nom = subobjects[i].name.Split(VARIACIO)[0];
 
         int.TryParse(subobjects[i].name.Split(VARIACIO)[1], out variacio);
     }
@@ -206,11 +214,9 @@ public class TilesUnpack : ScriptableObject
         pes = -1;
         condicio = -1;
 
-        string[] tmp = subobjects[i].name.Split(PES);
+        Debug.Log($"Trobar pes a {nom}");
+        string[] tmp = nom.Split(PES);
         nom = tmp[0];
-
-        //if (tmp.Length < 2)
-        //    return;
 
         if (!tmp[1].Contains(CONDICIO))
         {

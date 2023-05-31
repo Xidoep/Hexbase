@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Receptes/Recepta")]
 public class Recepta : ScriptableObject
@@ -16,22 +17,25 @@ public class Recepta : ScriptableObject
         AgafarProduccioSiCal();
     }
 
-    [Header("PROPI")]
     [Tooltip("La connexio de la peça que porta la recepta ha de cohincidir amb el que s'ha posat aquí.")]
-    [SerializeField] Peça.ConnexioEnum connexioPropia;
-    //[SerializeField] Peça.ConnexioEnum connectada;
+    [BoxGroup("PROPI", centerLabel: true), Title("Estat connexio"), EnumToggleButtons, HideLabel, SerializeField, PropertySpace(0, spaceAfter: 20)] 
+    Peça.ConnexioEnum connexioPropia;
 
-    [Apartat("INPUTS")]
-    [SerializeField] ScriptableObject[] inputs;
+
+    [BoxGroup("INPUTS", centerLabel: true), SerializeField] 
+    ScriptableObject[] inputs;
+
     [Tooltip("En el cas que l'input sigui una Peça, la connexio d'aquesta ha de coincidir amb el que s'ha posat aquí.")]
-    [SerializeField] Peça.ConnexioEnum connexioInput;
+    [BoxGroup("INPUTS", centerLabel: true), Title("Estat connexio"), EnumToggleButtons, HideLabel, SerializeField, PropertySpace(0, spaceAfter: 20)] 
+    Peça.ConnexioEnum connexioInput;
 
-    [Apartat("OUTPUTS")]
-    [SerializeField] ScriptableObject[] output;
-    [SerializeField] Peça.ConnexioEnum connexio;
+    [BoxGroup("OUTPUTS", centerLabel: true), SerializeField] 
+    ScriptableObject[] output;
 
-    [Apartat("REFERENCIUES AUTO-CONFIGURABLES")]
-    [SerializeField] Produccio produccio;
+    [BoxGroup("OUTPUTS", centerLabel: true), Title("Accio connectar"), EnumToggleButtons, HideLabel, SerializeField, PropertySpace(0, spaceAfter: 20)] 
+    Peça.ConnexioEnum connexio;
+
+    [SerializeField, ReadOnly] Produccio produccio;
 
     //INTERN
     bool confirmat = true;

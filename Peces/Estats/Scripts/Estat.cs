@@ -15,7 +15,13 @@ public class Estat : ScriptableObject, IProcessable
         informacions = new List<Informacio>();
         SetupInformacio();
     }
-    public enum TipusEnum { Normal, Casa, Productor, Extraccio}
+    public enum TipusEnum 
+    {
+        [LabelText(" ", SdfIconType.DashLg)] Normal,
+        [LabelText(" ", SdfIconType.HouseFill)] Casa,
+        [LabelText(" ", SdfIconType.Shop)] Productor,
+        [LabelText(" ", SdfIconType.MinecartLoaded)] Extraccio
+    }
     public virtual Estat Setup(Peça peça) 
     {
         peça.ResetCases();
@@ -48,14 +54,14 @@ public class Estat : ScriptableObject, IProcessable
         return this;
     }
 
-    [TabGroup("Propietats")]
-    [SerializeField] TipusEnum tipus;
-    [TabGroup("Propietats")]
-    [SerializeField] bool caminable;
-    [TabGroup("Propietats")]
-    [SerializeField] bool aquatic;
-    [TabGroup("Propietats")]
-    [SerializeField] Producte producte;
+    [TabGroup("Propietats"), EnumToggleButtons ,SerializeField] 
+    TipusEnum tipus;
+    [TabGroup("Propietats"),SerializeField] 
+    bool caminable;
+    [TabGroup("Propietats"),SerializeField] 
+    bool aquatic;
+    [TabGroup("Propietats"),ShowIf("@this.tipus == TipusEnum.Productor || this.tipus == TipusEnum.Extraccio"),SerializeField] 
+    Producte producte;
 
     //[Apartat("CONDICIONS")]
     [TabGroup("Condicions")]
@@ -66,8 +72,8 @@ public class Estat : ScriptableObject, IProcessable
     [SerializeField] DetallScriptable[] detallsScriptables;
 
     //[Apartat("TILES")]
-    [TabGroup("Tiles")]
-    [SerializeScriptableObject] [SerializeField] TileSetBase tileset;
+    [TabGroup("Tiles"), SerializeScriptableObject, SerializeField, InlineEditor] 
+    TileSetBase tileset;
 
     //[Apartat("INFORMACIO")]
     [TabGroup("Informacio")]
@@ -159,6 +165,8 @@ public class Estat : ScriptableObject, IProcessable
     {
         if (produccio == null) produccio = XS_Editor.LoadAssetAtPath<Produccio>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Produccio.asset");
         if (repoblar == null) repoblar = XS_Editor.LoadAssetAtPath<Repoblar>("Assets/XidoStudio/Hexbase/Sistemes/Processos/Repoblar.asset");
+
+        if (tileset == null) tileset = XS_Editor.LoadAssetAtPath<TileSetBase>($"Assets/XidoStudio/Hexbase/Peces/Estats/{name}/Tiles/{name}.asset");
 
         if (tipus == TipusEnum.Normal)
             return;
