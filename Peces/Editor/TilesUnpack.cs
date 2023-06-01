@@ -8,13 +8,13 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/UnpackTiles")]
 public class TilesUnpack : ScriptableObject
 {
-    const string PREFAB = "Prefab";
+    const string PREFAB = "_Prefab";
 
     const string AUTOGENERATS_PATH = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats";
     const char SEPARADO = '_';
-    const char PES = '$';
+    const string PES = "___$";
     const char INVERTIT = '%';
-    const char CONDICIO = 'C';
+    const string CONDICIO = "_c";
     const char VARIACIO = '#';
 
 
@@ -42,8 +42,9 @@ public class TilesUnpack : ScriptableObject
     Connexio connexio;
     Tile tile;
     int variacio = 0;
-    int pes;
-    int condicio;
+    bool condicional;
+    int[] pes;
+    //int[] condicio;
     TileSetBase tileset;
 
 
@@ -162,7 +163,7 @@ public class TilesUnpack : ScriptableObject
 
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
-    bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"{PREFAB}_{root}");
+    bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"_{PREFAB}-{root}");
     void CrearPrefabEstat(int i, string root)
     {
 
@@ -209,24 +210,41 @@ public class TilesUnpack : ScriptableObject
 
         int.TryParse(subobjects[i].name.Split(VARIACIO)[1], out variacio);
     }
-    void GetPes(int i)
+    void GetPes(int index)
     {
-        pes = -1;
-        condicio = -1;
+        pes = new int[] { -1 };
+        //condicio = new int[] { -1 };
 
         Debug.Log($"Trobar pes a {nom}");
         string[] tmp = nom.Split(PES);
+
+        //Treu la part de condicio del nom final
         nom = tmp[0];
 
+        //Conté condicions???
         if (!tmp[1].Contains(CONDICIO))
         {
-            int.TryParse(subobjects[i].name.Split(PES)[1], out pes);
+            condicional = false;
+            int.TryParse(tmp[1], out pes[0]);
             return;
         }
 
-        string[] tmpPes = subobjects[i].name.Split(PES)[1].Split(CONDICIO);
-        int.TryParse(tmpPes[0], out pes);
-        int.TryParse(tmpPes[1], out condicio);
+        //
+        condicional = true;
+        string[] pesos = tmp[1].Substring(1,tmp[1].Length - 1).Split(CONDICIO);
+        pes = new int[pesos.Length];
+        for (int i = 0; i < pesos.Length; i++)
+        {
+            Debug.Log($"Pes{i}:{pesos[i]}");
+
+            if (pesos[i].Equals('-'))
+                continue;
+
+            int.TryParse(pesos[i], out pes[i]);
+            //condicio = i;
+        }
+        //int.TryParse(pesos[0], out pes);
+        //int.TryParse(pesos[1], out condicio);
     }
     void GetInvertit(int i)
     {
@@ -260,9 +278,15 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    void CrearPrefabTile(int i, string root)
+    void CrearPrefabTile(int index, string root)
     {
-        intance = (GameObject)Instantiate(subobjects[i]);
+        intance = (GameObject)Instantiate(subobjects[index]);
+
+        for (int i = 0; i < intance.transform.childCount; i++)
+        {
+            Debug.Log($"Child{i} = {intance.transform.GetChild(i).name}");
+        }
+        Debug.LogError("FALTA: Canviar els props trobats pel prefab del mateix nom");
 
         if(invertit)
             intance.transform.localScale = new Vector3(-1, 1, 1);
@@ -319,7 +343,7 @@ public class TilesUnpack : ScriptableObject
 
     void AddTileToTileset(string root)
     {
-        if (pes == -1)
+        if (pes.Length > 1 && pes[0] == -1)
         {
             Debug.LogError("No hi ha pes!");
             return;
@@ -337,16 +361,23 @@ public class TilesUnpack : ScriptableObject
         Debug.Log($"Add {tile.name}");
         if (tileset is TileSet_Simple)
         {
-            ((TileSet_Simple)tileset).TileSet.AddTile(tile, pes);
+            ((TileSet_Simple)tileset).TileSet.AddTile(tile, pes[0]);
         }
         else if (tileset is TileSet_Ocupable)
         {
-            ((TileSet_Ocupable)tileset).TileSetLliure.AddTile(tile, pes);
-            ((TileSet_Ocupable)tileset).TileSetOcupat.AddTile(tile, pes);
+            ((TileSet_Ocupable)tileset).TileSetLliure.AddTile(tile, pes[0]);
+            ((TileSet_Ocupable)tileset).TileSetOcupat.AddTile(tile, pes[0]);
         }
         else if (tileset is TileSet_Condicional)
         {
-            ((TileSet_Condicional)tileset).Condicions[condicio].TileSet.AddTile(tile, pes);
+            for (int i = 0; i < pes.Length; i++)
+            {
+                if (pes[i] == 0)
+                    continue;
+
+                ((TileSet_Condicional)tileset).Condicions[i].TileSet.AddTile(tile, pes[i]);
+            }
+            
         }
     }
     

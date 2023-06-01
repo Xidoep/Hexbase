@@ -143,6 +143,8 @@ public class EstatsUnpack : ScriptableObject
         //GET MESHES
         subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
 
+        Debug.LogError("FALTA: Crear els props, si no existeixen");
+
         CrearEstats(confirmacions);
 
         CrearReceptes(confirmacions);
