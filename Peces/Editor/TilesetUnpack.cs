@@ -18,6 +18,7 @@ public class TilesetUnpack : ScriptableObject
     const char SEPARADO = '_';
     const char SEPARADOR_INFO = ':';
     const char IGUAL = '=';
+    const char PUNT = '.';
 
 
     //[SerializeField] Object tiles;
@@ -35,8 +36,19 @@ public class TilesetUnpack : ScriptableObject
     TileSet_Simple simple;
     TileSet_Ocupable ocupable;
     TileSet_Condicional condicional;
-    string debug;
+    //string debug;
     int indexCondicio;
+    List<TileSet_Condicional.Condicio> condicions;
+    string[] nomEstats;
+    string[] igualacio;
+    string[] nules;
+    List<Connexio> connexions;
+    Connexio trobada;
+    List<Estat> estats;
+    string[] nomConnexions;
+
+
+
 
 
     string Path_Folder(string root) => $"{outputPath}/{root}/Tiles";
@@ -47,8 +59,6 @@ public class TilesetUnpack : ScriptableObject
 
 
 
-
-
     public void Unpack(string root, Object[] subobjects, string outputPath, Referencies referencies)
     {
         //subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
@@ -56,17 +66,13 @@ public class TilesetUnpack : ScriptableObject
         this.outputPath = outputPath;
         this.referencies = referencies;
 
-        Debug.Log($"Unpack {root}");
         CrearFoldersSiCal(root);
-
-        debug = "";
 
         tilesetCreat = false;
         simple = null;
         ocupable = null;
         condicional = null;
 
-        //ELIMINAR
         for (int i = 0; i < subobjects.Length; i++)
         {
             if (!EsGameObject(i))
@@ -75,13 +81,12 @@ public class TilesetUnpack : ScriptableObject
             if (!EsInfo(i, root))
                 continue;
 
-            if (subobjects[i].name.Contains('.'))
+            if (subobjects[i].name.Contains(PUNT))
                 continue;
 
             EliminarAssetAntic(root);
         }
 
-        //CREAR
         for (int i = 0; i < subobjects.Length; i++)
         {
             if (!EsGameObject(i))
@@ -90,10 +95,10 @@ public class TilesetUnpack : ScriptableObject
             if (!EsInfo(i, root))
                 continue;
 
-            if (subobjects[i].name.Contains('.'))
+            if (subobjects[i].name.Contains(PUNT))
                 continue;
 
-            Debug.Log(subobjects[i].name);
+            //EliminarAssetAntic(root);
 
             CrearTileset(i, root);
 
@@ -149,33 +154,35 @@ public class TilesetUnpack : ScriptableObject
         {
             if (EsSimple(i, root))
             {
-
                 tipus = Tipus.Simple;
+
                 simple = CreateInstance<TileSet_Simple>();
                 simple.name = root;
                 simple.Setup();
-                Debug.Log("Crear TileSet Tipus simple"); 
+
                 tilesetCreat = true;
                 tileset = simple;
             }
             else if (EsOcupable(i, root))
             {
                 tipus = Tipus.Ocupable;
+
                 ocupable = CreateInstance<TileSet_Ocupable>();
                 ocupable.name = root;
                 ocupable.Setup();
-                Debug.Log("Crear TileSet Tipus ocupable");
+
                 tilesetCreat = true;
                 tileset = ocupable;
             }
             else if (EsCondicional(i, root))
             {
                 tipus = Tipus.Condicional;
+
                 condicional = CreateInstance<TileSet_Condicional>();
                 condicional.name = root;
                 condicional.Condicions = new TileSet_Condicional.Condicio[0];
                 condicional.Setup();
-                Debug.Log("Crear TileSet Tipus condicional");
+
                 tilesetCreat = true;
                 tileset = condicional;
             }
@@ -187,31 +194,26 @@ public class TilesetUnpack : ScriptableObject
     }
 
 
-
     void CrearCondicions(int i, string root, int index)
     {
-        debug = IndexCondicio(i, root);
         if (index > condicional.Condicions.Length)
         {
-            List<TileSet_Condicional.Condicio> condicions = new List<TileSet_Condicional.Condicio>(condicional.Condicions);
+            condicions = new List<TileSet_Condicional.Condicio>(condicional.Condicions);
             for (int c = 0; c < index - condicional.Condicions.Length; c++)
             {
                 condicions.Add(new TileSet_Condicional.Condicio().Setup());
-                debug += "Augmentar!";
             }
             condicional.Condicions = condicions.ToArray();
         }
-        Debug.Log(debug);
     }
     void Condicions(int index, string root, int condicio)
     {
         if (!EsCondicio(index, root))
             return;
 
-        debug = "Condicions:";
         condicional.Condicions[condicio - 1].id = InfoNom(index, root);
-        string[] nomEstats = InfoEstats(index, root);
-        string[] igualacio = new string[0];
+        nomEstats = InfoEstats(index, root);
+        igualacio = new string[0];
         for (int i = 0; i < nomEstats.Length; i++)
         {
             if(i == nomEstats.Length - 1)
@@ -243,11 +245,7 @@ public class TilesetUnpack : ScriptableObject
                 }
                 nomEstats[i] = igualacio[0];
             }
-            debug += $" {nomEstats[i]},";
         }
-
-        Debug.Log(debug);
-
 
         bool EsCondicio(int i, string root) => subobjects[i].name.Substring(root.Length + 6).StartsWith('(');
         string InfoNom(int i, string root) => subobjects[i].name.Substring(root.Length + 6).Split(SEPARADOR_INFO)[0];
@@ -264,15 +262,12 @@ public class TilesetUnpack : ScriptableObject
         if (!HiHaInfo(index, root, tipus == Tipus.Condicional))
             return;
 
-        debug = "Nules:";
+        nules = Info(index, root, tipus == Tipus.Condicional);
 
-        string[] nules = Info(index, root, tipus == Tipus.Condicional);
-
-        List<Connexio> connexions = new List<Connexio>();
+        connexions = new List<Connexio>();
         for (int i = 0; i < nules.Length; i++)
         {
-            debug += $" {nules[i]},";
-            Connexio trobada = referencies.GetConnexio(nules[i]);
+            trobada = referencies.GetConnexio(nules[i]);
             if (trobada != null)
                 connexions.Add(trobada);
         }
@@ -290,14 +285,14 @@ public class TilesetUnpack : ScriptableObject
                 condicional.Condicions[condicio-1].TileSet.ConnexionsNules = connexions.ToArray();
                 break;
         }
-        
-
-        Debug.Log(debug);
 
         bool EsNules(int i, string root, bool condicional = false) => subobjects[i].name.Substring(root.Length + 4 + (condicional ? 2 : 0)).StartsWith(NULES);
         bool HiHaInfo(int i, string root, bool condicional = false) => !string.IsNullOrEmpty(subobjects[i].name.Substring(root.Length + 4 + (condicional ? 2 : 0)).Split(SEPARADOR_INFO)[1]);
         string[] Info(int i, string root, bool condicional = false) => subobjects[i].name.Substring(root.Length + 4 + (condicional ? 2 : 0)).Split(SEPARADOR_INFO)[1].Split(SEPARADO);
     }
+
+
+
     void Especifiques(int index, string root, int condicio = 0)
     {
         if (!EsEspecifiques(index, root, tipus == Tipus.Condicional))
@@ -306,23 +301,18 @@ public class TilesetUnpack : ScriptableObject
         if (!HiHaInfo(index, root, tipus == Tipus.Condicional))
             return;
 
-        debug = "Especifiques:";
-
-        string[] nomEstats = InfoEstats(index, root, tipus == Tipus.Condicional);
-        List<Estat> estats = new List<Estat>();
+        nomEstats = InfoEstats(index, root, tipus == Tipus.Condicional);
+        estats = new List<Estat>();
         for (int i = 0; i < nomEstats.Length; i++)
         {
-            debug += $" {nomEstats[i]},";
             Estat trobat = referencies.GetEstat(nomEstats[i]);
             if(trobat != null)
                 estats.Add(trobat);
         }
-        debug += "=";
-        string[] nomConnexions = InfoConnexions(index, root, tipus == Tipus.Condicional);
-        List<Connexio> connexions = new List<Connexio>();
+        nomConnexions = InfoConnexions(index, root, tipus == Tipus.Condicional);
+        connexions = new List<Connexio>();
         for (int i = 0; i < nomConnexions.Length; i++)
         {
-            debug += $" {nomConnexions[i]},";
             Connexio trobada = referencies.GetConnexio(nomConnexions[i]);
             if(trobada != null)
                 connexions.Add(trobada);
@@ -347,9 +337,6 @@ public class TilesetUnpack : ScriptableObject
                 condicional.Condicions[condicio-1].TileSet.ConnexioEspesifica = new ConnexioEspesifica(estats, connexions);
                 break;
         }
-
-
-        Debug.Log(debug);
 
         bool EsEspecifiques(int i, string root, bool condicional = false) => subobjects[i].name.Substring(root.Length + 4 + (condicional ? 2 : 0)).StartsWith(ESPECIFIQUES);
         bool HiHaInfo(int i, string root, bool condicional = false) => !string.IsNullOrEmpty(subobjects[i].name.Substring(root.Length + 4 + (condicional ? 2 : 0)).Split(SEPARADOR_INFO)[1]);
@@ -379,15 +366,15 @@ public class TilesetUnpack : ScriptableObject
                 AssetDatabase.CreateAsset(condicional, $"{Path_Folder(root)}/{root}.asset");
                 break;
         }
+        Debug.Log($"Crear Tilset: {root}");
     }
 
 
 
     void AssignarAEstat(string root)
     {
-        Debug.Log($"Assignar a {outputPath}/{root}/{root.ToUpper()}.asset");
-        Estat estat = AssetDatabase.LoadAssetAtPath<Estat>($"{outputPath}/{root}/{root.ToUpper()}.asset");
-        Debug.Log($"Hi ha aquest estat? {estat != null}");
+        Debug.Log($"...assignar a {outputPath}/{root}.asset");
+        Estat estat = AssetDatabase.LoadAssetAtPath<Estat>($"{outputPath}/{root.ToUpper()}.asset");
         estat.SetTileset = tileset;
     }
 

@@ -26,7 +26,7 @@ public class EstatsUnpack : ScriptableObject
     [SerializeField] Object tiles;
 
     [BoxGroup("PATHS", centerLabel: true), FolderPath, SerializeField] 
-    string outputPath, outputProductes, outputReceptes, outputColocables;
+    string outputPath, outputProductes, outputReceptes, outputColocables, detalls;
 
 
     [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] 
@@ -47,16 +47,21 @@ public class EstatsUnpack : ScriptableObject
     bool viable;
     bool confirmat;
     int trobat;
+    string lastNameFounded;
 
-    [TableList(), SerializeField, PropertyOrder(-1)]
+   [TableList(), SerializeField, PropertyOrder(-1)]
     Confirmacio[] confirmacions;
 
     [System.Serializable]
     public struct Confirmacio
     {
         [SerializeField] string nom;
+
         [SerializeField, VerticalGroup("E"), TableColumnWidth(23, resizable: false), LabelText("")] 
         bool estat;
+
+        [SerializeField, VerticalGroup("R"), TableColumnWidth(23, resizable: false), LabelText("")]
+        bool recepta;
 
         [SerializeField, VerticalGroup("T"), TableColumnWidth(23, resizable: false), LabelText("")] 
         bool tiles;
@@ -71,6 +76,7 @@ public class EstatsUnpack : ScriptableObject
 
         public string Nom => nom;
         public bool Estat => estat;
+        public bool Recepta => recepta;
         public bool Tiles => tiles;
     }
 
@@ -100,6 +106,19 @@ public class EstatsUnpack : ScriptableObject
         }
         return confirmat;
     }
+    bool ConfirmarRecepta(Confirmacio[] confirmacions, string nom)
+    {
+        confirmat = false;
+        for (int i = 0; i < confirmacions.Length; i++)
+        {
+            if (confirmacions[i].Nom.Equals(nom))
+            {
+                confirmat = confirmacions[i].Recepta;
+                break;
+            }
+        }
+        return confirmat;
+    }
     bool ConfirmarEstat(Confirmacio[] confirmacions, string nom)
     {
         confirmat = false;
@@ -113,7 +132,7 @@ public class EstatsUnpack : ScriptableObject
         }
         return confirmat;
     }
-
+    
 
 
 
@@ -121,16 +140,13 @@ public class EstatsUnpack : ScriptableObject
     void Unpack() => Unpack(confirmacions);
     void Unpack(Confirmacio[] confirmacions)
     {
-
-        string debug = "";
-
         //Crear linies i columnes
         linies = System.IO.File.ReadAllLines(AssetDatabase.GetAssetPath(csv));
 
         for (int i = 3; i < linies.Length; i++)
         {
-            if (!LiniaActiva(i))
-                continue;
+            //if (!LiniaActiva(i))
+            //    continue;
 
             if (IniciProductes(i))
                 break;
@@ -151,90 +167,43 @@ public class EstatsUnpack : ScriptableObject
 
     }
 
+    Recepta recepta;
+    Peça.ConnexioEnum cPropia;
+    List<ScriptableObject> inputs;
+    Peça.ConnexioEnum cInputs;
+    List<ScriptableObject> outputs;
+    Peça.ConnexioEnum accioConnectar;
+    string nomRecepta;
+    Estat assignar;
+
     private void CrearReceptes(Confirmacio[] confirmacions)
     {
-        string debug = "RECEPTES:\n";
-       
-        string lastNameFounded = "";
-
+        lastNameFounded = "";
 
         for (int i = 3; i < linies.Length; i++)
         {
             if (i.Equals(liniaProductes))
                 break;
 
-            if (!ConfirmarTiles(confirmacions, Nom))
-                continue;
-
             GetColumnes(i);
-            if (!Activat)
-                continue;
 
             if (!HiHaInput(1) && !HiHaOutput(1))
                 continue;
 
             viable = true;
 
-
             if (TeNom) lastNameFounded = Nom;
 
-            #region DEBUGGING
-            if (HiHaFrom)
-            {
-                debug += $"To{lastNameFounded}_From{From}: ";
-            }
-            else
-            {
-                debug += $"{lastNameFounded}Produeix{Output(1)}{(HiHaInput(1) ? $"_{Input(1)}" : "")}";
-            }
+            if (!ConfirmarRecepta(confirmacions, lastNameFounded))
+                continue;
 
-
-            if (HiHaConnexioPropia) debug += $" | ConnexioPropia = {ConnexioPropia}";
-
-            debug += $" |  | INPUTS:";
-
-            if (HiHaInput(1)) debug += $" {Input(1)} ,";
-            if (HiHaInput(2)) debug += $" {Input(2)} ,";
-            if (HiHaInput(3)) debug += $" {Input(3)} ,";
-            if (HiHaInput(4)) debug += $" {Input(4)} ,";
-            if (HiHaInput(5)) debug += $" {Input(5)} ,";
-            if (HiHaInput(6)) debug += $" {Input(6)} ,";
-
-            //-------------------------------------------------
-            if (HiHaConnexioInputs) debug += $" | Connexio Inputs = {ConnexioInputs}";
-
-            debug += $" |  | OUTPUTS:";
-
-            if (HiHaFrom) debug += $" {From} ,";
-            if (HiHaOutput(1)) debug += $" {Output(1)} ,";
-            if (HiHaOutput(2)) debug += $" {Output(2)} ,";
-            if (HiHaOutput(3)) debug += $" {Output(3)} ,";
-            if (HiHaOutput(4)) debug += $" {Output(4)} ,";
-            if (HiHaOutput(5)) debug += $" {Output(5)} ,";
-            if (HiHaOutput(6)) debug += $" {Output(6)} ,";
-
-            if (HiHaAccioConnectar) debug += $" | {AccioConnectar}";
-
-            if (HiHaFrom)
-            {
-                debug += $" --- Add it to {From}";
-            }
-            else
-            {
-                debug += $" --- Add it to {lastNameFounded}";
-            }
-            debug += "\n";
-            #endregion
-
-            //continue;
-
-            Recepta recepta = CreateInstance<Recepta>();
+            recepta = CreateInstance<Recepta>();
 
             //PROPIA
-            Peça.ConnexioEnum cPropia = GetConnexio(HiHaConnexioPropia, ConnexioPropia);
+            cPropia = GetConnexio(HiHaConnexioPropia, ConnexioPropia);
 
             //INPUTS
-            List<ScriptableObject> inputs = new List<ScriptableObject>();
+            inputs = new List<ScriptableObject>();
             for (int input = 1; input < 7; input++)
             {
                 if (!HiHaInput(input))
@@ -243,25 +212,27 @@ public class EstatsUnpack : ScriptableObject
                 if (!referencies.EstatsContains(Input(input)))
                 {
                     viable = false;
-                    Debug.LogError($"Aquesta recepta no es pot completar perque aquest l'Estat {Input(input)} no s'ha importat");
+                    Debug.LogError($"Aquesta recepta[{i+1}] no es pot completar perque aquest l'Estat {Input(input)} no s'ha importat");
                     Debug.Log("FALTA: Ara no es contemplen modificadors o altres coses que no siguin estats...");
-                    break;
+                    continue;
                 }
                 inputs.Add(referencies.GetEstat(Input(input)));
             }
-            Peça.ConnexioEnum cInputs = GetConnexio(HiHaConnexioInputs, ConnexioInputs);
+            cInputs = GetConnexio(HiHaConnexioInputs, ConnexioInputs);
 
             //OUTPUTS
-            List<ScriptableObject> outputs = new List<ScriptableObject>();
+            outputs = new List<ScriptableObject>();
             if (HiHaFrom)
             {
                 if (!referencies.EstatsContains(From))
                 {
-                    Debug.LogError($"Aquesta recepta no es pot completar perque aquest el L'Estat {From} no s'ha importat");
+                    Debug.LogError($"Aquesta recepta[{i+1}] no es pot completar perque l'Estat {From} no s'ha importat");
                     viable = false;
+                    continue;
                 }
                 outputs.Add(referencies.GetEstat(lastNameFounded));
             }
+
             for (int output = 1; output < 7; output++)
             {
                 if (!HiHaOutput(output))
@@ -270,86 +241,85 @@ public class EstatsUnpack : ScriptableObject
                 if (!referencies.ProductesContains(Output(output)))
                 {
                     viable = false;
-                    Debug.LogError($"Aquesta recepta no es pot completar perque aquest el producte {Output(output)} no s'ha importat");
+                    Debug.LogError($"Aquesta recepta[{i+1}] no es pot completar perque aquest el producte {Output(output)} no s'ha importat");
                     Debug.Log("FALTA: Ara no es contemplen modificadors o altres coses que no siguin productes...");
-                    break;
+                    continue;
                 }
                 outputs.Add(referencies.GetProducte(Output(output)));
             }
-            Peça.ConnexioEnum accioConnectar = GetConnexio(HiHaAccioConnectar, AccioConnectar);
+            accioConnectar = GetConnexio(HiHaAccioConnectar, AccioConnectar);
 
 
 
            
 
-            if (!viable)
-                continue;
+            
 
             //CREAR
-            string nom = "";
-            Estat assignar = null;
             if (HiHaFrom)
             {
                 assignar = referencies.GetEstat(From);
-                nom = $"To{lastNameFounded}_From{From}: ";
+                nomRecepta = $"To{lastNameFounded}_From{From}";
             }
             else
             {
                 assignar = referencies.GetEstat(lastNameFounded);
-                nom = $"{lastNameFounded}Produeix{Output(1)}{(HiHaInput(1) ? $"_{Input(1)}" : "")}";
+                nomRecepta = $"{lastNameFounded}Produeix{Output(1)}{(HiHaInput(1) ? $"_{Input(1)}" : "")}";
             }
 
             recepta.Setup(cPropia, inputs, cInputs, outputs, accioConnectar);
-            AssetDatabase.CreateAsset(recepta, Path_Recepta(nom));
+            AssetDatabase.CreateAsset(recepta, Path_Recepta(nomRecepta));
 
+            Debug.Log($"Crear Recepta: {nomRecepta}");
 
+            if (!viable)
+                continue;
 
             //ASSIGNAR
             if (!assignar)
                 continue;
 
             assignar.AddRecepta(recepta);
+            Debug.Log($"... assignar a: {assignar.name}");
 
         }
-        Debug.Log(debug);
 
     }
 
 
-
+    Peça.ConnexioEnum tmpConnexio;
     private Peça.ConnexioEnum GetConnexio(bool confirmar, string connexio)
     {
-        Peça.ConnexioEnum tmp = Peça.ConnexioEnum.NoImporta;
+       tmpConnexio = Peça.ConnexioEnum.NoImporta;
 
         if (!confirmar)
-            return tmp;
+            return tmpConnexio;
 
         switch (connexio)
         {
             case "No Importa":
                 break;
             case "CONNECT":
-                tmp = Peça.ConnexioEnum.Connectat;
+                tmpConnexio = Peça.ConnexioEnum.Connectat;
                 break;
             case "DESCONN":
-                tmp = Peça.ConnexioEnum.Desconnectat;
+                tmpConnexio = Peça.ConnexioEnum.Desconnectat;
                 break;
             case "AMB MI":
-                tmp = Peça.ConnexioEnum.ConnectatAmbMi;
+                tmpConnexio = Peça.ConnexioEnum.ConnectatAmbMi;
                 break;
             default:
                 Debug.LogError($"El tipus de connexio amb nom {connexio} no se quin és!");
                 break;
         }
 
-        return tmp;
+        return tmpConnexio;
     }
 
 
 
     void CreaProductes()
     {
-        string debug = "PRODUCTES:\n";
         for (int i = linies.Length - 1; i >= 0; i--)
         {
             if (IniciProductes(i))
@@ -359,22 +329,22 @@ public class EstatsUnpack : ScriptableObject
             }
         }
 
-
         llistaProductes = new List<string>();
         for (int i = liniaProductes; i < linies.Length; i++)
         {
-            if (!LiniaActiva(i))
-                continue;
-
             GetColumnes(i);
+
+            if (!TeNom)
+                continue;
 
             llistaProductes.Add(columnes[1]);
         }
 
-
         for (int i = 0; i < llistaProductes.Count; i++)
         {
-            debug += $"-{llistaProductes[i]}\n";
+            if (AssetDatabase.LoadAssetAtPath<Producte>(Path_Producte(llistaProductes[i])) != null)
+                continue;
+
             Producte producte = CreateInstance<Producte>();
             Texture2D icone = AssetDatabase.LoadAssetAtPath<Texture2D>(Path_IconeTexture(llistaProductes[i]));
             if(icone == null)
@@ -385,22 +355,20 @@ public class EstatsUnpack : ScriptableObject
             producte.Setup(icone);
 
             AssetDatabase.CreateAsset(producte, Path_Producte(llistaProductes[i]));
+
+            Debug.Log($"Crear el Producte: {llistaProductes[i]}");
         }
-        Debug.Log(debug);
 
         referencies.Refrex();
     }
     private void CrearEstats(Confirmacio[] confirmacions)
     {
-        string debug = "ESTATS:\n";
         for (int i = 3; i < linies.Length; i++)
         {
             if (i.Equals(liniaProductes))
                 break;
 
             GetColumnes(i);
-            if (!Activat)
-                continue;
 
             if (!TeNom)
                 continue;
@@ -414,39 +382,6 @@ public class EstatsUnpack : ScriptableObject
 
                 continue;
             }
-
-            debug += $"{Nom}";
-            if (TeTipus) debug += $" ({Tipus})";
-
-            if (EsAquatic) debug += $" | Aquatica";
-
-            if (TeProducte) debug += $" | Pot gestionar = {NomProducte}";
-
-            if (TeTipus)
-            {
-                debug += " | INFORMACIO: ";
-                if (Tipus.Equals(CASA))
-                {
-                    debug += $"Casa i Grup";
-                }
-                else if (Tipus.Equals(PRODUCTOR))
-                {
-                    debug += $"Grup, Connexio i Productor";
-                }
-                else if (Tipus.Equals(EXTRACCIO))
-                {
-                    debug += $"Connexio i Extraccio";
-                }
-                else if (Tipus.Equals(CONNECTOR))
-                {
-                    debug += "Grup";
-                }
-                else if (Tipus.Equals(MAR))
-                {
-                    debug += "Grup";
-                }
-            }
-            debug += "\n";
 
             Estat.TipusEnum tipus = Estat.TipusEnum.Normal;
             if (TeTipus)
@@ -487,14 +422,16 @@ public class EstatsUnpack : ScriptableObject
             }
             AssetDatabase.CreateAsset(estat, Path_Estat());
 
+            Debug.Log($"Crear Estat: {Nom}");
 
             if (!ConfirmarTiles(confirmacions, Nom))
                 continue;
 
             referencies.Refrex();
             tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, referencies);
+        
+            
         }
-        Debug.Log(debug);
 
         
     }
@@ -506,7 +443,7 @@ public class EstatsUnpack : ScriptableObject
 
 
     string Path_Recepta(string nom) => $"{outputReceptes}/{nom}.asset";
-    string Path_Estat() => $"{outputPath}/{Nom}/{Nom}.asset";
+    string Path_Estat() => $"{outputPath}/{Nom}.asset";
     string Path_Producte(string nom) => $"{outputProductes}/{nom}.asset";
     string Path_IconeTexture(string nom) => $"{outputProductes}/Textures/{nom}.png";
 
@@ -515,8 +452,8 @@ public class EstatsUnpack : ScriptableObject
 
     void GetColumnes(int i) => columnes = linies[i].Split(SEPARADOR);
     bool IniciProductes(int i) => linies[i].StartsWith(PRODUCTES);
-    bool LiniaActiva(int i) => linies[i].StartsWith(TRUE);
-    bool Activat => columnes[0].Equals(TRUE);
+    //bool LiniaActiva(int i) => linies[i].StartsWith(TRUE);
+    //bool Activat => columnes[0].Equals(TRUE);
     string Nom => columnes[1];
     string Tipus => columnes[3];
     bool EsAquatic => columnes[4].Equals(TRUE);

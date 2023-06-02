@@ -16,7 +16,7 @@ public class TilesUnpack : ScriptableObject
     const char INVERTIT = '%';
     const string CONDICIO = "_c";
     const char VARIACIO = '#';
-
+    const char PUNT = '.';
 
 
     //[SerializeField] Object tiles;
@@ -46,12 +46,21 @@ public class TilesUnpack : ScriptableObject
     int[] pes;
     //int[] condicio;
     TileSetBase tileset;
+    List<Tile> oldTiles;
+    List<GameObject> oldPrefabs;
+    Estat estat;
+    UI_Peca peça;
+    AnimacioPerCodi_GameObject_Referencia tmpOutline;
+    EstatColocable colocable;
+    string[] tmpPes;
+    string[] pesos;
+
 
 
 
     string Main(string root) => $"{outputPath}/{root}";
     string Path_Estat(string root) => $"{Main(root)}/{root.ToUpper()}.asset";
-    string Path_Tile(string root) => $"{Main(root)}/Tiles/{nom}.asset";
+    string Path_Tile(string root) => $"{Main(root)}/Tiles/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.asset";
     string Path_Tileset(string root) => $"{Main(root)}/Tiles/{root}.asset";
     string Path_Connexio(string nom) => $"{AUTOGENERATS_PATH}/{nom}.asset";
     string Path_PrefabTile(string root) => $"{Main(root)}/Tiles/Prefabs/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.prefab";
@@ -76,12 +85,6 @@ public class TilesUnpack : ScriptableObject
             if (!EsGameObject(i))
                 continue;
 
-            //FOR DEBUGING
-            /*if (EsPrefab(i, root))
-                CrearPrefabEstat(i, root);
-
-            continue;*/
-
             if (!EsPeça(i, root))
             {
                 if (!EsPrefab(i, root))
@@ -91,10 +94,10 @@ public class TilesUnpack : ScriptableObject
                 continue;
             }
 
-            if (subobjects[i].name.Contains('.'))
+            if (subobjects[i].name.Contains(PUNT))
                 continue;
 
-            Debug.Log($"Tot el nom = {subobjects[i].name}");
+            //Debug.Log($"Tot el nom = {subobjects[i].name}");
 
             GetVariacio(i);
             GetPes(i);
@@ -111,7 +114,7 @@ public class TilesUnpack : ScriptableObject
 
             AddTileToTileset(root);
 
-            Debug.Log("---------------------");
+            //Debug.Log("---------------------");
         }
 
     }
@@ -123,7 +126,7 @@ public class TilesUnpack : ScriptableObject
 
         if (tileset == null)
         {
-            Debug.LogError("No hi ha tilesset creat!");
+            Debug.LogError("No hi ha tileset creat!");
             return;
         }
 
@@ -145,14 +148,17 @@ public class TilesUnpack : ScriptableObject
             }
         }
     }
+
+
     void EliminarAntics(string root, string outputPath)
     {
-        List<Tile> oldTiles = XS_Editor.LoadAllAssetsAtPath<Tile>($"{outputPath}/{root}/Tiles");
+        oldTiles = XS_Editor.LoadAllAssetsAtPath<Tile>($"{outputPath}/{root}/Tiles");
         for (int i = 0; i < oldTiles.Count; i++)
         {
             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldTiles[i]));
         }
-        List<GameObject> oldPrefabs = XS_Editor.LoadAllAssetsAtPath<GameObject>($"{outputPath}/{root}/Tiles/Prefabs");
+
+        oldPrefabs = XS_Editor.LoadAllAssetsAtPath<GameObject>($"{outputPath}/{root}/Tiles/Prefabs");
         for (int i = 0; i < oldPrefabs.Count; i++)
         {
             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(oldPrefabs[i]));
@@ -164,20 +170,20 @@ public class TilesUnpack : ScriptableObject
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
     bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"_{PREFAB}-{root}");
+
+
     void CrearPrefabEstat(int i, string root)
     {
-
         //LOAD PEÇA
-        Estat estat = AssetDatabase.LoadAssetAtPath<Estat>(Path_Estat(root));
+        estat = AssetDatabase.LoadAssetAtPath<Estat>(Path_Estat(root));
 
         //CREAR PREFAB & NEEDS
         intance = (GameObject)Instantiate(subobjects[i]);
-        UI_Peca peça = intance.AddComponent<UI_Peca>();
-        AnimacioPerCodi_GameObject_Referencia tmpOutline = (AnimacioPerCodi_GameObject_Referencia)PrefabUtility.InstantiatePrefab(outline, intance.transform);
-        //AnimacioPerCodi_GameObject_Referencia tmpOutline = Instantiate(outline, Vector3.down * 0.3f, Quaternion.identity, intance.transform);
+        peça = intance.AddComponent<UI_Peca>();
+        tmpOutline = (AnimacioPerCodi_GameObject_Referencia)PrefabUtility.InstantiatePrefab(outline, intance.transform);
 
         //CREAR COLOCABLE
-        EstatColocable colocable = CreateInstance<EstatColocable>();
+        colocable = CreateInstance<EstatColocable>();
         AssetDatabase.CreateAsset(colocable, Path_Colocable(root));
 
         //SETUP PEÇA
@@ -198,7 +204,7 @@ public class TilesUnpack : ScriptableObject
     {
         variacio = 0;
 
-        Debug.Log($"Trobar variacio a {subobjects[i].name}");
+        //Debug.Log($"Trobar variacio a {subobjects[i].name}");
 
         if (!subobjects[i].name.Contains(VARIACIO))
         {
@@ -210,32 +216,34 @@ public class TilesUnpack : ScriptableObject
 
         int.TryParse(subobjects[i].name.Split(VARIACIO)[1], out variacio);
     }
+
+
     void GetPes(int index)
     {
         pes = new int[] { -1 };
         //condicio = new int[] { -1 };
 
-        Debug.Log($"Trobar pes a {nom}");
-        string[] tmp = nom.Split(PES);
+        //Debug.Log($"Trobar pes a {nom}");
+        tmpPes = nom.Split(PES);
 
         //Treu la part de condicio del nom final
-        nom = tmp[0];
+        nom = tmpPes[0];
 
         //Conté condicions???
-        if (!tmp[1].Contains(CONDICIO))
+        if (!tmpPes[1].Contains(CONDICIO))
         {
             condicional = false;
-            int.TryParse(tmp[1], out pes[0]);
+            int.TryParse(tmpPes[1], out pes[0]);
             return;
         }
 
         //
         condicional = true;
-        string[] pesos = tmp[1].Substring(1,tmp[1].Length - 1).Split(CONDICIO);
+        pesos = tmpPes[1].Substring(1,tmpPes[1].Length - 1).Split(CONDICIO);
         pes = new int[pesos.Length];
         for (int i = 0; i < pesos.Length; i++)
         {
-            Debug.Log($"Pes{i}:{pesos[i]}");
+            //Debug.Log($"Pes{i}:{pesos[i]}");
 
             if (pesos[i].Equals('-'))
                 continue;
@@ -261,7 +269,7 @@ public class TilesUnpack : ScriptableObject
         string[] second = first[1].Split(')');
         nom = $"{first[0]}{second[1]}";
         */
-        Debug.Log($"Nom final = {nom}");
+        //Debug.Log($"Nom final = {nom}");
     }
 
 
@@ -282,11 +290,14 @@ public class TilesUnpack : ScriptableObject
     {
         intance = (GameObject)Instantiate(subobjects[index]);
 
+
         for (int i = 0; i < intance.transform.childCount; i++)
         {
             Debug.Log($"Child{i} = {intance.transform.GetChild(i).name}");
         }
+
         Debug.LogError("FALTA: Canviar els props trobats pel prefab del mateix nom");
+
 
         if(invertit)
             intance.transform.localScale = new Vector3(-1, 1, 1);
@@ -337,6 +348,8 @@ public class TilesUnpack : ScriptableObject
         tile.Setup(prefab, connexionsTile);
 
         AssetDatabase.CreateAsset(tile, Path_Tile(root));
+
+        Debug.Log($"Crear Tile: {nom} (Invertit = {invertit}; Variacio = {variacio})");
     }
 
 
@@ -358,7 +371,7 @@ public class TilesUnpack : ScriptableObject
             return;
         }
 
-        Debug.Log($"Add {tile.name}");
+        //Debug.Log($"Add {tile.name}");
         if (tileset is TileSet_Simple)
         {
             ((TileSet_Simple)tileset).TileSet.AddTile(tile, pes[0]);
