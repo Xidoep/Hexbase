@@ -5,7 +5,7 @@ using XS_Utils;
 using UnityEditor;
 using Sirenix.OdinInspector;
 
-[CreateAssetMenu(menuName = "Xido Studio/Hex/UnpackTiles")]
+[CreateAssetMenu(menuName = "Xido Studio/Hex/Unpack/Tiles")]
 public class TilesUnpack : ScriptableObject
 {
     const string PREFAB = "_Prefab";
@@ -17,7 +17,7 @@ public class TilesUnpack : ScriptableObject
     const string CONDICIO = "_c";
     const char VARIACIO = '#';
     const char PUNT = '.';
-
+    const string PROP = "prop_";
 
     //[SerializeField] Object tiles;
     [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
@@ -29,7 +29,8 @@ public class TilesUnpack : ScriptableObject
 
     //INTERN
     Object[] subobjects;
-    string outputPath;
+    string outputTiles;
+    string outputDetalls;
     Referencies referencies;
 
     string nom;
@@ -37,6 +38,7 @@ public class TilesUnpack : ScriptableObject
     string[] nomsConnexions;
     Connexio[] connexionsTile;
     GameObject intance;
+    GameObject detall;
     GameObject prefab;
     bool trobat;
     Connexio connexio;
@@ -58,8 +60,8 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    string Main(string root) => $"{outputPath}/{root}";
-    string Path_Estat(string root) => $"{Main(root)}/{root.ToUpper()}.asset";
+    string Main(string root) => $"{outputTiles}/{root}";
+    string Path_Estat(string root) => $"{outputTiles}/{root.ToUpper()}.asset";
     string Path_Tile(string root) => $"{Main(root)}/Tiles/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.asset";
     string Path_Tileset(string root) => $"{Main(root)}/Tiles/{root}.asset";
     string Path_Connexio(string nom) => $"{AUTOGENERATS_PATH}/{nom}.asset";
@@ -67,18 +69,39 @@ public class TilesUnpack : ScriptableObject
     //string Path_AssetPrefab(string root) => $"{outputPath}/{root}/Prefab/{nom}.prefab";
     string Path_Colocable(string root) => $"{Main(root)}/Colocable/{root}.asset";
     string Path_PrefabEstat(string root) => $"{Main(root)}/Prefab/{root}.prefab";
+    string Path_Detall(string nom) => $"{outputDetalls}/{nom}.prefab";
 
 
 
-    public void Unpack(string root, Object[] subobjects, string outputPath, Referencies referencies)
+    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies)
     {
         this.subobjects = subobjects;
-        this.outputPath = outputPath;
+        this.outputTiles = outputTiles;
         this.referencies = referencies;
+        this.outputDetalls = outputDetalls;
 
         NetejarTileset(root);
 
-        EliminarAntics(root, outputPath);
+        EliminarAntics(root, outputTiles);
+
+
+
+        for (int i = 0; i < subobjects.Length; i++)
+        {
+            if (!EsGameObject(i))
+                continue;
+
+            if (!EsProp(i))
+                continue;
+
+            if (subobjects[i].name.Contains(PUNT))
+                continue;
+
+            CrearDetall(i);
+        }
+
+        referencies.Refresh();
+
 
         for (int i = 0; i < subobjects.Length; i++)
         {
@@ -122,7 +145,7 @@ public class TilesUnpack : ScriptableObject
 
     void NetejarTileset(string root)
     {
-        tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>($"{outputPath}/{root}/Tiles/{root}.asset");
+        tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>($"{outputTiles}/{root}/Tiles/{root}.asset");
 
         if (tileset == null)
         {
@@ -166,16 +189,36 @@ public class TilesUnpack : ScriptableObject
     }
 
 
-
+    bool EsProp(int i) => subobjects[i].name.StartsWith(PROP);
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
-    bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"_{PREFAB}-{root}");
+    bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"{PREFAB}-{root}");
+    /*bool EsPrefab(int i, string root) 
+    {
+        Debug.Log($"EsPrefab({PREFAB}-{root})? {subobjects[i].name.StartsWith($"{PREFAB}-{root}")}");
+        return subobjects[i].name.StartsWith($"{PREFAB}-{root}");
+    }*/
 
+    void CrearDetall(int i)
+    {
+        Debug.Log($"Crear detall = {subobjects[i].name.Substring(5)}");
+        AssetDatabase.DeleteAsset(subobjects[i].name.Substring(5));
+
+        intance = (GameObject)Instantiate(subobjects[i]);
+        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_Detall(subobjects[i].name.Substring(5)));
+
+        DestroyImmediate(intance);
+    }
 
     void CrearPrefabEstat(int i, string root)
     {
+        //ELIMINAR ANTERIOR
+        AssetDatabase.DeleteAsset(Path_Colocable(root));
+
         //LOAD PEÇA
         estat = AssetDatabase.LoadAssetAtPath<Estat>(Path_Estat(root));
+        Debug.Log($"Crear prefab estat = {Path_Estat(root)}");
+        Debug.Log($"{estat.name}");
 
         //CREAR PREFAB & NEEDS
         intance = (GameObject)Instantiate(subobjects[i]);
@@ -290,13 +333,26 @@ public class TilesUnpack : ScriptableObject
     {
         intance = (GameObject)Instantiate(subobjects[index]);
 
-
-        for (int i = 0; i < intance.transform.childCount; i++)
+        Debug.Log($"{intance.transform.childCount} childs");
+        float childCount = intance.transform.childCount;
+        for (int i = 0; i < childCount; i++)
         {
+            //if (!EsGameObject(i))
+            //    continue;
+
             Debug.Log($"Child{i} = {intance.transform.GetChild(i).name}");
+            if (!referencies.DetallsContains(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)))
+                continue;
+
+            detall = (GameObject)PrefabUtility.InstantiatePrefab(referencies.GetDetall(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)), intance.transform);
+            //detall = Instantiate(referencies.GetDetall(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)), intance.transform);
+
+            detall.transform.Copiar(intance.transform.GetChild(i));
+            intance.transform.GetChild(i).gameObject.SetActive(false);
+            //DestroyImmediate(intance.transform.GetChild(i).gameObject);
         }
 
-        Debug.LogError("FALTA: Canviar els props trobats pel prefab del mateix nom");
+        //Debug.LogError("FALTA: Canviar els props trobats pel prefab del mateix nom");
 
 
         if(invertit)
@@ -338,7 +394,7 @@ public class TilesUnpack : ScriptableObject
                 AssetDatabase.CreateAsset(connexio, Path_Connexio(connexio.name));
                 connexionsTile[nc] = AssetDatabase.LoadAssetAtPath<Connexio>(Path_Connexio(connexio.name));
 
-                referencies.Refrex();
+                referencies.Refresh();
             }
         }
     }

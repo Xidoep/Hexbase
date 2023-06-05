@@ -21,6 +21,7 @@ public class Referencies : ScriptableObject
     [ReadOnly] [SerializeField] Tile[] tiles;
     [ReadOnly] [SerializeField] TileSetBase[] tilesets;
     [ReadOnly] [SerializeField] Connexio[] connexions;
+    [ReadOnly, SerializeField] GameObject[] detalls; 
 
     public EstatColocable[] Colocables => colocables;
     public Estat[] Estats => estats;
@@ -28,14 +29,14 @@ public class Referencies : ScriptableObject
     public Tile[] Tiles => tiles;
     public TileSetBase[] Tilesets => tilesets;
     public Connexio[] Connexions => connexions;
-
+    public GameObject[] Detalls => detalls;
 
     //INTERN
     //bool trobat;
     Connexio cTrobada;
     Estat eTrobat;
     Producte pTrobat;
-
+    GameObject dTrobat;
 
 
     public Connexio GetConnexio(string nom)
@@ -108,7 +109,32 @@ public class Referencies : ScriptableObject
         return pTrobat;
     }
 
-
+    public bool DetallsContains(string nom)
+    {
+        for (int i = 0; i < detalls.Length; i++)
+        {
+            if (detalls[i].name.Equals(nom))
+                return true;
+        }
+        return false;
+    }
+    public GameObject GetDetall(string nom)
+    {
+        dTrobat = null;
+        for (int i = 0; i < detalls.Length; i++)
+        {
+            if (detalls[i].name.Equals(nom))
+            {
+                dTrobat = detalls[i];
+                break;
+            }
+        }
+        if (dTrobat == null)
+        {
+            Debug.LogError($"el detall amb el nom {nom} no existeix");
+        }
+        return dTrobat;
+    }
 
 
 
@@ -128,16 +154,21 @@ public class Referencies : ScriptableObject
         resoldre.EnNetejar -= save.NouArxiu;
     }
 
-    private void OnValidate() => Refrex();
+    private void OnValidate() => Refresh();
 
-    public void Refrex()
+    [Button(SdfIconType.ReplyFill)]
+    public void Refresh()
     {
-        colocables = XS_Editor.LoadAllAssetsAtPath<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Estats/Colocables").ToArray();
+        //colocables = XS_Editor.LoadAllAssetsAtPath<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Estats/Colocables").ToArray();
+        colocables = XS_Editor.LoadAllAssetsAtPathAndSubFolders<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
-        tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Tiles/Tiles").ToArray();
-        tilesets = XS_Editor.LoadAllAssetsAtPath<TileSetBase>("Assets/XidoStudio/Hexbase/Peces/Estats/TileSets").ToArray();
-        connexions = XS_Editor.LoadAllAssetsAtPath<Connexio>("Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats").ToArray();
+        //tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Tiles/Tiles").ToArray();
+        tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
+        //tilesets = XS_Editor.LoadAllAssetsAtPath<TileSetBase>("Assets/XidoStudio/Hexbase/Peces/Estats/TileSets").ToArray();
+        tilesets = XS_Editor.LoadAllAssetsAtPathAndSubFolders<TileSetBase>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
+        connexions = XS_Editor.LoadAllAssetsAtPath<Connexio>("Assets/XidoStudio/Hexbase/Peces/Connexio").ToArray();
+        detalls = XS_Editor.LoadAllAssetsAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peces/Detalls").ToArray();
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
 
     }

@@ -5,7 +5,7 @@ using UnityEditor;
 using Sirenix.OdinInspector;
 
 
-[CreateAssetMenu(menuName = "Xido Studio/Hex/UnpackEstats")]
+[CreateAssetMenu(menuName = "Xido Studio/Hex/Unpack/Estats")]
 public class EstatsUnpack : ScriptableObject
 {
     const char SEPARADOR = ',';
@@ -26,7 +26,7 @@ public class EstatsUnpack : ScriptableObject
     [SerializeField] Object tiles;
 
     [BoxGroup("PATHS", centerLabel: true), FolderPath, SerializeField] 
-    string outputPath, outputProductes, outputReceptes, outputColocables, detalls;
+    string outputPath, outputProductes, outputReceptes, outputDetalls;
 
 
     [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] 
@@ -66,9 +66,16 @@ public class EstatsUnpack : ScriptableObject
         [SerializeField, VerticalGroup("T"), TableColumnWidth(23, resizable: false), LabelText("")] 
         bool tiles;
 
-        [DisableIf("@!this.estat && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), VerticalGroup("Importar")]
+        [DisableIf("@!this.estat && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), VerticalGroup("Import"), PropertyOrder(-1)]
         public void Importar() => importar?.Invoke(new Confirmacio[] { this });
-        
+
+        [SerializeField, TableColumnWidth(30, resizable: false), Button(Icon = SdfIconType.FolderMinus), VerticalGroup("Del"), GUIColor(1,.75f,.75f)]
+        void Destroy() 
+        {
+            Debug.Log("Destroy");
+            AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}.asset");
+            AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}");
+        }
 
         System.Action<Confirmacio[]> importar;
 
@@ -106,12 +113,12 @@ public class EstatsUnpack : ScriptableObject
         }
         return confirmat;
     }
-    bool ConfirmarRecepta(Confirmacio[] confirmacions, string nom)
+    bool ConfirmarRecepta(Confirmacio[] confirmacions, string from)
     {
         confirmat = false;
         for (int i = 0; i < confirmacions.Length; i++)
         {
-            if (confirmacions[i].Nom.Equals(nom))
+            if (confirmacions[i].Nom.Equals(from))
             {
                 confirmat = confirmacions[i].Recepta;
                 break;
@@ -159,9 +166,9 @@ public class EstatsUnpack : ScriptableObject
         //GET MESHES
         subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
 
-        Debug.LogError("FALTA: Crear els props, si no existeixen");
-
         CrearEstats(confirmacions);
+
+        referencies.Refresh();
 
         CrearReceptes(confirmacions);
 
@@ -194,7 +201,7 @@ public class EstatsUnpack : ScriptableObject
 
             if (TeNom) lastNameFounded = Nom;
 
-            if (!ConfirmarRecepta(confirmacions, lastNameFounded))
+            if (!ConfirmarRecepta(confirmacions, From))
                 continue;
 
             recepta = CreateInstance<Recepta>();
@@ -212,8 +219,7 @@ public class EstatsUnpack : ScriptableObject
                 if (!referencies.EstatsContains(Input(input)))
                 {
                     viable = false;
-                    Debug.LogError($"Aquesta recepta[{i+1}] no es pot completar perque aquest l'Estat {Input(input)} no s'ha importat");
-                    Debug.Log("FALTA: Ara no es contemplen modificadors o altres coses que no siguin estats...");
+                    Debug.LogError($"Recepta[{i+1}] NO es pot COMPLETAR! - Inputs => {Input(input)} que no s'ha importat!!!");
                     continue;
                 }
                 inputs.Add(referencies.GetEstat(Input(input)));
@@ -226,9 +232,13 @@ public class EstatsUnpack : ScriptableObject
             {
                 if (!referencies.EstatsContains(From))
                 {
-                    Debug.LogError($"Aquesta recepta[{i+1}] no es pot completar perque l'Estat {From} no s'ha importat");
+                    Debug.LogError($"Recepta[{i+1}] NO es pot COMPLETAR! - Outputs => {From} no s'ha importat!!!");
                     viable = false;
                     continue;
+                }
+                if (!referencies.EstatsContains(lastNameFounded))
+                {
+
                 }
                 outputs.Add(referencies.GetEstat(lastNameFounded));
             }
@@ -241,19 +251,21 @@ public class EstatsUnpack : ScriptableObject
                 if (!referencies.ProductesContains(Output(output)))
                 {
                     viable = false;
-                    Debug.LogError($"Aquesta recepta[{i+1}] no es pot completar perque aquest el producte {Output(output)} no s'ha importat");
-                    Debug.Log("FALTA: Ara no es contemplen modificadors o altres coses que no siguin productes...");
+                    Debug.LogError($"Recepta[{i+1}] NO es pot COMPLETAR! Outputa => {Output(output)} no s'ha importat!!!");
+                    
                     continue;
                 }
                 outputs.Add(referencies.GetProducte(Output(output)));
             }
             accioConnectar = GetConnexio(HiHaAccioConnectar, AccioConnectar);
 
+            Debug.Log("FALTA: Que es contemplin els modificadors com: per cada peça del grup, per grup, etc...");
 
 
-           
 
-            
+
+            if (!viable)
+                continue;
 
             //CREAR
             if (HiHaFrom)
@@ -267,20 +279,15 @@ public class EstatsUnpack : ScriptableObject
                 nomRecepta = $"{lastNameFounded}Produeix{Output(1)}{(HiHaInput(1) ? $"_{Input(1)}" : "")}";
             }
 
-            recepta.Setup(cPropia, inputs, cInputs, outputs, accioConnectar);
-            AssetDatabase.CreateAsset(recepta, Path_Recepta(nomRecepta));
-
-            Debug.Log($"Crear Recepta: {nomRecepta}");
-
-            if (!viable)
-                continue;
-
             //ASSIGNAR
             if (!assignar)
                 continue;
 
+            recepta.Setup(cPropia, inputs, cInputs, outputs, accioConnectar);
+            AssetDatabase.CreateAsset(recepta, Path_Recepta(nomRecepta, i));
+
+            Debug.Log($"Crear Recepta: {nomRecepta}[{i + 1}] a: {assignar.name}");
             assignar.AddRecepta(recepta);
-            Debug.Log($"... assignar a: {assignar.name}");
 
         }
 
@@ -359,8 +366,9 @@ public class EstatsUnpack : ScriptableObject
             Debug.Log($"Crear el Producte: {llistaProductes[i]}");
         }
 
-        referencies.Refrex();
+        referencies.Refresh();
     }
+
     private void CrearEstats(Confirmacio[] confirmacions)
     {
         for (int i = 3; i < linies.Length; i++)
@@ -378,7 +386,7 @@ public class EstatsUnpack : ScriptableObject
                 if (!ConfirmarTiles(confirmacions, Nom))
                     continue;
 
-                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, referencies);
+                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies);
 
                 continue;
             }
@@ -427,22 +435,93 @@ public class EstatsUnpack : ScriptableObject
             if (!ConfirmarTiles(confirmacions, Nom))
                 continue;
 
-            referencies.Refrex();
-            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, referencies);
+            referencies.Refresh();
+            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies);
+        }
+
+
+
+       
+
+
+    }
+
+    [Button("hola?")]
+    void AddConnectables()
+    {
+        for (int i = 0; i < referencies.Tilesets.Length; i++)
+        {
+            Debug.Log($"Agafar Connectables de {referencies.Tilesets[i].name}");
+            if (referencies.Tilesets[i] is TileSet_Simple)
+            {
+                AddConnectables(((TileSet_Simple)referencies.Tilesets[i]).TileSet);
+            }
+            else if (referencies.Tilesets[i] is TileSet_Ocupable)
+            {
+                AddConnectables(((TileSet_Ocupable)referencies.Tilesets[i]).TileSetLliure);
+                AddConnectables(((TileSet_Ocupable)referencies.Tilesets[i]).TileSetOcupat);
+            }
+            else if (referencies.Tilesets[i] is TileSet_Condicional)
+            {
+                for (int c = 0; c < ((TileSet_Condicional)referencies.Tilesets[i]).Condicions.Length; c++)
+                {
+                    AddConnectables(((TileSet_Condicional)referencies.Tilesets[i]).Condicions[c].TileSet);
+                }
+            }
+        }
+    }
+
+    Connexio[] connexions;
+    void AddConnectables(TileSet tileset)
+    {
+        List<Tile> tiles = new List<Tile>();
         
+        for (int t = 0; t < tileset.Tiles.Length; t++)
+        {
+            connexions = new Connexio[]
+            {
+                tileset.Tiles[t].tile.Exterior(0),
+                tileset.Tiles[t].tile.Dreta(0),
+                tileset.Tiles[t].tile.Esquerra(0)
+            };
+            for (int r = 0; r < referencies.Tiles.Length; r++)
+            {
+                if (tileset.Contains(referencies.Tiles[r]))
+                    continue;
+
+                //Debug.Log($"{referencies.Tiles[r].name} Encaixa amb {tileset.Tiles[t].tile.name}?");
+
+                for (int i = 0; i < connexions.Length; i++)
+                {
+
+                    if (connexions[i].EncaixaAmb(referencies.Tiles[r].Exterior(0)) ||
+                        connexions[i].EncaixaAmb(referencies.Tiles[r].Dreta(0)) ||
+                        connexions[i].EncaixaAmb(referencies.Tiles[r].Esquerra(0))
+                        )
+                    {
+                        Debug.Log($"[{tileset.Tiles[t].tile.name}] == [{referencies.Tiles[r].name}]");
+
+                        tiles.Add(referencies.Tiles[r]);
+                        break;
+                    }
+                }
+            }
+
             
         }
 
-        
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            Debug.Log($"Add {tiles[i]}");
+            //tileset.AddTile(tiles[i], 0);
+        }
     }
 
 
 
 
 
-
-
-    string Path_Recepta(string nom) => $"{outputReceptes}/{nom}.asset";
+    string Path_Recepta(string nom, int linia) => $"{outputReceptes}/{nom}[{linia+1}].asset";
     string Path_Estat() => $"{outputPath}/{Nom}.asset";
     string Path_Producte(string nom) => $"{outputProductes}/{nom}.asset";
     string Path_IconeTexture(string nom) => $"{outputProductes}/Textures/{nom}.png";

@@ -50,7 +50,7 @@ public class Tile : ScriptableObject
     }
 
 
-    [SerializeField] GameObject prefab;
+    [SerializeField, HideLabel, PreviewField(200, ObjectFieldAlignment.Center, FilterMode = FilterMode.Point)] GameObject prefab;
 
     [BoxGroup("Connexions", centerLabel:true), SerializeField] 
     Connexio exterior, dreta, esquerra;

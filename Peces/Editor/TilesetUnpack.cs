@@ -5,7 +5,7 @@ using XS_Utils;
 using UnityEditor;
 using Sirenix.OdinInspector;
 
-[CreateAssetMenu(menuName = "Xido Studio/Hex/UnpackTileset")]
+[CreateAssetMenu(menuName = "Xido Studio/Hex/Unpack/Tileset")]
 public class TilesetUnpack : ScriptableObject
 {
     public enum Tipus { Simple, Ocupable, Condicional}
@@ -27,7 +27,7 @@ public class TilesetUnpack : ScriptableObject
 
     //INTERN
     Object[] subobjects;
-    string outputPath;
+    string outputTiles;
     Referencies referencies;
 
     TileSetBase tileset;
@@ -51,19 +51,19 @@ public class TilesetUnpack : ScriptableObject
 
 
 
-    string Path_Folder(string root) => $"{outputPath}/{root}/Tiles";
-    string Path_FolderPrefab(string root) => $"{outputPath}/{root}/Tiles/Prefabs";
+    string Path_Folder(string root) => $"{outputTiles}/{root}/Tiles";
+    string Path_FolderPrefab(string root) => $"{outputTiles}/{root}/Tiles/Prefabs";
 
 
     string IndexCondicio(int i, string root) => subobjects[i].name.Substring(root.Length + 4, 1);
 
 
 
-    public void Unpack(string root, Object[] subobjects, string outputPath, Referencies referencies)
+    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies)
     {
         //subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
         this.subobjects = subobjects;
-        this.outputPath = outputPath;
+        this.outputTiles = outputTiles;
         this.referencies = referencies;
 
         CrearFoldersSiCal(root);
@@ -121,14 +121,14 @@ public class TilesetUnpack : ScriptableObject
             AssignarAEstat(root);
         }
 
-        tilesUnpack.Unpack(root, subobjects, outputPath, referencies);
+        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies);
 
     }
 
     void CrearFoldersSiCal(string root)
     {
         if (!AssetDatabase.IsValidFolder(Path_Folder(root)))
-            AssetDatabase.CreateFolder($"{outputPath}/{root}", "Tiles");
+            AssetDatabase.CreateFolder($"{outputTiles}/{root}", "Tiles");
 
         if (!AssetDatabase.IsValidFolder(Path_FolderPrefab(root)))
             AssetDatabase.CreateFolder(Path_Folder(root), "Prefabs");
@@ -367,14 +367,18 @@ public class TilesetUnpack : ScriptableObject
                 break;
         }
         Debug.Log($"Crear Tilset: {root}");
+
+
+
+        Debug.LogError("FALTA: Agregar tiles connectables i guardar tots els tiles possibles en algun lloc");
     }
 
 
 
     void AssignarAEstat(string root)
     {
-        Debug.Log($"...assignar a {outputPath}/{root}.asset");
-        Estat estat = AssetDatabase.LoadAssetAtPath<Estat>($"{outputPath}/{root.ToUpper()}.asset");
+        Debug.Log($"...assignar a {outputTiles}/{root}.asset");
+        Estat estat = AssetDatabase.LoadAssetAtPath<Estat>($"{outputTiles}/{root.ToUpper()}.asset");
         estat.SetTileset = tileset;
     }
 
