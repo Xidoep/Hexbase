@@ -513,7 +513,7 @@ public class EstatsUnpack : ScriptableObject
         for (int i = 0; i < tiles.Count; i++)
         {
             Debug.Log($"Add {tiles[i]}");
-            //tileset.AddTile(tiles[i], 0);
+            tileset.AddTile(tiles[i], 0);
         }
     }
 
