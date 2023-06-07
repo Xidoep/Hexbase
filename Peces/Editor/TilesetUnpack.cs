@@ -366,6 +366,8 @@ public class TilesetUnpack : ScriptableObject
                 AssetDatabase.CreateAsset(condicional, $"{Path_Folder(root)}/{root}.asset");
                 break;
         }
+
+        EditorUtility.SetDirty(AssetDatabase.LoadAssetAtPath($"{Path_Folder(root)}/{root}.asset", typeof(Object)));
         Debug.Log($"Crear Tilset: {root}");
 
 

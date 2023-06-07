@@ -123,8 +123,9 @@ public struct TilesPossibles
     [Range(0,10)]public int pes;
 
 
-    [TableColumnWidth(56, resizable: false),HideInPlayMode,ShowInInspector,PreviewField,PropertyOrder(-1)]
+    [TableColumnWidth(56, resizable: false),ShowInInspector,PreviewField,PropertyOrder(-1)]
     Object Prefab => tile?.Prefab;
+
 }
 
 [System.Serializable]

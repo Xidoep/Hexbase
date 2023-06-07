@@ -214,6 +214,8 @@ public class TilesUnpack : ScriptableObject
     {
         //ELIMINAR ANTERIOR
         AssetDatabase.DeleteAsset(Path_Colocable(root));
+        AssetDatabase.DeleteAsset(Path_PrefabEstat(root));
+
 
         //LOAD PEÇA
         estat = AssetDatabase.LoadAssetAtPath<Estat>(Path_Estat(root));
@@ -230,13 +232,14 @@ public class TilesUnpack : ScriptableObject
         AssetDatabase.CreateAsset(colocable, Path_Colocable(root));
 
         //SETUP PEÇA
-        peça.Setup(AssetDatabase.LoadAssetAtPath<EstatColocable>(Path_Colocable(root)), tmpOutline);
+        peça.Setup(colocable, tmpOutline);
 
         //GUARDAR PREFAB
         prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_PrefabEstat(root));
 
         //SETUP COLOCALBE
         colocable.Setup(estat, prefab.GetComponent<UI_Peca>());
+        EditorUtility.SetDirty(colocable);
 
         DestroyImmediate(intance);
     }

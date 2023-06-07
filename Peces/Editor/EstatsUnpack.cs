@@ -72,9 +72,12 @@ public class EstatsUnpack : ScriptableObject
         [SerializeField, TableColumnWidth(30, resizable: false), Button(Icon = SdfIconType.FolderMinus), VerticalGroup("Del"), GUIColor(1,.75f,.75f)]
         void Destroy() 
         {
-            Debug.Log("Destroy");
-            AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}.asset");
-            AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}");
+            if (EditorUtility.DisplayDialog("BORRAr", "Vols borrar l'estat, el tilset i tots els tiles d'aquest Estat?\nAixo només s'hauria de fer amb previsió de Reimportar-ho tot de nou.\nPensa que molt provablament s'hauran de reimportar la resta d'estat per estar segur que no hi ha referencies de tiles o estats de receptes perduts.", "BORRAR (Ho re-importaré tot)", "NOOO!!!"))
+            { 
+                Debug.Log("Destroy");
+                AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}.asset");
+                AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}");
+            }
         }
 
         System.Action<Confirmacio[]> importar;
@@ -489,6 +492,9 @@ public class EstatsUnpack : ScriptableObject
                 if (tileset.Contains(referencies.Tiles[r]))
                     continue;
 
+                if (tiles.Contains(referencies.Tiles[r]))
+                    break;
+
                 //Debug.Log($"{referencies.Tiles[r].name} Encaixa amb {tileset.Tiles[t].tile.name}?");
 
                 for (int i = 0; i < connexions.Length; i++)
@@ -499,6 +505,8 @@ public class EstatsUnpack : ScriptableObject
                         connexions[i].EncaixaAmb(referencies.Tiles[r].Esquerra(0))
                         )
                     {
+                        
+
                         Debug.Log($"[{tileset.Tiles[t].tile.name}] == [{referencies.Tiles[r].name}]");
 
                         tiles.Add(referencies.Tiles[r]);
