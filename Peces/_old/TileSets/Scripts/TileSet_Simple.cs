@@ -11,7 +11,7 @@ public class TileSet_Simple : TileSetBase
         tileSet = new TileSet().Setup();
     }
 
-    [ShowInInspector] TileSet tileSet;
+    [SerializeField] TileSet tileSet;
 
 
     public override TilesPossibles[] Tiles(Peça peça = null) => tileSet.Tiles;

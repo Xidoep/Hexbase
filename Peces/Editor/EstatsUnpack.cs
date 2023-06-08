@@ -241,8 +241,17 @@ public class EstatsUnpack : ScriptableObject
                 }
                 if (!referencies.EstatsContains(lastNameFounded))
                 {
-
+                    Debug.LogError($"Recepta[{i + 1}] NO es pot COMPLETAR! - To => {lastNameFounded} no s'ha importat!!!");
+                    viable = false;
+                    continue;
                 }
+                /*Estat to = referencies.GetEstat(lastNameFounded);
+                if(to == null)
+                {
+                    Debug.LogError($"Recepta[{i + 1}] NO es pot COMPLETAR! - To => {lastNameFounded} no s'ha importat!!!");
+                    viable = false;
+                    continue;
+                }*/
                 outputs.Add(referencies.GetEstat(lastNameFounded));
             }
 
@@ -294,6 +303,8 @@ public class EstatsUnpack : ScriptableObject
 
         }
 
+        Debug.Log("SAVE ALL!");
+        AssetDatabase.SaveAssets();
     }
 
 

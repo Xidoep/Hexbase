@@ -264,40 +264,64 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     //connexios = new Connexio[0];
 
 #if UNITY_EDITOR
-                    _debug += "Connexions exteriors = ";
+                   // _debug += "Connexions exteriors = ";
 #endif
                     connexios = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[0], 0);
                     for (int i = 0; i < connexios.Length; i++)
                     {
-                        _debug += connexios[i].name;
-                        _debug += i != (connexios.Length - 1) ? ", " : "\n";
+                        //_debug += connexios[i].name;
+                        //_debug += i != (connexios.Length - 1) ? ", " : "\n";
                     }
 
 #if UNITY_EDITOR
-                    _debug += "Connexions esquerra = ";
+                    //_debug += "Connexions esquerra = ";
 #endif
                     connexios = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[1], 2);
                     for (int i = 0; i < connexios.Length; i++)
                     {
-                        _debug += connexios[i].name;
-                        _debug += i != (connexios.Length - 1) ? ", " : "\n";
+                        //_debug += connexios[i].name;
+                       // _debug += i != (connexios.Length - 1) ? ", " : "\n";
                     }
 
 #if UNITY_EDITOR
-                    _debug += "Connexions dreta = ";
+                   // _debug += "Connexions dreta = ";
 #endif
                     connexios = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[2], 1);
                     for (int i = 0; i < connexios.Length; i++)
                     {
-                        _debug += connexios[i].name;
-                        _debug += i != (connexios.Length - 1) ? ", " : "\n";
+                       // _debug += connexios[i].name;
+                       // _debug += i != (connexios.Length - 1) ? ", " : "\n";
                     }
 
 #if UNITY_EDITOR
                     Possibilitats possibilitats = propagables[0].Peça.Possibilitats;
-                    for (int i = 0; i < possibilitats.Count; i++)
+                    /*for (int i = 0; i < possibilitats.Count; i++)
                     {
                         _debug += $"{possibilitats.Get(i).Tile.name} | {possibilitats.Get(i).Tile.Exterior(0).name}, {possibilitats.Get(i).Tile.Esquerra(0).name}, {possibilitats.Get(i).Tile.Dreta(0).name} \n";
+                    }*/
+                    _debug += "\n";
+                    _debug += "TILES ACTUALS:\n";
+                    _debug += $"{(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"{(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"{(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"{(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"{(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"{(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+
+                    _debug += "\n";
+                    _debug += "POSSIBLITATS:\n";
+                    Connexio[] exterior = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[0], 0);
+                    Connexio[] dreta = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[1], 2);
+                    Connexio[] esquerra = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[2], 1);
+                    for (int ex = 0; ex < exterior.Length; ex++)
+                    {
+                        for (int dr = 0; dr < dreta.Length; dr++)
+                        {
+                            for (int es = 0; es < esquerra.Length; es++)
+                            {
+                                _debug += $"{exterior[ex].name}|{dreta[dr].name}|{esquerra[es].name}\n";
+                            }
+                        }
                     }
 
                     //MILLORAR AQUEST DEBUG I QUE EM MOSTRI TOTES LES LES OPCIONS POSSIBLES I COM LES HA PROVAT.

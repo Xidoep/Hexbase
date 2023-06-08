@@ -31,6 +31,7 @@ public class TilePotencial
 
     public string EstatName => $"{peça.SubestatNom}-{orientacio}";
     public Peça Peça => peça;
+    public bool TePossibilitats => possibilitatsVirtuals.Count > 0;
     public Possibilitats PossibilitatsVirtuals => possibilitatsVirtuals;
     public GameObject TileFisic => tileFisic;
     public TilePotencial[] Veins => veins;
@@ -106,14 +107,16 @@ public class TilePotencial
             //Trobar la prioritat mes alta
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
             {
-                if (possibilitatsVirtuals.Get(i).Pes > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).Pes;
+                if (possibilitatsVirtuals.Get(i).GetPes(i) > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).GetPes(i);
             }
+
+            Debug.Log($"HighestPriority = {highestPriority}");
 
             List<Possibilitat> possibilitats;
             possibilitats = new List<Possibilitat>();
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
             {
-                if(possibilitatsVirtuals.Get(i).Pes == highestPriority)
+                if(possibilitatsVirtuals.Get(i).GetPes(i) == highestPriority)
                 {
                     possibilitats.Add(possibilitatsVirtuals.Get(i));
                 }
@@ -163,6 +166,7 @@ public class TilePotencial
             Crear();
         
     }
+
 
     public void GetVeins(Peça peça)
     {

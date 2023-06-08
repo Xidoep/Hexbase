@@ -10,7 +10,7 @@ public class TilesUnpack : ScriptableObject
 {
     const string PREFAB = "_Prefab";
 
-    const string AUTOGENERATS_PATH = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats";
+    const string AUTOGENERATS_PATH = "Assets/XidoStudio/Hexbase/Peces/Connexio";
     const char SEPARADO = '_';
     const string PES = "___$";
     const char INVERTIT = '%';
@@ -139,6 +139,8 @@ public class TilesUnpack : ScriptableObject
 
             //Debug.Log("---------------------");
         }
+
+        SaveTilset(root);
 
     }
 
@@ -434,11 +436,13 @@ public class TilesUnpack : ScriptableObject
         if (tileset is TileSet_Simple)
         {
             ((TileSet_Simple)tileset).TileSet.AddTile(tile, pes[0]);
+            EditorUtility.SetDirty(tileset);
         }
         else if (tileset is TileSet_Ocupable)
         {
             ((TileSet_Ocupable)tileset).TileSetLliure.AddTile(tile, pes[0]);
             ((TileSet_Ocupable)tileset).TileSetOcupat.AddTile(tile, pes[0]);
+            EditorUtility.SetDirty(tileset);
         }
         else if (tileset is TileSet_Condicional)
         {
@@ -448,9 +452,17 @@ public class TilesUnpack : ScriptableObject
                     continue;
 
                 ((TileSet_Condicional)tileset).Condicions[i].TileSet.AddTile(tile, pes[i]);
+                EditorUtility.SetDirty(tileset);
             }
             
         }
     }
     
+    void SaveTilset(string root)
+    {
+        //Debug.Log($"Save {Path_Tileset(root)}");
+        //tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>(Path_Tileset(root));
+        //EditorUtility.SetDirty(tileset);
+        AssetDatabase.SaveAssetIfDirty(tileset);
+    }
 }

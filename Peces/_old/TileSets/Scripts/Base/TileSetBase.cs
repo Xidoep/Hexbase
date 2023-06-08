@@ -31,20 +31,21 @@ public class TileSet
         return this;
     }
 
-    [TableList(ShowPaging = true), BoxGroup("Tiles", centerLabel: true), SerializeField] 
+    [PropertyOrder(1), TableList(ShowPaging = true), BoxGroup("Tiles", centerLabel: true), SerializeField] 
     TilesPossibles[] tiles;
 
-    [BoxGroup("Connexions", centerLabel: true), BoxGroup("Connexions/Nules", centerLabel: true), AssetSelector(Paths = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats")]
+    [PropertyOrder(3), BoxGroup("Connexions", centerLabel: true), BoxGroup("Connexions/Nules", centerLabel: true), AssetSelector(Paths = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats")]
     [SerializeField] Connexio[] connexionsNules;
 
-    [BoxGroup("Connexions/Especifiques", centerLabel: true)]
+    [PropertyOrder(4), BoxGroup("Connexions/Especifiques", centerLabel: true)]
     [SerializeField] ConnexioEspesifica connexioEspesifica;
+
 
     [Space(20)]
     [ReadOnly]
-    [SerializeField] Connexio[] connexionsPossibles;
+    [PropertyOrder(5), SerializeField] Connexio[] connexionsPossibles;
 
-    public TilesPossibles[] Tiles => tiles;
+    public TilesPossibles[] Tiles { get => tiles; set => tiles = value; }
     public Connexio[] ConnexionsNules { get => connexionsNules; set => connexionsNules = value; }
     public ConnexioEspesifica ConnexioEspesifica { get => connexioEspesifica; set => connexioEspesifica = value; }
     public Connexio[] ConnexionsPossibles => connexionsPossibles;
@@ -69,6 +70,8 @@ public class TileSet
 
     public void AddTile(Tile tile, int pes)
     {
+        //if (this.tiles == null) this.tiles = new TilesPossibles[0];
+
         List<TilesPossibles> tiles = new List<TilesPossibles>(this.tiles);
         //tiles.Add(new TilesPossibles(tile, pes));
         if(tiles.Count > 1)
@@ -103,7 +106,17 @@ public class TileSet
 
         connexionsPossibles = tmpConnexions.ToArray();
     }
-   
+
+    [PropertyOrder(2), Button("Ordenar")]
+    void Organitzar()
+    {
+        List<TilesPossibles> tiles = new List<TilesPossibles>(this.tiles);
+        tiles.Sort(CompararPes);
+
+        this.tiles = tiles.ToArray();
+    }
+    
+    int CompararPes(TilesPossibles x, TilesPossibles y) => y.pes - x.pes;
 }
 
 [System.Serializable]

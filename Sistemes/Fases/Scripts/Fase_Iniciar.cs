@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XS_Utils;
 
 /// <summary>
 /// Iniciat pel boto Inicial, Crea la primera peça del grid.
@@ -15,7 +16,12 @@ public class Fase_Iniciar : Fase
 
     bool gridNet = true;
 
-    
+
+    void OnEnable()
+    {
+        if (!inicial) inicial = XS_Editor.LoadAssetAtPath<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Estats/TERRA/Colocable/Terra.asset");
+    }
+
 
     public override void FaseStart()
     {

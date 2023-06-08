@@ -49,6 +49,17 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     TilePotencial[] tiles;
 
 
+    [ReadOnly]
+    string[] veins => tiles != null ? new string[] {
+        tiles[0].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
+        tiles[1].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
+        tiles[2].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
+        tiles[3].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
+        tiles[4].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
+        tiles[5].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null"
+    } : new string[0];
+
+
     //GETTERS
     public override bool EsPeça => true;
     public bool EsEstatNull => estat == null;
