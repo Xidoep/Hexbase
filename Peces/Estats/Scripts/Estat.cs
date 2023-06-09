@@ -137,13 +137,13 @@ public class Estat : ScriptableObject, IProcessable
         TilesPossibles[] tiles = tileset.Tiles(peça);
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (!tiles[i].tile.ConnexionsIguals)
-            {
+            //if (!tiles[i].tile.ConnexionsIguals)
+            //{
                 ps.Add(tiles[i].tile, 0, tiles[i].pes);
                 ps.Add(tiles[i].tile, 1, tiles[i].pes);
                 ps.Add(tiles[i].tile, 2, tiles[i].pes);
-            }
-            else ps.Add(tiles[i].tile, 0, tiles[i].pes * 3);
+            //}
+            //else ps.Add(tiles[i].tile, 0, tiles[i].pes * 3);
         }
         return ps;
     }

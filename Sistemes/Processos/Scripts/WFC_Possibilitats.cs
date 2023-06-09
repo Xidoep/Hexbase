@@ -44,7 +44,7 @@ public struct Possibilitat
     public int Orientacio => orientacio;
     public int Pes => pes;
 
-    public int GetPes(int index) => pes + Mathf.RoundToInt(Mathf.PerlinNoise(index * 0.3f + index, index * 0.3f + index));
+    public int GetPes(int index) => pes + Mathf.RoundToInt(Mathf.PerlinNoise(index * 0.3f + Mathf.Sin(Time.time), index * 0.3f + Mathf.Sin(Time.time)) * 2 - 1);
     public bool EqualsTo(Possibilitat possibilitat) => possibilitat.tile == tile && possibilitat.orientacio == orientacio;
 
 }

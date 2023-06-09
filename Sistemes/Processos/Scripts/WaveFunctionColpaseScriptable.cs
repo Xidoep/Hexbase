@@ -249,7 +249,13 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     {
         if (!canviades.Contains(propagables[0].Peça)) canviades.Add(propagables[0].Peça);
         Iniciar_WFC(colocada, canviades, enFinalitzar, true);
-    } 
+    }
+
+    Connexio[] debugExterior;
+    Connexio[] debugDreta;
+    Connexio[] debugEsquerra;
+    Possibilitats debugPossiblitats;
+    bool debugMatch;
     void Propagar()
     {
         if(propagables.Count > 0)
@@ -299,32 +305,68 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     {
                         _debug += $"{possibilitats.Get(i).Tile.name} | {possibilitats.Get(i).Tile.Exterior(0).name}, {possibilitats.Get(i).Tile.Esquerra(0).name}, {possibilitats.Get(i).Tile.Dreta(0).name} \n";
                     }*/
-                    _debug += "\n";
-                    _debug += "TILES ACTUALS:\n";
-                    _debug += $"{(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
-                    _debug += $"{(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
-                    _debug += $"{(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
-                    _debug += $"{(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
-                    _debug += $"{(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
-                    _debug += $"{(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
 
-                    _debug += "\n";
-                    _debug += "POSSIBLITATS:\n";
-                    Connexio[] exterior = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[0], 0);
-                    Connexio[] dreta = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[1], 2);
-                    Connexio[] esquerra = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[2], 1);
-                    for (int ex = 0; ex < exterior.Length; ex++)
+                    _debug += "\nTILES ACTUALS:\n";
+                    _debug += $"0- {(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"1- {(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"2- {(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"3- {(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"4- {(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+                    _debug += $"5- {(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
+
+                    _debug += "\nPOSSIBLITATS:\n";
+                    debugExterior = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[0], 0);
+                    debugEsquerra = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[1], 2);
+                    debugDreta = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[2], 1);
+                    for (int ex = 0; ex < debugExterior.Length; ex++)
                     {
-                        for (int dr = 0; dr < dreta.Length; dr++)
+                        for (int es = 0; es < debugEsquerra.Length; es++)
                         {
-                            for (int es = 0; es < esquerra.Length; es++)
+                            for (int dr = 0; dr < debugDreta.Length; dr++)
                             {
-                                _debug += $"{exterior[ex].name}|{dreta[dr].name}|{esquerra[es].name}\n";
+                                _debug += $"{debugExterior[ex].name}|{debugDreta[dr].name}|{debugEsquerra[es].name}";
+
+                                debugPossiblitats = propagables[0].Peça.Subestat.Possibilitats(propagables[0].Peça);
+                                Debug.Log($"{debugPossiblitats.Count} possibilitats");
+                                for (int i = 0; i < debugPossiblitats.Count; i++)
+                                {
+                                    debugMatch = false;
+                                    for (int r = 0; r < 3; r++)
+                                    {
+                                        if (propagables[0].CompararConnexions(propagables[0].Peça.Possibilitats.Get(i), debugExterior[ex], debugEsquerra[es], debugDreta[dr]))
+                                        {
+                                            _debug += $"  MATCH! amb {debugPossiblitats.Get(i).Tile}, rot {r}";
+                                            debugMatch = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (debugMatch)
+                                        break;
+
+                                }
+
+                                _debug += $"\n";
                             }
                         }
                     }
 
-                    //MILLORAR AQUEST DEBUG I QUE EM MOSTRI TOTES LES LES OPCIONS POSSIBLES I COM LES HA PROVAT.
+                    /*
+                    _debug += "\n OPCIONS:\n";
+                    debugPossiblitats = propagables[0].Peça.Subestat.Possibilitats(propagables[0].Peça);
+                    Debug.Log($"{debugPossiblitats.Count} possibilitats");
+                    for (int i = 0; i < debugPossiblitats.Count; i++)
+                    {
+                        _debug += $"{debugPossiblitats.Get(i).Tile}";
+                        for (int r = 0; r < 3; r++)
+                        {
+                            _debug += $"||r{r} = {debugPossiblitats.Get(i).Tile.Exterior(r).name}, {debugPossiblitats.Get(i).Tile.Esquerra(r).name}, {debugPossiblitats.Get(i).Tile.Dreta(r).name}";
+                        }
+
+                        _debug += "\n";
+                    }
+                    */
+
                     Debugar.LogError(_debug, propagables[0].Peça);
 #endif
                     XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);  

@@ -107,6 +107,7 @@ public class TilePotencial
             //Trobar la prioritat mes alta
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
             {
+                Debug.Log($"{possibilitatsVirtuals.Get(i).Tile.name} pes = {possibilitatsVirtuals.Get(i).Pes} | {possibilitatsVirtuals.Get(i).GetPes(i)}");
                 if (possibilitatsVirtuals.Get(i).GetPes(i) > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).GetPes(i);
             }
 
@@ -116,7 +117,7 @@ public class TilePotencial
             possibilitats = new List<Possibilitat>();
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
             {
-                if(possibilitatsVirtuals.Get(i).GetPes(i) == highestPriority)
+                if(possibilitatsVirtuals.Get(i).GetPes(i) >= highestPriority)
                 {
                     possibilitats.Add(possibilitatsVirtuals.Get(i));
                 }

@@ -16,6 +16,6 @@ public class NoiseWorldPosBased : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        transform.localScale = (Vector3.one * Mathf.RoundToInt(Mathf.PerlinNoise(transform.position.x * 0.3f, transform.position.z * 0.3f)) * 0.5f);
+        transform.localScale = (Vector3.one * Mathf.RoundToInt(Mathf.PerlinNoise(transform.position.x * 1f, transform.position.z * 1f)) * 0.75f);
     }
 }
