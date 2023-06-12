@@ -17,7 +17,7 @@ public class TileSet_Ocupable : TileSetBase
 
     public override TilesPossibles[] Tiles(Peça peça = null) => peça.EstaConnectat ? ocupat.Tiles : lliure.Tiles;
     public override Connexio[] ConnexionsNules(Peça peça = null) => peça.EstaConnectat ? ocupat.ConnexionsNules : lliure.ConnexionsNules;
-    public override ConnexioEspesifica ConnexionsEspesifica(Peça peça = null) => peça.EstaConnectat ? ocupat.ConnexioEspesifica : lliure.ConnexioEspesifica;
+    public override ConnexioEspesifica[] ConnexionsEspesifiques(Peça peça = null) => peça.EstaConnectat ? ocupat.ConnexionsEspesifiques : lliure.ConnexionsEspesifiques;
     public override Connexio[] ConnexioinsPossibles(Peça peça = null) => peça.EstaConnectat ? ocupat.ConnexionsPossibles : lliure.ConnexionsPossibles;
 
 

@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
-using static Casa;
+using Sirenix.OdinInspector;
+//using static Casa;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/Repoblar")]
 public class Repoblar : ScriptableObject
 {
     [SerializeField] Recepta[] necessitats;
 
-    [Nota("Només per debugging",NoteType.Warning)]
-    [SerializeField] List<Peça> cases;
+    [ReadOnly] List<Peça> cases;
 
     //INTERN
     List<Peça> veins;

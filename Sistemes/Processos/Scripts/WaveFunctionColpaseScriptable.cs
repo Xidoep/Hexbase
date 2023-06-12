@@ -327,7 +327,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                                 _debug += $"{debugExterior[ex].name}|{debugDreta[dr].name}|{debugEsquerra[es].name}";
 
                                 debugPossiblitats = propagables[0].Peça.Subestat.Possibilitats(propagables[0].Peça);
-                                Debug.Log($"{debugPossiblitats.Count} possibilitats");
+                                //Debug.Log($"{debugPossiblitats.Count} possibilitats");
                                 for (int i = 0; i < debugPossiblitats.Count; i++)
                                 {
                                     debugMatch = false;
@@ -463,11 +463,15 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 _connexio.Clear();
                 if(vei.Peça != tile.Peça)//Si el vei no es intern
                 {
-                    if (tile.Peça.ConnexionsEspesifica != null && tile.Peça.ConnexionsEspesifica.subestats.Contains(vei.Peça.Subestat))
+                    for (int i = 0; i < tile.Peça.ConnexionsEspesifiques.Length; i++)
                     {
-                        _connexio.AddRange(tile.Peça.ConnexionsEspesifica.connexions);
-                        return _connexio.ToArray();
+                        if (tile.Peça.ConnexionsEspesifiques[i].subestats.Contains(vei.Peça.Subestat))
+                        {
+                            _connexio.AddRange(tile.Peça.ConnexionsEspesifiques[i].connexions);
+                            return _connexio.ToArray();
+                        }
                     }
+                   
                 }
                 
                 for (int p = 0; p < vei.PossibilitatsVirtuals.Count; p++)

@@ -21,7 +21,8 @@ public class Referencies : ScriptableObject
     [ReadOnly] [SerializeField] Tile[] tiles;
     [ReadOnly] [SerializeField] TileSetBase[] tilesets;
     [ReadOnly] [SerializeField] Connexio[] connexions;
-    [ReadOnly, SerializeField] GameObject[] detalls; 
+    [ReadOnly, SerializeField] GameObject[] detalls;
+    [ReadOnly, SerializeField] Recepta[] receptes;
 
     public EstatColocable[] Colocables => colocables;
     public Estat[] Estats => estats;
@@ -30,6 +31,7 @@ public class Referencies : ScriptableObject
     public TileSetBase[] Tilesets => tilesets;
     public Connexio[] Connexions => connexions;
     public GameObject[] Detalls => detalls;
+    public Recepta[] Receptes => receptes;
 
     //INTERN
     //bool trobat;
@@ -108,7 +110,6 @@ public class Referencies : ScriptableObject
         }
         return pTrobat;
     }
-
     public bool DetallsContains(string nom)
     {
         for (int i = 0; i < detalls.Length; i++)
@@ -169,6 +170,7 @@ public class Referencies : ScriptableObject
         tilesets = XS_Editor.LoadAllAssetsAtPathAndSubFolders<TileSetBase>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         connexions = XS_Editor.LoadAllAssetsAtPath<Connexio>("Assets/XidoStudio/Hexbase/Peces/Connexio").ToArray();
         detalls = XS_Editor.LoadAllAssetsAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peces/Detalls").ToArray();
+        receptes = XS_Editor.LoadAllAssetsAtPath<Recepta>("Assets/XidoStudio/Hexbase/Peces/Receptes").ToArray();
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
 
     }

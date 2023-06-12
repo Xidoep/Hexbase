@@ -48,47 +48,23 @@ public class EstatsUnpack : ScriptableObject
     bool confirmat;
     int trobat;
     string lastNameFounded;
+    Recepta recepta;
+    Peça.ConnexioEnum cPropia;
+    List<ScriptableObject> inputs;
+    Peça.ConnexioEnum cInputs;
+    List<ScriptableObject> outputs;
+    Peça.ConnexioEnum accioConnectar;
+    string nomRecepta;
+    Estat assignar;
 
-   [TableList(), SerializeField, PropertyOrder(-1)]
+
+
+    [TableList(), SerializeField, PropertyOrder(-1)]
     Confirmacio[] confirmacions;
 
-    [System.Serializable]
-    public struct Confirmacio
-    {
-        [SerializeField] string nom;
+    [SerializeField, PropertyOrder(-2)]
+    bool detalls;
 
-        [SerializeField, VerticalGroup("E"), TableColumnWidth(23, resizable: false), LabelText("")] 
-        bool estat;
-
-        [SerializeField, VerticalGroup("R"), TableColumnWidth(23, resizable: false), LabelText("")]
-        bool recepta;
-
-        [SerializeField, VerticalGroup("T"), TableColumnWidth(23, resizable: false), LabelText("")] 
-        bool tiles;
-
-        [DisableIf("@!this.estat && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), VerticalGroup("Import"), PropertyOrder(-1)]
-        public void Importar() => importar?.Invoke(new Confirmacio[] { this });
-
-        [SerializeField, TableColumnWidth(30, resizable: false), Button(Icon = SdfIconType.FolderMinus), VerticalGroup("Del"), GUIColor(1,.75f,.75f)]
-        void Destroy() 
-        {
-            if (EditorUtility.DisplayDialog("BORRAr", "Vols borrar l'estat, el tilset i tots els tiles d'aquest Estat?\nAixo només s'hauria de fer amb previsió de Reimportar-ho tot de nou.\nPensa que molt provablament s'hauran de reimportar la resta d'estat per estar segur que no hi ha referencies de tiles o estats de receptes perduts.", "BORRAR (Ho re-importaré tot)", "NOOO!!!"))
-            { 
-                Debug.Log("Destroy");
-                AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}.asset");
-                AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}");
-            }
-        }
-
-        System.Action<Confirmacio[]> importar;
-
-        public System.Action<Confirmacio[]> SetImporar { set => importar = value; }
-
-        public string Nom => nom;
-        public bool Estat => estat;
-        public bool Recepta => recepta;
-        public bool Tiles => tiles;
-    }
 
     Confirmacio GetConfirmacio(string nom)
     {
@@ -146,7 +122,7 @@ public class EstatsUnpack : ScriptableObject
 
 
 
-    [PropertyOrder(-2), Button(ButtonSizes.Large, Icon = SdfIconType.Archive, IconAlignment = IconAlignment.LeftOfText)]
+    [PropertyOrder(-3), Button(ButtonSizes.Large, Icon = SdfIconType.Archive, IconAlignment = IconAlignment.LeftOfText)]
     void Unpack() => Unpack(confirmacions);
     void Unpack(Confirmacio[] confirmacions)
     {
@@ -177,14 +153,6 @@ public class EstatsUnpack : ScriptableObject
 
     }
 
-    Recepta recepta;
-    Peça.ConnexioEnum cPropia;
-    List<ScriptableObject> inputs;
-    Peça.ConnexioEnum cInputs;
-    List<ScriptableObject> outputs;
-    Peça.ConnexioEnum accioConnectar;
-    string nomRecepta;
-    Estat assignar;
 
     private void CrearReceptes(Confirmacio[] confirmacions)
     {
@@ -400,7 +368,7 @@ public class EstatsUnpack : ScriptableObject
                 if (!ConfirmarTiles(confirmacions, Nom))
                     continue;
 
-                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies);
+                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls);
 
                 continue;
             }
@@ -450,7 +418,7 @@ public class EstatsUnpack : ScriptableObject
                 continue;
 
             referencies.Refresh();
-            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies);
+            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls);
         }
 
 
@@ -548,6 +516,7 @@ public class EstatsUnpack : ScriptableObject
 
 
 
+
     void GetColumnes(int i) => columnes = linies[i].Split(SEPARADOR);
     bool IniciProductes(int i) => linies[i].StartsWith(PRODUCTES);
     //bool LiniaActiva(int i) => linies[i].StartsWith(TRUE);
@@ -586,6 +555,95 @@ public class EstatsUnpack : ScriptableObject
 
 
 
+
+
+
+
+    [System.Serializable]
+    public struct Confirmacio
+    {
+        [SerializeField] string nom;
+
+        [SerializeField, VerticalGroup("E"), TableColumnWidth(23, resizable: false), LabelText("")]
+        bool estat;
+
+        [SerializeField, VerticalGroup("R"), TableColumnWidth(23, resizable: false), LabelText("")]
+        bool recepta;
+
+        [SerializeField, VerticalGroup("T"), TableColumnWidth(23, resizable: false), LabelText("")]
+        bool tiles;
+
+        [DisableIf("@!this.estat && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), VerticalGroup("Import"), PropertyOrder(-1)]
+        public void Importar() => importar?.Invoke(new Confirmacio[] { this });
+
+        System.Action<Confirmacio[]> importar;
+        Referencies referencies;
+
+        public System.Action<Confirmacio[]> SetImporar { set => importar = value; }
+        public Referencies SetReferencies { set => referencies = value; }
+
+
+        [SerializeField, TableColumnWidth(30, resizable: false), Button(Icon = SdfIconType.FolderMinus), VerticalGroup("Del"), GUIColor(1, .75f, .75f)]
+        void Destroy()
+        {
+            int opcio = EditorUtility.DisplayDialogComplex("BORRAr", "Vols borrar l'estat, el tilset i tots els tiles d'aquest Estat?\nAixo només s'hauria de fer amb previsió de Reimportar-ho tot de nou.\nPensa que molt provablament s'hauran de reimportar la resta d'estat per estar segur que no hi ha referencies de tiles o estats de receptes perduts.", "BORRAR", "NOOO!!!", "BORRAR I RE-IMPORTAR");
+
+            if (opcio == 1)
+                return;
+
+            else if (opcio == 0)
+            {
+                Borrar();
+            }
+            else
+            {
+                Borrar();
+                Importar();
+            }
+
+
+           
+        }
+        void Borrar()
+        {
+            Debug.Log("Destroy");
+
+            Estat aquest = referencies.GetEstat(nom);
+            for (int r = 0; r < referencies.Receptes.Length; r++)
+            {
+                if (referencies.Receptes[r].ConteInput(aquest) || referencies.Receptes[r].ConteOutput(aquest))
+                {
+                    for (int e = 0; e < referencies.Estats.Length; e++)
+                    {
+                        for (int er = 0; er < referencies.Estats[e].Receptes.Length; er++)
+                        {
+                            if (referencies.Estats[e].Receptes[er].Equals(referencies.Receptes[r]))
+                            {
+                                referencies.Estats[e].RemoveRecepta(referencies.Estats[e].Receptes[er]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}.asset");
+            AssetDatabase.DeleteAsset($"Assets/XidoStudio/Hexbase/Peces/Estats/{nom}");
+
+            referencies.Refresh();
+        }
+
+        public string Nom => nom;
+        public bool Estat => estat;
+        public bool Recepta => recepta;
+        public bool Tiles => tiles;
+    }
+
+
+
+
+
+
+
     protected void OnValidate()
     {
         if (referencies != null) referencies = XS_Utils.XS_Editor.LoadAssetAtPath<Referencies>("Assets/XidoStudio/Hexbase/Sistemes/Referencies.asset");
@@ -593,7 +651,9 @@ public class EstatsUnpack : ScriptableObject
         for (int i = 0; i < confirmacions.Length; i++)
         {
             confirmacions[i].SetImporar = Unpack;
+            confirmacions[i].SetReferencies = referencies;
         }
+
     }
 }
 

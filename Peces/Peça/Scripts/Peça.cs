@@ -83,7 +83,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public Possibilitats Possibilitats => subestat.Possibilitats(this);
     public Connexio[] ConnexionsPossibles => subestat.ConnexionsPossibles(this);
     public Connexio[] ConnexionsNules => subestat.ConnexionsNules(this);
-    public ConnexioEspesifica ConnexionsEspesifica => subestat.ConnexionsEspesifica(this);
+    public ConnexioEspesifica[] ConnexionsEspesifiques => subestat.ConnexionsEspesifiques(this);
     //public Condicio[] Condicions => this.subestat.Condicions;
     //vvv
     public Casa[] Cases => cases.ToArray();

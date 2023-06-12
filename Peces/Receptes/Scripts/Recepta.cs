@@ -41,9 +41,37 @@ public class Recepta : ScriptableObject
     bool confirmat = true;
     bool trobat = false;
     List<Peça> peces;
+    bool conte = false;
 
 
     public ScriptableObject[] Inputs => inputs;
+
+    public bool ConteInput(Object estat)
+    {
+        conte = false;
+        for (int i = 0; i < inputs.Length; i++)
+        {
+            if (inputs[i].Equals(estat))
+            {
+                conte = true;
+                break;
+            }
+        }
+        return conte;
+    }
+    public bool ConteOutput(Object estat)
+    {
+        conte = false;
+        for (int i = 0; i < output.Length; i++)
+        {
+            if (output[i].Equals(estat))
+            {
+                conte = true;
+                break;
+            }
+        }
+        return conte;
+    }
     //public Peça.ConnexioEnum Connexio => connexio;
 
 

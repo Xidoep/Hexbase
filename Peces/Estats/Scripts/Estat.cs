@@ -95,7 +95,7 @@ public class Estat : ScriptableObject, IProcessable
 
     public bool TeConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça).Length > 0;
     public virtual Connexio[] ConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça);
-    public ConnexioEspesifica ConnexionsEspesifica(Peça peça) => tileset.ConnexionsEspesifica(peça);
+    public ConnexioEspesifica[] ConnexionsEspesifiques(Peça peça) => tileset.ConnexionsEspesifiques(peça);
     public Connexio[] ConnexionsPossibles(Peça peça) => tileset.ConnexioinsPossibles(peça);
     public TileSetBase SetTileset { set => tileset = value; }
 
@@ -106,7 +106,12 @@ public class Estat : ScriptableObject, IProcessable
         tmp.Add(recepta);
         receptes = tmp.ToArray();
     }
-
+    public void RemoveRecepta(Recepta recepta)
+    {
+        List<Recepta> tmp = new List<Recepta>(receptes);
+        tmp.Remove(recepta);
+        receptes = tmp.ToArray();
+    }
 
 
     public void InformacioMostrar(Hexagon peça) 

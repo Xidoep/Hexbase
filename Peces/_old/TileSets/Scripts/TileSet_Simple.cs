@@ -16,7 +16,7 @@ public class TileSet_Simple : TileSetBase
 
     public override TilesPossibles[] Tiles(Peça peça = null) => tileSet.Tiles;
     public override Connexio[] ConnexionsNules(Peça peça = null) => tileSet.ConnexionsNules;
-    public override ConnexioEspesifica ConnexionsEspesifica(Peça peça = null) => tileSet.ConnexioEspesifica;
+    public override ConnexioEspesifica[] ConnexionsEspesifiques(Peça peça = null) => tileSet.ConnexionsEspesifiques;
     public override Connexio[] ConnexioinsPossibles(Peça peça = null) => tileSet.ConnexionsPossibles;
 
 

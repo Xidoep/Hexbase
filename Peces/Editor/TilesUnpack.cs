@@ -73,7 +73,7 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies)
+    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls)
     {
         this.subobjects = subobjects;
         this.outputTiles = outputTiles;
@@ -97,7 +97,8 @@ public class TilesUnpack : ScriptableObject
             if (subobjects[i].name.Contains(PUNT))
                 continue;
 
-            CrearDetall(i);
+            if(detalls)
+                CrearDetall(i);
         }
 
         referencies.Refresh();

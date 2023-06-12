@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
 using Sirenix.OdinInspector;
-
+using System.Linq;
 
 public abstract class TileSetBase : ScriptableObject
 {
@@ -11,7 +11,7 @@ public abstract class TileSetBase : ScriptableObject
 
     public abstract TilesPossibles[] Tiles(Peça peça = null);
     public abstract Connexio[] ConnexionsNules(Peça peça = null);
-    public abstract ConnexioEspesifica ConnexionsEspesifica(Peça peça = null);
+    public abstract ConnexioEspesifica[] ConnexionsEspesifiques(Peça peça = null);
     public abstract Connexio[] ConnexioinsPossibles(Peça peça = null);
     public bool TeConnexionsNules(Peça peça) => ConnexionsNules(peça).Length > 0;
 
@@ -27,27 +27,33 @@ public class TileSet
     {
         tiles = new TilesPossibles[0];
         connexionsNules = new Connexio[0];
-        connexioEspesifica = new ConnexioEspesifica(new List<Estat>(), new List<Connexio>());
+        connexionsEspesifiques = new ConnexioEspesifica[0];
+        //connexionsEspesifiques = new ConnexioEspesifica(new List<Estat>(), new List<Connexio>());
         return this;
     }
 
-    [PropertyOrder(1), TableList(ShowPaging = true), BoxGroup("Tiles", centerLabel: true), SerializeField] 
+
+    [PropertyOrder(1), TableList(AlwaysExpanded = true, HideToolbar = true, MinScrollViewHeight = 700), BoxGroup("Tiles", centerLabel: true), SerializeField, ] 
     TilesPossibles[] tiles;
 
     [PropertyOrder(3), BoxGroup("Connexions", centerLabel: true), BoxGroup("Connexions/Nules", centerLabel: true), AssetSelector(Paths = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats")]
     [SerializeField] Connexio[] connexionsNules;
 
     [PropertyOrder(4), BoxGroup("Connexions/Especifiques", centerLabel: true)]
-    [SerializeField] ConnexioEspesifica connexioEspesifica;
+    [SerializeField] ConnexioEspesifica[] connexionsEspesifiques;
 
 
     [Space(20)]
-    [ReadOnly]
+    [ReadOnly, PropertySpace(0, 30)]
     [PropertyOrder(5), SerializeField] Connexio[] connexionsPossibles;
 
     public TilesPossibles[] Tiles { get => tiles; set => tiles = value; }
+
+    [LabelText("Nules")]
     public Connexio[] ConnexionsNules { get => connexionsNules; set => connexionsNules = value; }
-    public ConnexioEspesifica ConnexioEspesifica { get => connexioEspesifica; set => connexioEspesifica = value; }
+
+    [LabelText("Expesifiques")]
+    public ConnexioEspesifica[] ConnexionsEspesifiques { get => connexionsEspesifiques; set => connexionsEspesifiques = value; }
     public Connexio[] ConnexionsPossibles => connexionsPossibles;
 
     //INTERN
@@ -80,14 +86,14 @@ public class TileSet
             {
                 if (tiles[i].pes < pes || i == tiles.Count - 1)
                 {
-                    tiles.Insert(i, new TilesPossibles(tile, pes));
+                    tiles.Insert(i, new TilesPossibles(tile, pes, Organitzar));
                     break;
                 }
             }
         }
         else
         {
-            tiles.Add(new TilesPossibles(tile, pes));
+            tiles.Add(new TilesPossibles(tile, pes, Organitzar));
         }
 
         this.tiles = tiles.ToArray();
@@ -106,8 +112,15 @@ public class TileSet
 
         connexionsPossibles = tmpConnexions.ToArray();
     }
+    public void SetOrdenar()
+    {
+        for (int i = 0; i < Tiles.Length; i++)
+        {
+            Tiles[i].AddOrdear(Organitzar);
+        }
+    }
 
-    [PropertyOrder(2), Button("Ordenar")]
+    [PropertyOrder(2), BoxGroup("Tiles", centerLabel: true), Button("Ordenar")]
     void Organitzar()
     {
         List<TilesPossibles> tiles = new List<TilesPossibles>(this.tiles);
@@ -122,23 +135,26 @@ public class TileSet
 [System.Serializable]
 public struct TilesPossibles
 {
-    public TilesPossibles(Tile tile, int pes)
+    public TilesPossibles(Tile tile, int pes, System.Action ordenar)
     {
         this.tile = tile;
         this.pes = pes;
+        onPesChanged = ordenar;
     }
+    public void AddOrdear(System.Action ordenar) => onPesChanged = ordenar;
 
     //[PreviewField(Height = 20)]
 
     public Tile tile;
 
-    [TableColumnWidth(200, Resizable = false)]
-    [Range(0,10)]public int pes;
+    [PropertyRange(0, 10), OnValueChanged("@onPesChanged?.Invoke()"), TableColumnWidth(200, Resizable = false)]
+    public int pes;
 
 
     [TableColumnWidth(56, resizable: false),ShowInInspector,PreviewField,PropertyOrder(-1)]
     Object Prefab => tile?.Prefab;
 
+    System.Action onPesChanged;
 }
 
 [System.Serializable]
@@ -149,6 +165,23 @@ public class ConnexioEspesifica
         this.subestats = estats;
         this.connexions = connexions.ToArray();
     }
+    [HorizontalGroup]
     public List<Estat> subestats;
+
+    [HorizontalGroup]
+
     public Connexio[] connexions;
+
+    IEnumerable Estats() 
+    {
+        return UnityEditor.AssetDatabase.FindAssets("t:Estat")
+    .Select(x => UnityEditor.AssetDatabase.GUIDToAssetPath(x))
+    .Select(x => new ValueDropdownItem(x, UnityEditor.AssetDatabase.LoadAssetAtPath<ScriptableObject>(x)));
+    }
+    IEnumerable Connexions()
+    {
+        return UnityEditor.AssetDatabase.FindAssets("t:Connexio")
+  .Select(x => UnityEditor.AssetDatabase.GUIDToAssetPath(x))
+  .Select(x => new ValueDropdownItem(x, UnityEditor.AssetDatabase.LoadAssetAtPath<ScriptableObject>(x)));
+    }
 }

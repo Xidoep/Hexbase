@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/TileSet/Condicional")]
 public class TileSet_Condicional : TileSetBase
@@ -9,13 +10,13 @@ public class TileSet_Condicional : TileSetBase
     {
         condicions = new Condicio[0];
     }
-    [SerializeField] Condicio[] condicions;
+    [SerializeField, HorizontalGroup] Condicio[] condicions;
 
     Condicio coincidida;
 
     public override TilesPossibles[] Tiles(Peça peça) => Coincidencia(peça).TileSet.Tiles;
     public override Connexio[] ConnexionsNules(Peça peça) => Coincidencia(peça).TileSet.ConnexionsNules;
-    public override ConnexioEspesifica ConnexionsEspesifica(Peça peça) => Coincidencia(peça).TileSet.ConnexioEspesifica;
+    public override ConnexioEspesifica[] ConnexionsEspesifiques(Peça peça) => Coincidencia(peça).TileSet.ConnexionsEspesifiques;
     public override Connexio[] ConnexioinsPossibles(Peça peça = null) => Coincidencia(peça).TileSet.ConnexionsPossibles;
 
     public Condicio[] Condicions { get => condicions; set => condicions = value; }
@@ -43,27 +44,43 @@ public class TileSet_Condicional : TileSetBase
             return this;
         }
 
-        public string id;
-        [SerializeField] TileSet tileSet;
-        [Linia]
-        [SerializeField] List<Estat> subestats;
-        [SerializeField] int quantitat;
-        [SerializeField] bool mes;
-        [SerializeField] bool igual;
-        [SerializeField] bool menys;
+        string id;
+        [BoxGroup("$id", centerLabel: true), HorizontalGroup("$id/Split"), SerializeField] 
+        List<Estat> subestats;
+        [BoxGroup("$id", centerLabel: true), HorizontalGroup("$id/Split", PaddingLeft = 20), SerializeField, LabelText("$Simbols"), LabelWidth(30)] 
+        int quantitat;
+
+
+        [SerializeField] 
+        TileSet tileSet;
+
+        [HideInInspector] bool mes;
+        [HideInInspector] bool igual;
+        [HideInInspector] bool menys;
+
+        string Simbols => $"{(mes ? ">" : "")}{(menys ? "<" : "")}{(igual ? "=" : "")}";
 
         int contats;
         List<Peça> veins;
 
         public TileSet TileSet => tileSet;
 
-        public void SetCondicions(bool mes, bool igual, bool menys, int quantitat)
+        public void SetCondicions(string id, bool mes, bool igual, bool menys, int quantitat)
         {
+            this.id = id;
+            if (subestats == null) subestats = new List<Estat>();
             this.mes = mes;
             this.igual = igual;
             this.menys = menys;
             this.quantitat = quantitat;
         }
+        public void AddEstat(Estat estat) 
+        {
+            if (subestats == null) subestats = new List<Estat>();
+            subestats.Add(estat);
+
+
+        } 
 
         public bool Comprovar(Peça peça)
         {
@@ -100,6 +117,7 @@ public class TileSet_Condicional : TileSetBase
         for (int i = 0; i < condicions.Length; i++)
         {
             condicions[i].TileSet.SetConnexionsPossibles();
+            condicions[i].TileSet.SetOrdenar();
         }
     }
 

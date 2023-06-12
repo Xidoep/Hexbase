@@ -59,7 +59,7 @@ public class TilesetUnpack : ScriptableObject
 
 
 
-    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies)
+    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls)
     {
         //subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
         this.subobjects = subobjects;
@@ -121,7 +121,7 @@ public class TilesetUnpack : ScriptableObject
             AssignarAEstat(root);
         }
 
-        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies);
+        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls);
 
     }
 
@@ -211,39 +211,46 @@ public class TilesetUnpack : ScriptableObject
         if (!EsCondicio(index, root))
             return;
 
-        condicional.Condicions[condicio - 1].id = InfoNom(index, root);
         nomEstats = InfoEstats(index, root);
         igualacio = new string[0];
         for (int i = 0; i < nomEstats.Length; i++)
         {
+            Debug.Log($"No Estat = {nomEstats[i]}");
             if(i == nomEstats.Length - 1)
             {
                 if (nomEstats[i].Contains(">="))
                 {
                     igualacio = nomEstats[i].Split(">=");
-                    condicional.Condicions[condicio - 1].SetCondicions(false, true, true, int.Parse(igualacio[1]));
+                    condicional.Condicions[condicio - 1].SetCondicions(InfoNom(index, root), false, true, true, int.Parse(igualacio[1]));
                 }
                 else if (nomEstats[i].Contains("<="))
                 {
                     igualacio = nomEstats[i].Split("<=");
-                    condicional.Condicions[condicio - 1].SetCondicions(false, true, true, int.Parse(igualacio[1]));
+                    condicional.Condicions[condicio - 1].SetCondicions(InfoNom(index, root), false, true, true, int.Parse(igualacio[1]));
                 }
                 else if (nomEstats[i].Contains('>')) 
                 {
                     igualacio = nomEstats[i].Split('>');
-                    condicional.Condicions[condicio - 1].SetCondicions(true, false, false, int.Parse(igualacio[1]));
+                    condicional.Condicions[condicio - 1].SetCondicions(InfoNom(index, root), true, false, false, int.Parse(igualacio[1]));
                 }
                 else if (nomEstats[i].Contains('<'))
                 {
                     igualacio = nomEstats[i].Split('<');
-                    condicional.Condicions[condicio - 1].SetCondicions(false, false, true, int.Parse(igualacio[1]));
+                    condicional.Condicions[condicio - 1].SetCondicions(InfoNom(index, root), false, false, true, int.Parse(igualacio[1]));
                 }
                 else if (nomEstats[i].Contains('='))
                 {
                     igualacio = nomEstats[i].Split('=');
-                    condicional.Condicions[condicio - 1].SetCondicions(false, true, false, int.Parse(igualacio[1]));
+                    condicional.Condicions[condicio - 1].SetCondicions(InfoNom(index, root), false, true, false, int.Parse(igualacio[1]));
                 }
                 nomEstats[i] = igualacio[0];
+
+            }
+
+            Estat trobat = referencies.GetEstat(nomEstats[i].ToUpper());
+            if (trobat != null)
+            {
+                condicional.Condicions[condicio - 1].AddEstat(trobat);
             }
         }
 
@@ -295,8 +302,13 @@ public class TilesetUnpack : ScriptableObject
 
     void Especifiques(int index, string root, int condicio = 0)
     {
+
         if (!EsEspecifiques(index, root, tipus == Tipus.Condicional))
+        {
+            Debug.Log($"{subobjects[index].name} - No es especifiques");
             return;
+        }
+        Debug.Log($"{subobjects[index].name} - !s especifiques!");
 
         if (!HiHaInfo(index, root, tipus == Tipus.Condicional))
             return;
@@ -305,7 +317,7 @@ public class TilesetUnpack : ScriptableObject
         estats = new List<Estat>();
         for (int i = 0; i < nomEstats.Length; i++)
         {
-            Estat trobat = referencies.GetEstat(nomEstats[i]);
+            Estat trobat = referencies.GetEstat(nomEstats[i].ToUpper());
             if(trobat != null)
                 estats.Add(trobat);
         }
@@ -327,14 +339,26 @@ public class TilesetUnpack : ScriptableObject
         switch (tipus)
         {
             case Tipus.Simple:
-                simple.TileSet.ConnexioEspesifica = new ConnexioEspesifica(estats, connexions);
+                if (simple.TileSet.ConnexionsEspesifiques == null) simple.TileSet.ConnexionsEspesifiques = new ConnexioEspesifica[0];
+                List<ConnexioEspesifica> connexionsEspesifiques = new List<ConnexioEspesifica>(simple.TileSet.ConnexionsEspesifiques);
+                connexionsEspesifiques.Add(new ConnexioEspesifica(estats, connexions));
+                simple.TileSet.ConnexionsEspesifiques = connexionsEspesifiques.ToArray();
                 break;
             case Tipus.Ocupable:
-                ocupable.TileSetLliure.ConnexioEspesifica = new ConnexioEspesifica(estats, connexions);
-                ocupable.TileSetOcupat.ConnexioEspesifica = new ConnexioEspesifica(estats, connexions);
+                if (ocupable.TileSetLliure.ConnexionsEspesifiques == null) simple.TileSet.ConnexionsEspesifiques = new ConnexioEspesifica[0];
+                List<ConnexioEspesifica> connexionsEspesifiquesLLiure = new List<ConnexioEspesifica>(ocupable.TileSetLliure.ConnexionsEspesifiques);
+                connexionsEspesifiquesLLiure.Add(new ConnexioEspesifica(estats, connexions));
+                ocupable.TileSetLliure.ConnexionsEspesifiques = connexionsEspesifiquesLLiure.ToArray();
+
+                if (ocupable.TileSetOcupat.ConnexionsEspesifiques == null) simple.TileSet.ConnexionsEspesifiques = new ConnexioEspesifica[0];
+                List<ConnexioEspesifica> connexionsEspesifiquesOcupat = new List<ConnexioEspesifica>(ocupable.TileSetOcupat.ConnexionsEspesifiques);
+                connexionsEspesifiquesOcupat.Add(new ConnexioEspesifica(estats, connexions));
+                ocupable.TileSetOcupat.ConnexionsEspesifiques = connexionsEspesifiquesOcupat.ToArray();
                 break;
             case Tipus.Condicional:
-                condicional.Condicions[condicio-1].TileSet.ConnexioEspesifica = new ConnexioEspesifica(estats, connexions);
+                List<ConnexioEspesifica> connexionsEspesifiquesCondicional = new List<ConnexioEspesifica>(condicional.Condicions[condicio-1].TileSet.ConnexionsEspesifiques);
+                connexionsEspesifiquesCondicional.Add(new ConnexioEspesifica(estats, connexions));
+                condicional.Condicions[condicio-1].TileSet.ConnexionsEspesifiques = connexionsEspesifiquesCondicional.ToArray();
                 break;
         }
 
