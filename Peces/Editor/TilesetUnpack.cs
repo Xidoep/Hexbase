@@ -116,10 +116,13 @@ public class TilesetUnpack : ScriptableObject
             Nules(i, root, indexCondicio);
             Especifiques(i, root, indexCondicio);
 
-            CrearAsset(root);
+            //CrearAsset(root);
 
-            AssignarAEstat(root);
+            //AssignarAEstat(root);
         }
+
+        CrearAsset(root);
+        AssignarAEstat(root);
 
         tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls);
 
@@ -372,12 +375,16 @@ public class TilesetUnpack : ScriptableObject
 
     void CrearAsset(string root)
     {
+        
         if (!tilesetCreat)
             return;
-
+        
         if (AssetDatabase.LoadAssetAtPath($"{Path_Folder(root)}/{root}.asset", typeof(Object)) != null)
+        {
+            //AssetDatabase.DeleteAsset($"{Path_Folder(root)}/{root}.asset");
             return;
-
+        }
+        
         switch (tipus)
         {
             case Tipus.Simple:
@@ -396,7 +403,7 @@ public class TilesetUnpack : ScriptableObject
 
 
 
-        Debug.LogError("FALTA: Agregar tiles connectables i guardar tots els tiles possibles en algun lloc");
+        //Debug.LogError("FALTA: Agregar tiles connectables i guardar tots els tiles possibles en algun lloc");
     }
 
 

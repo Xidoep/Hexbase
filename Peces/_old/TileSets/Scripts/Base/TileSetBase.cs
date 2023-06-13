@@ -42,10 +42,7 @@ public class TileSet
     [PropertyOrder(4), BoxGroup("Connexions/Especifiques", centerLabel: true)]
     [SerializeField] ConnexioEspesifica[] connexionsEspesifiques;
 
-
-    [Space(20)]
-    [ReadOnly, PropertySpace(0, 30)]
-    [PropertyOrder(5), SerializeField] Connexio[] connexionsPossibles;
+    [SerializeField, HideInInspector] Connexio[] connexionsPossibles;
 
     public TilesPossibles[] Tiles { get => tiles; set => tiles = value; }
 

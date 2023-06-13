@@ -19,7 +19,7 @@ public class TileSet_Condicional : TileSetBase
     public override ConnexioEspesifica[] ConnexionsEspesifiques(Peça peça) => Coincidencia(peça).TileSet.ConnexionsEspesifiques;
     public override Connexio[] ConnexioinsPossibles(Peça peça = null) => Coincidencia(peça).TileSet.ConnexionsPossibles;
 
-    public Condicio[] Condicions { get => condicions; set => condicions = value; }
+    [ListDrawerSettings(DraggableItems = false, HideAddButton = true, HideRemoveButton = true)] public Condicio[] Condicions { get => condicions; set => condicions = value; }
 
     Condicio Coincidencia(Peça peça)
     {
@@ -44,7 +44,7 @@ public class TileSet_Condicional : TileSetBase
             return this;
         }
 
-        string id;
+        [SerializeField, HideInInspector]string id;
         [BoxGroup("$id", centerLabel: true), HorizontalGroup("$id/Split"), SerializeField] 
         List<Estat> subestats;
         [BoxGroup("$id", centerLabel: true), HorizontalGroup("$id/Split", PaddingLeft = 20), SerializeField, LabelText("$Simbols"), LabelWidth(30)] 

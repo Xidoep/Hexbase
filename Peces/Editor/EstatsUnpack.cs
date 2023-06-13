@@ -153,7 +153,6 @@ public class EstatsUnpack : ScriptableObject
 
     }
 
-
     private void CrearReceptes(Confirmacio[] confirmacions)
     {
         lastNameFounded = "";
@@ -191,7 +190,7 @@ public class EstatsUnpack : ScriptableObject
                 {
                     viable = false;
                     Debug.LogError($"Recepta[{i+1}] NO es pot COMPLETAR! - Inputs => {Input(input)} que no s'ha importat!!!");
-                    continue;
+                    break;
                 }
                 inputs.Add(referencies.GetEstat(Input(input)));
             }
@@ -573,7 +572,7 @@ public class EstatsUnpack : ScriptableObject
         [SerializeField, VerticalGroup("T"), TableColumnWidth(23, resizable: false), LabelText("")]
         bool tiles;
 
-        [DisableIf("@!this.estat && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), VerticalGroup("Import"), PropertyOrder(-1)]
+        [VerticalGroup("Import"), DisableIf("@!this.estat && !this.recepta && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), PropertyOrder(-1)]
         public void Importar() => importar?.Invoke(new Confirmacio[] { this });
 
         System.Action<Confirmacio[]> importar;
@@ -583,7 +582,7 @@ public class EstatsUnpack : ScriptableObject
         public Referencies SetReferencies { set => referencies = value; }
 
 
-        [SerializeField, TableColumnWidth(30, resizable: false), Button(Icon = SdfIconType.FolderMinus), VerticalGroup("Del"), GUIColor(1, .75f, .75f)]
+        [VerticalGroup("Del"), SerializeField, TableColumnWidth(30, resizable: false), Button(Icon = SdfIconType.FolderMinus), GUIColor(1, .75f, .75f)]
         void Destroy()
         {
             int opcio = EditorUtility.DisplayDialogComplex("BORRAr", "Vols borrar l'estat, el tilset i tots els tiles d'aquest Estat?\nAixo només s'hauria de fer amb previsió de Reimportar-ho tot de nou.\nPensa que molt provablament s'hauran de reimportar la resta d'estat per estar segur que no hi ha referencies de tiles o estats de receptes perduts.", "BORRAR", "NOOO!!!", "BORRAR I RE-IMPORTAR");

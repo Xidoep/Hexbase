@@ -50,8 +50,8 @@ MonoBehaviour:
       pes: 4
     - tile: {fileID: 11400000, guid: 6d642e2dd19c3174bb436ab7d6308079, type: 2}
       pes: 4
-    - tile: {fileID: 11400000, guid: d1741774fca48264da4188b2d5c21bd9, type: 2}
-      pes: 4
+    - tile: {fileID: 11400000, guid: c0b762507418fe44f9c8c85c2b1cda35, type: 2}
+      pes: 3
     - tile: {fileID: 11400000, guid: 586575588c963a046b4da4b8d6e5a608, type: 2}
       pes: 3
     - tile: {fileID: 11400000, guid: fcf6ee27469d66348988125b3036902c, type: 2}
@@ -72,11 +72,24 @@ MonoBehaviour:
       pes: 2
     - tile: {fileID: 11400000, guid: f048eb55199364d41a16c70d577fe13f, type: 2}
       pes: 2
-    - tile: {fileID: 11400000, guid: c0b762507418fe44f9c8c85c2b1cda35, type: 2}
-      pes: 3
+    - tile: {fileID: 11400000, guid: d1741774fca48264da4188b2d5c21bd9, type: 2}
+      pes: 4
     connexionsNules:
     - {fileID: 11400000, guid: 2379637604671c1419aa2db361ded9ff, type: 2}
     - {fileID: 11400000, guid: cc0a3a760821e624184ab2aeb9d18be3, type: 2}
     - {fileID: 11400000, guid: b47de78777bf05f4f9e7785cd2a94ba4, type: 2}
-    connexionsEspesifiques: []
+    connexionsEspesifiques:
+    - subestats:
+      - {fileID: 11400000, guid: 6e88ce30dab751c47af1d02ef8e1e787, type: 2}
+      connexions:
+      - {fileID: 11400000, guid: eefab23eb160dd242abf9b2ca2efeeb5, type: 2}
+      - {fileID: 11400000, guid: 7d896ac0cf610bd4ba442f581c16b799, type: 2}
+      - {fileID: 11400000, guid: 50f958127f800164eb7728cf5097aa19, type: 2}
+      - {fileID: 11400000, guid: 9d84b6a3ea4bd4c4fbb3d6ba6294419a, type: 2}
+    - subestats:
+      - {fileID: 11400000, guid: 7f34683d8299201489b848423412d88d, type: 2}
+      connexions:
+      - {fileID: 11400000, guid: f961270a62af03e40ba62bb8404ef4cd, type: 2}
+      - {fileID: 11400000, guid: b47de78777bf05f4f9e7785cd2a94ba4, type: 2}
+      - {fileID: 11400000, guid: cc0a3a760821e624184ab2aeb9d18be3, type: 2}
     connexionsPossibles: []

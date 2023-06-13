@@ -18,7 +18,6 @@ public class EstatsInspector : OdinMenuEditorWindow
     {
         var tree = new OdinMenuTree();
         tree.Config.AutoFocusSearchBar = true;
-
         tree.AddAllAssetsAtPath("Estats", "Assets/XidoStudio/Hexbase/Peces/Estats", typeof(Estat));
 
         return tree;

@@ -44,6 +44,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [Apartat("PRDUCTES")]
     [SerializeField] ProducteExtret[] productesExtrets;
 
+    [SerializeField] public System.Action enCrearDetalls;
+
 
     //INTERN
     TilePotencial[] tiles;
@@ -158,12 +160,15 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
                 Destroy(tiles[i].TileFisic);
             }
 
+            enCrearDetalls = null;
+
             tiles[i].Crear();
         }
         CrearDetalls();
     }
     public void CrearDetalls()
     {
+        enCrearDetalls?.Invoke();
         for (int i = 0; i < tiles.Length; i++)
         {
             tiles[i].Detalls(subestat.Detalls);

@@ -196,6 +196,8 @@ public class TilesUnpack : ScriptableObject
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
     bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"{PREFAB}-{root}");
+    bool TeComponents(int i) => subobjects[i].name.Contains('@');
+    string[] Components(int i) => subobjects[i].name.Split('@')[1].Split(',');
     /*bool EsPrefab(int i, string root) 
     {
         Debug.Log($"EsPrefab({PREFAB}-{root})? {subobjects[i].name.StartsWith($"{PREFAB}-{root}")}");
@@ -208,7 +210,18 @@ public class TilesUnpack : ScriptableObject
         AssetDatabase.DeleteAsset(subobjects[i].name.Substring(5));
 
         intance = (GameObject)Instantiate(subobjects[i]);
-        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_Detall(subobjects[i].name.Substring(5)));
+        
+
+        if (TeComponents(i))
+        {
+            intance.name = intance.name.Split('@')[0];
+            for (int c = 0; c < Components(i).Length; c++)
+            {
+                if (Components(i)[c] == "Pis") intance.AddComponent<Detall_Pis>();
+            }
+        }
+
+        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_Detall(!TeComponents(i) ? subobjects[i].name.Substring(5) : subobjects[i].name.Substring(5).Split('@')[0]));
 
         DestroyImmediate(intance);
     }
@@ -351,25 +364,33 @@ public class TilesUnpack : ScriptableObject
                 continue;
 
             detall = (GameObject)PrefabUtility.InstantiatePrefab(referencies.GetDetall(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)), intance.transform);
-            //detall = Instantiate(referencies.GetDetall(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)), intance.transform);
-
             detall.transform.Copiar(intance.transform.GetChild(i));
+
             intance.transform.GetChild(i).gameObject.SetActive(false);
-            //DestroyImmediate(intance.transform.GetChild(i).gameObject);
+
+            if (!intance.transform.GetChild(i).name.Contains('@'))
+                continue;
+
+            string component = intance.transform.GetChild(i).name.Split('@')[1];
+            string nom = "";
+            string[] arguments = new string[0];
+            if (component.Contains(':'))
+            {
+                nom = component.Split(':')[0];
+                if (component.Split(':')[1].Contains(','))
+                    arguments = component.Split(':')[1].Split(',');
+                else arguments = new string[] { component.Split(':')[1] };
+            }
+
+
+            if(nom == "Pis") detall.GetComponent<Detall_Pis>().Setup(arguments);
+
         }
-
-        //Debug.LogError("FALTA: Canviar els props trobats pel prefab del mateix nom");
-
 
         if(invertit)
             intance.transform.localScale = new Vector3(-1, 1, 1);
 
-        //Debug.Log("Potser aqui es podrien afegir els efectes i elements extres i logiques");
-
-        //AssetDatabase.CreateAsset(intance, Path_AssetPrefab(root));
         prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_PrefabTile(root));
-        //prefab = PrefabUtility.SaveAsPrefabAsset(intance, $"{outputPath}/{root}/Prefab/{nom}.asset".Replace("/",@"\"));
-        //prefab = PrefabUtility.SaveAsPrefabAsset(intance, $"Assets/XidoStudio/Hexbase/Peces/Tiles/Proves/{nom}.asset");
         DestroyImmediate(intance);
     }
     void CrearConnexions(string root)
