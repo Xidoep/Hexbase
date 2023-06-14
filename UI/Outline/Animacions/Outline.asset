@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transicio: 0
   temps: 0.25
+  delay: 0
   animacions:
   - rid: 2210365066426974217
   - rid: 2210365066426974216
@@ -49,7 +50,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         propietat: _Seleccionat
-        inici: 1.3
+        inici: 1.5580952
         final: 0
         dinamic: 1
     - rid: 2210365066426974217
@@ -106,6 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transicio: 0
   temps: 0.5
+  delay: 0
   animacions:
   - rid: 2210365066426974218
   - rid: 2210365066426974219
@@ -263,9 +265,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transicio: 0
   temps: 0.5
+  delay: 0
   animacions:
   - rid: 2210365066426974213
   - rid: 2210365066426974214
+  - rid: 2895901745987190786
   references:
     version: 2
     RefIds:
@@ -359,6 +363,12 @@ MonoBehaviour:
         inici: -0.1
         final: 1.3
         dinamic: 0
+    - rid: 2895901745987190786
+      type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
+      data:
+        so: {fileID: 11400000, guid: b62daf6c64bd0e2409c3481bb495b35e, type: 2}
+        aPosicio: 0
+        delay: 0
 --- !u!114 &8561170088426074019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,6 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transicio: 1
   temps: 1
+  delay: 0
   animacions:
   - rid: 3071613421733281798
   references:

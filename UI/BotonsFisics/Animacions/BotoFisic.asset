@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transicio: 0
   temps: 1
+  delay: 0
   animacions:
   - rid: 2210365066426974211
   - rid: 2210365066426974212
@@ -23,7 +24,6 @@ MonoBehaviour:
     - rid: 2210365066426974211
       type: {class: Animacio_Posicio, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Posicio
         corba:
           serializedVersion: 2
           m_Curve:
@@ -125,7 +125,7 @@ MonoBehaviour:
   onEnabled: {fileID: 11400000, guid: 0c0f849a426605b4997163aa275830d9, type: 2}
   idle: {fileID: 0}
   onPointerEnter: {fileID: 5829880824134643203}
-  apuntat: {fileID: 0}
+  apuntat: {fileID: 5829880824134643203}
   onPointerDown: {fileID: 0}
   onPointerUp: {fileID: -1691327113718484722}
   onPointerExit: {fileID: 0}
@@ -144,24 +144,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transicio: 0
   temps: 1
+  delay: 0
   animacions:
-  - rid: 3071613421733281799
   - rid: 7861626019761618950
   - rid: 7861626019761618951
   references:
     version: 2
     RefIds:
-    - rid: 3071613421733281799
-      type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
-      data:
-        nom: So
-        so: {fileID: 11400000, guid: b62daf6c64bd0e2409c3481bb495b35e, type: 2}
-        aPosicio: 0
-        delay: 0
     - rid: 7861626019761618950
       type: {class: Animacio_Posicio, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Posicio
         corba:
           serializedVersion: 2
           m_Curve:
