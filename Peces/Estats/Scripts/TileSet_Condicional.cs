@@ -90,7 +90,15 @@ public class TileSet_Condicional : TileSetBase
             {
                 if (subestats.Contains(veins[i].Subestat)) contats++;
             }
-            if (igual && !mes && !menys)
+
+            if ((igual && !mes && !menys) && contats == quantitat) return true;
+            else if((!igual && mes && !menys) && contats > quantitat) return true;
+            else if((!igual && !mes && menys) && contats < quantitat) return true;
+            else if((igual && mes && !menys) && contats >= quantitat) return true;
+            else if((igual && !mes && menys) && contats <= quantitat) return true;
+            else if ((igual && mes && menys)) return true;
+            else return false;
+            /*if (igual && !mes && !menys)
             {
                 if (contats == quantitat) return true;
             }
@@ -108,7 +116,7 @@ public class TileSet_Condicional : TileSetBase
             }
             else if (igual && mes && menys) return true;
 
-            return false;
+            return false;*/
         }
     }
 

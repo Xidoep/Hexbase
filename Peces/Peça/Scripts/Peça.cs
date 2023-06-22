@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
@@ -48,6 +49,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
     //INTERN
+
+
     TilePotencial[] tiles;
 
 
@@ -153,6 +156,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void CrearTilesFisics()
     {
+        enCrearDetalls = null;
         for (int i = 0; i < tiles.Length; i++)
         {
             if (tiles[i].TileFisic != null)
@@ -160,7 +164,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
                 Destroy(tiles[i].TileFisic);
             }
 
-            enCrearDetalls = null;
 
             tiles[i].Crear();
         }
@@ -263,8 +266,22 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
+    [ShowInInspector] List<string> DebugPossibilitats0 => DebugGetNomsPossibilitats(0);
+    [ShowInInspector] List<string> DebugPossibilitats1 => DebugGetNomsPossibilitats(1);
+    [ShowInInspector] List<string> DebugPossibilitats2 => DebugGetNomsPossibilitats(2);
+    [ShowInInspector] List<string> DebugPossibilitats3 => DebugGetNomsPossibilitats(3);
+    [ShowInInspector] List<string> DebugPossibilitats4 => DebugGetNomsPossibilitats(4);
+    [ShowInInspector] List<string> DebugPossibilitats5 => DebugGetNomsPossibilitats(5);
 
-
+    List<string> DebugGetNomsPossibilitats(int index)
+    {
+        List<string> tmp = new List<string>();
+        for (int p = 0; p < tiles[index].PossibilitatsVirtuals.Count; p++)
+        {
+            tmp.Add(tiles[index].PossibilitatsVirtuals.Get(p).Tile.name);
+        }
+        return tmp;
+    }
 }
 
 

@@ -1,65 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XS_Utils;
 using Sirenix.OdinInspector;
 
 public class Detall_Pis : Detall
 {
     public override void Setup(string[] orientacio)
     {
-        if (orientacio[0] == "Ext") this.orientacio = 0;
-        else if (orientacio[0] == "Esq") this.orientacio = 1;
-        else if (orientacio[0] == "Dre") this.orientacio = 2;
+        if (orientacio[0] == "Ext") this.orientacioCasa = 0;
+        else if (orientacio[0] == "Esq") this.orientacioCasa = 1;
+        else if (orientacio[0] == "Dre") this.orientacioCasa = 2;
     }
 
-    [SerializeField] public int orientacio = -1;
+    [SerializeField] public int orientacioCasa = -1;
     [SerializeField] public int orientacioFisica = -1;
+    [SerializeField] public int altura;
+    [SerializeField, ReadOnly] GameObject[] pisos;
+    [SerializeField, ReadOnly] GameObject[] sostres;
 
-    [ShowInInspector]
-    public int OrientacioFinal
+    public void SetAltura(int altura, TilePotencial tile)
     {
-        get
+        this.altura = altura;
+        if (tile.Veins[0] != null && tile.Veins[0].Peça.TeCasa)
+            this.altura = Mathf.Min(this.altura, tile.Veins[0].Peça.CasesLength);
+
+        if (tile.Veins[1].TileFisic.TryGetComponent(out Detall_Pis pisD))
+            this.altura = Mathf.Min(this.altura, pisD.altura);
+        
+        if (tile.Veins[2].TileFisic.TryGetComponent(out Detall_Pis pisE))
+            this.altura = Mathf.Min(this.altura, pisE.altura);
+        
+    }
+    public void Crear(int altura, TilePotencial tile)
+    {
+        this.altura = altura;
+        for (int i = 0; i < this.altura; i++)
         {
-            switch (orientacioFisica * 10 + orientacio)
-            {
-                case 0:
-                    return 0;
-                case 1:
-                    return 2;
-                case 2:
-                    return 1;
-                case 10:
-                    return 2;
-                case 11:
-                    return 1;
-                case 12:
-                    return 0;
-                case 20:
-                    return 1;
-                case 21:
-                    return 0;
-                case 22:
-                    return 2;
-                default:
-                    return -1;
-            }
+            Instantiate(i < this.altura - 1 ? pisos[Random.Range(0, pisos.Length)] : sostres[Random.Range(0, sostres.Length)], 
+                transform.position + Vector3.up * 0.25f * (i + 1), 
+                transform.rotation, 
+                transform
+                );
         }
     }
 
-    public void Crear(int pisos, TilePotencial tile)
+    private void OnValidate()
     {
-        Debug.Log($"Crear {pisos} pisos en orientacio {OrientacioFinal}, al tile {tile.TileFisic.name}");
-        switch (OrientacioFinal)
+        bool zeroD = XS_Editor.LoadAssetAtPath<GameObject>($"Assets/XidoStudio/Hexbase/Peces/Detalls/{gameObject.name.Substring(0, gameObject.name.Length - 2)}0D.prefab") != null;
+        pisos = new GameObject[]
         {
-            case 0:
-                Debug.Log($"En teoria hi ha una casa a {tile.Veins[OrientacioFinal].TileFisic.name} orientada cap a 0: {tile.Veins[OrientacioFinal].Veins[0].TileFisic.name} soc jo?");
-                break;
-            case 1:
-                Debug.Log($"En teoria hi ha una casa a {tile.Veins[OrientacioFinal].TileFisic.name} orientada cap a 2: {tile.Veins[OrientacioFinal].Veins[2].TileFisic.name} soc jo?");
-                break;
-            case 2:
-                Debug.Log($"En teoria hi ha una casa a {tile.Veins[OrientacioFinal].TileFisic.name} orientada cap a 1: {tile.Veins[OrientacioFinal].Veins[1].TileFisic.name} soc jo?");
-                break;
-        }
+            XS_Editor.LoadAssetAtPath<GameObject>($"Assets/XidoStudio/Hexbase/Peces/Detalls/{gameObject.name.Substring(0,gameObject.name.Length - 2)}{(zeroD ? "0" : "1")}D.prefab"),
+            XS_Editor.LoadAssetAtPath<GameObject>($"Assets/XidoStudio/Hexbase/Peces/Detalls/{gameObject.name.Substring(0,gameObject.name.Length - 2)}{(zeroD ? "1" : "2")}D.prefab"),
+            XS_Editor.LoadAssetAtPath<GameObject>($"Assets/XidoStudio/Hexbase/Peces/Detalls/{gameObject.name.Substring(0,gameObject.name.Length - 2)}{(zeroD ? "2" : "3")}D.prefab"),
+        };
+        sostres = new GameObject[]
+        {
+            XS_Editor.LoadAssetAtPath<GameObject>($"Assets/XidoStudio/Hexbase/Peces/Detalls/{gameObject.name.Substring(0,gameObject.name.Length - 2)}SostreD.prefab"),
+        };
     }
 }

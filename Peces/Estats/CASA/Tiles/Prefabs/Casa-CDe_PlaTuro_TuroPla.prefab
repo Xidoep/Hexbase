@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3022273065464201132
+--- !u!1 &5979482822730403536
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3709001280793696633}
-  - component: {fileID: 2762236502489149455}
-  - component: {fileID: 4022248412624229516}
+  - component: {fileID: 4085771801354675330}
+  - component: {fileID: 6656523807669125040}
+  - component: {fileID: 505993038105159722}
+  - component: {fileID: 8990671751831317207}
   m_Layer: 0
   m_Name: Casa-CDe_PlaTuro_TuroPla
   m_TagString: Untagged
@@ -18,38 +19,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3709001280793696633
+--- !u!4 &4085771801354675330
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022273065464201132}
+  m_GameObject: {fileID: 5979482822730403536}
   m_LocalRotation: {x: -1.0588878e-14, y: 1, z: -0.00000014106499, w: -0.0000000754979}
   m_LocalPosition: {x: -18, y: 2.0387285e-13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8994998317279883437}
-  - {fileID: 7570650739244336921}
+  - {fileID: 924723033419967099}
+  - {fileID: 7421450901733829789}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2762236502489149455
+--- !u!33 &6656523807669125040
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022273065464201132}
+  m_GameObject: {fileID: 5979482822730403536}
   m_Mesh: {fileID: -7833776774912644279, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &4022248412624229516
+--- !u!23 &505993038105159722
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022273065464201132}
+  m_GameObject: {fileID: 5979482822730403536}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -86,7 +87,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &6159655721262729046
+--- !u!114 &8990671751831317207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5979482822730403536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2821147d1a3f27e4b94f8b09ecfbbc4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "pe\xE7a": {fileID: 0}
+  pisos:
+  - {fileID: 4608533298835967181}
+  indexTile: -1
+  altures: 
+--- !u!1 &7378091649325678016
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,9 +112,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8994998317279883437}
-  - component: {fileID: 7975918970481244540}
-  - component: {fileID: 8746655641026832943}
+  - component: {fileID: 924723033419967099}
+  - component: {fileID: 6145110342443949337}
+  - component: {fileID: 8986203161582176373}
   m_Layer: 0
   m_Name: prop_Casa2D.004
   m_TagString: Untagged
@@ -104,36 +122,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &8994998317279883437
+--- !u!4 &924723033419967099
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6159655721262729046}
+  m_GameObject: {fileID: 7378091649325678016}
   m_LocalRotation: {x: -0.000000026692573, y: 0.7071066, z: 0.00000002669256, w: 0.70710695}
   m_LocalPosition: {x: -0.6000004, y: -0.00000014645138, z: 0.866025}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3709001280793696633}
+  m_Father: {fileID: 4085771801354675330}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7975918970481244540
+--- !u!33 &6145110342443949337
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6159655721262729046}
+  m_GameObject: {fileID: 7378091649325678016}
   m_Mesh: {fileID: 164982342358727630, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &8746655641026832943
+--- !u!23 &8986203161582176373
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6159655721262729046}
+  m_GameObject: {fileID: 7378091649325678016}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -169,13 +187,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &3041913974114734253
+--- !u!1001 &2727242242565225257
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 3709001280793696633}
+    m_TransformParent: {fileID: 4085771801354675330}
     m_Modifications:
+    - target: {fileID: 1886393346153740260, guid: a56ac97565b73334aa322ac0d727c1d5, type: 3}
+      propertyPath: orientacioCasa
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1907373797959443941, guid: a56ac97565b73334aa322ac0d727c1d5, type: 3}
       propertyPath: m_Name
       value: Casa2D
@@ -226,8 +248,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a56ac97565b73334aa322ac0d727c1d5, type: 3}
---- !u!4 &7570650739244336921 stripped
+--- !u!114 &4608533298835967181 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1886393346153740260, guid: a56ac97565b73334aa322ac0d727c1d5, type: 3}
+  m_PrefabInstance: {fileID: 2727242242565225257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a3b3d242f758b4f87e6273318b6525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &7421450901733829789 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4838930989861492660, guid: a56ac97565b73334aa322ac0d727c1d5, type: 3}
-  m_PrefabInstance: {fileID: 3041913974114734253}
+  m_PrefabInstance: {fileID: 2727242242565225257}
   m_PrefabAsset: {fileID: 0}
