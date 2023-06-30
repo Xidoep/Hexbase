@@ -50,6 +50,9 @@ public class Fase_Menu : Fase
     bool _modesMostrats;
     AnimacioPerCodi_GameObject_Referencia animacioTitol;
 
+    [SerializeField] So so;
+    [SerializeField] Music music;
+    [SerializeField] MusicControlador musicControlador;
     //OVERRIDES
     public override void FaseStart()
     {
@@ -84,6 +87,8 @@ public class Fase_Menu : Fase
             OnFinish += NetejarBotonsDelGrid;
 
         animacioTitol = titol.InstantiateReturn().GetComponent<AnimacioPerCodi_GameObject_Referencia>();
+
+        musicControlador.Play(music, 1);
     }
 
     //PUBLIQUES
@@ -207,13 +212,17 @@ public class Fase_Menu : Fase
 
     void CrearBoto(Botons boto, float temps)
     {
-        Boto tmp = (Boto)boto.Crear(Grid.Instance);
+        Boto tmp = (Boto)boto.Crear(temps);
         tmp.gameObject.SetActive(false);
         botons.Add(tmp);
 
         XS_Coroutine.StartCoroutine_Ending_FrameDependant(temps, Mostrar);
 
-        void Mostrar() => tmp.gameObject.SetActive(true);
+        void Mostrar() 
+        {
+            tmp.gameObject.SetActive(true);
+            so.PlayDelayed(so.volum.x, 0.5f + temps * 0.5f, 0.75f);
+        } 
     }
 
 
@@ -282,8 +291,13 @@ public class Fase_Menu : Fase
     {
         [SerializeField] GameObject boto;
         [SerializeField] Vector2Int coordenadaOffset;
+        //[SerializeField] So so;
 
-        public Hexagon Crear(Grid grid) => Grid.Instance.CrearBoto(Grid.Instance.Centre + coordenadaOffset, boto);
+        public Hexagon Crear(float temps) 
+        {
+            //so.PlayDelayed(so.volum.x, 1 + 0.75f + temps, temps);
+            return Grid.Instance.CrearBoto(Grid.Instance.Centre + coordenadaOffset, boto);
+        } 
     }
 
 

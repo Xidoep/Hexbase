@@ -383,7 +383,8 @@ public class TilesUnpack : ScriptableObject
             }
 
 
-            if(nom == "Pis") detall.GetComponent<Detall_Pis>().Setup(arguments);
+            if(nom == "Pis") detall.AddComponent<Detall_Pis>().Setup(arguments);
+            if(nom == "Pisos") detall.AddComponent<Detall_Pisos>().Setup(arguments);
 
         }
 

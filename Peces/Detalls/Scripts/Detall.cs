@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class Detall : MonoBehaviour
 {
-    public virtual void Setup() { }
     public virtual void Setup(string[] args) { }
 }

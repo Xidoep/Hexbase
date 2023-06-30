@@ -41,7 +41,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4322568092579265496}
-  m_Mesh: {fileID: 1806858925007320604, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
+  m_Mesh: {fileID: -1731944648999393107, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
 --- !u!23 &7094736096037556030
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -96,5 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a3b3d242f758b4f87e6273318b6525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orientacio: 0
+  orientacioCasa: -1
+  alturaInicial: 0
   orientacioFisica: -1
+  altura: 0
+  pisos:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  sostres:
+  - {fileID: 0}

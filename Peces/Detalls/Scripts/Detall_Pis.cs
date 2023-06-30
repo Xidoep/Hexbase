@@ -6,33 +6,59 @@ using Sirenix.OdinInspector;
 
 public class Detall_Pis : Detall
 {
-    public override void Setup(string[] orientacio)
+    public override void Setup(string[] arg)
     {
-        if (orientacio[0] == "Ext") this.orientacioCasa = 0;
-        else if (orientacio[0] == "Esq") this.orientacioCasa = 1;
-        else if (orientacio[0] == "Dre") this.orientacioCasa = 2;
+        if (arg[0] == "Ext") this.orientacioCasa = 0;
+        else if (arg[0] == "Dre") this.orientacioCasa = 1;
+        else if (arg[0] == "Esq") this.orientacioCasa = 2;
+
+        alturaInicial = int.Parse(arg[1]);
+
+        this.orientacioFisica = -1;
+        this.altura = 0;
     }
 
     [SerializeField] public int orientacioCasa = -1;
-    [SerializeField] public int orientacioFisica = -1;
-    [SerializeField] public int altura;
+    [SerializeField] public int alturaInicial;
+
+    [SerializeField, ReadOnly] public int orientacioFisica = -1;
+    [SerializeField, ReadOnly] public int altura;
+    [ShowInInspector] public int OrientacioFinal
+    {
+        get
+        {
+            switch (orientacioFisica * 10 + orientacioCasa)
+            {
+                case 00:
+                    return 0;
+                case 01:
+                    return 1;
+                case 02:
+                    return 2;
+
+                case 10:
+                    return 2;
+                case 11:
+                    return 0;
+                case 12:
+                    return 1;
+
+                case 20:
+                    return 1;
+                case 21:
+                    return 2;
+                case 22:
+                    return 0;
+
+                default:
+                    return -1;
+            }
+        }
+    }
     [SerializeField, ReadOnly] GameObject[] pisos;
     [SerializeField, ReadOnly] GameObject[] sostres;
 
-    public void SetAltura(int altura, TilePotencial tile)
-    {
-        this.altura = altura;
-        if (tile.Veins[0] != null && tile.Veins[0].Peça.TeCasa)
-            this.altura = Mathf.Min(this.altura, tile.Veins[0].Peça.CasesLength);
-
-        if (tile.Veins[1].TileFisic.TryGetComponent(out Detall_Pis pisD))
-            this.altura = Mathf.Min(this.altura, pisD.altura);
-        
-        if (tile.Veins[2].TileFisic.TryGetComponent(out Detall_Pis pisE))
-            this.altura = Mathf.Min(this.altura, pisE.altura);
-        
-    }
-    public void Crear(int altura, TilePotencial tile)
+    public void Crear(int altura)
     {
         this.altura = altura;
         for (int i = 0; i < this.altura; i++)

@@ -111,7 +111,7 @@ public class TilePotencial
                 if (possibilitatsVirtuals.Get(i).GetPes(i) > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).GetPes(i);
             }
 
-            Debug.Log($"HighestPriority = {highestPriority}");
+            //Debug.Log($"HighestPriority = {highestPriority}");
 
             List<Possibilitat> possibilitats;
             possibilitats = new List<Possibilitat>();
