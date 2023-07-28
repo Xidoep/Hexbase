@@ -62,8 +62,8 @@ public class EstatsUnpack : ScriptableObject
     [TableList(), SerializeField, PropertyOrder(-1)]
     Confirmacio[] confirmacions;
 
-    [SerializeField, PropertyOrder(-2)]
-    bool detalls;
+    [SerializeField, PropertyOrder(-2), HorizontalGroup("opcions")]
+    bool detalls, reimportForçat;
 
 
     Confirmacio GetConfirmacio(string nom)
@@ -95,6 +95,11 @@ public class EstatsUnpack : ScriptableObject
     bool ConfirmarRecepta(Confirmacio[] confirmacions, string from)
     {
         confirmat = false;
+        if(from == "")
+        {
+            Debug.Log($"La recepta potser és una producciò, així que intenta crear-la...");
+            return true;
+        }
         for (int i = 0; i < confirmacions.Length; i++)
         {
             if (confirmacions[i].Nom.Equals(from))
@@ -123,8 +128,10 @@ public class EstatsUnpack : ScriptableObject
 
 
     [PropertyOrder(-3), Button(ButtonSizes.Large, Icon = SdfIconType.Archive, IconAlignment = IconAlignment.LeftOfText)]
-    void Unpack() => Unpack(confirmacions);
-    void Unpack(Confirmacio[] confirmacions)
+    void Unpack() => Unpack(confirmacions, false);
+    void Unpack(Confirmacio[] confirmacions) => Unpack(confirmacions, true);
+
+    void Unpack(Confirmacio[] confirmacions, bool allReceptes)
     {
         //Crear linies i columnes
         linies = System.IO.File.ReadAllLines(AssetDatabase.GetAssetPath(csv));
@@ -149,14 +156,12 @@ public class EstatsUnpack : ScriptableObject
 
         referencies.Refresh();
 
-        CrearReceptes(confirmacions);
-
+        CrearReceptes(allReceptes ? this.confirmacions : confirmacions);
     }
 
     private void CrearReceptes(Confirmacio[] confirmacions)
     {
         lastNameFounded = "";
-
         for (int i = 3; i < linies.Length; i++)
         {
             if (i.Equals(liniaProductes))
@@ -165,14 +170,20 @@ public class EstatsUnpack : ScriptableObject
             GetColumnes(i);
 
             if (!HiHaInput(1) && !HiHaOutput(1))
+            {
+                Debug.Log($"Recepta[{i + 1}] NO te ni INPUTS ni OUTPUTS...");
                 continue;
+            }
 
             viable = true;
 
             if (TeNom) lastNameFounded = Nom;
 
             if (!ConfirmarRecepta(confirmacions, From))
+            {
+                Debug.Log($"Recepta[{i + 1}] {From} no està preparat...");
                 continue;
+            }
 
             recepta = CreateInstance<Recepta>();
 
@@ -227,14 +238,16 @@ public class EstatsUnpack : ScriptableObject
                 if (!HiHaOutput(output))
                     continue;
 
-                if (!referencies.ProductesContains(Output(output)))
+                if (!referencies.ProductesContains(Output(output)) && !referencies.GuanyarExperienciaContains(Output(output)))
                 {
                     viable = false;
-                    Debug.LogError($"Recepta[{i+1}] NO es pot COMPLETAR! Outputa => {Output(output)} no s'ha importat!!!");
-                    
+                    Debug.LogError($"Recepta[{i+1}] NO es pot COMPLETAR! Outputs => {Output(output)} no s'ha importat!!!");
                     continue;
                 }
-                outputs.Add(referencies.GetProducte(Output(output)));
+                if (referencies.ProductesContains(Output(output)))
+                    outputs.Add(referencies.GetProducte(Output(output)));
+                else if(referencies.GuanyarExperienciaContains(Output(output)))
+                    outputs.Add(referencies.GetGuanyarExperiencia(Output(output)));
             }
             accioConnectar = GetConnexio(HiHaAccioConnectar, AccioConnectar);
 
@@ -242,7 +255,7 @@ public class EstatsUnpack : ScriptableObject
 
 
 
-
+            Debug.Log($"Viable = {viable}");
             if (!viable)
                 continue;
 
@@ -267,7 +280,7 @@ public class EstatsUnpack : ScriptableObject
 
             Debug.Log($"Crear Recepta: {nomRecepta}[{i + 1}] a: {assignar.name}");
             assignar.AddRecepta(recepta);
-
+            EditorUtility.SetDirty(assignar);
         }
 
         Debug.Log("SAVE ALL!");
@@ -367,7 +380,7 @@ public class EstatsUnpack : ScriptableObject
                 if (!ConfirmarTiles(confirmacions, Nom))
                     continue;
 
-                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls);
+                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls, reimportForçat);
 
                 continue;
             }
@@ -417,7 +430,7 @@ public class EstatsUnpack : ScriptableObject
                 continue;
 
             referencies.Refresh();
-            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls);
+            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls, reimportForçat);
         }
 
 

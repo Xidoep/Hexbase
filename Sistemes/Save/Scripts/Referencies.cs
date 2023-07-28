@@ -23,6 +23,7 @@ public class Referencies : ScriptableObject
     [ReadOnly] [SerializeField] Connexio[] connexions;
     [ReadOnly, SerializeField] GameObject[] detalls;
     [ReadOnly, SerializeField] Recepta[] receptes;
+    [ReadOnly, SerializeField] Output_GuanyarExperiencia[] guanyarExperiencies;
 
     public EstatColocable[] Colocables => colocables;
     public Estat[] Estats => estats;
@@ -39,7 +40,7 @@ public class Referencies : ScriptableObject
     Estat eTrobat;
     Producte pTrobat;
     GameObject dTrobat;
-
+    Output_GuanyarExperiencia gTrobat;
 
     public Connexio GetConnexio(string nom)
     {
@@ -93,6 +94,17 @@ public class Referencies : ScriptableObject
         }
         return false;
     }
+    public bool GuanyarExperienciaContains(string nom)
+    {
+        for (int i = 0; i < guanyarExperiencies.Length; i++)
+        {
+            if (guanyarExperiencies[i].name.Equals(nom))
+                return true;
+        }
+        return false;
+    }
+
+
     public Producte GetProducte(string nom)
     {
         pTrobat = null;
@@ -136,7 +148,23 @@ public class Referencies : ScriptableObject
         }
         return dTrobat;
     }
-
+    public Output_GuanyarExperiencia GetGuanyarExperiencia(string nom)
+    {
+        gTrobat = null;
+        for (int i = 0; i < guanyarExperiencies.Length; i++)
+        {
+            if (guanyarExperiencies[i].name.Equals(nom))
+            {
+                gTrobat = guanyarExperiencies[i];
+                break;
+            }
+        }
+        if (gTrobat == null)
+        {
+            Debug.LogError($"el guanyarExperiencies amb el nom {nom} no existeix");
+        }
+        return gTrobat;
+    }
 
 
     private void OnEnable()
@@ -171,6 +199,7 @@ public class Referencies : ScriptableObject
         connexions = XS_Editor.LoadAllAssetsAtPath<Connexio>("Assets/XidoStudio/Hexbase/Peces/Connexio").ToArray();
         detalls = XS_Editor.LoadAllAssetsAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peces/Detalls").ToArray();
         receptes = XS_Editor.LoadAllAssetsAtPath<Recepta>("Assets/XidoStudio/Hexbase/Peces/Receptes").ToArray();
+        guanyarExperiencies = XS_Editor.LoadAllAssetsAtPath<Output_GuanyarExperiencia>("Assets/XidoStudio/Hexbase/Sistemes/Processador/GunayarExperiencia").ToArray();
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
 
     }

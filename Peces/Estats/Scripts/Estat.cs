@@ -103,6 +103,10 @@ public class Estat : ScriptableObject, IProcessable
     public void AddRecepta(Recepta recepta)
     {
         List<Recepta> tmp = new List<Recepta>(receptes);
+
+        if (tmp.Contains(recepta))
+            return;
+
         tmp.Add(recepta);
         receptes = tmp.ToArray();
     }

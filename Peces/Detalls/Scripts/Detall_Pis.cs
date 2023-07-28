@@ -16,6 +16,8 @@ public class Detall_Pis : Detall
 
         this.orientacioFisica = -1;
         this.altura = 0;
+
+        SetAssets();
     }
 
     [SerializeField] public int orientacioCasa = -1;
@@ -71,7 +73,9 @@ public class Detall_Pis : Detall
         }
     }
 
-    private void OnValidate()
+    private void OnValidate() => SetAssets();
+
+    void SetAssets()
     {
         bool zeroD = XS_Editor.LoadAssetAtPath<GameObject>($"Assets/XidoStudio/Hexbase/Peces/Detalls/{gameObject.name.Substring(0, gameObject.name.Length - 2)}0D.prefab") != null;
         pisos = new GameObject[]

@@ -7,7 +7,7 @@ public class Detall_Pisos : Detall
 {
     public override void Setup(string[] arg)
     {
-        pisos = GetComponentsInChildren<Detall_Pis>();
+        FindPisos();
     }
 
 
@@ -208,8 +208,10 @@ public class Detall_Pisos : Detall
 
 
 
-    private void OnValidate()
+    private void OnValidate() => FindPisos();
+
+    void FindPisos() 
     {
         if (pisos == null || pisos.Length == 0) pisos = GetComponentsInChildren<Detall_Pis>();
-    }
+    } 
 }

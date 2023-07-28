@@ -59,7 +59,7 @@ public class TilesetUnpack : ScriptableObject
 
 
 
-    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls)
+    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls, bool forçat)
     {
         //subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
         this.subobjects = subobjects;
@@ -67,6 +67,12 @@ public class TilesetUnpack : ScriptableObject
         this.referencies = referencies;
 
         CrearFoldersSiCal(root);
+
+        if (!forçat)
+        {
+            tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, forçat);
+            return;
+        }
 
         tilesetCreat = false;
         simple = null;
@@ -124,7 +130,7 @@ public class TilesetUnpack : ScriptableObject
         CrearAsset(root);
         AssignarAEstat(root);
 
-        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls);
+        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, forçat);
 
     }
 

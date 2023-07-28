@@ -88,7 +88,7 @@ public class Fase_Menu : Fase
 
         animacioTitol = titol.InstantiateReturn().GetComponent<AnimacioPerCodi_GameObject_Referencia>();
 
-        musicControlador.Play(music, 1);
+        musicControlador.Play(music, 0.1f);
     }
 
     //PUBLIQUES

@@ -18,6 +18,7 @@ public class TilesUnpack : ScriptableObject
     const char VARIACIO = '#';
     const char PUNT = '.';
     const string PROP = "prop_";
+    const char SCRIPT = '@';
 
     //[SerializeField] Object tiles;
     [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
@@ -73,16 +74,18 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls)
+    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls, bool forçat)
     {
         this.subobjects = subobjects;
         this.outputTiles = outputTiles;
         this.referencies = referencies;
         this.outputDetalls = outputDetalls;
 
-        NetejarTileset(root);
-
-        EliminarAntics(root, outputTiles);
+        if (forçat)
+        {
+            NetejarTileset(root);
+            EliminarAntics(root, outputTiles);
+        }
 
 
 
@@ -129,8 +132,14 @@ public class TilesUnpack : ScriptableObject
 
             //EliminarAssetAntic(root);
 
-            if (TileJaExisteix(root))
+            if (TileJaExisteix(root, forçat))
+            {
+                if (!forçat)
+                {
+                    SetupTileset(root);
+                }
                 continue;
+            }
 
             CrearPrefabTile(i, root);
             CrearConnexions(root);
@@ -196,8 +205,8 @@ public class TilesUnpack : ScriptableObject
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
     bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"{PREFAB}-{root}");
-    bool TeComponents(int i) => subobjects[i].name.Contains('@');
-    string[] Components(int i) => subobjects[i].name.Split('@')[1].Split(',');
+    bool TeScripts(int i) => subobjects[i].name.Contains(SCRIPT);
+    string[] Scripts(int i) => subobjects[i].name.Split(SCRIPT)[1].Split(',');
     /*bool EsPrefab(int i, string root) 
     {
         Debug.Log($"EsPrefab({PREFAB}-{root})? {subobjects[i].name.StartsWith($"{PREFAB}-{root}")}");
@@ -212,16 +221,16 @@ public class TilesUnpack : ScriptableObject
         intance = (GameObject)Instantiate(subobjects[i]);
         
 
-        if (TeComponents(i))
+        /*if (TeScripts(i))
         {
-            intance.name = intance.name.Split('@')[0];
-            for (int c = 0; c < Components(i).Length; c++)
+            intance.name = intance.name.Split(SCRIPT)[0];
+            for (int c = 0; c < Scripts(i).Length; c++)
             {
-                if (Components(i)[c] == "Pis") intance.AddComponent<Detall_Pis>();
+                if (Scripts(i)[c] == "Pis") intance.AddComponent<Detall_Pis>();
             }
-        }
+        }*/
 
-        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_Detall(!TeComponents(i) ? subobjects[i].name.Substring(5) : subobjects[i].name.Substring(5).Split('@')[0]));
+        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_Detall(!TeScripts(i) ? subobjects[i].name.Substring(5) : subobjects[i].name.Substring(5).Split('@')[0]));
 
         DestroyImmediate(intance);
     }
@@ -291,6 +300,12 @@ public class TilesUnpack : ScriptableObject
         //Treu la part de condicio del nom final
         nom = tmpPes[0];
 
+        //treu la part de scripts si hi es
+        if (tmpPes[1].Contains(SCRIPT))
+        {
+            tmpPes[1] = tmpPes[1].Split(SCRIPT)[0];
+        }
+
         //Conté condicions???
         if (!tmpPes[1].Contains(CONDICIO))
         {
@@ -336,11 +351,19 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    bool TileJaExisteix(string root)
+    bool TileJaExisteix(string root, bool forçat)
     {
+        
         if (AssetDatabase.LoadAssetAtPath<Tile>(Path_Tile(root)) != null)
         {
-            Debug.LogError($"El Tile amb el nom {nom} ja existeix. Es possible que hagis duplicat el tipus de peça. Mira si es pot eliminar o s'ha de crear com una versio.");
+            if (forçat)
+            {
+                Debug.LogError($"El Tile amb el nom {nom} ja existeix. Es possible que hagis duplicat el tipus de peça. Mira si es pot eliminar o s'ha de crear com una versio.");
+            }
+            else
+            {
+                Debug.LogError($"Com que no estas forçant el re-import, el tile amb nom {nom} ja existeix, així que no cal importar-lo de nou.");
+            }
             return true;
         }
         return false;
@@ -351,7 +374,8 @@ public class TilesUnpack : ScriptableObject
     void CrearPrefabTile(int index, string root)
     {
         intance = (GameObject)Instantiate(subobjects[index]);
-
+        
+        //Substituir childs pels prefabs
         Debug.Log($"{intance.transform.childCount} childs");
         float childCount = intance.transform.childCount;
         for (int i = 0; i < childCount; i++)
@@ -359,7 +383,7 @@ public class TilesUnpack : ScriptableObject
             //if (!EsGameObject(i))
             //    continue;
 
-            Debug.Log($"Child{i} = {intance.transform.GetChild(i).name}");
+            //.Log($"Child{i} = {intance.transform.GetChild(i).name}");
             if (!referencies.DetallsContains(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)))
                 continue;
 
@@ -368,10 +392,13 @@ public class TilesUnpack : ScriptableObject
 
             intance.transform.GetChild(i).gameObject.SetActive(false);
 
-            if (!intance.transform.GetChild(i).name.Contains('@'))
+            if (!intance.transform.GetChild(i).name.Contains(SCRIPT))
                 continue;
 
-            string component = intance.transform.GetChild(i).name.Split('@')[1];
+            AddScriptsByNameWithArguments(intance.transform.GetChild(i).name, detall);
+
+            /*
+            string component = intance.transform.GetChild(i).name.Split(SCRIPT)[1];
             string nom = "";
             string[] arguments = new string[0];
             if (component.Contains(':'))
@@ -385,14 +412,44 @@ public class TilesUnpack : ScriptableObject
 
             if(nom == "Pis") detall.AddComponent<Detall_Pis>().Setup(arguments);
             if(nom == "Pisos") detall.AddComponent<Detall_Pisos>().Setup(arguments);
-
+            */
         }
 
         if(invertit)
             intance.transform.localScale = new Vector3(-1, 1, 1);
 
+
+        if (TeScripts(index))
+        {
+            AddScriptsByNameWithArguments(intance.name.Contains('(') ? intance.name.Split('(')[0] : intance.name, intance);
+        }
+
+
         prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_PrefabTile(root));
         DestroyImmediate(intance);
+    }
+    void AddScriptsByNameWithArguments(string name, GameObject objectiu)
+    {
+        
+        string component = name.Split(SCRIPT)[1];
+        string nom = component;
+        string[] arguments = new string[0];
+        if (component.Contains(':'))
+        {
+            nom = component.Split(':')[0];
+            if (component.Split(':')[1].Contains(','))
+                arguments = component.Split(':')[1].Split(',');
+            else arguments = new string[] { component.Split(':')[1] };
+        }
+
+        string debug = nom  + "|";
+        for (int i = 0; i < arguments.Length; i++)
+        {
+            debug += arguments[i] + ", ";
+        }
+        Debug.Log(debug);
+        if (nom == "Pis") objectiu.AddComponent<Detall_Pis>().Setup(arguments);
+        if (nom == "Pisos") objectiu.AddComponent<Detall_Pisos>().Setup(arguments);
     }
     void CrearConnexions(string root)
     {
@@ -437,7 +494,47 @@ public class TilesUnpack : ScriptableObject
     }
 
 
+    void SetupTileset(string root)
+    {
+        if (pes.Length > 1 && pes[0] == -1)
+        {
+            Debug.LogError("No hi ha pes!");
+            return;
+        }
 
+        tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>(Path_Tileset(root));
+
+        if (tileset == null)
+        {
+            Debug.LogError("No hi ha tilesset creat!");
+            return;
+        }
+
+        if (tileset is TileSet_Simple)
+        {
+            ((TileSet_Simple)tileset).TileSet.SetPes(tile, pes[0]);
+
+            EditorUtility.SetDirty(tileset);
+        }
+        else if (tileset is TileSet_Ocupable)
+        {
+            ((TileSet_Ocupable)tileset).TileSetLliure.SetPes(tile, pes[0]);
+            ((TileSet_Ocupable)tileset).TileSetOcupat.SetPes(tile, pes[0]);
+            EditorUtility.SetDirty(tileset);
+        }
+        else if (tileset is TileSet_Condicional)
+        {
+            for (int i = 0; i < pes.Length; i++)
+            {
+                if (pes[i] == 0)
+                    continue;
+
+                ((TileSet_Condicional)tileset).Condicions[i].TileSet.SetPes(tile, pes[i]);
+                EditorUtility.SetDirty(tileset);
+            }
+
+        }
+    }
     void AddTileToTileset(string root)
     {
         if (pes.Length > 1 && pes[0] == -1)
@@ -459,6 +556,7 @@ public class TilesUnpack : ScriptableObject
         if (tileset is TileSet_Simple)
         {
             ((TileSet_Simple)tileset).TileSet.AddTile(tile, pes[0]);
+            
             EditorUtility.SetDirty(tileset);
         }
         else if (tileset is TileSet_Ocupable)
@@ -480,6 +578,8 @@ public class TilesUnpack : ScriptableObject
             
         }
     }
+
+
     
     void SaveTilset(string root)
     {

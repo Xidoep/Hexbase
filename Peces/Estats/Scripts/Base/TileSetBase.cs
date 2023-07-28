@@ -56,7 +56,17 @@ public class TileSet
     //INTERN
     bool tTrobat;
 
-
+    public void SetPes(Tile tile, int pes)
+    {
+        for(int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i].tile.Equals(tile))
+            {
+                tiles[i].pes = pes;
+                break;
+            }
+        }
+    }
     public bool Contains(Tile tile)
     {
         tTrobat = false;

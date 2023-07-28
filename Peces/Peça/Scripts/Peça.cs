@@ -7,10 +7,10 @@ using Sirenix.Utilities;
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
     /*[System.Flags]*/ public enum ConnexioEnum { 
-        [LabelText(" ", SdfIconType.DashLg, IconColor = "gray")] NoImporta = 0, 
-        [LabelText(" ", SdfIconType.Link45deg, IconColor = "RGB(0,1,0)")] Connectat = 1,
-        [LabelText(" ", SdfIconType.XCircle, IconColor = "red")] Desconnectat = 2,
-        [LabelText(" ", SdfIconType.People, IconColor = "blue")] ConnectatAmbMi = 4
+        [LabelText(" ", SdfIconType.DashLg, IconColor = "gray"), Tooltip("No importa")] NoImporta = 0, 
+        [LabelText(" ", SdfIconType.Link45deg, IconColor = "RGB(0,1,0)"), Tooltip("Connectat")] Connectat = 1,
+        [LabelText(" ", SdfIconType.XCircle, IconColor = "red"), Tooltip("Desconnectat")] Desconnectat = 2,
+        [LabelText(" ", SdfIconType.People, IconColor = "blue"), Tooltip("Connectat amb mi")] ConnectatAmbMi = 4
     }
 
 
