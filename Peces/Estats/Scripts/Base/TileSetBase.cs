@@ -33,7 +33,7 @@ public class TileSet
     }
 
 
-    [PropertyOrder(1), TableList(AlwaysExpanded = true, HideToolbar = true, MinScrollViewHeight = 700), BoxGroup("Tiles", centerLabel: true), SerializeField, ] 
+    [PropertyOrder(1), TableList(AlwaysExpanded = true, MinScrollViewHeight = 700), BoxGroup("Tiles", centerLabel: true), SerializeField, ] 
     TilesPossibles[] tiles;
 
     [PropertyOrder(3), BoxGroup("Connexions", centerLabel: true), BoxGroup("Connexions/Nules", centerLabel: true), AssetSelector(Paths = "Assets/XidoStudio/Hexbase/Peces/Connexio/Autogenerats")]

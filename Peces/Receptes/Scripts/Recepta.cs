@@ -200,6 +200,7 @@ public class Recepta : ScriptableObject
                     else if (connexio == Peça.ConnexioEnum.Desconnectat)
                         peça.Desconnectar();
 
+                    peces.Remove(peces[p]);
                     break;
                 }
             }

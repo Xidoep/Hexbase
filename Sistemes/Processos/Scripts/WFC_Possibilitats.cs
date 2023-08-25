@@ -44,14 +44,20 @@ public struct Possibilitat
     public int Orientacio => orientacio;
     public int Pes => pes;
 
-    public int GetPes(int index) => pes + Mathf.RoundToInt(Mathf.PerlinNoise(index * 0.3f + Mathf.Sin(Time.time), index * 0.3f + Mathf.Sin(Time.time)) * 2 - 1);
+    
+    public int GetPes(int index, int colisions) => pes + Mathf.RoundToInt(Mathf.PerlinNoise(
+        (index + colisions) * 0.3f + Mathf.Sin(Time.time), 
+        (index + colisions) * 0.3f + Mathf.Sin(Time.time))
+        * colisions - (colisions / 2f));
+    
+    
+    
+    /*
+    public int GetPes(int index, int colisions) => pes + Mathf.RoundToInt(Mathf.PerlinNoise(
+        index * 0.3f + Mathf.Sin(Time.time),
+        index * 0.3f + Mathf.Sin(Time.time))
+        * 2 - 1);
+    */
     public bool EqualsTo(Possibilitat possibilitat) => possibilitat.tile == tile && possibilitat.orientacio == orientacio;
 
 }
-
-
-
-
-
-
-

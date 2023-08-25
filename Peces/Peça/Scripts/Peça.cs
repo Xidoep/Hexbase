@@ -22,7 +22,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         connexio = null;
 
         this.subestat = subestat.Setup(this);
-        gameObject.name = $"{estat.name}({coordenades})";
+        gameObject.name = $"{estat.name}{coordenades}";
     }
 
     [Apartat("ESTAT")]
@@ -54,15 +54,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     TilePotencial[] tiles;
 
 
-    [ReadOnly]
-    string[] veins => tiles != null ? new string[] {
-        tiles[0].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
-        tiles[1].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
-        tiles[2].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
-        tiles[3].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
-        tiles[4].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null",
-        tiles[5].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "null"
-    } : new string[0];
 
 
     //GETTERS
@@ -273,9 +264,22 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [ShowInInspector] List<string> DebugPossibilitats4 => DebugGetNomsPossibilitats(4);
     [ShowInInspector] List<string> DebugPossibilitats5 => DebugGetNomsPossibilitats(5);
 
+    [ShowInInspector]
+    string[] veins => tiles != null ? new string[] {
+        tiles[0].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "-",
+        tiles[1].Veins[0] != null ?  tiles[1].Veins[0].EstatName : "-",
+        tiles[2].Veins[0] != null ?  tiles[2].Veins[0].EstatName : "-",
+        tiles[3].Veins[0] != null ?  tiles[3].Veins[0].EstatName : "-",
+        tiles[4].Veins[0] != null ?  tiles[4].Veins[0].EstatName : "-",
+        tiles[5].Veins[0] != null ?  tiles[5].Veins[0].EstatName : "-"
+    } : new string[0];
+
     List<string> DebugGetNomsPossibilitats(int index)
     {
         List<string> tmp = new List<string>();
+        if (tiles == null || tiles.Length == 0)
+            return tmp;
+
         for (int p = 0; p < tiles[index].PossibilitatsVirtuals.Count; p++)
         {
             tmp.Add(tiles[index].PossibilitatsVirtuals.Get(p).Tile.name);

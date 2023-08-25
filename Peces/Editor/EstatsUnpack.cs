@@ -63,7 +63,7 @@ public class EstatsUnpack : ScriptableObject
     Confirmacio[] confirmacions;
 
     [SerializeField, PropertyOrder(-2), HorizontalGroup("opcions")]
-    bool detalls, reimportForçat;
+    bool detalls, actualitzarConnexions;
 
 
     Confirmacio GetConfirmacio(string nom)
@@ -162,6 +162,12 @@ public class EstatsUnpack : ScriptableObject
     private void CrearReceptes(Confirmacio[] confirmacions)
     {
         lastNameFounded = "";
+
+        for (int i = 0; i < referencies.Estats.Length; i++)
+        {
+            referencies.Estats[i].ClearRecepta();
+        }
+
         for (int i = 3; i < linies.Length; i++)
         {
             if (i.Equals(liniaProductes))
@@ -283,7 +289,7 @@ public class EstatsUnpack : ScriptableObject
             EditorUtility.SetDirty(assignar);
         }
 
-        Debug.Log("SAVE ALL!");
+        Debug.Log("TOT PERFECTE. SAVE ALL!");
         AssetDatabase.SaveAssets();
     }
 
@@ -363,7 +369,7 @@ public class EstatsUnpack : ScriptableObject
         referencies.Refresh();
     }
 
-    private void CrearEstats(Confirmacio[] confirmacions)
+    void CrearEstats(Confirmacio[] confirmacions, bool nomesTilset = false)
     {
         for (int i = 3; i < linies.Length; i++)
         {
@@ -380,7 +386,7 @@ public class EstatsUnpack : ScriptableObject
                 if (!ConfirmarTiles(confirmacions, Nom))
                     continue;
 
-                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls, reimportForçat);
+                tilesetUnpack.Unpack($"{Nom.Substring(0, 1)}{Nom.Substring(1, Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls, actualitzarConnexions);
 
                 continue;
             }
@@ -414,7 +420,7 @@ public class EstatsUnpack : ScriptableObject
             }
 
             Estat estat = CreateInstance<Estat>();
-            estat.SetupCreacio(tipus, EsAquatic, producte);
+            estat.SetupCreacio(tipus, EsAquatic, EsColocable, producte);
 
             if (!AssetDatabase.IsValidFolder($"{outputPath}/{Nom}"))
             {
@@ -430,16 +436,11 @@ public class EstatsUnpack : ScriptableObject
                 continue;
 
             referencies.Refresh();
-            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls, reimportForçat);
+            tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls, actualitzarConnexions, nomesTilset);
         }
 
-
-
-       
-
-
     }
-
+/*
     [Button("hola?")]
     void AddConnectables()
     {
@@ -464,7 +465,7 @@ public class EstatsUnpack : ScriptableObject
             }
         }
     }
-
+*/
     Connexio[] connexions;
     void AddConnectables(TileSet tileset)
     {
@@ -536,6 +537,7 @@ public class EstatsUnpack : ScriptableObject
     string Nom => columnes[1];
     string Tipus => columnes[3];
     bool EsAquatic => columnes[4].Equals(TRUE);
+    bool EsColocable => columnes[0].Equals(TRUE);
     string NomProducte => columnes[5];
     string From => columnes[7];
 
@@ -585,13 +587,17 @@ public class EstatsUnpack : ScriptableObject
         [SerializeField, VerticalGroup("T"), TableColumnWidth(23, resizable: false), LabelText("")]
         bool tiles;
 
-        [VerticalGroup("Import"), DisableIf("@!this.estat && !this.recepta && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), PropertyOrder(-1)]
+        [VerticalGroup("Import"), DisableIf("@!this.estat && !this.recepta && !this.tiles"), SerializeField, TableColumnWidth(40, resizable: false), Button(Icon = SdfIconType.Archive), PropertyOrder(-2)]
         public void Importar() => importar?.Invoke(new Confirmacio[] { this });
 
+
+        
         System.Action<Confirmacio[]> importar;
+        System.Action<Confirmacio[], bool> receptes;
         Referencies referencies;
 
         public System.Action<Confirmacio[]> SetImporar { set => importar = value; }
+        public System.Action<Confirmacio[], bool> SetReceptes { set => receptes = value; }
         public Referencies SetReferencies { set => referencies = value; }
 
 
@@ -644,6 +650,9 @@ public class EstatsUnpack : ScriptableObject
             referencies.Refresh();
         }
 
+        [VerticalGroup("Recept"), SerializeField, TableColumnWidth(20, resizable: false), Button(Icon = SdfIconType.Receipt), PropertyOrder(-1)]
+        public void Receptes() => receptes?.Invoke(new Confirmacio[] { this }, true);
+
         public string Nom => nom;
         public bool Estat => estat;
         public bool Recepta => recepta;
@@ -663,6 +672,7 @@ public class EstatsUnpack : ScriptableObject
         for (int i = 0; i < confirmacions.Length; i++)
         {
             confirmacions[i].SetImporar = Unpack;
+            confirmacions[i].SetReceptes = CrearEstats;
             confirmacions[i].SetReferencies = referencies;
         }
 

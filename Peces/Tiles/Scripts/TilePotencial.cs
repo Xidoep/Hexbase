@@ -96,7 +96,7 @@ public class TilePotencial
         return this;
     }
 
-    public void Escollir()
+    public void Escollir(int colisions)
     {
         int r = 0;
 
@@ -108,7 +108,7 @@ public class TilePotencial
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
             {
                 //Debug.Log($"{possibilitatsVirtuals.Get(i).Tile.name} pes = {possibilitatsVirtuals.Get(i).Pes} | {possibilitatsVirtuals.Get(i).GetPes(i)}");
-                if (possibilitatsVirtuals.Get(i).GetPes(i) > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).GetPes(i);
+                if (possibilitatsVirtuals.Get(i).GetPes(i, colisions) > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).GetPes(i, colisions);
             }
 
             //Debug.Log($"HighestPriority = {highestPriority}");
@@ -117,7 +117,7 @@ public class TilePotencial
             possibilitats = new List<Possibilitat>();
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
             {
-                if(possibilitatsVirtuals.Get(i).GetPes(i) >= highestPriority)
+                if(possibilitatsVirtuals.Get(i).GetPes(i, colisions) >= highestPriority)
                 {
                     possibilitats.Add(possibilitatsVirtuals.Get(i));
                 }
@@ -162,7 +162,9 @@ public class TilePotencial
     {
         this.orientacioFisica = orientacioFisica;
         this.possibilitatsVirtuals = new Possibilitats(tile, orientacioFisica, 1000);
-        
+
+        Debug.Log($"Escollir => {tile.name}({orientacio})");
+
         if (WaveFunctionColpaseScriptable.veureProces)
             Crear();
         

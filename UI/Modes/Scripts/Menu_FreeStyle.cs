@@ -28,6 +28,9 @@ public class Menu_FreeStyle : MonoBehaviour
         creades = new List<UI_Peca>();
         for (int i = 0; i < referencies.Colocables.Length; i++)
         {
+            if (!referencies.Colocables[i].Estat.Colocable)
+                continue;
+
             GameObject parent = Instantiate(prefab, this.parent);
             parent.transform.position = Vector3.zero;
 

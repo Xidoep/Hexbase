@@ -143,11 +143,14 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     //MAIN STEPS
     void StepManual(InputAction.CallbackContext context) => Step();
     void PropagarManual(InputAction.CallbackContext context) => Propagar();
+
+    [SerializeField] int colisions = 0;
     void Step()
     {
         actual = TileWithTheLowestEntropy();
         pendents.Remove(actual);
-        actual.Escollir();
+        Debug.Log($"{actual.Peça.name}({actual.Orientacio})");
+        actual.Escollir(colisions);
 #if UNITY_EDITOR
         //Debug.Log($"Resoldre {actual.Peça.gameObject.name} amb el tile {actual.PossibilitatsVirtuals.Get(0).Tile.name}");
 #endif
@@ -258,6 +261,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     bool debugMatch;
     void Propagar()
     {
+        //Debug.Log($"Propagables {propagables.Count}");
         if(propagables.Count > 0)
         {
             if (TreuPossibilitatsImpossibles(propagables[0]))
@@ -305,7 +309,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     {
                         _debug += $"{possibilitats.Get(i).Tile.name} | {possibilitats.Get(i).Tile.Exterior(0).name}, {possibilitats.Get(i).Tile.Esquerra(0).name}, {possibilitats.Get(i).Tile.Dreta(0).name} \n";
                     }*/
-
+                    
+                    
                     _debug += "\nTILES ACTUALS:\n";
                     _debug += $"0- {(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
                     _debug += $"1- {(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
@@ -314,6 +319,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     _debug += $"4- {(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
                     _debug += $"5- {(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
 
+                    /*
                     _debug += "\nPOSSIBLITATS:\n";
                     debugExterior = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[0], 0);
                     debugEsquerra = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[1], 2);
@@ -350,6 +356,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                             }
                         }
                     }
+                    */
 
                     /*
                     _debug += "\n OPCIONS:\n";
@@ -366,7 +373,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                         _debug += "\n";
                     }
                     */
-
+                    colisions++;
                     Debugar.LogError(_debug, propagables[0].Peça);
 #endif
                     XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);  
@@ -393,6 +400,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             return;
         }
 
+        colisions = 0;
         XS_Coroutine.StartCoroutine_Ending(0.001f, Step);
     }
 
@@ -400,7 +408,10 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     bool TreuPossibilitatsImpossibles(TilePotencial tile)
     {
+#if UNITY_EDITOR
         //string _debug = "";
+        string _debug = $"{tile.Peça.name}({tile.Orientacio})\n";
+#endif
         haCanviat = false;
 
         cExterior = GetConnexiosVirtuals(tile, tile.Veins[0], 0);
@@ -408,8 +419,10 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         cDreta = GetConnexiosVirtuals(tile, tile.Veins[2], 1);
 
         toRemove = new List<Possibilitat>();
+
         for (int p = 0; p < tile.PossibilitatsVirtuals.Count; p++)
         {
+            _debug += $"{tile.PossibilitatsVirtuals.Get(p).Tile.name}({tile.PossibilitatsVirtuals.Get(p).Orientacio})";
             posibilitat = tile.PossibilitatsVirtuals.Get(p);
             found = false;
             for (int c1 = 0; c1 < cExterior.Length; c1++)
@@ -418,24 +431,31 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                 {
                     for (int c2 = 0; c2 < cDreta.Length; c2++)
                     {
-
+#if UNITY_EDITOR
                         //_debug += $"|-{cExterior[c1].name}, {cEsquerra[c2].name}, {cDreta[c3].name} = " +
                         //    $"{cExterior[c1].name}, {cEsquerra[c3].name}, {cDreta[c2].name} ?";
+#endif
                         if (tile.CompararConnexions(posibilitat, cExterior[c1], cEsquerra[c3], cDreta[c2])) 
                         {
                             found = true;
-                            //_debug += "------------------------------------------¡¡¡MATCH!!!";
+#if UNITY_EDITOR
+                            _debug += "------------------------------------------¡¡¡MATCH!!!\n";
+#endif
                         }
-                        //_debug += "\n";
+#if UNITY_EDITOR
+                        //else
+                        //    _debug += "\n";
+#endif
                     }
                 }
             }
             if (!found) 
             {
+
                 toRemove.Add(posibilitat);
                 haCanviat = true;
-            } 
-            //Debug.Log(_debug);
+            }
+            _debug += "\n";
         }
 
         for (int i = 0; i < toRemove.Count; i++)
@@ -443,9 +463,14 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             tile.PossibilitatsVirtuals.Remove(toRemove[i]);
         }
 
-        
+#if UNITY_EDITOR
+        Debug.Log(_debug);
+#endif
+
         return haCanviat;
     }
+
+
 
     Connexio[] GetConnexiosVirtuals(TilePotencial tile, TilePotencial vei, int veiContrari)
     {

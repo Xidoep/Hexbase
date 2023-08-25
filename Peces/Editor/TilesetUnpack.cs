@@ -59,7 +59,7 @@ public class TilesetUnpack : ScriptableObject
 
 
 
-    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls, bool forçat)
+    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls, bool actualitzarConnexions, bool nomesTileset = false)
     {
         //subobjects = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(tiles));
         this.subobjects = subobjects;
@@ -68,11 +68,7 @@ public class TilesetUnpack : ScriptableObject
 
         CrearFoldersSiCal(root);
 
-        if (!forçat)
-        {
-            tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, forçat);
-            return;
-        }
+        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, actualitzarConnexions);
 
         tilesetCreat = false;
         simple = null;
@@ -95,6 +91,7 @@ public class TilesetUnpack : ScriptableObject
 
         for (int i = 0; i < subobjects.Length; i++)
         {
+            //Debug.Log($"{subobjects[i].name}");
             if (!EsGameObject(i))
                 continue;
 
@@ -130,7 +127,10 @@ public class TilesetUnpack : ScriptableObject
         CrearAsset(root);
         AssignarAEstat(root);
 
-        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, forçat);
+        if (nomesTileset)
+            return;
+
+        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, actualitzarConnexions);
 
     }
 
@@ -272,11 +272,13 @@ public class TilesetUnpack : ScriptableObject
 
     void Nules(int index, string root, int condicio = 0)
     {
+        
         if (!EsNules(index, root, tipus == Tipus.Condicional))
             return;
 
         if (!HiHaInfo(index, root, tipus == Tipus.Condicional))
             return;
+
 
         nules = Info(index, root, tipus == Tipus.Condicional);
 

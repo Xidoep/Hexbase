@@ -59,6 +59,23 @@ public class Referencies : ScriptableObject
         }
         return cTrobada;
     }
+    public Connexio GetConnexioNew(string nom)
+    {
+        cTrobada = null;
+        for (int i = 0; i < connexions.Length; i++)
+        {
+            if (connexions[i].name.Equals(nom))
+            {
+                cTrobada = connexions[i];
+                break;
+            }
+        }
+        if (cTrobada == null)
+        {
+            Debug.LogError($"La connexio amb el nom {nom} no existeix");
+        }
+        return cTrobada;
+    }
     public bool EstatsContains(string nom)
     {
         for (int i = 0; i < estats.Length; i++)
@@ -197,6 +214,7 @@ public class Referencies : ScriptableObject
         //tilesets = XS_Editor.LoadAllAssetsAtPath<TileSetBase>("Assets/XidoStudio/Hexbase/Peces/Estats/TileSets").ToArray();
         tilesets = XS_Editor.LoadAllAssetsAtPathAndSubFolders<TileSetBase>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         connexions = XS_Editor.LoadAllAssetsAtPath<Connexio>("Assets/XidoStudio/Hexbase/Peces/Connexio").ToArray();
+        //connexions = XS_Editor.LoadAllAssetsAtPath<Connexio>("Assets/XidoStudio/Hexbase/Peces/Connexio/new").ToArray();
         detalls = XS_Editor.LoadAllAssetsAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peces/Detalls").ToArray();
         receptes = XS_Editor.LoadAllAssetsAtPath<Recepta>("Assets/XidoStudio/Hexbase/Peces/Receptes").ToArray();
         guanyarExperiencies = XS_Editor.LoadAllAssetsAtPath<Output_GuanyarExperiencia>("Assets/XidoStudio/Hexbase/Sistemes/Processador/GunayarExperiencia").ToArray();

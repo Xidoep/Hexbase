@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using Sirenix.OdinInspector;
 using UnityEngine.InputSystem;
 using XS_Utils;
 
@@ -15,7 +16,7 @@ public class CursorEstat : MonoBehaviour
 
     [SerializeField] InputActionReference mousePosition; 
 
-    [SerializeField] GameObject cursor;
+    [SerializeField, ReadOnly] GameObject cursor;
 
     EstatColocable estat;
     Ray ray;

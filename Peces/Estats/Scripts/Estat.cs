@@ -7,10 +7,11 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Substat/Substat")]
 public class Estat : ScriptableObject, IProcessable
 {
-    public void SetupCreacio(TipusEnum tipus, bool aquatic, Producte producte)
+    public void SetupCreacio(TipusEnum tipus, bool aquatic, bool colocable, Producte producte)
     {
         this.tipus = tipus;
         this.aquatic = aquatic;
+        this.colocable = colocable;
         this.producte = producte;
         informacions = new List<Informacio>();
         SetupInformacio();
@@ -56,11 +57,13 @@ public class Estat : ScriptableObject, IProcessable
 
     [TabGroup("Propietats"), EnumToggleButtons ,SerializeField] 
     TipusEnum tipus;
-    [TabGroup("Propietats"),SerializeField] 
+    [TabGroup("Propietats"), SerializeField]
+    bool colocable;
+    [TabGroup("Propietats"), SerializeField]
     bool caminable;
-    [TabGroup("Propietats"),SerializeField] 
+    [TabGroup("Propietats"), SerializeField] 
     bool aquatic;
-    [TabGroup("Propietats"),ShowIf("@this.tipus == TipusEnum.Productor || this.tipus == TipusEnum.Extraccio"),SerializeField] 
+    [TabGroup("Propietats"), ShowIf("@this.tipus == TipusEnum.Productor || this.tipus == TipusEnum.Extraccio"), SerializeField] 
     Producte producte;
 
     //[Apartat("CONDICIONS")]
@@ -83,6 +86,7 @@ public class Estat : ScriptableObject, IProcessable
     [HideInInspector] [SerializeField] Repoblar repoblar;
 
     public TipusEnum Tipus => tipus;
+    public bool Colocable => colocable;
     public bool Caminable => caminable;
     public bool Aquatic => aquatic;
     public Producte Producte => producte;
@@ -116,7 +120,7 @@ public class Estat : ScriptableObject, IProcessable
         tmp.Remove(recepta);
         receptes = tmp.ToArray();
     }
-
+    public void ClearRecepta() => receptes = new Recepta[0];
 
     public void InformacioMostrar(Hexagon peça) 
     {

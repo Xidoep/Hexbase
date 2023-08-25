@@ -112,7 +112,7 @@ public class Grid : MonoBehaviour
 
         Peça peçaFisica = Instanciar(prefab_Peça, coordenada.x, coordenada.y).GetComponent<Peça>();
 
-        peçaFisica.Setup(this, coordenada, tipus, tipus.SubestatInicial);
+        peçaFisica.Setup(this, coordenada, tipus, tipus.Estat);
         Set(peçaFisica);
 
         /*foreach (var coodVei in grid.VeinsCoordenades(peçaFisica.Coordenades))
@@ -131,7 +131,7 @@ public class Grid : MonoBehaviour
         ranuraSimulada = grid.Get(coordenada);
         simulada = Instanciar(estat.Prefab.gameObject, coordenada).AddComponent<Peça>();
         //simulada = Instanciar(estat.Prefag, coordenada).AddComponent<Peça>();
-        simulada.Setup(this, coordenada, estat, estat.SubestatInicial);
+        simulada.Setup(this, coordenada, estat, estat.Estat);
         grid.Set(simulada); //Es salta el Dimensionament
         return simulada;
     }

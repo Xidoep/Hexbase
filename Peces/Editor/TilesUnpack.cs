@@ -73,21 +73,41 @@ public class TilesUnpack : ScriptableObject
     string Path_Detall(string nom) => $"{outputDetalls}/{nom}.prefab";
 
 
-
-    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls, bool forçat)
+    public void Unpack(string root, Object[] subobjects, string outputTiles, string outputDetalls, Referencies referencies, bool detalls, bool actualitzarConnexions)
     {
         this.subobjects = subobjects;
         this.outputTiles = outputTiles;
         this.referencies = referencies;
         this.outputDetalls = outputDetalls;
 
-        if (forçat)
+        NetejarTileset(root);
+        EliminarAntics(root, outputTiles);
+
+        if (actualitzarConnexions)
         {
-            NetejarTileset(root);
-            EliminarAntics(root, outputTiles);
+            for (int i = 0; i < subobjects.Length; i++)
+            {
+                if (!EsConnexio(i))
+                    continue;
+
+                CrearConnexions(i);
+            }
+            referencies.Refresh();
+
+
+            for (int i = 0; i < subobjects.Length; i++)
+            {
+                if (!EsConnexio(i))
+                    continue;
+
+                AddViables(i);
+            }
+            if (EsConnexio(subobjects.Length - 1))
+                AddViables(subobjects.Length - 1);
+            referencies.Refresh();
         }
-
-
+       
+        
 
         for (int i = 0; i < subobjects.Length; i++)
         {
@@ -103,7 +123,6 @@ public class TilesUnpack : ScriptableObject
             if(detalls)
                 CrearDetall(i);
         }
-
         referencies.Refresh();
 
 
@@ -132,17 +151,14 @@ public class TilesUnpack : ScriptableObject
 
             //EliminarAssetAntic(root);
 
-            if (TileJaExisteix(root, forçat))
+            if (TileJaExisteix(root))
             {
-                if (!forçat)
-                {
-                    SetupTileset(root);
-                }
+                SetupTileset(root);
                 continue;
             }
 
             CrearPrefabTile(i, root);
-            CrearConnexions(root);
+            AddConnexions(root);
             CrearTile(root);
 
             AddTileToTileset(root);
@@ -204,6 +220,7 @@ public class TilesUnpack : ScriptableObject
     bool EsProp(int i) => subobjects[i].name.StartsWith(PROP);
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
+    bool EsConnexio(int i) => subobjects[i].name.StartsWith("C_");
     bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"{PREFAB}-{root}");
     bool TeScripts(int i) => subobjects[i].name.Contains(SCRIPT);
     string[] Scripts(int i) => subobjects[i].name.Split(SCRIPT)[1].Split(',');
@@ -294,7 +311,7 @@ public class TilesUnpack : ScriptableObject
         pes = new int[] { -1 };
         //condicio = new int[] { -1 };
 
-        //Debug.Log($"Trobar pes a {nom}");
+        Debug.Log($"Trobar pes a {nom}");
         tmpPes = nom.Split(PES);
 
         //Treu la part de condicio del nom final
@@ -351,19 +368,12 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    bool TileJaExisteix(string root, bool forçat)
+    bool TileJaExisteix(string root)
     {
         
         if (AssetDatabase.LoadAssetAtPath<Tile>(Path_Tile(root)) != null)
         {
-            if (forçat)
-            {
-                Debug.LogError($"El Tile amb el nom {nom} ja existeix. Es possible que hagis duplicat el tipus de peça. Mira si es pot eliminar o s'ha de crear com una versio.");
-            }
-            else
-            {
-                Debug.LogError($"Com que no estas forçant el re-import, el tile amb nom {nom} ja existeix, així que no cal importar-lo de nou.");
-            }
+            Debug.LogError($"El Tile amb el nom {nom} ja existeix. Es possible que hagis duplicat el tipus de peça. Mira si es pot eliminar o s'ha de crear com una versio.");
             return true;
         }
         return false;
@@ -383,7 +393,7 @@ public class TilesUnpack : ScriptableObject
             //if (!EsGameObject(i))
             //    continue;
 
-            //.Log($"Child{i} = {intance.transform.GetChild(i).name}");
+            Debug.Log($"Child{i} = {intance.transform.GetChild(i).name}");
             if (!referencies.DetallsContains(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)))
                 continue;
 
@@ -451,14 +461,50 @@ public class TilesUnpack : ScriptableObject
         if (nom == "Pis") objectiu.AddComponent<Detall_Pis>().Setup(arguments);
         if (nom == "Pisos") objectiu.AddComponent<Detall_Pisos>().Setup(arguments);
     }
-    void CrearConnexions(string root)
+    void CrearConnexions(int i)
+    {
+        string nomConnexio = subobjects[i].name.Substring(2).Split('=')[0];
+
+        if (referencies.GetConnexio(nomConnexio) != null)
+            return;
+
+        connexio = CreateInstance<Connexio>();
+        connexio.name = nomConnexio;
+        AssetDatabase.CreateAsset(connexio, Path_Connexio(nomConnexio));
+
+        EditorUtility.SetDirty(connexio);
+        Debug.Log($"Crear Connexio {nomConnexio}");
+    }
+    void AddViables(int i)
+    {
+        Debug.Log(subobjects[i].name);
+        string nomConnexio = subobjects[i].name.Substring(2).Split('=')[0];
+        string[] viables = subobjects[i].name.Split('=')[1].Split(',');
+
+        Connexio connexio = referencies.GetConnexioNew(nomConnexio);
+        Connexio viable;
+        for (int v = 0; v < viables.Length; v++)
+        {
+            viable = referencies.GetConnexioNew(viables[v]);
+            //Debug.Log($"{connexio.name} > {viables[v]}: {viable != null}");
+            
+            if (viable == null)
+                continue;
+
+            connexio.AddViable(viable);
+        }
+
+        EditorUtility.SetDirty(connexio);
+    }
+
+    void AddConnexions(string root)
     {
         nomsConnexions = nom.Substring(root.Length + 1).Split(SEPARADO);
         connexionsTile = new Connexio[3];
         for (int nc = 0; nc < 3; nc++)
         {
-            trobat = false;
-            //Debug.Log($"{nomsConnexions[nc]}");
+            //trobat = false;
+            Debug.Log($"{nomsConnexions[nc]}");
             if (nomsConnexions[nc].Contains(PES))
             {
                 nomsConnexions[nc] = nomsConnexions[nc].Split(PES)[0];
@@ -468,10 +514,11 @@ public class TilesUnpack : ScriptableObject
                 if (nomsConnexions[nc] == referencies.Connexions[c].name)
                 {
                     connexionsTile[nc] = referencies.Connexions[c] as Connexio;
-                    trobat = true;
+                    //trobat = true;
                     break;
                 }
             }
+            /*
             if (!trobat)
             {
                 connexio = CreateInstance<Connexio>();
@@ -481,6 +528,7 @@ public class TilesUnpack : ScriptableObject
 
                 referencies.Refresh();
             }
+            */
         }
     }
     private void CrearTile(string root)

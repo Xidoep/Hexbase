@@ -16,7 +16,7 @@ public class EstatColocable : ScriptableObject
     [SerializeField] UI_Peca peça;
 
 
-    public Estat SubestatInicial => inicial;
+    public Estat Estat => inicial;
     public UI_Peca Prefab => peça;
 
 

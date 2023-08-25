@@ -16,7 +16,7 @@ public class Detall_Pisos : Detall
     [SerializeField] Detall_Pis[] pisos;
     [SerializeField] int indexTile = -1;
     [SerializeField] int[] altures;
-
+    [SerializeField] bool comprovat;
     Detall_Pisos buscat;
     int altura;
 
@@ -34,7 +34,8 @@ public class Detall_Pisos : Detall
                 return -1;
             if (buscat.altures.Length == 0)
                 return Mathf.Min(altures[0], tile.Peça.CasesLength);
-
+            if(buscat.comprovat)
+                return buscat.altures[0];
             return Mathf.Min(altures[0], buscat.altures[0]);
         }
     }
@@ -53,6 +54,9 @@ public class Detall_Pisos : Detall
             if (buscat.altures.Length == 0)
                 return Mathf.Min(altures[1], tile.Peça.CasesLength);
 
+            Debug.Log($"Altura meva = {altures[1]}, altira buscat = {buscat.altures[2]}");
+            if (buscat.comprovat) 
+                return buscat.altures[2];
             return Mathf.Min(altures[1], buscat.altures[2]);
         }
     }
@@ -71,11 +75,14 @@ public class Detall_Pisos : Detall
             if(buscat.altures.Length == 0)
                 return Mathf.Min(altures[2], tile.Peça.CasesLength);
 
+            Debug.Log($"Altura meva = {altures[2]}, altira buscat = {buscat.altures[1]}");
+            if (buscat.comprovat) 
+                return buscat.altures[1];
             return Mathf.Min(altures[2], buscat.altures[1]);
         }
     }
 
-
+    public bool Comprovat => comprovat; 
 
     private void OnEnable()
     {
@@ -95,6 +102,8 @@ public class Detall_Pisos : Detall
 
     void CompararAltures()
     {
+        comprovat = false;
+
         for (int i = 0; i < peça.Tiles.Length; i++)
         {
             if (peça.Tiles[i].TileFisic == gameObject)
@@ -114,18 +123,17 @@ public class Detall_Pisos : Detall
 
         SetAltures();
         
-
+        //No es poden ajuntar, son diferents entre elles.
         if (tile.Veins[0] != null)
         {
             if (tile.Veins[0].TileFisic.TryGetComponent(out buscat))
             {
-                if (buscat.altures == null || buscat.altures.Length == 0)
+                if (buscat.altures == null || buscat.altures.Length == 0 || buscat.altures[0] == -1)
                 {
                     Debug.LogError($"{buscat.gameObject.name} no te altures", buscat.gameObject);
                     buscat.SetAltures(new int[] { altures[0], -1, -1 });
                 }
 
-                //altures[0] = Mathf.Min(peça.CasesLength, tile.Veins[0].Peça.CasesLength);
                 altures[0] = Mathf.Min(peça.CasesLength, buscat.altures[0]);
             }
             else altures[0] = 1;
@@ -134,7 +142,7 @@ public class Detall_Pisos : Detall
 
         if (tile.Veins[1].TileFisic.TryGetComponent(out buscat))
         {
-            if (buscat.altures == null || buscat.altures.Length == 0)
+            if (buscat.altures == null || buscat.altures.Length == 0 || buscat.altures[2] == -1)
             {
                 Debug.LogError($"{buscat.gameObject.name} no te altures", buscat.gameObject);
                 buscat.SetAltures(new int[] { -1, altures[1], -1 });
@@ -142,11 +150,11 @@ public class Detall_Pisos : Detall
 
             altures[1] = Mathf.Min(altures[1], buscat.altures[2]);
         }
-        //else altures[1] = peça.CasesLength;
+        else altures[1] = 1;
 
         if (tile.Veins[2].TileFisic.TryGetComponent(out buscat))
         {
-            if (buscat.altures == null || buscat.altures.Length == 0)
+            if (buscat.altures == null || buscat.altures.Length == 0 || buscat.altures[1] == -1)
             {
                 Debug.LogError($"{buscat.gameObject.name} no te altures", buscat.gameObject);
                 buscat.SetAltures(new int[] { -1, -1, altures[2] });
@@ -154,12 +162,13 @@ public class Detall_Pisos : Detall
 
             altures[2] = Mathf.Min(altures[2], buscat.altures[1]);
         }
-        //else altures[2] = peça.CasesLength;
+        else altures[2] = 1;
+
+        comprovat = true;
 
         Crear();
+
     }
-
-
 
     public void SetAltures()
     {
@@ -172,7 +181,6 @@ public class Detall_Pisos : Detall
     }
     public void SetAltures(int[] altures)
     {
-
         this.altures = new int[]
         {
             altures[0] == -1 ? Random.Range(1, peça.CasesLength) : altures[0],
