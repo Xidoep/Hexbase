@@ -240,8 +240,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 3210464410960873576}
+  parentBoto: {fileID: 8993063947781138520}
   boto: {fileID: 5518244862845397995}
   productes: []
+  numeroParent: {fileID: 6911076192893126154}
   numero: {fileID: 2020477674037138377}
   prefab_informacio: {fileID: 1906305211962755270, guid: 9567c7540f3058d4dbf625df74d5dad2, type: 3}
   esProducte: 0
@@ -349,7 +351,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 131063
 --- !u!114 &1262185676491018468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,6 +761,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5518244862845397995}
+        m_TargetAssemblyTypeName: XS_Button, XS.UI_Extensionsss
+        m_MethodName: Interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 5578152723527197043}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
@@ -1575,6 +1589,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2135571917769436895}
+        m_TargetAssemblyTypeName: XS_Button, XS.UI_Extensionsss
+        m_MethodName: Interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 7277964077546829823}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1779,6 +1805,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 5518244862845397995}
         m_TargetAssemblyTypeName: XS_Button, XS.UI_Extensionsss
+        m_MethodName: Interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5518244862845397995}
+        m_TargetAssemblyTypeName: XS_Button, XS.UI_Extensionsss
         m_MethodName: Disable
         m_Mode: 1
         m_Arguments:
@@ -1934,8 +1972,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 8529218887414485505}
+  parentBoto: {fileID: 4911669120438951229}
   boto: {fileID: 2135571917769436895}
   productes: []
+  numeroParent: {fileID: 3407608926046475747}
   numero: {fileID: 6369191496794374920}
   prefab_informacio: {fileID: 1906305211962755270, guid: d72653682e524184197351dcf94b27d4, type: 3}
   esProducte: 1
@@ -2170,6 +2210,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2135571917769436895}
+        m_TargetAssemblyTypeName: XS_Button, XS.UI_Extensionsss
+        m_MethodName: Interactable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 2135571917769436895}
         m_TargetAssemblyTypeName: XS_Button, XS.UI_Extensionsss

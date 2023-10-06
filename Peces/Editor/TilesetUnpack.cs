@@ -11,6 +11,7 @@ public class TilesetUnpack : ScriptableObject
     public enum Tipus { Simple, Ocupable, Condicional}
     //Ordre: Estats, Tiles i Subtiles
     const string TIPUS_SIMPLE = "TS";
+    const string TIPUS_OCUPABLE_LLIURE = "TL";
     const string TIPUS_OCUPABLE = "TO";
     const string TIPUS_CONDICIONAL = "TC";
     const string NULES = "Nules";
@@ -68,7 +69,7 @@ public class TilesetUnpack : ScriptableObject
 
         CrearFoldersSiCal(root);
 
-        tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, actualitzarConnexions);
+        //tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, actualitzarConnexions);
 
         tilesetCreat = false;
         simple = null;
@@ -127,8 +128,8 @@ public class TilesetUnpack : ScriptableObject
         CrearAsset(root);
         AssignarAEstat(root);
 
-        if (nomesTileset)
-            return;
+        //if (nomesTileset)
+        //    return;
 
         tilesUnpack.Unpack(root, subobjects, outputTiles, outputDetalls, referencies, detalls, actualitzarConnexions);
 
@@ -172,7 +173,7 @@ public class TilesetUnpack : ScriptableObject
                 tilesetCreat = true;
                 tileset = simple;
             }
-            else if (EsOcupable(i, root))
+            else if (EsOcupable(i, root) || EsOcupableLliure(i, root))
             {
                 tipus = Tipus.Ocupable;
 
@@ -195,10 +196,15 @@ public class TilesetUnpack : ScriptableObject
                 tilesetCreat = true;
                 tileset = condicional;
             }
+            else
+            {
+                Debug.Log($"Com pot ser que ({subobjects[i].name}) no tingui cap tipus?");
+            }
         }
 
         bool EsSimple(int i, string root) => subobjects[i].name.Substring(root.Length + 2).StartsWith(TIPUS_SIMPLE);
         bool EsOcupable(int i, string root) => subobjects[i].name.Substring(root.Length + 2).StartsWith(TIPUS_OCUPABLE);
+        bool EsOcupableLliure(int i, string root) => subobjects[i].name.Substring(root.Length + 2).StartsWith(TIPUS_OCUPABLE_LLIURE);
         bool EsCondicional(int i, string root) => subobjects[i].name.Substring(root.Length + 2).StartsWith(TIPUS_CONDICIONAL);
     }
 
@@ -313,6 +319,8 @@ public class TilesetUnpack : ScriptableObject
 
     void Especifiques(int index, string root, int condicio = 0)
     {
+        if (!tilesetCreat)
+            return;
 
         if (!EsEspecifiques(index, root, tipus == Tipus.Condicional))
         {

@@ -31,6 +31,10 @@ public class EstatsUnpack : ScriptableObject
 
     [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] 
     TilesetUnpack tilesetUnpack;
+    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] 
+    TilesUnpack tileUnpack;
+    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField]
+    Grups grups;
 
     [Space(20), ReadOnly, SerializeField]
     Referencies referencies;
@@ -127,12 +131,13 @@ public class EstatsUnpack : ScriptableObject
 
 
 
-    [PropertyOrder(-3), Button(ButtonSizes.Large, Icon = SdfIconType.Archive, IconAlignment = IconAlignment.LeftOfText)]
+    [PropertyOrder(-3), Button(ButtonSizes.Large, Name = "UNPACK", Icon = SdfIconType.Archive, IconAlignment = IconAlignment.LeftOfText)]
     void Unpack() => Unpack(confirmacions, false);
     void Unpack(Confirmacio[] confirmacions) => Unpack(confirmacions, true);
 
     void Unpack(Confirmacio[] confirmacions, bool allReceptes)
     {
+        tileUnpack.Reset();
         //Crear linies i columnes
         linies = System.IO.File.ReadAllLines(AssetDatabase.GetAssetPath(csv));
 
@@ -157,6 +162,8 @@ public class EstatsUnpack : ScriptableObject
         referencies.Refresh();
 
         CrearReceptes(allReceptes ? this.confirmacions : confirmacions);
+
+        GrupsAgafarReferencies();
     }
 
     private void CrearReceptes(Confirmacio[] confirmacions)
@@ -440,6 +447,16 @@ public class EstatsUnpack : ScriptableObject
         }
 
     }
+
+    void GrupsAgafarReferencies()
+    {
+        grups.Setup(
+            Referencies.Instance.GetColocable("Casa"),
+            Referencies.Instance.GetColocable("Cami"),
+            Referencies.Instance.GetEstat("PORT"),
+            Referencies.Instance.GetColocable("Mar"));
+    }
+
 /*
     [Button("hola?")]
     void AddConnectables()

@@ -31,6 +31,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     [Apartat("CASA")]
     [SerializeField] List<Casa> cases;
+    [SerializeField] Utils_InstantiableFromProject efecteNouHabitant;
 
     [Apartat("PROCESSADOR")]
     public Processador processador;
@@ -179,11 +180,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
 
     public void CrearCasa(Casa casa) => cases = new List<Casa>() { casa };
-    public void AfegirCasa(Recepta[] necessitats)
+    public void AfegirCasa(Recepta[] necessitats, float delay = 0)
     {
         if (cases == null) cases = new List<Casa>();
 
         cases.Add(new Casa(this, necessitats));
+        if (delay == 0)
+             efecteNouHabitant.Instantiate(transform.position);
+        else efecteNouHabitant.Instantiate(transform.position, delay);
     }
     public void TreureCasa()
     {
@@ -265,7 +269,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [ShowInInspector] List<string> DebugPossibilitats5 => DebugGetNomsPossibilitats(5);
 
     [ShowInInspector]
-    string[] veins => tiles != null ? new string[] {
+    string[] veins => tiles != null && tiles.Length > 0 ? new string[] {
         tiles[0].Veins[0] != null ?  tiles[0].Veins[0].EstatName : "-",
         tiles[1].Veins[0] != null ?  tiles[1].Veins[0].EstatName : "-",
         tiles[2].Veins[0] != null ?  tiles[2].Veins[0].EstatName : "-",
@@ -273,6 +277,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         tiles[4].Veins[0] != null ?  tiles[4].Veins[0].EstatName : "-",
         tiles[5].Veins[0] != null ?  tiles[5].Veins[0].EstatName : "-"
     } : new string[0];
+
+
 
     List<string> DebugGetNomsPossibilitats(int index)
     {

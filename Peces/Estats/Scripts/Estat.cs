@@ -181,47 +181,64 @@ public class Estat : ScriptableObject, IProcessable
 
         if (tileset == null) tileset = XS_Editor.LoadAssetAtPath<TileSetBase>($"Assets/XidoStudio/Hexbase/Peces/Estats/{name}/Tiles/{name}.asset");
 
-        if (tipus == TipusEnum.Normal)
-            return;
+        //if (tipus == TipusEnum.Normal)
+        //    return;
+
         SetupInformacio();
 
     }
 
     void SetupInformacio()
     {
-        Informacio casa = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Casa.asset");
-        Informacio connexio = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Connexio.asset");
-        Informacio extraccio = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Extraccio.asset");
-        Informacio grup = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Grup.asset");
-        Informacio productor = XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Productor.asset");
-
         switch (tipus)
         {
             case TipusEnum.Casa:
-                if (!informacions.Contains(casa) || !informacions.Contains(grup))
+                if (!informacions.Contains(InfoCasa) || !informacions.Contains(InfoGrup))
                 {
-                    informacions = new List<Informacio>();
-                    informacions.Add(casa);
-                    informacions.Add(grup);
+                    informacions = new List<Informacio>() 
+                    {
+                        InfoCasa,
+                        InfoGrup
+                    };
                 }
                 break;
             case TipusEnum.Productor:
-                if (!informacions.Contains(grup) || !informacions.Contains(connexio) || !informacions.Contains(productor))
+                if (!informacions.Contains(InfoGrup) || !informacions.Contains(InfoConnexio) || !informacions.Contains(InfoProductor))
                 {
-                    informacions = new List<Informacio>();
-                    informacions.Add(grup);
-                    informacions.Add(connexio);
-                    informacions.Add(productor);
+                    informacions = new List<Informacio>() 
+                    {
+                        InfoGrup,
+                        InfoConnexio,
+                        InfoProductor
+                    };
                 }
                 break;
             case TipusEnum.Extraccio:
-                if (!informacions.Contains(connexio) || !informacions.Contains(extraccio))
+                if (!informacions.Contains(InfoConnexio) || !informacions.Contains(InfoExtraccio))
                 {
-                    informacions = new List<Informacio>();
-                    informacions.Add(connexio);
-                    informacions.Add(extraccio);
+                    informacions = new List<Informacio>() 
+                    {
+                        InfoConnexio,
+                        InfoExtraccio
+                    };
+                }
+                break;
+            default:
+                if (!informacions.Contains(InfoEstat))
+                {
+                    informacions = new List<Informacio>()
+                    {
+                        InfoEstat
+                    };
                 }
                 break;
         }
     }
+
+    Informacio InfoCasa => XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Casa.asset");
+    Informacio InfoConnexio => XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Connexio.asset");
+    Informacio InfoExtraccio => XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Extraccio.asset");
+    Informacio InfoGrup => XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Grup.asset");
+    Informacio InfoProductor => XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Productor.asset");
+    Informacio InfoEstat => XS_Editor.LoadAssetAtPath<Informacio>("Assets/XidoStudio/Hexbase/Peces/Informacio/Estat.asset");
 }

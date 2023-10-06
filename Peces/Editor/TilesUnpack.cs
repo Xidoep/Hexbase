@@ -18,6 +18,7 @@ public class TilesUnpack : ScriptableObject
     const char VARIACIO = '#';
     const char PUNT = '.';
     const string PROP = "prop_";
+    const string PROP_OCUPAT = "prop/0_";
     const char SCRIPT = '@';
 
     //[SerializeField] Object tiles;
@@ -39,6 +40,7 @@ public class TilesUnpack : ScriptableObject
     string[] nomsConnexions;
     Connexio[] connexionsTile;
     GameObject intance;
+    GameObject detallPrefab;
     GameObject detall;
     GameObject prefab;
     bool trobat;
@@ -57,16 +59,23 @@ public class TilesUnpack : ScriptableObject
     EstatColocable colocable;
     string[] tmpPes;
     string[] pesos;
+    Detall_Ocupable detallOcupable;
 
+    bool ocupable;
 
-
+    bool detallsCreats;
+    bool connexionsCreades;
 
     string Main(string root) => $"{outputTiles}/{root}";
+    string Main_Prefabs(string root) => $"{Main(root)}/Tiles/Prefabs";
+    string Main_Tiles(string root) => $"{Main(root)}/Tiles";
     string Path_Estat(string root) => $"{outputTiles}/{root.ToUpper()}.asset";
-    string Path_Tile(string root) => $"{Main(root)}/Tiles/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.asset";
-    string Path_Tileset(string root) => $"{Main(root)}/Tiles/{root}.asset";
+    string Path_Tile(string root) => $"{Main_Tiles(root)}/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.asset";
+    string Path_TileLliure(string root) => $"{Main_Tiles(root)}/Lliure/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.asset";
+    string Path_Tileset(string root) => $"{Main_Tiles(root)}/{root}.asset";
     string Path_Connexio(string nom) => $"{AUTOGENERATS_PATH}/{nom}.asset";
-    string Path_PrefabTile(string root) => $"{Main(root)}/Tiles/Prefabs/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.prefab";
+    string Path_PrefabTile(string root) => $"{Main_Prefabs(root)}/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.prefab";
+    string Path_PrefabTileLliure(string root) => $"{Main_Prefabs(root)}/Lliure/{nom}{(variacio != 0 ? $"_{variacio}" : "")}.prefab";
     //string Path_AssetPrefab(string root) => $"{outputPath}/{root}/Prefab/{nom}.prefab";
     string Path_Colocable(string root) => $"{Main(root)}/Colocable/{root}.asset";
     string Path_PrefabEstat(string root) => $"{Main(root)}/Prefab/{root}.prefab";
@@ -83,48 +92,54 @@ public class TilesUnpack : ScriptableObject
         NetejarTileset(root);
         EliminarAntics(root, outputTiles);
 
-        if (actualitzarConnexions)
+        if (!connexionsCreades)
+        {
+            if (actualitzarConnexions)
+            {
+                for (int i = 0; i < subobjects.Length; i++)
+                {
+                    if (!EsConnexio(i))
+                        continue;
+
+                    CrearConnexions(i);
+                }
+                referencies.Refresh();
+
+
+                for (int i = 0; i < subobjects.Length; i++)
+                {
+                    if (!EsConnexio(i))
+                        continue;
+
+                    AddViables(i);
+                }
+                if (EsConnexio(subobjects.Length - 1))
+                    AddViables(subobjects.Length - 1);
+                referencies.Refresh();
+            }
+        }
+        connexionsCreades = true;
+
+        if (!detallsCreats)
         {
             for (int i = 0; i < subobjects.Length; i++)
             {
-                if (!EsConnexio(i))
+                if (!EsGameObject(i))
                     continue;
 
-                CrearConnexions(i);
-            }
-            referencies.Refresh();
-
-
-            for (int i = 0; i < subobjects.Length; i++)
-            {
-                if (!EsConnexio(i))
+                if (!EsProp(i))
                     continue;
 
-                AddViables(i);
+                if (subobjects[i].name.Contains(PUNT))
+                    continue;
+
+                if (detalls)
+                    CrearDetall(i);
             }
-            if (EsConnexio(subobjects.Length - 1))
-                AddViables(subobjects.Length - 1);
             referencies.Refresh();
         }
-       
-        
 
-        for (int i = 0; i < subobjects.Length; i++)
-        {
-            if (!EsGameObject(i))
-                continue;
-
-            if (!EsProp(i))
-                continue;
-
-            if (subobjects[i].name.Contains(PUNT))
-                continue;
-
-            if(detalls)
-                CrearDetall(i);
-        }
-        referencies.Refresh();
-
+        detallsCreats = true;
 
         for (int i = 0; i < subobjects.Length; i++)
         {
@@ -157,12 +172,29 @@ public class TilesUnpack : ScriptableObject
                 continue;
             }
 
-            CrearPrefabTile(i, root);
+            CrearPrefabTile(i, root, true);
             AddConnexions(root);
-            CrearTile(root);
+            CrearTile(root, true);
+            AddTileToTileset(root, true);
+
+            if (tileset is TileSet_Ocupable)
+            {
+                CrearPrefabTile(i, root, false);
+                AddConnexions(root);
+                CrearTile(root, false);
+                AddTileToTileset(root, false);
+            }
+
+            /*
+            CrearPrefabTile(i, root);
+            //if (tileset is TileSet_Ocupable)
+            //    CrearPrefabTile(i, root, true);
+
+            AddConnexions(root);
+            CrearTile(root, tileset is TileSet_Ocupable);
 
             AddTileToTileset(root);
-
+            */
             //Debug.Log("---------------------");
         }
 
@@ -170,6 +202,11 @@ public class TilesUnpack : ScriptableObject
 
     }
 
+    public void Reset()
+    {
+        connexionsCreades = false;
+        detallsCreats = false;
+    }
 
     void NetejarTileset(string root)
     {
@@ -217,12 +254,13 @@ public class TilesUnpack : ScriptableObject
     }
 
 
-    bool EsProp(int i) => subobjects[i].name.StartsWith(PROP);
+    bool EsProp(int i) => subobjects[i].name.StartsWith(PROP) || subobjects[i].name.StartsWith(PROP_OCUPAT);
     bool EsGameObject(int i) => subobjects[i].GetType().Equals(typeof(GameObject));
     bool EsPeça(int i, string root) => subobjects[i].name.StartsWith($"{root}-");
     bool EsConnexio(int i) => subobjects[i].name.StartsWith("C_");
     bool EsPrefab(int i, string root) => subobjects[i].name.StartsWith($"{PREFAB}-{root}");
     bool TeScripts(int i) => subobjects[i].name.Contains(SCRIPT);
+    bool TeScripts(string nom) => nom.Contains(SCRIPT);
     string[] Scripts(int i) => subobjects[i].name.Split(SCRIPT)[1].Split(',');
     /*bool EsPrefab(int i, string root) 
     {
@@ -236,7 +274,7 @@ public class TilesUnpack : ScriptableObject
         AssetDatabase.DeleteAsset(subobjects[i].name.Substring(5));
 
         intance = (GameObject)Instantiate(subobjects[i]);
-        
+
 
         /*if (TeScripts(i))
         {
@@ -247,7 +285,14 @@ public class TilesUnpack : ScriptableObject
             }
         }*/
 
-        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_Detall(!TeScripts(i) ? subobjects[i].name.Substring(5) : subobjects[i].name.Substring(5).Split('@')[0]));
+        nom = subobjects[i].name.Substring(subobjects[i].name.Contains("/0") ? 7 : 5);
+
+        if (TeScripts(i))
+        {
+            AddScriptsByNameWithArguments(intance.name.Contains('(') ? intance.name.Split('(')[0] : intance.name, intance);
+        }
+
+        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_Detall(!TeScripts(i) ? nom : subobjects[i].name.Substring(5).Split('@')[0]));
 
         DestroyImmediate(intance);
     }
@@ -381,49 +426,40 @@ public class TilesUnpack : ScriptableObject
 
 
 
-    void CrearPrefabTile(int index, string root)
+    void CrearPrefabTile(int index, string root, bool lliure = true)
     {
         intance = (GameObject)Instantiate(subobjects[index]);
         
         //Substituir childs pels prefabs
         Debug.Log($"{intance.transform.childCount} childs");
         float childCount = intance.transform.childCount;
+
         for (int i = 0; i < childCount; i++)
         {
             //if (!EsGameObject(i))
             //    continue;
 
-            Debug.Log($"Child{i} = {intance.transform.GetChild(i).name}");
+            //Debug.Log($"Child{i} = {intance.transform.GetChild(i).name}");
             if (!referencies.DetallsContains(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)))
                 continue;
 
-            detall = (GameObject)PrefabUtility.InstantiatePrefab(referencies.GetDetall(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5)), intance.transform);
+            detallPrefab = referencies.GetDetall(intance.transform.GetChild(i).name.Split(PUNT)[0].Substring(5));
+            
+            intance.transform.GetChild(i).gameObject.SetActive(false);
+            
+            if (lliure && detallPrefab.TryGetComponent(out detallOcupable))
+                continue;
+
+            detall = (GameObject)PrefabUtility.InstantiatePrefab(detallPrefab, intance.transform);
             detall.transform.Copiar(intance.transform.GetChild(i));
 
-            intance.transform.GetChild(i).gameObject.SetActive(false);
 
-            if (!intance.transform.GetChild(i).name.Contains(SCRIPT))
+            if (!TeScripts(intance.transform.GetChild(i).name))
                 continue;
 
             AddScriptsByNameWithArguments(intance.transform.GetChild(i).name, detall);
-
-            /*
-            string component = intance.transform.GetChild(i).name.Split(SCRIPT)[1];
-            string nom = "";
-            string[] arguments = new string[0];
-            if (component.Contains(':'))
-            {
-                nom = component.Split(':')[0];
-                if (component.Split(':')[1].Contains(','))
-                    arguments = component.Split(':')[1].Split(',');
-                else arguments = new string[] { component.Split(':')[1] };
-            }
-
-
-            if(nom == "Pis") detall.AddComponent<Detall_Pis>().Setup(arguments);
-            if(nom == "Pisos") detall.AddComponent<Detall_Pisos>().Setup(arguments);
-            */
         }
+
 
         if(invertit)
             intance.transform.localScale = new Vector3(-1, 1, 1);
@@ -434,9 +470,15 @@ public class TilesUnpack : ScriptableObject
             AddScriptsByNameWithArguments(intance.name.Contains('(') ? intance.name.Split('(')[0] : intance.name, intance);
         }
 
+        if (lliure)
+        {
+            if (!AssetDatabase.IsValidFolder($"{Main_Prefabs(root)}/Lliure"))
+                AssetDatabase.CreateFolder(Main_Prefabs(root), "Lliure");
+        }
 
-        prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_PrefabTile(root));
+        prefab = PrefabUtility.SaveAsPrefabAsset(intance, !lliure ? Path_PrefabTile(root) : Path_PrefabTileLliure(root));
         DestroyImmediate(intance);
+
     }
     void AddScriptsByNameWithArguments(string name, GameObject objectiu)
     {
@@ -460,6 +502,7 @@ public class TilesUnpack : ScriptableObject
         Debug.Log(debug);
         if (nom == "Pis") objectiu.AddComponent<Detall_Pis>().Setup(arguments);
         if (nom == "Pisos") objectiu.AddComponent<Detall_Pisos>().Setup(arguments);
+        if (nom == "Ocupable") objectiu.AddComponent<Detall_Ocupable>().Setup(arguments);
     }
     void CrearConnexions(int i)
     {
@@ -531,12 +574,21 @@ public class TilesUnpack : ScriptableObject
             */
         }
     }
-    private void CrearTile(string root)
+    private void CrearTile(string root, bool lliure)
     {
         tile = CreateInstance<Tile>();
         tile.Setup(prefab, connexionsTile);
 
-        AssetDatabase.CreateAsset(tile, Path_Tile(root));
+        if (lliure)
+        {
+            if(!AssetDatabase.IsValidFolder($"{Main_Tiles(root)}/Lliure"))
+                AssetDatabase.CreateFolder(Main_Tiles(root), "Lliure");
+        }
+
+        AssetDatabase.CreateAsset(tile,
+            lliure ?
+            Path_TileLliure(root) :
+            Path_Tile(root));
 
         Debug.Log($"Crear Tile: {nom} (Invertit = {invertit}; Variacio = {variacio})");
     }
@@ -544,6 +596,7 @@ public class TilesUnpack : ScriptableObject
 
     void SetupTileset(string root)
     {
+        ocupable = false;
         if (pes.Length > 1 && pes[0] == -1)
         {
             Debug.LogError("No hi ha pes!");
@@ -569,6 +622,7 @@ public class TilesUnpack : ScriptableObject
             ((TileSet_Ocupable)tileset).TileSetLliure.SetPes(tile, pes[0]);
             ((TileSet_Ocupable)tileset).TileSetOcupat.SetPes(tile, pes[0]);
             EditorUtility.SetDirty(tileset);
+            ocupable = true;
         }
         else if (tileset is TileSet_Condicional)
         {
@@ -583,7 +637,7 @@ public class TilesUnpack : ScriptableObject
 
         }
     }
-    void AddTileToTileset(string root)
+    void AddTileToTileset(string root, bool lliure)
     {
         if (pes.Length > 1 && pes[0] == -1)
         {
@@ -609,8 +663,9 @@ public class TilesUnpack : ScriptableObject
         }
         else if (tileset is TileSet_Ocupable)
         {
-            ((TileSet_Ocupable)tileset).TileSetLliure.AddTile(tile, pes[0]);
-            ((TileSet_Ocupable)tileset).TileSetOcupat.AddTile(tile, pes[0]);
+            if(lliure)
+                ((TileSet_Ocupable)tileset).TileSetLliure.AddTile(tile, pes[0]);
+            else ((TileSet_Ocupable)tileset).TileSetOcupat.AddTile(tile, pes[0]);
             EditorUtility.SetDirty(tileset);
         }
         else if (tileset is TileSet_Condicional)
@@ -634,6 +689,7 @@ public class TilesUnpack : ScriptableObject
         //Debug.Log($"Save {Path_Tileset(root)}");
         //tileset = AssetDatabase.LoadAssetAtPath<TileSetBase>(Path_Tileset(root));
         //EditorUtility.SetDirty(tileset);
+
         AssetDatabase.SaveAssetIfDirty(tileset);
     }
 }

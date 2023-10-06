@@ -8,6 +8,11 @@ public class Detall_Pis : Detall
 {
     public override void Setup(string[] arg)
     {
+        if(arg.Length == 0)
+        {
+            SetAssets();
+            return;
+        }
         if (arg[0] == "Ext") this.orientacioCasa = 0;
         else if (arg[0] == "Dre") this.orientacioCasa = 1;
         else if (arg[0] == "Esq") this.orientacioCasa = 2;

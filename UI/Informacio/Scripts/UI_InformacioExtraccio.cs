@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UI_InformacioExtraccio : UI_Informacio
 {
+
+    [SerializeField] TMP_Text estat;
+
+    [Space(10)]
     [SerializeField] UI_Producte producte;
 
+    [Space(10)]
     [SerializeField] Transform parent;
     [SerializeField] GameObject etiquetaPotProduir;
     [SerializeField] GameObject etiquetaProduit;
@@ -15,6 +21,8 @@ public class UI_InformacioExtraccio : UI_Informacio
     public override GameObject Setup(Hexagon hexagon)
     {
         peça = (Peça)hexagon;
+
+        estat.text = peça.Estat.name;
 
 
         if (peça.EstaConnectat)

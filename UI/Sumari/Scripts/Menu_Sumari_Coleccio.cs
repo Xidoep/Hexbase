@@ -7,10 +7,12 @@ using TMPro;
 public class Menu_Sumari_Coleccio : MonoBehaviour
 {
     [SerializeField] HorizontalLayoutGroup parent;
+    [SerializeField] XS_Button parentBoto;
     [SerializeField] XS_Button boto;
     //[SerializeField] List<XS_Button> llista;
     //[SerializeField] List<Producte> productes;
     [SerializeField] List<UI_Producte> productes;
+    [SerializeField] GameObject numeroParent;
     [SerializeField] TMP_Text numero;
     [Space(20)]
     [SerializeField] GameObject prefab_informacio;
@@ -25,7 +27,7 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
     float actual;
     bool enable;
 
-    float Spacing(int tamany) => -(Mathf.LerpUnclamped(10, 40, tamany / 15f));
+    float Spacing(int tamany) => Mathf.Max(-(Mathf.LerpUnclamped(10, 40, tamany / 15f)), -65);
 
     private void OnEnable()
     {
@@ -34,11 +36,13 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
 
     }
 
+
     public void Crear(List<Sumari.Informacio> nous)
     {
         if(productes == null)
             productes = new List<UI_Producte>();
 
+        
         for(int b = productes.Count - 1; b >= 0; b--)
         {
             if (nous.Count == 0)
@@ -46,7 +50,8 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
 
             for (int n = nous.Count - 1; n >= 0; n--)
             {
-                if(productes[b].Producte == nous[n].producte)
+                if(productes[b].Iguals(nous[n]))
+                //if(productes[b].Producte == nous[n].producte)
                 {
                     productes[b].Keepit = true;
                     productes[b].SetPeça = nous[n].peça;
@@ -72,14 +77,17 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
         //Els nous que queden són els que s'han de sumar.
         for (int i = 0; i < nous.Count; i++)
         {
-            UI_Producte _producte = Instantiate(prefab_producte, parent.transform).Setup(nous[i].peça, nous[i].producte, Resaltar, Desresaltar);
+            UI_Producte _producte = Instantiate(prefab_producte, parent.transform).Setup(nous[i].peça, nous[i].producte, nous[i].index, Resaltar, Desresaltar, parentBoto.onClick.Invoke);
             productes.Add(_producte);
             if (!mostrat)
                 _producte.gameObject.SetActive(false);
         }
 
         if (!mostrat)
+        {
+            numeroParent.SetActive(productes.Count > 0);
             numero.text = productes.Count.ToString("#0");
+        }
 
         if(enable)
             boto.enabled = productes.Count > 0;
@@ -137,6 +145,7 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
             {
                 productes[i].Amagar();
             }
+            numeroParent.SetActive(productes.Count > 0);
             numero.text = productes.Count.ToString("#0");
 
             coroutine = StartCoroutine(Comprimir(true));

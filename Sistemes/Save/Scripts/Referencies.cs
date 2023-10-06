@@ -36,11 +36,30 @@ public class Referencies : ScriptableObject
 
     //INTERN
     //bool trobat;
+    EstatColocable colTrobada;
     Connexio cTrobada;
     Estat eTrobat;
     Producte pTrobat;
     GameObject dTrobat;
     Output_GuanyarExperiencia gTrobat;
+
+    public EstatColocable GetColocable(string nom)
+    {
+        colTrobada = null;
+        for (int i = 0; i < colocables.Length; i++)
+        {
+            if (colocables[i].name.Equals(nom))
+            {
+                colTrobada = colocables[i];
+                break;
+            }
+        }
+        if (colTrobada == null)
+        {
+            Debug.LogError($"El colocable amb el nom {nom} no existeix");
+        }
+        return colTrobada;
+    }
 
     public Connexio GetConnexio(string nom)
     {

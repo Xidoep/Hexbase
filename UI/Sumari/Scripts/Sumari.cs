@@ -42,7 +42,7 @@ public class Sumari : ScriptableObject
 
     void AgafarInformacio()
     {
-        Debug.Log("MOSTRAR INFORMACIO");
+        Debug.Log("SUMARI:");
         //necessitats = new List<Producte>();
         infoNecessitats = new List<Informacio>();
         for (int g = 0; g < grups.Grup.Count; g++)
@@ -50,17 +50,21 @@ public class Sumari : ScriptableObject
             if (!grups.Grup[g].EsPoble)
                 continue;
 
+            Debug.Log($"{grups.Grup[g].Peces.Count} peces al grup");
             for (int p = 0; p < grups.Grup[g].Peces.Count; p++)
             {
                 for (int c = 0; c < grups.Grup[g].Peces[p].CasesLength; c++)
                 {
+                    Debug.Log($"Peça {p} te {grups.Grup[g].Peces[p].CasesLength} cases");
                     for (int n = 0; n < grups.Grup[g].Peces[p].Cases[c].Necessitats.Count; n++)
                     {
+                        Debug.Log($"Casa {c} te {grups.Grup[g].Peces[p].Cases[c].Necessitats.Count} necessitats");
                         //necessitats.Add(grups.Grup[g].Peces[p].Cases[c].Necessitats[n]);
                         infoNecessitats.Add(new Informacio()
                         {
                             peça = grups.Grup[g].Peces[p],
-                            producte = grups.Grup[g].Peces[p].Cases[c].Necessitats[n]
+                            producte = grups.Grup[g].Peces[p].Cases[c].Necessitats[n],
+                            index = c
                         });
                     }
                 }
@@ -83,7 +87,8 @@ public class Sumari : ScriptableObject
                 infoProduits.Add(new Informacio()
                 {
                     peça = produccio.Productors[p].Connexio,
-                    producte = produccio.Productors[p].Connexio.ProductesExtrets[pe].producte
+                    producte = produccio.Productors[p].Connexio.ProductesExtrets[pe].producte,
+                    index = pe
                 });
             }
         }
@@ -95,5 +100,6 @@ public class Sumari : ScriptableObject
     {
         public Peça peça;
         public Producte producte;
+        public int index;
     }
 }

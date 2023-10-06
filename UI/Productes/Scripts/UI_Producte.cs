@@ -7,27 +7,41 @@ public class UI_Producte : MonoBehaviour
 {
     [SerializeField] Peça peça;
     [SerializeField] Producte producte;
+    [SerializeField] int index;
     [Space(20)]
     [SerializeField] Image image;
     [SerializeField] XS_Button boto;
 
 
     System.Action<Peça, Producte> resaltar;
+    System.Action clicar;
+    System.Action desresaltar;
     bool keepit;
 
     public bool Keepit { get => keepit; set => keepit = value; }
-    public Producte Producte => producte;
+    //public Peça Peça => peça;
+    //public Producte Producte => producte;
+    //public int Index => index;
     public Peça SetPeça { set => this.peça = value; }
 
+    public bool Iguals(Sumari.Informacio info) => info.peça == peça && info.index == index;
+
     //Quan s'ha de mostrar amb informacio i ser interactuable.
-    public UI_Producte Setup(Peça peça, Producte producte, System.Action<Peça, Producte> resaltar, System.Action desresaltar)
+    public UI_Producte Setup(Peça peça, Producte producte, int index, System.Action<Peça, Producte> resaltar, System.Action desresaltar, System.Action clicar)
     {
         image.sprite = producte.Sprite;
         this.peça = peça;
         this.producte = producte;
+        this.index = index;
+
         this.resaltar = resaltar;
+        this.clicar = clicar;
+        this.desresaltar = desresaltar;
+
         boto.OnEnter = Resaltar;
-        boto.OnExit = desresaltar;
+        boto.onClick.AddListener(Clicar);
+        boto.OnExit = Desresaltar;
+
         return this;
     }
 
@@ -40,11 +54,26 @@ public class UI_Producte : MonoBehaviour
     }
 
 
-    public void Mostrar() => gameObject.SetActive(true);
+    public void Mostrar() 
+    {
+        gameObject.SetActive(true);
+        boto.Interactable(true);
+    }
 
-    public void Amagar() => boto.Disable();
+    public void Amagar() 
+    {
+        boto.Disable();
+        boto.Interactable(false);
+        desresaltar.Invoke();
+    } 
 
     public void Resaltar() => resaltar.Invoke(peça, producte);
+    public void Clicar()
+    {
+        clicar.Invoke();
+        desresaltar.Invoke();
+    }
+    public void Desresaltar() => desresaltar.Invoke();
 
     public void Borrar() => Destroy(boto.gameObject);
 }

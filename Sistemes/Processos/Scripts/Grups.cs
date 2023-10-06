@@ -7,6 +7,14 @@ using XS_Utils;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/Grups")]
 public class Grups : ScriptableObject
 {
+    public void Setup(EstatColocable casa, EstatColocable cami, Estat port, EstatColocable aigua)
+    {
+        this.casa = casa;
+        this.cami = cami;
+        this.port = port;
+        this.aigua = aigua;
+    }
+
     [SerializeField] List<Grup> grups;
 
     [Apartat("ESTATS NECESSARIS")]

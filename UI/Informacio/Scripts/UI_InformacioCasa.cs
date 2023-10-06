@@ -10,6 +10,7 @@ public class UI_InformacioCasa : UI_Informacio
     [SerializeField] Utils_InstantiableFromProject habitant;
     [SerializeField] UI_Producte producte;
 
+    [Space(10)]
     [SerializeField] Transform parentHabitants;
     [SerializeField] Transform parentProductes;
     
