@@ -23,7 +23,7 @@ public class Proximitat : ScriptableObject
     List<Canvis> canviades;
     System.Action<List<Peça>, List<Canvis>> enFinalitzar;
     Peça _actual;
-
+    float stepTime = 0.1f;
 
 
     void OnEnable()
@@ -110,22 +110,24 @@ public class Proximitat : ScriptableObject
 
         if (_actual == null)
         {
-            Debugar.LogError("DESTRUIDA!");
             StepRecepta(canviar);
         }
 
         List<Peça> veins = _actual.VeinsPeça;
         Debug.Log($"Processar {_actual.name}");
-        if (_actual.processador.IntentarProcessar(_actual, new List<object>(veins), true))
+        Processador.Proces confirmacio = _actual.processador.IntentarProcessar(_actual, new List<object>(veins), true);
+        if (confirmacio.confirmat)
+        //if (_actual.processador.IntentarProcessar(_actual, new List<object>(veins), true))
         {
             Debug.Log("La recepta s'ha complert!");
 
-            MarcarComCanviada(_actual, canviar, 0);
+            MarcarComCanviada(_actual, canviar, confirmacio.experiencia);
         }
 
 
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
-        StepRecepta(canviar);
+        //StepRecepta(canviar);
+        XS_Coroutine.StartCoroutine_Ending(stepTime, StepRecepta, canviar);
     }
 
     void Step(bool canviar)
@@ -167,7 +169,7 @@ public class Proximitat : ScriptableObject
         if (canviar)
         {
             //_actual.Condicions[i].Canviar(_actual, GunayarExperienciaIVisualitzarSiCal);
-            canviades.Add(new Canvis(peça,experiencia));
+            canviades.Add(new Canvis(peça, experiencia));
             Add(_actual);
         }
         else

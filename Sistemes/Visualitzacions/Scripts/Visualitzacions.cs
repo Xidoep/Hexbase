@@ -107,7 +107,15 @@ public class Visualitzacions : ScriptableObject
 
 
     #region PUNTS FLOTANTS
-    void PuntsFlotants(Peça peça, int experiencia) => XS_Coroutine.StartCoroutine(PuntsFlotants_Corrutina(peça, experiencia));
+    public void PuntsFlotants(Peça peça, int experiencia) => XS_Coroutine.StartCoroutine(PuntsFlotants_Corrutina(peça, experiencia));
+    public void PuntsFlotants(float delay, Vector3 posicio, int experiencia) 
+    {
+        XS_Coroutine.StartCoroutine_Ending_FrameDependant(delay, () =>
+        Instantiate(
+            puntsFlotants,
+            posicio - Utils_MainCamera_Acces.Camera.transform.forward * 1,
+            Quaternion.Euler(Utils_MainCamera_Acces.Camera.transform.forward)).Setup(experiencia));
+    } 
     IEnumerator PuntsFlotants_Corrutina(Peça peça, int experiencia)
     {
         Debug.Log("Crear punts flotants");

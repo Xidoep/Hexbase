@@ -32,6 +32,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [Apartat("CASA")]
     [SerializeField] List<Casa> cases;
     [SerializeField] Utils_InstantiableFromProject efecteNouHabitant;
+    [SerializeField] Utils_InstantiableFromProject efecteNouProducte;
 
     [Apartat("PROCESSADOR")]
     public Processador processador;
@@ -101,7 +102,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     //SETTERS
     public ConnexioEnum GetEstatConnexio => connexio != null ? ConnexioEnum.Connectat : ConnexioEnum.Desconnectat;
-    public ProducteExtret[] SetProductesExtrets { set => productesExtrets = value; }
+    public ProducteExtret[] SetProductesExtrets 
+    {
+        set 
+        {
+            productesExtrets = value;
+            efecteNouProducte.Instantiate(transform.position, productesExtrets.Length);
+        } 
+    }
     //public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
     public void ResetCases() => cases = new List<Casa>();
 
@@ -173,7 +181,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public void CanviarSubestat(Estat subestat)
     {
         productesExtrets = new ProducteExtret[0];
-        subestat.InformacioAmagar(this);
+        this.subestat.InformacioAmagar(this);
+        //subestat.InformacioAmagar(this);
 
         this.subestat = subestat.Setup(this);
         cases = new List<Casa>();
@@ -217,10 +226,6 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if(Connexio.connexio != this)
             connexio = null;
     }
-
-
-
-
 
 
 

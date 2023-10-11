@@ -10,6 +10,8 @@ public class UI_Producte : MonoBehaviour
     [SerializeField] int index;
     [Space(20)]
     [SerializeField] Image image;
+    [SerializeField] SpriteRenderer sprite;
+    [Space(20)]
     [SerializeField] XS_Button boto;
 
 
@@ -29,7 +31,11 @@ public class UI_Producte : MonoBehaviour
     //Quan s'ha de mostrar amb informacio i ser interactuable.
     public UI_Producte Setup(Peça peça, Producte producte, int index, System.Action<Peça, Producte> resaltar, System.Action desresaltar, System.Action clicar)
     {
-        image.sprite = producte.Sprite;
+        if (image) image.sprite = producte.Sprite;
+        if (sprite) 
+        {
+            sprite.sprite = producte.Sprite;
+        } 
         this.peça = peça;
         this.producte = producte;
         this.index = index;
@@ -48,7 +54,12 @@ public class UI_Producte : MonoBehaviour
     //Quan s'ha de mostrar sense cap tipus d'infurmacio
     public GameObject Setup(Producte producte, bool gastat = false)
     {
-        image.sprite = !gastat ? producte.Sprite : producte.Gastada;
+        if (image) image.sprite = !gastat ? producte.Sprite : producte.Gastada;
+        if (sprite) 
+        {
+            sprite.sprite = !gastat ? producte.Sprite : producte.Gastada;
+            //sprite.material.SetTexture("_Icone", (RenderTexture)producte.Sprite);
+        } 
 
         return gameObject;
     }

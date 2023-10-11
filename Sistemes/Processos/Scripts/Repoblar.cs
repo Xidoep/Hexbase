@@ -56,7 +56,7 @@ public class Repoblar : ScriptableObject
             //peça.AmagarInformacio?.Invoke(peça);
             for (int i = peça.CasesLength; i < casesVeines; i++)
             {
-                peça.AfegirCasa(necessitats, i * 1);
+                peça.AfegirCasa(necessitats, i * 0.4f);
                 Debug.Log("Add casa");
             }
         }

@@ -35,6 +35,9 @@ public class Recepta : ScriptableObject
     [BoxGroup("OUTPUTS", centerLabel: true), Title("Accio connectar"), EnumToggleButtons, HideLabel, SerializeField, PropertySpace(0, spaceAfter: 20)] 
     Peça.ConnexioEnum connexio;
 
+    [BoxGroup("OUTPUTS", centerLabel: true), SerializeField]
+    int experiencia;
+
     [SerializeField, ReadOnly] Produccio produccio;
 
     //INTERN
@@ -44,7 +47,11 @@ public class Recepta : ScriptableObject
     bool conte = false;
 
 
+
     public ScriptableObject[] Inputs => inputs;
+    public int Experiencia => experiencia;
+
+
 
     public bool ConteInput(Object estat)
     {

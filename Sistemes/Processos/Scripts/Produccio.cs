@@ -9,12 +9,16 @@ public class Produccio : ScriptableObject
     [SerializeScriptableObject][SerializeField] Grups grups;
     //[SerializeScriptableObject] [SerializeField] Fase_Resoldre resoldre;
     [SerializeScriptableObject] [SerializeField] Nivell nivell;
+    [SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
     //[SerializeField] PoolPeces pool;
 
     [Nota("Ara es mostra només per debugar", NoteType.Warning)]
     [SerializeField] List<Peça> productors;
-    
-    
+
+    [SerializeField] Utils_InstantiableFromProject producte;
+    [SerializeField] Utils_InstantiableFromProject habitant;
+    [SerializeField] Utils_InstantiableFromProject proveit;
+
     //[Apartat("ESTATS NECESSARIS")]
     //[SerializeField] Estat cami;
     //[SerializeField] Subestat casa;
@@ -26,7 +30,7 @@ public class Produccio : ScriptableObject
 
     [SerializeField] Utils_InstantiableFromProject EfecteGuanyarPunts;
     */
-    
+
     //PROPIETATS
     public List<Peça> Productors => productors;
 
@@ -86,7 +90,8 @@ public class Produccio : ScriptableObject
 
         //if (visualitzacioProducte == null) visualitzacioProducte = new List<Visualitzacions.Producte>();
         //CleanAllNeeds();
-        Step();
+        XS_Coroutine.StartCoroutine_Ending(2, Step);
+        //Step();
     }
 
 
@@ -129,11 +134,32 @@ public class Produccio : ScriptableObject
                     //proveida.SetBlocarInformacio = true;
 
                     //resoldre.Nivell.GuanyarExperiencia(1);
-                    nivell.GuanyarExperiencia(1, 3);
+                    //nivell.GuanyarExperiencia(1, 12);
 
                     casesProveides.Add(proveida);
 
                     productors[index].Connexio.ProductesExtrets[i].gastat = true;
+
+                    //Posar aixo a visualitzacions
+                    Peça productor = productors[index];
+                    Transform p = producte.InstantiateReturn(productors[index].transform.position).transform;
+                    new Animacio_Posicio(
+                        productor.Connexio.transform.position,
+                        productor.transform.position
+                        ).Play(p, 1, 1, Transicio.clamp, false);
+                    Destroy(p.GetComponent<Lector>(), 2);
+
+                    XS_Coroutine.StartCoroutine_Ending(2.1f, () =>
+                    new Animacio_Posicio(
+                         productor.transform.position,
+                         proveida.transform.position
+                        ).Play(p, 1, Transicio.clamp, false)
+                    );
+
+                    proveit.Instantiate(proveida.transform.position + Vector3.up * 2, 3);
+
+                    habitant.Instantiate(proveida.transform.position, 1.5f);
+
                 }
                 //visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
             }
@@ -178,6 +204,8 @@ public class Produccio : ScriptableObject
     {
         Peça casa = null;
         int _index = -1;
+
+
         //string debug = "PRODUCCIO DEBUG\n";
         connexions = grups.GrupByPeça(grups.Grup, productor).ConnexionsId;
         if (connexions == null)
@@ -198,10 +226,15 @@ public class Produccio : ScriptableObject
 
                 for (int c = 0; c < poble[p].CasesLength; c++)
                 {
-                    if (poble[p].Cases[c].Proveir(producte))
+                    Processador.Proces proces = poble[p].Cases[c].Proveir(producte);
+                    //if (poble[p].Cases[c].Proveir(producte))
+                    if (proces.confirmat)
                     {
                         _index = c;
                         casa = poble[p];
+                        nivell.GuanyarExperiencia(proces.experiencia, 6);
+                        visualitzacions.PuntsFlotants(4, poble[p].transform.position + (Vector3.up * 2), proces.experiencia);
+                        Debug.Log("PROVEIDA!");
                     }
 
                     //debug += $"\n";
@@ -218,6 +251,8 @@ public class Produccio : ScriptableObject
         //Debugar.LogError(debug);
         return casa;
     }
+
+    
 
     /*
     Peça BuscarCasaDesproveida(Peça productor, Producte producte, out int index)

@@ -10,7 +10,26 @@ public class Processador : System.Object
     bool aconseguit;
     Recepta confirmada;
 
-    public bool IntentarProcessar(Peça peça, List<object> inputs, bool aLaPrimeraReceptaComplertaAturat = false)
+    [System.Serializable]
+    public struct Proces
+    {
+        public Proces(bool confirmat)
+        {
+            this.confirmat = confirmat;
+            this.experiencia = 0;
+        }
+        public Proces(bool confirmat, int experiencia)
+        {
+            this.confirmat = confirmat;
+            this.experiencia = experiencia;
+        }
+
+        public bool confirmat;
+        public int experiencia;
+    }
+
+    public Proces IntentarProcessar(Peça peça, List<object> inputs, bool aLaPrimeraReceptaComplertaAturat = false)
+    //public bool IntentarProcessar(Peça peça, List<object> inputs, bool aLaPrimeraReceptaComplertaAturat = false)
     {
         if (receptes == null) receptes = new List<Recepta>();
 
@@ -28,13 +47,21 @@ public class Processador : System.Object
                 confirmada.Processar(peça);
 
                 aconseguit = true;
+
                 if (aLaPrimeraReceptaComplertaAturat)
-                    return aconseguit;
+                    return new Proces(aconseguit, confirmada.Experiencia);
+                    //return aconseguit;
             }
         }
 
-        Debug.Log("no match...");
-        return aconseguit;
+        if (!aconseguit) 
+        { 
+            Debug.Log("no match...");
+            return new Proces(aconseguit);
+        }
+
+        return new Proces(aconseguit, confirmada.Experiencia);
+        //return aconseguit;
     }
 
     

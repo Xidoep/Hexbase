@@ -23,20 +23,22 @@ public class Casa
     public Recepta ReceptaActual => receptes[0];
     public List<Producte> Necessitats => necessitats;
 
-    public bool Proveir(Producte producte)
+    public Processador.Proces Proveir(Producte producte)
     {
         if (!necessitats.Contains(producte))
-            return false;
+            return new Processador.Proces(false);
 
         necessitats.Remove(producte);
         proveits.Add(producte);
 
-        if (peça.processador.IntentarProcessar(peça, new List<object>(proveits)))
+        Processador.Proces proces = peça.processador.IntentarProcessar(peça, new List<object>(proveits));
+        if (proces.confirmat)
+        //if (peça.processador.IntentarProcessar(peça, new List<object>(proveits)))
         {
             receptes.RemoveAt(0);
             AgafarNecessitats();
         }
-        return true;
+        return proces;
     }
 
     void AgafarNecessitats()

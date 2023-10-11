@@ -17,6 +17,8 @@ public class Fase_Processar : Fase
     [SerializeScriptableObject] [SerializeField] Repoblar repoblar;
     [SerializeScriptableObject] [SerializeField] Produccio produccio;
     [SerializeScriptableObject] [SerializeField] SaveHex save;
+    [SerializeScriptableObject] [SerializeField] Nivell nivell;
+    [SerializeScriptableObject] [SerializeField] Visualitzacions visualitzacions;
 
     [Apartat("SEGÜENT FASE")]
     [SerializeField] Fase resoldre;
@@ -95,9 +97,10 @@ public class Fase_Processar : Fase
         //proximitat.Process(perComprovar, Repoblacio, true);
         proximitat.ProcessReceptes(perComprovar, Repoblacio, true);
 
-        Debug.Log($"peça == null ? {peça == null}");
-        Debug.Log($"peça.Parent == null ? {peça.Parent == null}");
-        Debug.Log($"peça.VeinsPeça == null ? {peça.VeinsPeça == null}");
+        //Debug.Log($"peça == null ? {peça == null}");
+        //Debug.Log($"peça.Parent == null ? {peça.Parent == null}");
+        //Debug.Log($"peça.VeinsPeça == null ? {peça.VeinsPeça == null}");
+
         if (peça != null)
             enColocar?.Invoke(peça.Parent, peça.VeinsPeça);
     }
@@ -158,10 +161,18 @@ public class Fase_Processar : Fase
 
         //PRIMER: RECREAR LES PECES CANVIADES I LES PECES VEINES QUE NO HAGUIN SET RECREADES.
         //SEGON: ANIMAR LES PECES CANVIADES I LES PECES VEINES
-        Debug.Log($"{canviadesPeça.Count} Peces canviades!!!!");
+        /*Debug.Log($"{canviadesPeça.Count} Peces canviades!!!!");
         for (int c = 0; c < canviadesPeça.Count; c++)
         {
             XS_Coroutine.StartCoroutine_Ending_FrameDependant(c * 0.5f, CrearIAnimar, canviadesPeça[c]);
+            //Aqui donar punts.
+        }*/
+        Debug.Log($"{canviades.Count} Peces canviades!!!!");
+        for (int i = 0; i < canviades.Count; i++)
+        {
+            XS_Coroutine.StartCoroutine_Ending_FrameDependant(i * 0.5f, CrearIAnimar, canviades[i].Peça);      
+            nivell.GuanyarExperiencia(canviades[i].Experiencia, (i * 0.5f) + 3);
+            visualitzacions.PuntsFlotants((i * 0.5f) + 1, canviades[i].Peça.transform.position, canviades[i].Experiencia);
         }
 
         void CrearIAnimar(Peça peça)
@@ -193,11 +204,11 @@ public class Fase_Processar : Fase
 
         bool CanviadesContains(Peça peça)
         {
-            return canviadesPeça.Contains(peça);
+            //return canviadesPeça.Contains(peça);
 
             for (int i = 0; i < canviades.Count; i++)
             {
-                if (!Equals(peça, canviades[i]))
+                if (!Equals(peça, canviades[i].Peça))
                     continue;
 
                 return true;

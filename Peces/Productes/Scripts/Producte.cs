@@ -77,7 +77,6 @@ public class Producte : ScriptableObject, IProcessable
         List<ProducteExtret> _p = new List<ProducteExtret>(peça.ProductesExtrets);
         _p.Add(new ProducteExtret(this));
         peça.SetProductesExtrets = _p.ToArray();
-
         //peça.IntentarConnectar();
     }
 

@@ -1,0 +1,204 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-260447644298236065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnEnabled
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 3
+  delay: 0
+  unscaled: 1
+  animacions:
+  - rid: 3071613443957850114
+  - rid: 8405966582601482242
+  references:
+    version: 2
+    RefIds:
+    - rid: 3071613443957850114
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 20.475704
+            outSlope: 20.475704
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.03164684
+          - serializedVersion: 3
+            time: 0.20075431
+            value: 1.0139165
+            inSlope: -0.7481891
+            outSlope: -0.7481891
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.112688415
+          - serializedVersion: 3
+            time: 0.333
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.6327628
+            value: 1.0006872
+            inSlope: -0.016091285
+            outSlope: -0.016091285
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.6634587
+            value: 1.1493843
+            inSlope: 12.658364
+            outSlope: 12.658364
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.26764247
+          - serializedVersion: 3
+            time: 0.71025985
+            value: 1.0012724
+            inSlope: -107.75394
+            outSlope: -107.75394
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.035014182
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.76236475
+            value: 0.97132146
+            inSlope: 14.792238
+            outSlope: 14.792238
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.22270192
+          - serializedVersion: 3
+            time: 0.8081173
+            value: 1.1726533
+            inSlope: -0.7245272
+            outSlope: -0.7245272
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 1
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.8551571
+            value: 0.995306
+            inSlope: -0.012601929
+            outSlope: -0.012601929
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0.13120726
+            outSlope: 0.13120726
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.10733897
+            outWeight: 0.3232215
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 0}
+        dinamic: 0
+        final: {x: 1, y: 1, z: 1}
+    - rid: 8405966582601482242
+      type: {class: Animacio_Posicio, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0.3500061
+            inSlope: 10.18898
+            outSlope: 10.18898
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.06320312
+          - serializedVersion: 3
+            time: 0.18093777
+            value: 1.1242944
+            inSlope: -0.11642157
+            outSlope: -0.11642157
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.31771863
+          - serializedVersion: 3
+            time: 0.48734128
+            value: 0.99066126
+            inSlope: 0.426279
+            outSlope: 0.426279
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.36258322
+            outWeight: 0.57791626
+          - serializedVersion: 3
+            time: 0.5770528
+            value: 1.0048853
+            inSlope: 0.016181584
+            outSlope: 0.016181584
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.30988798
+            outWeight: 0.5418487
+          - serializedVersion: 3
+            time: 1
+            value: 1.0000005
+            inSlope: 0.12984677
+            outSlope: 0.12984677
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.22869702
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: -100, y: 0, z: 0}
+        dinamic: 0
+        final: {x: -100, y: 1000, z: 0}
+        local: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e338258b784a52c46b250e540248476b, type: 3}
+  m_Name: Informacio_ProducteProveit
+  m_EditorClassIdentifier: 
+  onEnabled: {fileID: -260447644298236065}
+  idle: {fileID: 0}
+  onPointerEnter: {fileID: 0}
+  apuntat: {fileID: 0}
+  onPointerDown: {fileID: 0}
+  onPointerUp: {fileID: 0}
+  onPointerExit: {fileID: 0}
+  onDestroyOrDisable: {fileID: 0}
