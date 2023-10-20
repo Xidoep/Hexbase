@@ -18,6 +18,7 @@ MonoBehaviour:
   unscaled: 1
   animacions:
   - rid: 3071613443957850114
+  - rid: 8405966899437633538
   references:
     version: 2
     RefIds:
@@ -74,7 +75,7 @@ MonoBehaviour:
             outWeight: 0.31771863
           - serializedVersion: 3
             time: 1
-            value: 0
+            value: 0.6500244
             inSlope: -5.679317
             outSlope: -5.679317
             tangentMode: 0
@@ -86,7 +87,38 @@ MonoBehaviour:
           m_RotationOrder: 4
         inici: {x: 0, y: 0, z: 0}
         dinamic: 0
-        final: {x: 150, y: 150, z: 150}
+        final: {x: 120, y: 120, z: 120}
+    - rid: 8405966899437633538
+      type: {class: Animacio_Posicio, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 5.8332005
+            outSlope: 5.8332005
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.08679223
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 0}
+        dinamic: 0
+        final: {x: 0, y: 2, z: 0}
+        local: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

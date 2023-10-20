@@ -83,13 +83,13 @@ public class Ranura : Hexagon, IPointerDownHandler, IPointerUpHandler, IPointerE
     {
         CursorEstat.Snap(transform.position);
 
-        prediccio.Predir(Coordenades);
+        //prediccio.Predir(Coordenades);
     }
     public override void OnPointerExit()
     {
         CursorEstat.NoSnap();
 
-        prediccio.AmagarInformacioMostrada();
+        //prediccio.AmagarInformacioMostrada();
 
         Seleccionada = false;
         if (compteEnrerra != null) StopCoroutine(compteEnrerra);

@@ -41,12 +41,13 @@ public class Produccio : ScriptableObject
 
     //INTERN
     
-    System.Action enFinalitzar;
+    System.Action<List<Peça>> enFinalitzar;
     int index;
     //List<Peça> veins;
     List<string> connexions;
     float stepTime = 0.1f;
-    List<Peça> casesProveides;
+    List<Peça> proveides;
+    Peça productorActual;
     //List<Peça> productorsActualitzables;
     //Vector3 offset;
     //[SerializeField] List<Visualitzacions.Producte> visualitzacioProducte;
@@ -76,17 +77,17 @@ public class Produccio : ScriptableObject
     }
 
 
-    public void Process(System.Action enFinalitzar)
+    public void Process(System.Action<List<Peça>> enFinalitzar)
     {
         Debugar.LogError("--------------PRODUCCIO---------------");
         index = 0;
         productesAVisualitzar = 0;
         this.enFinalitzar = enFinalitzar;
 
-        if (casesProveides == null) 
-            casesProveides = new List<Peça>();
+        if (proveides == null) 
+            proveides = new List<Peça>();
         else 
-            casesProveides.Clear();
+            proveides.Clear();
 
         //if (visualitzacioProducte == null) visualitzacioProducte = new List<Visualitzacions.Producte>();
         //CleanAllNeeds();
@@ -99,7 +100,7 @@ public class Produccio : ScriptableObject
     {
         if (productors.Count == 0 || Finalitzat)
         {
-            enFinalitzar.Invoke();
+            enFinalitzar.Invoke(proveides);
             return;
         }
 
@@ -136,29 +137,58 @@ public class Produccio : ScriptableObject
                     //resoldre.Nivell.GuanyarExperiencia(1);
                     //nivell.GuanyarExperiencia(1, 12);
 
-                    casesProveides.Add(proveida);
+                    proveides.Add(proveida);
 
                     productors[index].Connexio.ProductesExtrets[i].gastat = true;
 
-                    //Posar aixo a visualitzacions
-                    Peça productor = productors[index];
+                    productorActual = productors[index];
+
+                    //0 = Crea efectes
                     Transform p = producte.InstantiateReturn(productors[index].transform.position).transform;
-                    new Animacio_Posicio(
-                        productor.Connexio.transform.position,
-                        productor.transform.position
+
+                    //1 = Mou els productes fins al Productor;
+                    /*new Animacio_Posicio(
+                        productorActual.Connexio.transform.position,
+                        productorActual.transform.position
                         ).Play(p, 1, 1, Transicio.clamp, false);
                     Destroy(p.GetComponent<Lector>(), 2);
 
+                    //1.5 = surt habitant
+                    habitant.Instantiate(proveida.transform.position, 1.5f);
+                    
+                    //2.1 = Mou els productes fins a les cases
                     XS_Coroutine.StartCoroutine_Ending(2.1f, () =>
                     new Animacio_Posicio(
-                         productor.transform.position,
+                         productorActual.transform.position,
                          proveida.transform.position
                         ).Play(p, 1, Transicio.clamp, false)
                     );
 
+                    //3 = Instanciar Cor
                     proveit.Instantiate(proveida.transform.position + Vector3.up * 2, 3);
+                    */
+                    //4 = punts flotants
+                    //6 = Augmenta punts.
 
-                    habitant.Instantiate(proveida.transform.position, 1.5f);
+
+
+                    //----------
+
+                    //0.5 = apareix habitant
+                    habitant.Instantiate(proveida.transform.position, 0.5f);
+
+                    //1 = Mou productes fins a la casa
+                    new Animacio_Posicio(
+                         productorActual.transform.position,
+                         proveida.transform.position
+                        ).Play(p, 1, 1, Transicio.clamp, false);
+
+                    //2 = Apareix Cor.
+                    proveit.Instantiate(proveida.transform.position + Vector3.up * 1.5f, 2);
+
+                    XS_Coroutine.StartCoroutine_Ending_FrameDependant(5, productorActual.MostrarInformacio);
+                    //3 = punts flotants
+                    //5 = Augmenta punts.
 
                 }
                 //visualitzacioProducte.Add(new Visualitzacions.Producte(productors[index], i, proveida, indexNecessitat));
@@ -232,8 +262,8 @@ public class Produccio : ScriptableObject
                     {
                         _index = c;
                         casa = poble[p];
-                        nivell.GuanyarExperiencia(proces.experiencia, 6);
-                        visualitzacions.PuntsFlotants(4, poble[p].transform.position + (Vector3.up * 2), proces.experiencia);
+                        visualitzacions.PuntsFlotants(2.6f, poble[p].transform.position + (Vector3.up * 1.4f), proces.experiencia);
+                        nivell.GuanyarExperiencia(proces.experiencia, 5);
                         Debug.Log("PROVEIDA!");
                     }
 

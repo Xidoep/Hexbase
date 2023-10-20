@@ -18,12 +18,15 @@ public class CamaraGestio : MonoBehaviour
     [SerializeField] Transform est;
     [SerializeField] Transform oest;
 
+
     [Linia]
     [SerializeField] CamaraMoviment camMovement;
     [Linia]
     [SerializeField] CamaraZoom camZoom;
     [Linia]
     [SerializeField] CamaraRotacio camRotation;
+
+    public float Zoom => camZoom.Zoom;
 
     private void OnEnable()
     {

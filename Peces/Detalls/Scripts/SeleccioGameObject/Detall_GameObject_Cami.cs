@@ -39,7 +39,7 @@ public class Detall_GameObject_Cami : Detall_GameObject
                 {
                     if (!EstaProhibit(peça.Tiles[i]))
                     {
-                        binary += ((Peça)veins[i]).EsCaminable ? "1" : "0";
+                        //binary += ((Peça)veins[i]).EsCaminable ? "1" : "0";
                     }
                     else binary += "0";
 

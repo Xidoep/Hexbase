@@ -22,7 +22,7 @@ public class UI_InformacioExtraccio : UI_Informacio
     {
         peça = (Peça)hexagon;
 
-        estat.text = peça.Estat.name;
+        estat.text = peça.Subestat.name;
 
 
         if (peça.EstaConnectat)
@@ -51,12 +51,12 @@ public class UI_InformacioExtraccio : UI_Informacio
         etiquetaPotProduir.SetActive(false);
         etiquetaProduit.SetActive(true);
 
-        for (int i = peça.ProductesExtrets.Length - 1; i >= 0; i--)
+        /*for (int i = peça.ProductesExtrets.Length - 1; i >= 0; i--)
         {
 
             Instantiate(producte, parent).Setup(
                 peça.ProductesExtrets[i].producte, 
                 peça.ProductesExtrets[i].gastat).transform.localScale = Vector3.one * 0.04f;
-        }
+        }*/
     }
 }

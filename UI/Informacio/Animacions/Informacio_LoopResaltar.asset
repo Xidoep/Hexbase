@@ -1,0 +1,355 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8569883692977237139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnPointerEnter
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.25
+  delay: 0
+  unscaled: 1
+  animacions:
+  - rid: 8405966899437633541
+  references:
+    version: 2
+    RefIds:
+    - rid: 8405966899437633541
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1, y: 1, z: 1}
+        dinamic: 1
+        final: {x: 2, y: 2, z: 2}
+--- !u!114 &-5838295713963471686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: Apuntat
+  m_EditorClassIdentifier: 
+  transicio: 1
+  temps: 1
+  delay: 0
+  unscaled: 1
+  animacions:
+  - rid: 8405966899437633543
+  references:
+    version: 2
+    RefIds:
+    - rid: 8405966899437633543
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.5
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 2, y: 2, z: 2}
+        dinamic: 0
+        final: {x: 1.5, y: 1.5, z: 1.5}
+--- !u!114 &-4777785088859700960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnDestroyOrDisable
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.25
+  delay: 0
+  unscaled: 1
+  animacions:
+  - rid: 3071613443957850115
+  references:
+    version: 2
+    RefIds:
+    - rid: 3071613443957850115
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0.8, y: 1, z: 1}
+        dinamic: 0
+        final: {x: 0, y: 0, z: 0}
+--- !u!114 &-2081796991384711335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnPointerExit
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.5
+  delay: 0
+  unscaled: 1
+  animacions:
+  - rid: 8405966899437633542
+  references:
+    version: 2
+    RefIds:
+    - rid: 8405966899437633542
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1.5, y: 1.5, z: 1.5}
+        dinamic: 1
+        final: {x: 1, y: 1, z: 1}
+--- !u!114 &-260447644298236065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: OnEnabled
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 0.5
+  delay: 0
+  unscaled: 1
+  animacions:
+  - rid: 3071613443957850114
+  references:
+    version: 2
+    RefIds:
+    - rid: 3071613443957850114
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 4.129002
+            outSlope: 4.129002
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.054343976
+          - serializedVersion: 3
+            time: 0.6482462
+            value: 1.2071781
+            inSlope: -0.11642157
+            outSlope: -0.11642157
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.31771863
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.34403363
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 0}
+        dinamic: 0
+        final: {x: 1, y: 1, z: 1}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e338258b784a52c46b250e540248476b, type: 3}
+  m_Name: Informacio_LoopResaltar
+  m_EditorClassIdentifier: 
+  onEnabled: {fileID: -260447644298236065}
+  idle: {fileID: 6441646277732811366}
+  onPointerEnter: {fileID: -8569883692977237139}
+  apuntat: {fileID: -5838295713963471686}
+  onPointerDown: {fileID: 0}
+  onPointerUp: {fileID: 0}
+  onPointerExit: {fileID: -2081796991384711335}
+  onDestroyOrDisable: {fileID: -4777785088859700960}
+--- !u!114 &6441646277732811366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: Idle
+  m_EditorClassIdentifier: 
+  transicio: 1
+  temps: 2
+  delay: 0
+  unscaled: 1
+  animacions:
+  - rid: 8405966899437633540
+  references:
+    version: 2
+    RefIds:
+    - rid: 8405966899437633540
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.5
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1, y: 1, z: 1}
+        dinamic: 0
+        final: {x: 1.05, y: 1.1, z: 1}

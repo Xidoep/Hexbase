@@ -7,13 +7,14 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Receptes/Recepta")]
 public class Recepta : ScriptableObject
 {
-    public void Setup(Peça.ConnexioEnum connexioPropia, List<ScriptableObject> inputs, Peça.ConnexioEnum connexioInput, List<ScriptableObject> output, Peça.ConnexioEnum conneixo)
+    public void Setup(Peça.ConnexioEnum connexioPropia, List<ScriptableObject> inputs, Peça.ConnexioEnum connexioInput, List<ScriptableObject> output, Peça.ConnexioEnum conneixo, int experiencia)
     {
         this.connexioPropia = connexioPropia;
         this.inputs = inputs.ToArray();
         this.connexioInput = connexioInput;
         this.output = output.ToArray();
         this.connexio = conneixo;
+        this.experiencia = experiencia;
         AgafarProduccioSiCal();
     }
 

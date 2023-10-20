@@ -64,6 +64,12 @@ public class Menu_FreeStyle : MonoBehaviour
             }
 
             creades.Add(uiPeca);
+
+            if(i == 0)
+            {
+                uiPeca.Seleccionar();
+                MostrarSeleccionada();
+            }
         }
 
 

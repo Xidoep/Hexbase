@@ -127,7 +127,16 @@ public class Proximitat : ScriptableObject
 
         if (!comprovades.Contains(_actual)) comprovades.Add(_actual);
         //StepRecepta(canviar);
-        XS_Coroutine.StartCoroutine_Ending(stepTime, StepRecepta, canviar);
+
+
+        if (confirmacio.confirmat)
+        {
+            XS_Coroutine.StartCoroutine_Ending(stepTime, StepRecepta, canviar);
+        }
+        else
+        {
+            StepRecepta(canviar);
+        }
     }
 
     void Step(bool canviar)

@@ -135,6 +135,11 @@ public class TilesetUnpack : ScriptableObject
 
     }
 
+    public TileSet_Simple TilesetComodi()
+    {
+        return CreateInstance<TileSet_Simple>();
+    }
+
     void CrearFoldersSiCal(string root)
     {
         if (!AssetDatabase.IsValidFolder(Path_Folder(root)))

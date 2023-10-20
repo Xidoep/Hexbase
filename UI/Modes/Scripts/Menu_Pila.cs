@@ -92,7 +92,7 @@ public class Menu_Pila : MonoBehaviour
     void RemovePeça()
     {
         //visualitzacions.Desapareixre(creades[0].transform);
-        enDesapareixre(creades[0].transform);
+        enDesapareixre?.Invoke(creades[0].transform);
         StartCoroutine(RemovePeçaTemps(creades[0]));
         
         creades.RemoveAt(0);
@@ -111,13 +111,13 @@ public class Menu_Pila : MonoBehaviour
         {
             creades[0].Resaltar();
             creades[0].Seleccionar();
-            enPosicio1(creades[0].transform);
+            enPosicio1?.Invoke(creades[0].transform);
             //visualitzacions.PrimeraPosicio(creades[0].transform);
         }
         if(creades.Count > 1)
         {
-            enPosicio1(creades[0].transform);
-            enPosicio2(creades[1].transform);
+            enPosicio1?.Invoke(creades[0].transform);
+            enPosicio2?.Invoke(creades[1].transform);
             //visualitzacions.PrimeraPosicio(creades[0].transform);
             //visualitzacions.SegonaPosicio(creades[1].transform);
         }

@@ -59,8 +59,8 @@ public class Estat : ScriptableObject, IProcessable
     TipusEnum tipus;
     [TabGroup("Propietats"), SerializeField]
     bool colocable;
-    [TabGroup("Propietats"), SerializeField]
-    bool caminable;
+    //[TabGroup("Propietats"), SerializeField]
+    //bool caminable;
     [TabGroup("Propietats"), SerializeField] 
     bool aquatic;
     [TabGroup("Propietats"), ShowIf("@this.tipus == TipusEnum.Productor || this.tipus == TipusEnum.Extraccio"), SerializeField] 
@@ -87,7 +87,7 @@ public class Estat : ScriptableObject, IProcessable
 
     public TipusEnum Tipus => tipus;
     public bool Colocable => colocable;
-    public bool Caminable => caminable;
+    //public bool Caminable => caminable;
     public bool Aquatic => aquatic;
     public Producte Producte => producte;
 
@@ -208,8 +208,8 @@ public class Estat : ScriptableObject, IProcessable
                     informacions = new List<Informacio>() 
                     {
                         InfoGrup,
-                        InfoConnexio,
-                        InfoProductor
+                        InfoProductor,
+                        InfoConnexio
                     };
                 }
                 break;

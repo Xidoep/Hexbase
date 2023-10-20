@@ -27,6 +27,7 @@ public class CamaraZoom
     CinemachineTransposer transposer;
 
     float zoom;
+    public float Zoom => zoom;
 
     public Vector2 Dimensions 
     {

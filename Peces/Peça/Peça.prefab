@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5919137175624590404}
-  - component: {fileID: 7779913084878159373}
+  - component: {fileID: 7600641709727009462}
   - component: {fileID: 7088656447895351387}
   m_Layer: 0
   m_Name: "Pe\xE7a"
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7779913084878159373
+--- !u!114 &7600641709727009462
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,19 +43,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5919137175624590415}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f791021a11671864d80d268ad2f9f2a6, type: 3}
+  m_Script: {fileID: 11500000, guid: b360a7613700a7642b1ab9cd523cfc1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1973165481425570980}
   estat: {fileID: 0}
   subestat: {fileID: 0}
-  cases:
-  - "pe\xE7a": {fileID: 0}
-    receptes: []
-    proveits: []
-    necessitats: []
+  cases: []
   efecteNouHabitant: {fileID: 8431734159226574181, guid: 9003e87ffa7f6d242a6f580c9c841939, type: 3}
   efecteNouProducte: {fileID: 8431734159226574181, guid: 10be3f3574a3f5a40b06773ff5a55070, type: 3}
+  prefab_informacioNouHabitant: {fileID: 5882874090629368391, guid: 3030fe217591cd648bdf55196a67fa65, type: 3}
+  prefab_informacioProducte: {fileID: 5882874090629368391, guid: 3030fe217591cd648bdf55196a67fa65, type: 3}
   processador:
     receptes: []
   connexio: {fileID: 0}

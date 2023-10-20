@@ -33,6 +33,7 @@ public class Fase_Processar : Fase
     float startTime;
     Peça peça;
     List<Peça> perComprovar;
+    List<Peça> comprovades;
     List<Proximitat.Canvis> canviades;
     List<Peça> canviadesPeça;
     //List<Peça> animades;
@@ -102,7 +103,16 @@ public class Fase_Processar : Fase
         //Debug.Log($"peça.VeinsPeça == null ? {peça.VeinsPeça == null}");
 
         if (peça != null)
+        {
+            peça.CrearTilesFisics();
             enColocar?.Invoke(peça.Parent, peça.VeinsPeça);
+        }
+
+        this.comprovades = perComprovar;
+        for (int i = 0; i < perComprovar.Count; i++)
+        {
+            perComprovar[i].AmagarInformacio();
+        }
     }
 
 
@@ -110,12 +120,18 @@ public class Fase_Processar : Fase
 
     void Repoblacio(List<Peça> comprovades, List<Proximitat.Canvis> canviades)
     {
+        for (int i = 0; i < comprovades.Count; i++)
+        {
+            comprovades[i].AmagarInformacio();
+        }
+
         this.canviades = canviades;
         canviadesPeça = new List<Peça>();
         for (int i = 0; i < canviades.Count; i++)
         {
             canviadesPeça.Add(canviades[i].Peça);
         }
+
         repoblar.Proces(comprovades, WFC);
     }
 
@@ -139,7 +155,7 @@ public class Fase_Processar : Fase
         Crear_i_Animar();
         CrearRanures();
 
-        produccio.Process(Guardar);
+        produccio.Process(Guardar_i_Acabar);
     }
     void Crear_i_Animar() 
     {
@@ -227,7 +243,7 @@ public class Fase_Processar : Fase
         }
     }
 
-    void Guardar()
+    void Guardar_i_Acabar(List<Peça> proveides)
     {
         //Això hauria de ser un proces.
         /*Debug.LogError($"Actualitzar {animades.Count}");
@@ -240,6 +256,22 @@ public class Fase_Processar : Fase
 
 
         Grid.Instance.Dimensionar(peça);
+
+
+        for (int i = 0; i < comprovades.Count; i++)
+        {
+            if (proveides.Contains(comprovades[i]))
+                continue;
+
+            comprovades[i].MostrarInformacio();
+        }
+        for (int i = 0; i < canviadesPeça.Count; i++)
+        {
+            if (proveides.Contains(canviadesPeça[i]))
+                continue;
+
+            canviadesPeça[i].MostrarInformacio();
+        }
 
 
         Debugar.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", peça);

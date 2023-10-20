@@ -12,19 +12,35 @@ public class CamaraMoviment
 
     [SerializeField] InputActionReference keyboard;
     [SerializeField] InputActionReference mouse;
+    [SerializeField] InputActionReference mousePan;
     [SerializeField] CinemachineTargetGroup targetGroup;
     [SerializeField] Transform centre;
     [Space(10)]
+
     [Tooltip("Es la velocitat a la que es mou quan acostes el cursoso a les bores de la pantalla.")]
     [SerializeField] float speed;
 
     [Tooltip("Es el temps del Lerp que fa pel moviment. Ho fa amb Lerp perque sigui suau.")]
     [SerializeField] float time;
     [Space(10)]
+
     [SerializeField] Vector4 limits;
+    [Space(10)]
+
+    [SerializeField] CamaraGestio camaraGestio;
 
     float margeMoviment = 1.5f;
     Vector3 movement;
+    Vector3 Movement
+    {
+        get => movement;
+        set
+        {
+            movement = value;
+            movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x + margeMoviment, 0, limits.y - centre.position.z + margeMoviment));
+            movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x - margeMoviment, 0, limits.w - centre.position.z - margeMoviment));
+        }
+    }
 
     public Vector4 Limits { set => limits = value; }
 
@@ -33,6 +49,7 @@ public class CamaraMoviment
     {
         keyboard.action.Enable();
         mouse.action.Enable();
+        mousePan.action.Enable();
     }
     public void Start(Transform transform)
     {
@@ -42,8 +59,8 @@ public class CamaraMoviment
     public void Update(Transform transform)
     {
         Moviment_Keyboard(transform);
-        if (!Application.isEditor)
-            Moviment_Mouse(transform);
+        Moviment_Bores(transform);
+        Moviment_Mouse(transform);
 
         transform.localPosition = Vector3.Lerp(transform.localPosition, movement, Time.deltaTime * time);
         //transform.localPosition = Vector3.Lerp(transform.localPosition, movement, Time.deltaTime * time * (((zoom * 3) + 1) * 5));
@@ -62,6 +79,7 @@ public class CamaraMoviment
     {
         keyboard.action.Disable();
         mouse.action.Disable();
+        mousePan.action.Disable();
     }
 
     public void Centrar(Transform nord, Transform sud, Transform est, Transform oest)
@@ -73,24 +91,28 @@ public class CamaraMoviment
 
     void Moviment_Keyboard(Transform transform)
     {
-        if (!keyboard.IsZero_Vector2())
-        {
-            movement += ((transform.forward * keyboard.GetVector2().y) * speed) + ((transform.right * keyboard.GetVector2().x) * speed);
-            
-            movement = Vector3.Min(movement, new Vector3(limits.x - centre.position.x + margeMoviment, 0, limits.y - centre.position.z + margeMoviment));
-            movement = Vector3.Max(movement, new Vector3(limits.z - centre.position.x - margeMoviment, 0, limits.w - centre.position.z - margeMoviment));
-        }
+        if (keyboard.IsZero_Vector2())
+            return;
+
+        Movement += ((transform.forward * keyboard.GetVector2().y) * speed) + ((transform.right * keyboard.GetVector2().x) * speed) * (camaraGestio.Zoom + 0.1f);
+    }
+    void Moviment_Bores(Transform transform)
+    {
+        Vector2 mPosition = mouse.GetVector2();
+
+        if (NearUpScreen(mPosition)) Movement += transform.forward * speed;
+        else if (NearDownScreen(mPosition)) Movement -= transform.forward * speed;
+
+        if (NearRightScreen(mPosition)) Movement += transform.right * speed;
+        else if (NearLeftScreen(mPosition)) Movement -= transform.right * speed;
     }
     void Moviment_Mouse(Transform transform)
     {
-        Vector2 mPosition = mouse.GetVector2();
-        if (NearUpScreen(mPosition)) movement += transform.forward * speed;
-        else if (NearDownScreen(mPosition)) movement -= transform.forward * speed;
+        if (keyboard.IsZero_Vector2())
+            return;
 
-        if (NearRightScreen(mPosition)) movement += transform.right * speed;
-        else if (NearLeftScreen(mPosition)) movement -= transform.right * speed;
+        movement += ((transform.forward * mousePan.GetVector2().y) * speed) + ((transform.right * mousePan.GetVector2().x) * speed) * 100;
     }
-
 
 
     bool NearUpScreen(Vector2 axis) => axis.y >= Screen.height * .95f;

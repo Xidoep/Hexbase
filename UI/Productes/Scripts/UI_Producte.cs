@@ -17,7 +17,7 @@ public class UI_Producte : MonoBehaviour
 
     System.Action<Peça, Producte> resaltar;
     System.Action clicar;
-    System.Action desresaltar;
+    System.Action<Peça> desresaltar;
     bool keepit;
 
     public bool Keepit { get => keepit; set => keepit = value; }
@@ -29,7 +29,7 @@ public class UI_Producte : MonoBehaviour
     public bool Iguals(Sumari.Informacio info) => info.peça == peça && info.index == index;
 
     //Quan s'ha de mostrar amb informacio i ser interactuable.
-    public UI_Producte Setup(Peça peça, Producte producte, int index, System.Action<Peça, Producte> resaltar, System.Action desresaltar, System.Action clicar)
+    public UI_Producte Setup(Peça peça, Producte producte, int index, System.Action<Peça, Producte> resaltar, System.Action<Peça> desresaltar, System.Action clicar)
     {
         if (image) image.sprite = producte.Sprite;
         if (sprite) 
@@ -75,16 +75,16 @@ public class UI_Producte : MonoBehaviour
     {
         boto.Disable();
         boto.Interactable(false);
-        desresaltar.Invoke();
+        desresaltar.Invoke(peça);
     } 
 
     public void Resaltar() => resaltar.Invoke(peça, producte);
     public void Clicar()
     {
         clicar.Invoke();
-        desresaltar.Invoke();
+        desresaltar.Invoke(peça);
     }
-    public void Desresaltar() => desresaltar.Invoke();
+    public void Desresaltar() => desresaltar.Invoke(peça);
 
     public void Borrar() => Destroy(boto.gameObject);
 }

@@ -22,6 +22,7 @@ public class Fase_Colocar : Fase
     public EstatColocable Seleccionada => seleccionada;
     public System.Action<EstatColocable> OnCanviarSeleccionada { get => onCanviarSeleccionada; set => onCanviarSeleccionada = value; }
 
+    public EstatColocable SetPerDefecte { set => perDefecte = value; }
 
     public override void FaseStart()
     {

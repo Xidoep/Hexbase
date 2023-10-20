@@ -29,12 +29,10 @@ public class EstatsUnpack : ScriptableObject
     string outputPath, outputProductes, outputReceptes, outputDetalls;
 
 
-    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] 
-    TilesetUnpack tilesetUnpack;
-    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] 
-    TilesUnpack tileUnpack;
-    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField]
-    Grups grups;
+    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] TilesetUnpack tilesetUnpack;
+    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] TilesUnpack tileUnpack;
+    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] Grups grups;
+    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] Fase_Colocar colocar;
 
     [Space(20), ReadOnly, SerializeField]
     Referencies referencies;
@@ -163,6 +161,8 @@ public class EstatsUnpack : ScriptableObject
 
         CrearReceptes(allReceptes ? this.confirmacions : confirmacions);
 
+        colocar.SetPerDefecte = referencies.GetColocable("Camp");
+
         GrupsAgafarReferencies();
     }
 
@@ -288,7 +288,7 @@ public class EstatsUnpack : ScriptableObject
             if (!assignar)
                 continue;
 
-            recepta.Setup(cPropia, inputs, cInputs, outputs, accioConnectar);
+            recepta.Setup(cPropia, inputs, cInputs, outputs, accioConnectar, Experiencia);
             AssetDatabase.CreateAsset(recepta, Path_Recepta(nomRecepta, i));
 
             Debug.Log($"Crear Recepta: {nomRecepta}[{i + 1}] a: {assignar.name}");
@@ -378,6 +378,8 @@ public class EstatsUnpack : ScriptableObject
 
     void CrearEstats(Confirmacio[] confirmacions, bool nomesTilset = false)
     {
+
+
         for (int i = 3; i < linies.Length; i++)
         {
             if (i.Equals(liniaProductes))
@@ -446,6 +448,49 @@ public class EstatsUnpack : ScriptableObject
             tilesetUnpack.Unpack($"{Nom.Substring(0,1)}{Nom.Substring(1,Nom.Length - 1).ToLower()}", subobjects, outputPath, outputDetalls, referencies, detalls, actualitzarConnexions, nomesTilset);
         }
 
+    }
+
+
+    [ContextMenu("CrearEstatComodi")]
+    void CrearEstatComodi()
+    {
+        AssetDatabase.DeleteAsset($"{outputPath}/_COMODI");
+
+        Estat estat = CreateInstance<Estat>();
+        estat.SetupCreacio(Estat.TipusEnum.Normal, false, false, null);
+
+        if (!AssetDatabase.IsValidFolder($"{outputPath}/_COMODI"))
+        {
+            AssetDatabase.CreateFolder($"{outputPath}", "_COMODI");
+            AssetDatabase.CreateFolder($"{outputPath}/_COMODI", "Prefab");
+            AssetDatabase.CreateFolder($"{outputPath}/_COMODI", "Colocable");
+        }
+        AssetDatabase.CreateAsset(estat, $"{outputPath}/_COMODI.asset");
+
+        if (!AssetDatabase.IsValidFolder($"{outputPath}/_COMODI/Tiles"))
+        {
+            AssetDatabase.CreateFolder($"{outputPath}/_COMODI", "Tiles");
+
+            TileSet_Simple tilesetComodi = tilesetUnpack.TilesetComodi();
+            tilesetComodi.Setup();
+
+            for (int e = 0; e < referencies.Estats.Length; e++)
+            {
+                if (referencies.Estats[e].name == "_COMODI")
+                    continue;
+
+                
+            }
+            for (int i = 0; i < referencies.Tiles.Length; i++)
+            {
+                tilesetComodi.TileSet.AddTile(referencies.Tiles[i], 1);
+            }
+
+            AssetDatabase.CreateAsset(tilesetComodi, $"{outputPath}/_COMODI/Tiles/Comodi.asset");
+            estat.SetTileset = (TileSet_Simple)AssetDatabase.LoadAssetAtPath($"{outputPath}/_COMODI/Tiles/Comodi.asset", typeof(TileSet_Simple));
+        }
+
+        
     }
 
     void GrupsAgafarReferencies()
@@ -565,6 +610,7 @@ public class EstatsUnpack : ScriptableObject
     string ConnexioInputs => columnes[16];
     string AccioConnectar => columnes[24];
 
+    int Experiencia => string.IsNullOrEmpty(columnes[26]) ? 0 : int.Parse(columnes[26]);
 
 
 

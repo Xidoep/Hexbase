@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using XS_Utils;
 
 public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 {
@@ -33,6 +34,8 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] List<Casa> cases;
     [SerializeField] Utils_InstantiableFromProject efecteNouHabitant;
     [SerializeField] Utils_InstantiableFromProject efecteNouProducte;
+    [SerializeField] AnimacioPerCodi_GameObject_Referencia prefab_informacioNouHabitant;
+    [SerializeField] AnimacioPerCodi_GameObject_Referencia prefab_informacioProducte;
 
     [Apartat("PROCESSADOR")]
     public Processador processador;
@@ -62,7 +65,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public override bool EsPeça => true;
     public bool EsEstatNull => estat == null;
     public bool EsSubestatNull => subestat == null;
-    public bool EsCaminable => subestat.Caminable;
+    //public bool EsCaminable => subestat.Caminable;
     public bool EsAquatic => subestat.Aquatic;
     public bool TeConnexionsNules => subestat.TeConnexionsNules(this);
     public bool TeCasa => cases != null && cases.Count > 0;
@@ -95,10 +98,26 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     public TilePotencial GetTile(int index) => tiles[index];
     public bool EstatIgualA(EstatColocable altreEstat) => estat.Equals(altreEstat);
     public bool SubestatIgualA(Estat altreSubestat) => subestat.Equals(altreSubestat);
-    
+
+    bool TeNecessitats
+    {
+        get
+        {
+            bool enTe = false;
+            for (int c = 0; c < cases.Count; c++)
+            {
+                if (cases[c].Necessitats.Count > 0)
+                {
+                    enTe = true;
+                    break;
+                }
+            }
+            return enTe;
+        }
+    }
 
 
-
+    AnimacioPerCodi_GameObject_Referencia informacio;
 
     //SETTERS
     public ConnexioEnum GetEstatConnexio => connexio != null ? ConnexioEnum.Connectat : ConnexioEnum.Desconnectat;
@@ -107,8 +126,19 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         set 
         {
             productesExtrets = value;
-            efecteNouProducte.Instantiate(transform.position, productesExtrets.Length);
+            XS_Coroutine.StartCoroutine_Ending_FrameDependant(productesExtrets.Length * 0.75f, EfecteNouProducte);
+            //efecteNouProducte.Instantiate(transform.position, productesExtrets.Length * 0.5f);
         } 
+    }
+    void EfecteNouProducte()
+    {
+        GameObject efecte = efecteNouProducte.InstantiateReturn(transform.position);
+
+        new Animacio_Posicio(
+                        transform.position,
+                        connexio.transform.position
+                        ).Play(efecte.transform, .75f, .5f, Transicio.clamp, false);
+
     }
     //public Vector2Int SetExtraccio { set => extraccioCoordenada = value; }
     public void ResetCases() => cases = new List<Casa>();
@@ -197,6 +227,12 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         if (delay == 0)
              efecteNouHabitant.Instantiate(transform.position);
         else efecteNouHabitant.Instantiate(transform.position, delay);
+
+
+        if (informacio != null)
+            return;
+
+        informacio = Instantiate(prefab_informacioNouHabitant, transform.position, Quaternion.identity);
     }
     public void TreureCasa()
     {
@@ -229,15 +265,61 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
+
+
+
+
+
+
+    public void MostrarInformacio()
+    {
+        if (!TeNecessitats)
+            return;
+
+        AmagarInformacio();
+
+        if(cases != null && cases.Count > 0)
+        {
+            informacio = Instantiate(prefab_informacioNouHabitant, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            if(connexio != null)
+                informacio = Instantiate(prefab_informacioProducte, transform.position, Quaternion.identity);
+        }
+    }
+    public void AmagarInformacio()
+    {
+        if (!informacio)
+            return;
+
+        informacio.Destroy();
+    }
+    public void ResaltarInformacio() => informacio.PointerEnter();
+    public void DesresaltarInformacio() => informacio.PointerExit();
+
+
+
+
+
+
+
+
+
+
     public override void OnPointerEnter()
     {
         CursorEstat.Mostrar(false);
         subestat.InformacioMostrar(this);
+
+        AmagarInformacio();
     }
     public override void OnPointerExit()
     {
         CursorEstat.Mostrar(true);
         subestat.InformacioAmagar(this);
+
+        MostrarInformacio();
     }
 
 
