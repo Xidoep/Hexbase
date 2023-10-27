@@ -38,7 +38,8 @@ public class Fase_Processar : Fase
     List<Peça> canviadesPeça;
     //List<Peça> animades;
     List<Peça> recreades;
-
+    bool wfcAcabat;
+    WaitForEndOfFrame waitForEndOfFrame;
 
     System.Action<Transform, List<Peça>> enColocar;
     System.Action<Transform> enCanviarEstat;
@@ -54,6 +55,7 @@ public class Fase_Processar : Fase
         peça.Parent.localPosition = Vector3.up * 20;
 
         startTime = Time.realtimeSinceStartup;
+        waitForEndOfFrame = new WaitForEndOfFrame();
         Agrupar();
     }
 
@@ -63,18 +65,24 @@ public class Fase_Processar : Fase
 
         prediccio.FinalitzacioForçada();
         grups.Interrompre();
-        grups.Agrupdar(grups.Grup, peça, WFC_Inicial);
+        grups.Agrupdar(grups.Grup, peça, Proximitat);
     }
 
     
+    /*
     void WFC_Inicial() //Primer WFC per la peça inicial.
     {
+        //wfc.Iniciar_WFC(peça, new List<Peça>(), null);
+        Proximitat();
+
+        
         if (!peça.EstatIgualA(riu))
             wfc.Iniciar_WFC(peça, new List<Peça>(), Proximitat);
         else
             Proximitat();
-
+        
     }
+*/
 
     void Proximitat()
     {
@@ -104,7 +112,8 @@ public class Fase_Processar : Fase
 
         if (peça != null)
         {
-            peça.CrearTilesFisics();
+            peça.CrearPreafabTemporal();
+            //peça.CrearTilesFisics();
             enColocar?.Invoke(peça.Parent, peça.VeinsPeça);
         }
 
@@ -139,26 +148,37 @@ public class Fase_Processar : Fase
 
     void WFC()
     {
-        if (canviades != null && canviades.Count > 0 || peça.EstatIgualA(riu))
+        wfcAcabat = false;
+        wfc.Iniciar_WFC(peça, canviadesPeça, Crear_i_Animar);
+        Produir();
+        /*if (canviades != null && canviades.Count > 0 || peça.EstatIgualA(riu))
+        {
+            wfc.Iniciar_WFC(peça, canviadesPeça, null);
+        }
+        Produir();*/
+
+
+        /*if (canviades != null && canviades.Count > 0 || peça.EstatIgualA(riu))
         {
             wfc.Iniciar_WFC(peça, canviadesPeça, Produir);
         }
         else
         {
             Produir();
-        }
+        }*/
     }
 
     
     void Produir()
     {
-        Crear_i_Animar();
+        //Crear_i_Animar();
         CrearRanures();
 
         produccio.Process(Guardar_i_Acabar);
     }
     void Crear_i_Animar() 
     {
+        wfcAcabat = true;
         recreades = new List<Peça>();
 
         //CREAR LA COLOCADA
@@ -245,12 +265,18 @@ public class Fase_Processar : Fase
 
     void Guardar_i_Acabar(List<Peça> proveides)
     {
-        //Això hauria de ser un proces.
-        /*Debug.LogError($"Actualitzar {animades.Count}");
-        for (int i = 0; i < animades.Count; i++)
+        XS_Coroutine.StartCoroutine(Guardar(proveides));
+
+        //Debugar.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", peça);
+        //resoldre.Iniciar();
+    }
+    IEnumerator Guardar(List<Peça> proveides)
+    {
+        while (!wfcAcabat)
         {
-            Debug.LogError($"Actualitzar {animades[i].Coordenades}");
-        }*/
+            yield return waitForEndOfFrame;
+        }
+
         save.Add(peça, grups);
         save.Actualitzar(perComprovar, grups);
 
@@ -277,7 +303,6 @@ public class Fase_Processar : Fase
         Debugar.LogError($"------------------------------------------------------------------------------- Cost Time = {Time.realtimeSinceStartup - startTime}", peça);
         resoldre.Iniciar();
     }
-
 
 
     /*public override void Finalitzar()

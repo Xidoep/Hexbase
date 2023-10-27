@@ -29,7 +29,7 @@ public class TilePotencial
     public int altura1 = -1;
     public int altura2 = -1;
 
-    public string EstatName => $"{peça.SubestatNom}-{orientacio}";
+    public string EstatName => $"{peça.name}({peça.Subestat.name})-{orientacio}";
     public Peça Peça => peça;
     public bool TePossibilitats => possibilitatsVirtuals.Count > 0;
     public Possibilitats PossibilitatsVirtuals => possibilitatsVirtuals;
@@ -96,6 +96,23 @@ public class TilePotencial
         return this;
     }
 
+    Possibilitats possibilitatsActuals;
+    Possibilitats possibilitatsComodi;
+    Possibilitats novesPossibilitats;
+    public TilePotencial Comodi(Possibilitats all)
+    {
+        possibilitatsVirtuals = all;
+        GetVeins(peça);
+        for (int i = 0; i < veins.Length; i++)
+        {
+            veins[i]?.GetVeins(veins[i]?.peça);
+        }
+
+        altura = -1;
+
+        return this;
+    }
+
     public void Escollir(int colisions)
     {
         int r = 0;
@@ -104,23 +121,23 @@ public class TilePotencial
         {
             int highestPriority = 0;
 
-            //Trobar la prioritat mes alta
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
-            {
-                //Debug.Log($"{possibilitatsVirtuals.Get(i).Tile.name} pes = {possibilitatsVirtuals.Get(i).Pes} | {possibilitatsVirtuals.Get(i).GetPes(i)}");
-                if (possibilitatsVirtuals.Get(i).GetPes(i, colisions) > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).GetPes(i, colisions);
+            {;
+                if (possibilitatsVirtuals.Get(i).GetPes(i) > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).GetPes(i);
             }
 
-            //Debug.Log($"HighestPriority = {highestPriority}");
-
-            List<Possibilitat> possibilitats;
-            possibilitats = new List<Possibilitat>();
+            List<Possibilitat> possibilitats = new List<Possibilitat>();
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
             {
-                if(possibilitatsVirtuals.Get(i).GetPes(i, colisions) >= highestPriority)
+                if(possibilitatsVirtuals.Get(i).GetPes(i) >= highestPriority)
                 {
                     possibilitats.Add(possibilitatsVirtuals.Get(i));
                 }
+            }
+
+            if(possibilitats.Count == 0)
+            {
+                Debug.Log("No hi ha possibilitats?!?!?!?!?");
             }
 
             Escollir(possibilitats[UnityEngine.Random.Range(0, possibilitats.Count)]);
@@ -163,7 +180,7 @@ public class TilePotencial
         this.orientacioFisica = orientacioFisica;
         this.possibilitatsVirtuals = new Possibilitats(tile, orientacioFisica, 1000);
 
-        Debug.Log($"Escollir => {tile.name}({orientacio})");
+        Debug.Log($"Escollir => {Peça.name}({tile.name} -{orientacio})");
 
         if (WaveFunctionColpaseScriptable.veureProces)
             Crear();

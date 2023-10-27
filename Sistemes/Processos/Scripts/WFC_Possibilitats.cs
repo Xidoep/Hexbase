@@ -6,6 +6,10 @@ using UnityEngine;
 [System.Serializable]
 public struct Possibilitats
 {
+    public Possibilitats(Possibilitats possibilitats)
+    {
+        this.possibilitats = possibilitats.possibilitats;
+    }
     public Possibilitats(List<Possibilitat> possibilitats)
     {
         this.possibilitats = possibilitats;
@@ -17,13 +21,36 @@ public struct Possibilitats
 
     [SerializeField] List<Possibilitat> possibilitats;
 
+    //INTERN
+
     //FUNCIONS
-    public int Count => possibilitats.Count;
+    public int Count => possibilitats != null ? possibilitats.Count : 0;
     public Possibilitat Get(int index) => possibilitats[index];
     public void Remove(Possibilitat possibilitat) => possibilitats.Remove(possibilitat);
     public Tile Tile(int index) => possibilitats[index].Tile;
     public int Orietacio(int index) => possibilitats[index].Orientacio;
     public void Add(Tile tile, int orientacio, int pes) => possibilitats.Add(new Possibilitat(tile, orientacio, pes));
+    public void Add(Possibilitat possibilitat) 
+    {
+        if (possibilitats == null) possibilitats = new List<Possibilitat>();
+        possibilitats.Add(possibilitat);
+    } 
+    public bool Contains(Possibilitat possibilitat)
+    {
+        if (possibilitats == null)
+            return false;
+
+        bool trobat = false;
+        for (int i = 0; i < possibilitats.Count; i++)
+        {
+            if (possibilitats[i].EqualsTo(possibilitat))
+            {
+                trobat = true;
+                break;
+            }
+        }
+        return trobat;
+    }
 }
 [System.Serializable]
 public struct Possibilitat
@@ -44,10 +71,13 @@ public struct Possibilitat
     public int Orientacio => orientacio;
     public int Pes => pes;
 
-    
+
+    public int GetPes(int index) => pes + Mathf.RoundToInt(Mathf.PerlinNoise(
+        index * 0.4f + Mathf.Sin(Time.time),
+        index * 0.4f + Mathf.Cos(Time.time)));
     public int GetPes(int index, int colisions) => pes + Mathf.RoundToInt(Mathf.PerlinNoise(
-        (index + colisions) * 0.3f + Mathf.Sin(Time.time), 
-        (index + colisions) * 0.3f + Mathf.Sin(Time.time))
+        (index + colisions) * 0.4f + Mathf.Sin(Time.time), 
+        (index + colisions) * 0.4f + Mathf.Sin(Time.time))
         * colisions - (colisions / 2f));
     
     

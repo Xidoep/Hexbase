@@ -433,7 +433,7 @@ public class TilesetUnpack : ScriptableObject
     {
         Debug.Log($"...assignar a {outputTiles}/{root}.asset");
         Estat estat = AssetDatabase.LoadAssetAtPath<Estat>($"{outputTiles}/{root.ToUpper()}.asset");
-        estat.SetTileset = tileset;
+        estat.Tileset = tileset;
     }
 
 

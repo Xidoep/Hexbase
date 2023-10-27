@@ -57,7 +57,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
     TilePotencial[] tiles;
-
+    GameObject prefab;
 
 
 
@@ -182,10 +182,15 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
-
+    public void CrearPreafabTemporal()
+    {
+        prefab = Instantiate(estat.Prefab.gameObject, transform.position, transform.rotation, transform);
+    }
 
     public void CrearTilesFisics()
     {
+        if (prefab) Destroy(prefab);
+
         enCrearDetalls = null;
         for (int i = 0; i < tiles.Length; i++)
         {

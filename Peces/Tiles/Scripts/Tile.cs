@@ -106,8 +106,15 @@ public class Tile : ScriptableObject
                 return dreta;
         }
     }
-    //public bool ConnexionsIgualsA(Tile altre) => exterior == altre.exterior && esquerra == altre.esquerra && dreta == altre.dreta;
+    public bool AlgunaConnexioIgual(Tile altre) => exterior == altre.exterior && esquerra == altre.esquerra && dreta == altre.dreta;
 
+
+    public bool CompararConnexions(Possibilitat possibilitat, Connexio exterior, Connexio esquerra, Connexio dreta) =>
+    Igualar(exterior, possibilitat.Tile.Exterior(possibilitat.Orientacio)) &&
+    Igualar(esquerra, possibilitat.Tile.Esquerra(possibilitat.Orientacio)) &&
+    Igualar(dreta, possibilitat.Tile.Dreta(possibilitat.Orientacio));
+
+    bool Igualar(Connexio a, Connexio b) => a.EncaixaAmb(b) && b.EncaixaAmb(a);
 
     [System.Serializable] 
     public struct Posicions

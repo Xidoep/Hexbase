@@ -23,15 +23,27 @@ Material:
   m_Name: hx_Terra
   m_Shader: {fileID: -6465566751694194690, guid: 3257444e4f2b4414b84818541d634025, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 2
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 1950
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _HOR:
+        m_Texture: {fileID: 2800000, guid: 92b1137e772b3fd4ea21a40a3fcc874f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _N:
+        m_Texture: {fileID: 2800000, guid: 5cd4e2b33d5877a46bf2fbd4fd3e8c8d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RGB:
+        m_Texture: {fileID: 2800000, guid: b1734179f3e3be54f8aa350b18f85d5f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_4a56ec3525204b03ac7a4c80a0e1baea_Out_0:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -75,12 +87,14 @@ Material:
     - _NormalThreshold: 1
     - _NormalTightening: 1
     - _QueueControl: 0
-    - _QueueOffset: 0
+    - _QueueOffset: -50
     - _Thickness: 0.0015
+    - _uv: 1
     m_Colors:
     - _Color: {r: 0.37044132, g: 0.42352942, b: 0.22745098, a: 1}
     - _ColorSotaAigua: {r: 0.17254902, g: 0.28235295, b: 0.35686275, a: 1}
     - _ColorVariacio: {r: 0.79215693, g: 1, b: 0, a: 0}
+    - _Multiplicador: {r: 0.6603774, g: 0.56743044, b: 0.43921328, a: 0}
     - _Neu: {r: 0.6367924, g: 0.8223354, b: 0.8490566, a: 0}
     - _Roca: {r: 0.6037736, g: 0.58793265, b: 0.50978994, a: 0}
   m_BuildTextureStacks: []

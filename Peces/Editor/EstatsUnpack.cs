@@ -33,6 +33,7 @@ public class EstatsUnpack : ScriptableObject
     [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] TilesUnpack tileUnpack;
     [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] Grups grups;
     [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] Fase_Colocar colocar;
+    [BoxGroup("NEXT STEPS", centerLabel: true), SerializeField] WaveFunctionColpaseScriptable wfc;
 
     [Space(20), ReadOnly, SerializeField]
     Referencies referencies;
@@ -58,8 +59,8 @@ public class EstatsUnpack : ScriptableObject
     Peça.ConnexioEnum accioConnectar;
     string nomRecepta;
     Estat assignar;
-
-
+    TilesPossibles[] tilesPossibles;
+    Possibilitats possibilitats;
 
     [TableList(), SerializeField, PropertyOrder(-1)]
     Confirmacio[] confirmacions;
@@ -164,6 +165,8 @@ public class EstatsUnpack : ScriptableObject
         colocar.SetPerDefecte = referencies.GetColocable("Camp");
 
         GrupsAgafarReferencies();
+
+        CrearEstatComodi();
     }
 
     private void CrearReceptes(Confirmacio[] confirmacions)
@@ -454,43 +457,85 @@ public class EstatsUnpack : ScriptableObject
     [ContextMenu("CrearEstatComodi")]
     void CrearEstatComodi()
     {
-        AssetDatabase.DeleteAsset($"{outputPath}/_COMODI");
+        possibilitats = new Possibilitats(new List<Possibilitat>());
 
-        Estat estat = CreateInstance<Estat>();
-        estat.SetupCreacio(Estat.TipusEnum.Normal, false, false, null);
-
-        if (!AssetDatabase.IsValidFolder($"{outputPath}/_COMODI"))
+        for (int e = 0; e < referencies.Estats.Length; e++)
         {
-            AssetDatabase.CreateFolder($"{outputPath}", "_COMODI");
-            AssetDatabase.CreateFolder($"{outputPath}/_COMODI", "Prefab");
-            AssetDatabase.CreateFolder($"{outputPath}/_COMODI", "Colocable");
-        }
-        AssetDatabase.CreateAsset(estat, $"{outputPath}/_COMODI.asset");
 
-        if (!AssetDatabase.IsValidFolder($"{outputPath}/_COMODI/Tiles"))
-        {
-            AssetDatabase.CreateFolder($"{outputPath}/_COMODI", "Tiles");
-
-            TileSet_Simple tilesetComodi = tilesetUnpack.TilesetComodi();
-            tilesetComodi.Setup();
-
-            for (int e = 0; e < referencies.Estats.Length; e++)
+            if (referencies.Estats[e].Tileset is TileSet_Simple)
             {
-                if (referencies.Estats[e].name == "_COMODI")
-                    continue;
-
-                
+                tilesPossibles = ((TileSet_Simple)referencies.Estats[e].Tileset).TileSet.Tiles;
+                for (int t = 0; t < tilesPossibles.Length; t++)
+                {
+                    if (tilesPossibles[t].tile.ConnexionsIguals)
+                    {
+                        possibilitats.Add(tilesPossibles[t].tile, 0, 1);
+                    }
+                    else
+                    {
+                        possibilitats.Add(tilesPossibles[t].tile, 0, 1);
+                        possibilitats.Add(tilesPossibles[t].tile, 1, 1);
+                        possibilitats.Add(tilesPossibles[t].tile, 2, 1);
+                    }
+                }
             }
-            for (int i = 0; i < referencies.Tiles.Length; i++)
+            else if (referencies.Estats[e].Tileset is TileSet_Ocupable)
             {
-                tilesetComodi.TileSet.AddTile(referencies.Tiles[i], 1);
-            }
+                tilesPossibles = ((TileSet_Ocupable)referencies.Estats[e].Tileset).TileSetLliure.Tiles;
+                for (int t = 0; t < tilesPossibles.Length; t++)
+                {
+                    if (tilesPossibles[t].tile.ConnexionsIguals)
+                    {
+                        possibilitats.Add(tilesPossibles[t].tile, 0, 1);
+                    }
+                    else
+                    {
+                        possibilitats.Add(tilesPossibles[t].tile, 0, 1);
+                        possibilitats.Add(tilesPossibles[t].tile, 1, 1);
+                        possibilitats.Add(tilesPossibles[t].tile, 2, 1);
+                    }
+                }
 
-            AssetDatabase.CreateAsset(tilesetComodi, $"{outputPath}/_COMODI/Tiles/Comodi.asset");
-            estat.SetTileset = (TileSet_Simple)AssetDatabase.LoadAssetAtPath($"{outputPath}/_COMODI/Tiles/Comodi.asset", typeof(TileSet_Simple));
+                tilesPossibles = ((TileSet_Ocupable)referencies.Estats[e].Tileset).TileSetOcupat.Tiles;
+                for (int t = 0; t < tilesPossibles.Length; t++)
+                {
+                    if (tilesPossibles[t].tile.ConnexionsIguals)
+                    {
+                        possibilitats.Add(tilesPossibles[t].tile, 0, 1);
+                    }
+                    else
+                    {
+                        possibilitats.Add(tilesPossibles[t].tile, 0, 1);
+                        possibilitats.Add(tilesPossibles[t].tile, 1, 1);
+                        possibilitats.Add(tilesPossibles[t].tile, 2, 1);
+                    }
+                }
+            }
+            else if (referencies.Estats[e].Tileset is TileSet_Condicional)
+            {
+                for (int c = 0; c < ((TileSet_Condicional)referencies.Estats[e].Tileset).Condicions.Length; c++)
+                {
+                    tilesPossibles = ((TileSet_Condicional)referencies.Estats[e].Tileset).Condicions[c].TileSet.Tiles;
+                    for (int t = 0; t < tilesPossibles.Length; t++)
+                    {
+                        if (tilesPossibles[t].tile.ConnexionsIguals)
+                        {
+                            possibilitats.Add(tilesPossibles[t].tile, 0, 1);
+                        }
+                        else
+                        {
+                            possibilitats.Add(tilesPossibles[t].tile, 0, 1);
+                            possibilitats.Add(tilesPossibles[t].tile, 1, 1);
+                            possibilitats.Add(tilesPossibles[t].tile, 2, 1);
+                        }
+                    }
+                }
+            }
         }
 
-        
+        wfc.SetAll = possibilitats;
+
+
     }
 
     void GrupsAgafarReferencies()

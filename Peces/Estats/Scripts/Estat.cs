@@ -85,6 +85,17 @@ public class Estat : ScriptableObject, IProcessable
     [HideInInspector] [SerializeField] Produccio produccio;
     [HideInInspector] [SerializeField] Repoblar repoblar;
 
+
+
+    //INTERN
+    Possibilitats ps;
+    TilesPossibles[] tiles;
+
+
+
+
+
+
     public TipusEnum Tipus => tipus;
     public bool Colocable => colocable;
     //public bool Caminable => caminable;
@@ -101,7 +112,7 @@ public class Estat : ScriptableObject, IProcessable
     public virtual Connexio[] ConnexionsNules(Peça peça) => tileset.ConnexionsNules(peça);
     public ConnexioEspesifica[] ConnexionsEspesifiques(Peça peça) => tileset.ConnexionsEspesifiques(peça);
     public Connexio[] ConnexionsPossibles(Peça peça) => tileset.ConnexioinsPossibles(peça);
-    public TileSetBase SetTileset { set => tileset = value; }
+    public TileSetBase Tileset { get => tileset; set => tileset = value; }
 
 
     public void AddRecepta(Recepta recepta)
@@ -146,8 +157,8 @@ public class Estat : ScriptableObject, IProcessable
 
     public Possibilitats Possibilitats(Peça peça)
     {
-        Possibilitats ps = new Possibilitats(new List<Possibilitat>());
-        TilesPossibles[] tiles = tileset.Tiles(peça);
+        ps = new Possibilitats(new List<Possibilitat>());
+        tiles = tileset.Tiles(peça);
         for (int i = 0; i < tiles.Length; i++)
         {
             //if (!tiles[i].tile.ConnexionsIguals)
@@ -155,6 +166,29 @@ public class Estat : ScriptableObject, IProcessable
                 ps.Add(tiles[i].tile, 0, tiles[i].pes);
                 ps.Add(tiles[i].tile, 1, tiles[i].pes);
                 ps.Add(tiles[i].tile, 2, tiles[i].pes);
+            //}
+            //else ps.Add(tiles[i].tile, 0, tiles[i].pes * 3);
+        }
+        return ps;
+    }
+    public Possibilitats Possibilitats(Peça peça, List<Connexio> ambConnexio)
+    {
+        ps = new Possibilitats(new List<Possibilitat>());
+        tiles = tileset.Tiles(peça);
+
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (ambConnexio.Contains(tiles[i].tile.Exterior(0)) || 
+                ambConnexio.Contains(tiles[i].tile.Dreta(0)) ||
+                ambConnexio.Contains(tiles[i].tile.Esquerra(0)))
+            {
+                ps.Add(tiles[i].tile, 0, tiles[i].pes);
+                ps.Add(tiles[i].tile, 1, tiles[i].pes);
+                ps.Add(tiles[i].tile, 2, tiles[i].pes);
+            }
+                    //if (!tiles[i].tile.ConnexionsIguals)
+                    //{
+
             //}
             //else ps.Add(tiles[i].tile, 0, tiles[i].pes * 3);
         }

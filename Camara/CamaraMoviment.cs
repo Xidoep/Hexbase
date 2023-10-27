@@ -59,8 +59,12 @@ public class CamaraMoviment
     public void Update(Transform transform)
     {
         Moviment_Keyboard(transform);
-        Moviment_Bores(transform);
+
+        if(!Application.isEditor)
+            Moviment_Bores(transform);
+
         Moviment_Mouse(transform);
+
 
         transform.localPosition = Vector3.Lerp(transform.localPosition, movement, Time.deltaTime * time);
         //transform.localPosition = Vector3.Lerp(transform.localPosition, movement, Time.deltaTime * time * (((zoom * 3) + 1) * 5));
