@@ -79,12 +79,12 @@ public class TilePotencial
         {
             if (tileFisic)
             {
-                XS_GPU.RemoveGrafic(tileFisic);
                 MonoBehaviour.Destroy(tileFisic);
             }
         }
 
         GetPossibilitats();
+
         GetVeins(peça);
         for (int i = 0; i < veins.Length; i++)
         {
@@ -101,7 +101,9 @@ public class TilePotencial
     Possibilitats novesPossibilitats;
     public TilePotencial Comodi(Possibilitats all)
     {
+        orientacioFisica = 0;
         possibilitatsVirtuals = all;
+
         GetVeins(peça);
         for (int i = 0; i < veins.Length; i++)
         {
@@ -113,7 +115,7 @@ public class TilePotencial
         return this;
     }
 
-    public void Escollir(int colisions)
+    public void Escollir()
     {
         int r = 0;
 
@@ -180,7 +182,7 @@ public class TilePotencial
         this.orientacioFisica = orientacioFisica;
         this.possibilitatsVirtuals = new Possibilitats(tile, orientacioFisica, 1000);
 
-        Debug.Log($"Escollir => {Peça.name}({tile.name} -{orientacio})");
+        Debug.Log($"Escollir => {Peça.name}({tile.name} ({orientacio})");
 
         if (WaveFunctionColpaseScriptable.veureProces)
             Crear();
@@ -313,6 +315,8 @@ public class TilePotencial
         }
 
     }*/
+
+
     public struct Random
     {
         public int index;

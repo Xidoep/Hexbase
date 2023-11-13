@@ -184,6 +184,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
     public void CrearPreafabTemporal()
     {
+        if (WaveFunctionColpaseScriptable.veureProces)
+            return;
+            
         prefab = Instantiate(estat.Prefab.gameObject, transform.position, transform.rotation, transform);
     }
 
@@ -330,9 +333,24 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
+    [SerializeField, Range(0,5)] int tileIndexDebug;
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0, 1, 0, .5f);
+        if (tiles[tileIndexDebug].TileFisic == null) 
+            return;
 
+        if(tiles[tileIndexDebug].TileFisic.TryGetComponent(out MeshRenderer mr))
+        {
+            Gizmos.DrawCube(mr.bounds.center, Vector3.one * .5f);
+        }
 
+        Gizmos.color = new Color(1, 1, 0, .5f);
+        if (tiles[tileIndexDebug].Veins[0] != null && tiles[tileIndexDebug].Veins[0].TileFisic != null) Gizmos.DrawCube(tiles[tileIndexDebug].Veins[0].TileFisic.GetComponent<MeshRenderer>().bounds.center, Vector3.one * .5f);
+        if (tiles[tileIndexDebug].Veins[1] != null  && tiles[tileIndexDebug].Veins[1].TileFisic != null) Gizmos.DrawCube(tiles[tileIndexDebug].Veins[1].TileFisic.GetComponent<MeshRenderer>().bounds.center, Vector3.one * .5f);
+        if (tiles[tileIndexDebug].Veins[2] != null && tiles[tileIndexDebug].Veins[2].TileFisic != null) Gizmos.DrawCube(tiles[tileIndexDebug].Veins[2].TileFisic.GetComponent<MeshRenderer>().bounds.center, Vector3.one * .5f);
+    }
 
 
 
@@ -352,13 +370,29 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
 
 
 
+    [TitleGroup("Tile 1"), ShowInInspector] List<string> DebugPossibilitats0 => DebugGetNomsPossibilitats(0);
+    [TitleGroup("Tile 1"), ShowInInspector] int DebugOrientacio0 => DebugOrientacio(0);
+    [TitleGroup("Tile 1"), ShowInInspector] string DebugVei0 => DebugVei(0);
 
-    [ShowInInspector] List<string> DebugPossibilitats0 => DebugGetNomsPossibilitats(0);
-    [ShowInInspector] List<string> DebugPossibilitats1 => DebugGetNomsPossibilitats(1);
-    [ShowInInspector] List<string> DebugPossibilitats2 => DebugGetNomsPossibilitats(2);
-    [ShowInInspector] List<string> DebugPossibilitats3 => DebugGetNomsPossibilitats(3);
-    [ShowInInspector] List<string> DebugPossibilitats4 => DebugGetNomsPossibilitats(4);
-    [ShowInInspector] List<string> DebugPossibilitats5 => DebugGetNomsPossibilitats(5);
+    [TitleGroup("Tile 2"), ShowInInspector] List<string> DebugPossibilitats1 => DebugGetNomsPossibilitats(1);
+    [TitleGroup("Tile 2"), ShowInInspector] int DebugOrientacio1 => DebugOrientacio(1);
+    [TitleGroup("Tile 2"), ShowInInspector] string DebugVei1 => DebugVei(1);
+
+    [TitleGroup("Tile 3"), ShowInInspector] List<string> DebugPossibilitats2 => DebugGetNomsPossibilitats(2);
+    [TitleGroup("Tile 3"), ShowInInspector] int DebugOrientacio2 => DebugOrientacio(2);
+    [TitleGroup("Tile 3"), ShowInInspector] string DebugVei20 => DebugVei(2);
+
+    [TitleGroup("Tile 4"), ShowInInspector] List<string> DebugPossibilitats3 => DebugGetNomsPossibilitats(3);
+    [TitleGroup("Tile 4"), ShowInInspector] int DebugOrientacio3 => DebugOrientacio(3);
+    [TitleGroup("Tile 4"), ShowInInspector] string DebugVei3 => DebugVei(3);
+
+    [TitleGroup("Tile 5"), ShowInInspector] List<string> DebugPossibilitats4 => DebugGetNomsPossibilitats(4);
+    [TitleGroup("Tile 5"), ShowInInspector] int DebugOrientacio4 => DebugOrientacio(4);
+    [TitleGroup("Tile 5"), ShowInInspector] string DebugVei4 => DebugVei(4);
+
+    [TitleGroup("Tile 6"), ShowInInspector] List<string> DebugPossibilitats5 => DebugGetNomsPossibilitats(5);
+    [TitleGroup("Tile 6"), ShowInInspector] int DebugOrientacio5 => DebugOrientacio(5);
+    [TitleGroup("Tile 6"), ShowInInspector] string DebugVei5 => DebugVei(5);
 
     [ShowInInspector]
     string[] veins => tiles != null && tiles.Length > 0 ? new string[] {
@@ -384,6 +418,18 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         }
         return tmp;
     }
+    string DebugVei(int index)
+    {
+        if (tiles[index].Veins[0] == null)
+            return "null";
+        else
+        {
+            if (tiles[index].Veins[0].Resolt) return Tiles[index].Veins[0].PossibilitatsVirtuals.Get(0).Tile.name;
+            else
+                return "mes d'una possibilitat?...";
+        }
+    }
+    int DebugOrientacio(int index) => tiles[index].OrientacioFisica;
 }
 
 

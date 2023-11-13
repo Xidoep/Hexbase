@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using XS_Utils;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Processos/WFC")]
 public class WaveFunctionColpaseScriptable : ScriptableObject
@@ -39,6 +40,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     Peça colocada;
     List<Peça> canviades;
     [SerializeField] bool iniciat;
+    [ShowInInspector, PropertyOrder(-20), Button(Name = "Continuar")] public void Continuar() => Time.timeScale = 1;
     [SerializeField] WfcRegla[] regles;
     [SerializeField] int colisions = 0;
     [SerializeField] Possibilitats viables;
@@ -58,7 +60,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     System.Action enFinalitzar;
 
-    public static bool veureProces = false;
+    public static bool veureProces = true;
     //public static System.Random random;
 
     //INTERN
@@ -99,6 +101,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     //INICIACIO
     public void Iniciar_WFC(Peça peça, List<Peça> canviades, System.Action _enFinalitzar, bool reiniciat = false)
     {
+        _connexio = new List<Connexio>();
         /*
         if (iniciat)
         {
@@ -191,8 +194,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     {
         actual = TileWithTheLowestEntropy();
         pendents.Remove(actual);
-        Debug.Log($"{actual.Peça.name}({actual.Orientacio})");
-        actual.Escollir(colisions);
+        //Debug.Log($"{actual.Peça.name}({actual.Orientacio})");
+        actual.Escollir();
 #if UNITY_EDITOR
         //Debug.Log($"Resoldre {actual.Peça.gameObject.name} amb el tile {actual.PossibilitatsVirtuals.Get(0).Tile.name}");
 #endif
@@ -304,6 +307,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         {
             if (TreuPossibilitatsImpossibles(propagables[0]))
             {
+                /*
                 if (propagables[0].PossibilitatsVirtuals.Count == 0)
                 {
                     _debug = $"SENSE POSSIBILITATS ({propagables[0].EstatName})!!!\n";
@@ -326,16 +330,16 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                                         all.Get(i),
                                         propagables[0].Veins[0] == null ? 
                                             propagables[0].Peça.ConnexionsNules[ext] : propagables[0].Veins[0].PossibilitatsVirtuals.Get(ext).Tile.Exterior(propagables[0].Veins[0].PossibilitatsVirtuals.Get(ext).Orientacio),
-                                        propagables[0].Veins[1].PossibilitatsVirtuals.Get(dre).Tile.Esquerra(propagables[0].Veins[1].PossibilitatsVirtuals.Get(dre).Orientacio),
-                                        propagables[0].Veins[2].PossibilitatsVirtuals.Get(esq).Tile.Dreta(propagables[0].Veins[2].PossibilitatsVirtuals.Get(esq).Orientacio)
+                                        propagables[0].Veins[1].PossibilitatsVirtuals.Get(dre).Tile.Dreta(propagables[0].Veins[1].PossibilitatsVirtuals.Get(dre).Orientacio),
+                                        propagables[0].Veins[2].PossibilitatsVirtuals.Get(esq).Tile.Esquerra(propagables[0].Veins[2].PossibilitatsVirtuals.Get(esq).Orientacio)
                                         ))
                                     {
 
-                                        _debug += $"{all.Get(i).Tile.name} - {all.Get(i).Orientacio}\n";
+                                       
 
                                         if (!viables.Contains(all.Get(i)))
                                         {
-                                            
+                                            _debug += $"{all.Get(i).Tile.name} - o{all.Get(i).Orientacio}\n";
                                             viables.Add(all.Get(i));
                                         }
                                     }
@@ -348,124 +352,35 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     {
                         int r = Random.Range(0, viables.Count);
                         propagables[0].PossibilitatsVirtuals.Add(viables.Get(r));
+                        _debug += $"{viables.Count}\n";
+
                         for (int i = 0; i < viables.Count; i++)
                         {
-                            _debug += $"{viables.Count} - {all.Get(i).Tile.name}{(r == i ? "   <-------- TRIADA!" : "")}\n";
+                            _debug += $"{viables.Get(i).Tile.name} - o{viables.Get(i).Orientacio}{(r == i ? "   <--------TRIADA!" : "")}\n";
                         }
+
+                        Debugar.LogError(_debug, propagables[0].Peça);
+
+                        propagables.RemoveAt(0);
+                        XS_Coroutine.StartCoroutine_Ending(0.001f,Propagar);
+                        return;
                     }
+                    else
+                    {
+                        Debugar.LogError(_debug, propagables[0].Peça);
+                        Time.timeScale = 0;
 
-                    Debugar.LogError(_debug, propagables[0].Peça);
+                        Debugar.LogError("CAP OPCIO...");
+
+                        XS_Coroutine.StartCoroutine_Ending(0.001f, Propagar);
+                        return;
+                    }
                 }
-
+                */
                 if (propagables[0].PossibilitatsVirtuals.Count == 0)
                 {
 
                     _debug = $"COLISIO ({propagables[0].EstatName})!!!\n";
-
-                    //Possibilitats possibilitats = propagables[0].Peça.Possibilitats;
-                    /*for (int i = 0; i < possibilitats.Count; i++)
-                    {
-                        _debug += $"{possibilitats.Get(i).Tile.name} | {possibilitats.Get(i).Tile.Exterior(0).name}, {possibilitats.Get(i).Tile.Esquerra(0).name}, {possibilitats.Get(i).Tile.Dreta(0).name} \n";
-                    }*/
-                    /*connexionsEnColapse = new List<Connexio>();
-                    if (propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Count > 0)
-                    {
-                        if(!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[0].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-                    }
-                    if (propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Count > 0)
-                    {
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[1].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-                    }
-                    if (propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Count > 0)
-                    {
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[2].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-                    }
-                    if (propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Count > 0)
-                    {
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[3].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-                    }
-                    if (propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Count > 0)
-                    {
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-                    }
-                    if (propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Count > 0)
-                    {
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                        if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-                    }
-
-
-                    if(propagables[0].Peça.Tiles[0].Veins[0] != null)
-                    {
-                        if (propagables[0].Peça.Tiles[0].Veins[0].PossibilitatsVirtuals.Count > 0)
-                        {
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[0].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[0].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[0].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[0].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[0].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[0].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-                        }
-                    }
-                    if (propagables[0].Peça.Tiles[1].Veins[0] != null)
-                    {
-                        if (propagables[0].Peça.Tiles[1].Veins[0].PossibilitatsVirtuals.Count > 0)
-                        {
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[1].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[1].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[1].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[1].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[1].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[1].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-
-                        }
-                    }
-                    if (propagables[0].Peça.Tiles[2].Veins[0] != null)
-                    {
-                        if (propagables[0].Peça.Tiles[2].Veins[0].PossibilitatsVirtuals.Count > 0)
-                        {
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[2].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[2].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[2].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[2].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[2].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[2].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-
-                        }
-                    }
-                    if (propagables[0].Peça.Tiles[3].Veins[0] != null)
-                    {
-                        if (propagables[0].Peça.Tiles[3].Veins[0].PossibilitatsVirtuals.Count > 0)
-                        {
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[3].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[3].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[3].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[3].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[3].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[3].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-
-                        }
-                    }
-                    if (propagables[0].Peça.Tiles[4].Veins[0] != null)
-                    {
-                        if (propagables[0].Peça.Tiles[4].Veins[0].PossibilitatsVirtuals.Count > 0)
-                        {
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[4].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[4].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[4].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[4].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[4].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[4].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-
-                        }
-                    }
-                    if (propagables[0].Peça.Tiles[5].Veins[0] != null)
-                    {
-                        if (propagables[0].Peça.Tiles[5].Veins[0].PossibilitatsVirtuals.Count > 0)
-                        {
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[5].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[5].Veins[0].PossibilitatsVirtuals.Tile(0).Exterior(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[5].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[5].Veins[0].PossibilitatsVirtuals.Tile(0).Dreta(0));
-                            if (!connexionsEnColapse.Contains(propagables[0].Peça.Tiles[5].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0))) connexionsEnColapse.Add(propagables[0].Peça.Tiles[5].Veins[0].PossibilitatsVirtuals.Tile(0).Esquerra(0));
-
-                        }
-                    }*/
-
 
 
 
@@ -477,43 +392,83 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     _debug += $"4- {(propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[4].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
                     _debug += $"5- {(propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Count > 0 ? propagables[0].Peça.Tiles[5].PossibilitatsVirtuals.Tile(0).name : " - ")}\n";
 
+
+
+
+
+
+                    cExterior = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[0], 0);
+                    cEsquerra = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[1], 2);
+                    cDreta = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[2], 1);
+
                     _debug += $"\nCONTEXTE COLISIO:\n";
-                    _debug += "Vei 0- ";
-                    if (propagables[0].Veins[0] == null)
+                    _debug += "Exterior: ";
+                    for (int i = 0; i < cExterior.Length; i++)
                     {
-                        for (int i = 0; i < propagables[0].Peça.ConnexionsNules.Length; i++)
+                        _debug += $"{cExterior[i].name}, ";
+                    }
+                    _debug += "\n";
+                    _debug += "Esquerra: ";
+                    for (int i = 0; i < cEsquerra.Length; i++)
+                    {
+                        _debug += $"{cEsquerra[i].name}, ";
+                    }
+                    _debug += "\n";
+                    _debug += "Dreta: ";
+                    for (int i = 0; i < cDreta.Length; i++)
+                    {
+                        _debug += $"{cDreta[i].name}, ";
+                    }
+                    _debug += "\n";
+
+
+
+                    _debug += "\nPOSSIBILITATS\n";
+                    for (int p = 0; p < all.Count; p++)
+                    {
+                        //_debug += $"{all.Get(p).Tile.name}({all.Get(p).Orientacio})";
+                        posibilitat = all.Get(p);
+                        found = false;
+                        for (int c1 = 0; c1 < cExterior.Length; c1++)
                         {
-                            _debug += $"{propagables[0].Peça.ConnexionsNules[i].name }, ";
+                            for (int c3 = 0; c3 < cEsquerra.Length; c3++)
+                            {
+                                for (int c2 = 0; c2 < cDreta.Length; c2++)
+                                {
+                                    if (propagables[0].CompararConnexions(posibilitat, cExterior[c1], cEsquerra[c3], cDreta[c2]))
+                                    {
+                                        found = true;
+#if UNITY_EDITOR
+                                        _debug += $"{all.Get(p).Tile.name}({all.Get(p).Orientacio})------------------------------------------¡¡¡MATCH!!!\n";
+#endif
+                                    }
+                                }
+                            }
                         }
+                        if (!found)
+                        {
+                            toRemove.Add(posibilitat);
+                            haCanviat = true;
+                        }
+                        //_debug += "\n";
+                    }
+
+
+
+                    colisions++;
+                    if(colisions > 1)
+                    {
+                        Debugar.LogError(_debug, propagables[0].Peça);
+
+                        XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);
+                        return;
                     }
                     else
                     {
-                        for (int i = 0; i < propagables[0].Veins[0].PossibilitatsVirtuals.Count; i++)
-                        {
-                            _debug += $"{propagables[0].Veins[0].PossibilitatsVirtuals.Get(i).Tile.Exterior(propagables[0].Veins[0].PossibilitatsVirtuals.Get(i).Orientacio).name}, ";
-                        }
+                        Debugar.LogError(_debug, propagables[0].Peça);
+                        propagables[0].Comodi(all);
                     }
-                    _debug += "\n";
-
-                    _debug += "Vei 1- ";
-                    for (int i = 0; i < propagables[0].Veins[1].PossibilitatsVirtuals.Count; i++)
-                    {
-                        _debug += $"{propagables[0].Veins[1].PossibilitatsVirtuals.Get(i).Tile.Esquerra(propagables[0].Veins[1].PossibilitatsVirtuals.Get(i).Orientacio).name}, ";
-                    }
-                    _debug += "\n";
-
-                    _debug += "Vei 2- ";
-                    for (int i = 0; i < propagables[0].Veins[2].PossibilitatsVirtuals.Count; i++)
-                    {
-                        _debug += $"{propagables[0].Veins[2].PossibilitatsVirtuals.Get(i).Tile.Dreta(propagables[0].Veins[2].PossibilitatsVirtuals.Get(i).Orientacio).name}, ";
-                    }
-                    _debug += "\n";
-
-                    colisions++;
-                    Debugar.LogError(_debug, propagables[0].Peça);
-
-                    XS_Coroutine.StartCoroutine_Ending(0.001f, Reiniciar);  
-                    return;
+                    
                 }
 
                 for (int i = 0; i < propagables[0].Veins.Length; i++)
@@ -530,10 +485,14 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     }
                 }
             }
+
             propagables.RemoveAt(0);
 
-            //XS_Coroutine.StartCoroutine_Ending(0, Propagar);
-            Propagar();
+            if (WaveFunctionColpaseScriptable.veureProces)
+                XS_Coroutine.StartCoroutine_Ending(0.001f, Propagar);
+            else
+                Propagar();
+
             return;
         }
 
@@ -578,12 +537,12 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         _debug += "\n";
         
         //toRemove = new List<Possibilitat>();
-
+        
 
         _debug += "\nINTENTS\n";
         for (int p = 0; p < tile.PossibilitatsVirtuals.Count; p++)
         {
-            //_debug += $"{tile.PossibilitatsVirtuals.Get(p).Tile.name}({tile.PossibilitatsVirtuals.Get(p).Orientacio})";
+            _debug += $"{tile.PossibilitatsVirtuals.Get(p).Tile.name}({tile.PossibilitatsVirtuals.Get(p).Orientacio})";
             posibilitat = tile.PossibilitatsVirtuals.Get(p);
             found = false;
             for (int c1 = 0; c1 < cExterior.Length; c1++)
@@ -596,7 +555,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                         {
                             found = true;
 #if UNITY_EDITOR
-                            _debug += $"{tile.PossibilitatsVirtuals.Get(p).Tile.name}({tile.PossibilitatsVirtuals.Get(p).Orientacio})------------------------------------------¡¡¡MATCH!!!\n";
+                            _debug += $"------------------------------------------¡¡¡MATCH!!!";
 #endif
                         }
                     }
@@ -604,7 +563,6 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
             }
             if (!found) 
             {
-
                 toRemove.Add(posibilitat);
                 haCanviat = true;
             }
@@ -624,12 +582,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     }
 
 
-
     Connexio[] GetConnexiosVirtuals(TilePotencial tile, TilePotencial vei, int veiContrari)
     {
-        _connexio = new List<Connexio>();
-
-        //Debug.Log($"vei = {vei}");
+        _connexio.Clear();
         if (vei != null)
         {
             if (vei.Resolt)
@@ -672,7 +627,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
         else
         {
-            if (tile.Peça.TeConnexionsNules && colisions < 3)
+            if (tile.Peça.TeConnexionsNules/* && colisions < 3*/)
                 return tile.Peça.ConnexionsNules;
 
             return tile.Peça.ConnexionsPossibles;
