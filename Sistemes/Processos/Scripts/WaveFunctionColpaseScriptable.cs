@@ -395,7 +395,16 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
 
 
-
+                    /*
+                     * ***************************************************************************************
+                     * PROVAR!
+                     * 
+                     * Això ho faig per treure un debug,
+                     * Però si ho fessim amb totes les connexions, potser trobariem una opcio que hem descartat...
+                     * ... no se si te sentit. Peré això falla quan es queda sense opcions... osigui que s'hauria de fer abans.
+                     * Bueno.. prove-ho i mirem si falla aquesta vegada igualemnt.
+                     * **************************************************************************************
+                     */
 
                     cExterior = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[0], 0);
                     cEsquerra = GetConnexiosVirtuals(propagables[0], propagables[0].Veins[1], 2);
@@ -627,7 +636,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
         else
         {
-            if (tile.Peça.TeConnexionsNules/* && colisions < 3*/)
+            if (tile.Peça.TeConnexionsNules && colisions < 2)
                 return tile.Peça.ConnexionsNules;
 
             return tile.Peça.ConnexionsPossibles;
