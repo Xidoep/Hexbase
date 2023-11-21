@@ -221,6 +221,7 @@ public class Referencies : ScriptableObject
 
     private void OnValidate() => Refresh();
 
+    [ContextMenu("Refresh")]
     [Button(SdfIconType.ReplyFill)]
     public void Refresh()
     {
@@ -240,4 +241,11 @@ public class Referencies : ScriptableObject
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
 
     }
+
+    [ContextMenu("ResetTiles")]
+    void ResetTiles()
+    {
+        tiles = new Tile[0];
+    }
+
 }

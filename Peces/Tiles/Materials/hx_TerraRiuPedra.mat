@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: hx_Terra
-  m_Shader: {fileID: -6465566751694194690, guid: 9742694f950c1cc478f2618bfb6470ba, type: 3}
+  m_Name: hx_TerraRiuPedra
+  m_Shader: {fileID: -6465566751694194690, guid: 7998ffb7c2196764d91e0270c66d911e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
@@ -33,27 +33,39 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _1HOR:
-        m_Texture: {fileID: 2800000, guid: 0627dfa9d9fd05241965f03b5cc5c587, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _1N:
-        m_Texture: {fileID: 2800000, guid: 59c089843487bfc4ebd3e2836e055490, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _1RGB:
-        m_Texture: {fileID: 2800000, guid: 3386747ebb896b2489bafba823393f49, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _2HOR:
         m_Texture: {fileID: 2800000, guid: 92b1137e772b3fd4ea21a40a3fcc874f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _2N:
+    - _1N:
         m_Texture: {fileID: 2800000, guid: 5cd4e2b33d5877a46bf2fbd4fd3e8c8d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _2RGB:
+    - _1RGB:
         m_Texture: {fileID: 2800000, guid: b1734179f3e3be54f8aa350b18f85d5f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _2HOR:
+        m_Texture: {fileID: 2800000, guid: eac0c9dfdffee4d4a9b68a0d9adf0fc5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _2N:
+        m_Texture: {fileID: 2800000, guid: f260f4e7aed72184e8282c75ce1209b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _2RGB:
+        m_Texture: {fileID: 2800000, guid: b38731e7ac2bf4648b914e2b877ff3ca, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _3HOR:
+        m_Texture: {fileID: 2800000, guid: 0627dfa9d9fd05241965f03b5cc5c587, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _3N:
+        m_Texture: {fileID: 2800000, guid: 59c089843487bfc4ebd3e2836e055490, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _3RGB:
+        m_Texture: {fileID: 2800000, guid: 3386747ebb896b2489bafba823393f49, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HOR:
@@ -68,11 +80,19 @@ Material:
         m_Texture: {fileID: 2800000, guid: b1734179f3e3be54f8aa350b18f85d5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_bc10e63dc0624dfd83950762d1dcb1e6_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 0627dfa9d9fd05241965f03b5cc5c587, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_4a56ec3525204b03ac7a4c80a0e1baea_Out_0:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_76f562d7d271489b96025dcb7be1cdb7_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UtilMixingColors_c3b7e4afad2d4862ada1c69dc2d49233_Height_292428113:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -98,6 +118,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _1H_Multiply: 1
+    - _1UV: 5
+    - _1_2Inverted: 1
+    - _1_2Rang: 0.05
+    - _2H_Multiply: 0.75
+    - _2UV: 5
+    - _2_3Inverted: 1
+    - _2_3Rang: 0.05
+    - _3H_Multiply: 0.75
+    - _3UV: 5
     - _AcuteDepthThreshold: 1
     - _AcuteStartDot: 0.9
     - _DepthStrength: 50
@@ -106,18 +136,26 @@ Material:
     - _FarNormalEndDepth: 2
     - _FarNormalStartDepth: 1
     - _FarNormalThreshold: 1
+    - _HeightNegre: 0
+    - _HeightVermell: 0
+    - _Height_Red: 0
+    - _Inverted: 1
+    - _MAIN_LIGHT_SHADOWS: 0
+    - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _Nevat: 0
     - _NormalStrength: 1
     - _NormalThreshold: 1
     - _NormalTightening: 1
     - _QueueControl: 0
     - _QueueOffset: -50
-    - _Suabitzat: -0.28
+    - _Rang: 0.05
+    - _SHADOWS_SOFT: 0
+    - _Suabitzat: -0.39
     - _Thickness: 0.0015
     - _uv: 1
     m_Colors:
-    - _1UV: {r: 6.47, g: 2, b: 0, a: 0}
-    - _2UV: {r: 3.28, g: 2, b: 0, a: 0}
+    - _1UV: {r: 5.05, g: 2.09, b: 0, a: 0}
+    - _2UV: {r: 6.78, g: 2, b: 0, a: 0}
     - _Color: {r: 0.37044132, g: 0.42352942, b: 0.22745098, a: 1}
     - _ColorSotaAigua: {r: 0.17254902, g: 0.28235295, b: 0.35686275, a: 1}
     - _ColorVariacio: {r: 0.79215693, g: 1, b: 0, a: 0}

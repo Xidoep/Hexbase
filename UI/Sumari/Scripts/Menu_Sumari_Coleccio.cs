@@ -33,7 +33,7 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
     {
         enable = false;
         //parent.GetComponent<XS_Button>().OnEnter = Desresaltar;
-
+        boto.enabled = productes.Count > 0;
     }
 
 
@@ -154,57 +154,6 @@ public class Menu_Sumari_Coleccio : MonoBehaviour
 
 
     void Resaltar(Peça peça, Producte producte) => peça.ResaltarInformacio();
-    /*{
-        Desresaltar();
-        informacio = Instantiate(prefab_informacio, peça.transform.position, Quaternion.identity).GetComponent<AnimacioPerCodi_GameObject_Referencia>();
-        if (esProducte)
-            informacio.GetComponent<UI_Producte>().Setup(producte);
-    }*/
     void Desresaltar(Peça peça) => peça.DesresaltarInformacio();
-    /*{
-        if (!informacio)
-            return;
 
-        informacio.Destroy();
-    }*/
-
-
-
-    /*
-
-        [System.Serializable]
-        public class UIProducte
-        {
-            public UIProducte(UI_Producte prefab, Transform parent, Sumari.Informacio informacio, bool mostrat, System.Action<Peça,Producte> resaltar, System.Action desresaltar)
-            {
-                peça = informacio.peça;
-                producte = informacio.producte;
-                boto = Instantiate(prefab, parent.transform).Setup(producte, false).GetComponent<XS_Button>();
-                if (!mostrat)
-                {
-                    boto.gameObject.SetActive(false);
-                }
-                this.resaltar = resaltar;
-                boto.OnEnter = Resaltar;
-                boto.OnExit = desresaltar;
-
-                keepit = false;
-            }
-
-            public Peça peça;
-            public Producte producte;
-            public XS_Button boto;
-            System.Action<Peça, Producte> resaltar;
-            public bool keepit = false;
-
-            public void Resaltar() => resaltar.Invoke(peça, producte);
-
-            public void Keepit(Peça peça)
-            {
-                keepit = true;
-                this.peça = peça;
-            }
-
-            public void Borrar() => Destroy(boto.gameObject);
-        }*/
 }

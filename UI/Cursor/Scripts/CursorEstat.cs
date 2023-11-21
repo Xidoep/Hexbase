@@ -125,7 +125,8 @@ public class CursorEstat : MonoBehaviour
     {
         snap = Vector3.down;
 
-        cursor.SetActive(false);
+        if (cursor != null)
+            cursor.SetActive(false);
     }
 
 }

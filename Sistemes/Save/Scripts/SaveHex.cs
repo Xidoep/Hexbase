@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
+using UnityEngine.Rendering.Universal;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/Save")]
 public class SaveHex : ScriptableObject
@@ -12,6 +13,8 @@ public class SaveHex : ScriptableObject
     [SerializeField] int partidaAnterior = -1;
     [SerializeField] int actual = 0;
     [SerializeField] List<SavedFile> files;
+    [SerializeField] Guardat guardat;
+    [SerializeField] ScriptableRendererFeature outline;
 
     EstatColocable eTrobat;
     Estat sTrobat;
@@ -25,12 +28,16 @@ public class SaveHex : ScriptableObject
     private void OnEnable()
     {
         nomesGuardats = false;
+
+        SetOutline((guardat.Get<float>("Outline", 1)) > 0.1f);
     }
 
     private void OnDisable()
     {
         nomesGuardats = false;
     }
+
+
 
 
 
@@ -221,6 +228,7 @@ public class SaveHex : ScriptableObject
     public void RemoveLastFromPila() => files[actual].RemoveLastPila();
 
 
+    public void SetOutline(bool valor) => outline.SetActive(valor);
 
     //UI
     public void MostrarNomesPartidesGuardades(bool nomesGuardats) => this.nomesGuardats = nomesGuardats;
