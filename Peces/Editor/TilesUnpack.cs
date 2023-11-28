@@ -172,17 +172,17 @@ public class TilesUnpack : ScriptableObject
                 continue;
             }
 
-            CrearPrefabTile(i, root, true);
+            CrearPrefabTile(i, root, false);
             AddConnexions(root);
-            CrearTile(root, true);
-            AddTileToTileset(root, true);
+            CrearTile(root, false);
+            AddTileToTileset(root, false);
 
             if (tileset is TileSet_Ocupable)
             {
-                CrearPrefabTile(i, root, false);
+                CrearPrefabTile(i, root, true);
                 AddConnexions(root);
-                CrearTile(root, false);
-                AddTileToTileset(root, false);
+                CrearTile(root, true);
+                AddTileToTileset(root, true);
             }
 
             /*
