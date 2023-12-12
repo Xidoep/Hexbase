@@ -60,6 +60,7 @@ public class Fase_Resoldre : Fase
         enTornar?.Invoke();
         capturarPantalla.OnCapturatRegistrar(TornarAMenu_DespresDeCapturar);
         capturarPantalla.Capturar(true, false);
+        CursorEstat.Mostrar(false);
         //Capturar();
     }
 

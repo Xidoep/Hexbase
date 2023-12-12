@@ -243,9 +243,13 @@ public class Visualitzacions : ScriptableObject
     }
     #endregion
 
+    [Space(20)]
     [SerializeField] Animacions animacions;
     [Space(20)]
     [SerializeField] Prefabs prefabs;
+    [Space(20)]
+    [SerializeField] Sons sons;
+
 
 
     [System.Serializable]
@@ -347,4 +351,12 @@ public class Visualitzacions : ScriptableObject
         public Peça casa;
         public int indexNecessitat;
     }
+
+    [System.Serializable]
+    public struct Sons
+    {
+        public So snap;
+    }
+
+    public So Snap => sons.snap;
 }

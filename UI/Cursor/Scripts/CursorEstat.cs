@@ -7,14 +7,17 @@ using UnityEngine.InputSystem;
 using XS_Utils;
 
 [CreateAssetMenu(menuName = "Xido Studio/Hex/CursorEstat")]
-public class CursorEstat : MonoBehaviour
+public class CursorEstat : ScriptableObject
 {
-    static bool mostrar = true;
-    static Vector3 snap;
+    static CursorEstat Instance;
+
+    bool mostrar = true;
+    Vector3 snap;
 
     [SerializeField] Fase_Colocar colocar;
 
-    [SerializeField] InputActionReference mousePosition; 
+    [SerializeField] InputActionReference mousePosition;
+    [SerializeField] Visualitzacions visualitzacions;
 
     [SerializeField, ReadOnly] GameObject cursor;
 
@@ -24,19 +27,28 @@ public class CursorEstat : MonoBehaviour
     Vector3 final;
     int stepsCount;
     WaitForSeconds waitForSeconds;
+    AudioClip so;
 
     public static void Mostrar(bool _mostrar) 
     {
-        mostrar = _mostrar;
+        Instance.mostrar = _mostrar;
+    }
+    public static void Snap(Vector3 _snap) 
+    {
+        Instance.snap = _snap;
+        Instance.visualitzacions.Snap.Play();
     } 
-    public static void Snap(Vector3 _snap) => snap = _snap;
-    public static void NoSnap() => snap = Vector3.down;
+    public static void NoSnap() => Instance.snap = Vector3.down;
+
 
     void OnEnable()
     {
+        Instance = this;
+
         mostrar = true;
         snap = Vector3.down;
         estat = null;
+
         colocar.OnStart += MostrarCursorReset;
         colocar.OnFinish += AmagarCursor;
         colocar.OnCanviarSeleccionada += CanviarCursor;
@@ -44,14 +56,14 @@ public class CursorEstat : MonoBehaviour
         waitForSeconds = new WaitForSeconds(1);
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         colocar.OnStart -= MostrarCursorReset;
         colocar.OnFinish -= AmagarCursor;
         colocar.OnCanviarSeleccionada -= CanviarCursor;
     }
 
-    private void LateUpdate()
+    public void Actualitzar()
     {
 
         if (!cursor)
@@ -112,7 +124,7 @@ public class CursorEstat : MonoBehaviour
 
         cursor.SetActive(true);
     }
-    void MostrarCursorReset() => StartCoroutine(MostrarCursorReset_Corrutine());
+    void MostrarCursorReset() => XS_Coroutine.StartCoroutine(MostrarCursorReset_Corrutine());
 
     IEnumerator MostrarCursorReset_Corrutine()
     {
