@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transicio: 0
   temps: 1
+  delay: 0
+  unscaled: 1
   animacions:
   - rid: 2210365359760080903
   - rid: 2210365359760080904
@@ -23,7 +25,6 @@ MonoBehaviour:
     - rid: 2210365359760080903
       type: {class: Animacio_RectPosicio, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Rect posicio
         corba:
           serializedVersion: 2
           m_Curve:
@@ -48,13 +49,12 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        inici: {x: 0, y: 0}
-        final: {x: 0, y: -200}
+        inici: {x: -150, y: 0}
         dinamic: 0
+        final: {x: -150, y: -200}
     - rid: 2210365359760080904
       type: {class: Animacio_EsdevenimentGeneric, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Esdeveniment Generic
         esdeveniment: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -90,6 +90,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transicio: 0
   temps: 2.5
+  delay: 0
+  unscaled: 1
   animacions:
   - rid: 2210365110940336139
   references:
@@ -98,7 +100,6 @@ MonoBehaviour:
     - rid: 2210365110940336139
       type: {class: Animacio_RectPosicio, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Rect posicio
         corba:
           serializedVersion: 2
           m_Curve:
@@ -150,6 +151,6 @@ MonoBehaviour:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        inici: {x: 0, y: -200}
-        final: {x: 0, y: 0}
+        inici: {x: -150, y: -200}
         dinamic: 0
+        final: {x: -150, y: 0}

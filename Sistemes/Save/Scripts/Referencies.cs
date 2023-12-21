@@ -227,6 +227,7 @@ public class Referencies : ScriptableObject
     {
         //colocables = XS_Editor.LoadAllAssetsAtPath<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Estats/Colocables").ToArray();
         colocables = XS_Editor.LoadAllAssetsAtPathAndSubFolders<EstatColocable>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
+        
         estats = XS_Editor.LoadAllAssetsAtPath<Estat>("Assets/XidoStudio/Hexbase/Peces/Estats").ToArray();
         productes = XS_Editor.LoadAllAssetsAtPath<Producte>("Assets/XidoStudio/Hexbase/Peces/Productes").ToArray();
         //tiles = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Tile>("Assets/XidoStudio/Hexbase/Peces/Tiles/Tiles").ToArray();
@@ -240,6 +241,16 @@ public class Referencies : ScriptableObject
         guanyarExperiencies = XS_Editor.LoadAllAssetsAtPath<Output_GuanyarExperiencia>("Assets/XidoStudio/Hexbase/Sistemes/Processador/GunayarExperiencia").ToArray();
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
 
+        //Treure NO colocables
+        List<EstatColocable> tmp = new List<EstatColocable>(colocables);
+        for (int i = tmp.Count -1; i >= 0; i--)
+        {
+            if (tmp[i].Estat.Colocable)
+                continue;
+
+            tmp.RemoveAt(i);
+        }
+        colocables = tmp.ToArray();
     }
 
     [ContextMenu("ResetTiles")]

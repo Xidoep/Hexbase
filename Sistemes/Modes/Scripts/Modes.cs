@@ -15,7 +15,9 @@ public class Modes : ScriptableObject
     [SerializeField] GameObject prefabs_Sumari;
     [SerializeField] PoolPeces pool;
 
-    GameObject menu;
+    GameObject menuInstanciat;
+    GameObject nivellInstanciat;
+    GameObject sumariInstanciat;
 
     public Mode Mode => mode;
     public void Set(Mode mode) 
@@ -27,38 +29,40 @@ public class Modes : ScriptableObject
 
     public void ConfigurarModes()
     {
-        if(menu != null)
-        {
-            Destroy(menu);
-        }
+        if (menuInstanciat != null) Destroy(menuInstanciat);
+        if (nivellInstanciat != null) Destroy(nivellInstanciat);
+        if (sumariInstanciat != null) Destroy(sumariInstanciat);
+
+
+
         switch (mode)
         {
             case Mode.FreeStyle:
-                menu = Instantiate(prefabs_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
+                menuInstanciat = Instantiate(prefabs_FreeSyle, UI_CameraMenu_Access.CameraMenu.transform);
                 
                 SetupMenuCanvasWorldCamera();
 
                 break;
             case Mode.Pila:
                 pool.Iniciar();
-                menu = Instantiate(prefabs_Pila, UI_CameraMenu_Access.CameraMenu.transform);
+                menuInstanciat = Instantiate(prefabs_Pila, UI_CameraMenu_Access.CameraMenu.transform);
                 SetupMenuCanvasWorldCamera();
 
                 break;
         }
-        Instantiate(prefabs_Sumari, UI_CameraMenu_Access.CameraMenu.transform);
-        Instantiate(prefabs_Nivell, UI_CameraMenu_Access.CameraMenu.transform);
+        sumariInstanciat = Instantiate(prefabs_Sumari, UI_CameraMenu_Access.CameraMenu.transform);
+        nivellInstanciat = Instantiate(prefabs_Nivell, UI_CameraMenu_Access.CameraMenu.transform);
 
-        void SetupMenuCanvasWorldCamera() => menu.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
+        void SetupMenuCanvasWorldCamera() => menuInstanciat.GetComponent<Canvas>().worldCamera = UI_CameraMenu_Access.CameraMenu;
     }
 
-    public void Destruir() => menu.GetComponent<AnimacioPerCodi_GameObject_Referencia>().Destroy();
+    public void Destruir() => menuInstanciat.GetComponent<AnimacioPerCodi_GameObject_Referencia>().Destroy();
 
     public void Normal() => mode = Mode.Pila;
     public void FreeStyle() => mode = Mode.FreeStyle;
     void OnDisable()
     {
-        menu = null;
+        menuInstanciat = null;
         //mode = Mode.Pila;
     }
 

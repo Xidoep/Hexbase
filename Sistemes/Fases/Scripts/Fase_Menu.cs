@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using XS_Utils;
+using Sirenix.OdinInspector;
      
 /// <summary>
 /// Fase inicial del joc. On esculles el mode de joc, la partida i les opcions.
@@ -11,48 +12,46 @@ using XS_Utils;
 public class Fase_Menu : Fase
 {
     //public const string SEGONA_PARTIDA = "SegonaPartida";
+    [BoxGroup("GUARDAT"), SerializeScriptableObject, SerializeField] SaveHex save;
+    [BoxGroup("GUARDAT"), SerializeScriptableObject, SerializeField] Guardat guardat;
+    [BoxGroup("GUARDAT"), SerializeScriptableObject, SerializeField] Grups grups;
+    [BoxGroup("GUARDAT"), SerializeScriptableObject, SerializeField] CapturarPantalla capturarPantalla;
+    [BoxGroup("GUARDAT"), SerializeField] SavableVariable<bool> bromaVista;
+    [BoxGroup("GUARDAT"), SerializeField] SavableVariable<bool> segonaPartida;
 
-    [Apartat("GUARDAT")]
-    [SerializeScriptableObject] [SerializeField] SaveHex save;
-    [SerializeScriptableObject] [SerializeField] Guardat guardat;
-    [SerializeScriptableObject] [SerializeField] Grups grups;
-    [SerializeScriptableObject] [SerializeField] CapturarPantalla capturarPantalla;
-    [SerializeField] SavableVariable<bool> bromaVista;
-    [SerializeField] SavableVariable<bool> segonaPartida;
+    [BoxGroup("SEGÜENT FASE"), SerializeScriptableObject, SerializeField] Fase_Iniciar iniciar;
+    [BoxGroup("SEGÜENT FASE"), SerializeScriptableObject, SerializeField] Fase colocar;
 
-    [Apartat("SEGÜENT FASE")]
-    [SerializeScriptableObject] [SerializeField] Fase_Iniciar iniciar;
-    [SerializeScriptableObject] [SerializeField] Fase colocar;
-
-    [Apartat("UI")]
-    [SerializeField] UI_Menu uiMenu;
-    [SerializeField] Utils_InstantiableFromProject titol;
-    [SerializeField] Utils_InstantiableFromProject sortir1;
-    [SerializeField] Utils_InstantiableFromProject sortir2;
-    [SerializeField] Utils_InstantiableFromProject fadeOut;
-    [SerializeField] Utils_InstantiableFromProject continuarFondoClicable;
+    [BoxGroup("UI"), SerializeField] UI_Menu uiMenu;
+    [BoxGroup("UI"), SerializeField] Utils_InstantiableFromProject titol;
+    [BoxGroup("UI"), SerializeField] Utils_InstantiableFromProject sortir1;
+    [BoxGroup("UI"), SerializeField] Utils_InstantiableFromProject sortir2;
+    [BoxGroup("UI"), SerializeField] Utils_InstantiableFromProject fadeOut;
+    [BoxGroup("UI"), SerializeField] Utils_InstantiableFromProject continuarFondoClicable;
     //[SerializeField] UI_Menu ui;
 
-    [Apartat("BOTONS")]
-    [SerializeField] Botons novaPartida;
-    [SerializeField] Botons continuar;
-    [SerializeField] Botons configuracio;
-    [SerializeField] Botons sortir;
-    [SerializeField] Botons mostarModes;
-    [SerializeField] Botons freeStyle;
-    [SerializeField] Botons standard;
-    [Apartat("MODES")]
-    [SerializeScriptableObject] [SerializeField] Modes modes;
+    [FoldoutGroup("BOTONS"), SerializeField] Botons novaPartida;
+    [FoldoutGroup("BOTONS"), SerializeField] Botons continuar;
+    [FoldoutGroup("BOTONS"), SerializeField] Botons configuracio;
+    [FoldoutGroup("BOTONS"), SerializeField] Botons sortir;
+    [FoldoutGroup("BOTONS"), SerializeField] Botons mostarModes;
+    [FoldoutGroup("BOTONS"), SerializeField] Botons freeStyle;
+    [FoldoutGroup("BOTONS"), SerializeField] Botons standard;
 
+    [BoxGroup("MODES"), SerializeScriptableObject, SerializeField] Modes modes;
+
+    [BoxGroup("MUSICA"), SerializeField] So so;
+    [BoxGroup("MUSICA"), SerializeField] Music music;
+    [BoxGroup("MUSICA"), SerializeField] MusicControlador musicControlador;
+    [Space(20)]
+    [BoxGroup("DEBUG"), SerializeField] bool començarEnFreeStyle;
+    //INTERN
     bool inici = true;
     List<Boto> botons;
     List<Coroutine> coroutines;
     bool _modesMostrats;
     AnimacioPerCodi_GameObject_Referencia animacioTitol;
 
-    [SerializeField] So so;
-    [SerializeField] Music music;
-    [SerializeField] MusicControlador musicControlador;
     //OVERRIDES
     public override void FaseStart()
     {
@@ -181,7 +180,11 @@ public class Fase_Menu : Fase
     {
         List<Botons> botons = new List<Botons>();
 
-        botons.Add(novaPartida);
+        if(començarEnFreeStyle)
+            botons.Add(freeStyle);
+        else
+            botons.Add(novaPartida);
+
         if (save.HiHaPartidaAnterior) botons.Add(continuar);
         botons.Add(configuracio);
         botons.Add(sortir);

@@ -6,6 +6,7 @@ using XS_Utils;
 public class Menu_Pila : MonoBehaviour
 {
     [Apartat("FROM PROJECT")]
+    [SerializeField] Visualitzacions visualitzacions;
     [SerializeField] GameObject prefab;
     [Apartat("FROM HIERARCHY")]
     [SerializeField] Fase_Resoldre resoldre;
@@ -15,7 +16,7 @@ public class Menu_Pila : MonoBehaviour
     List<UI_Peca> creades;
 
 
-
+    /*
     System.Action<Transform> enDesapareixre;
     System.Action<Transform> enPosicio1;
     System.Action<Transform> enPosicio2;
@@ -23,7 +24,7 @@ public class Menu_Pila : MonoBehaviour
     public System.Action<Transform> EnDesapareixre { get => enDesapareixre; set => enDesapareixre = value; }
     public System.Action<Transform> EnPosicio1 { get => enPosicio1; set => enPosicio1 = value; }
     public System.Action<Transform> EnPosicio2 { get => enPosicio2; set => enPosicio2 = value; }
-
+    */
 
 
     void OnEnable()
@@ -91,8 +92,8 @@ public class Menu_Pila : MonoBehaviour
     [ContextMenu("Remove")]
     void RemovePeça()
     {
-        //visualitzacions.Desapareixre(creades[0].transform);
-        enDesapareixre?.Invoke(creades[0].transform);
+        visualitzacions.Desapareixre(creades[0].transform);
+        //enDesapareixre?.Invoke(creades[0].transform);
         StartCoroutine(RemovePeçaTemps(creades[0]));
         
         creades.RemoveAt(0);
@@ -107,19 +108,21 @@ public class Menu_Pila : MonoBehaviour
 
     void ResaltarISepararSuperior()
     {
+            //Debug.Log($"enPosicio1 == null ? {enPosicio1 == null}");
+            //Debug.Log($"enPosicio2 == null ? {enPosicio2 == null}");
         if (creades.Count > 0)
         {
             creades[0].Resaltar();
             creades[0].Seleccionar();
-            enPosicio1?.Invoke(creades[0].transform);
-            //visualitzacions.PrimeraPosicio(creades[0].transform);
+            //enPosicio1?.Invoke(creades[0].transform);
+            visualitzacions.PrimeraPosicio(creades[0].transform);
         }
         if(creades.Count > 1)
         {
-            enPosicio1?.Invoke(creades[0].transform);
-            enPosicio2?.Invoke(creades[1].transform);
-            //visualitzacions.PrimeraPosicio(creades[0].transform);
-            //visualitzacions.SegonaPosicio(creades[1].transform);
+            //enPosicio1?.Invoke(creades[0].transform);
+            //enPosicio2?.Invoke(creades[1].transform);
+            visualitzacions.PrimeraPosicio(creades[0].transform);
+            visualitzacions.SegonaPosicio(creades[1].transform);
         }
     }
 

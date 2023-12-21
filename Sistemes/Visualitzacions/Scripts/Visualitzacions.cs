@@ -68,9 +68,9 @@ public class Visualitzacions : ScriptableObject
         noResaltar.SetInt(DESTACAT, 0);
 
         //PILA
-        menuPila.EnDesapareixre += Desapareixre;
-        menuPila.EnPosicio1 += PrimeraPosicio;
-        menuPila.EnPosicio2 += SegonaPosicio;
+        //menuPila.EnDesapareixre += Desapareixre;
+        //menuPila.EnPosicio1 += PrimeraPosicio;
+        //menuPila.EnPosicio2 += SegonaPosicio;
 
         //NIVELL
         nivell.EnGuanyarExperiencia += UIExperiencia;
@@ -96,9 +96,9 @@ public class Visualitzacions : ScriptableObject
         informacioConnexio.EnResaltar -= DestacarPeça;
 
         //PILA
-        menuPila.EnDesapareixre -= Desapareixre;
-        menuPila.EnPosicio1 -= PrimeraPosicio;
-        menuPila.EnPosicio2 -= SegonaPosicio;
+        //menuPila.EnDesapareixre -= Desapareixre;
+        //menuPila.EnPosicio1 -= PrimeraPosicio;
+        //menuPila.EnPosicio2 -= SegonaPosicio;
 
         //NIVELL
         nivell.EnGuanyarExperiencia -= UIExperiencia;
@@ -208,14 +208,14 @@ public class Visualitzacions : ScriptableObject
     #endregion
 
     #region PILA
-    void PrimeraPosicio(Transform transform)
+    public void PrimeraPosicio(Transform transform)
     {
         pilaPosicio1.Play(transform);
         pilaPosicio1Parent.Play(transform.parent.GetComponent<RectTransform>());
         //animacions.primeraPosicio.Play(transform);
         //animacions.primeraPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
     }
-    void SegonaPosicio(Transform transform)
+    public void SegonaPosicio(Transform transform)
     {
         pilaPosicio2.Play(transform);
         pilaPosicio2Parent.Play(transform.parent.GetComponent<RectTransform>());
@@ -223,7 +223,7 @@ public class Visualitzacions : ScriptableObject
         //animacions.segonaPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
     }
 
-    void Desapareixre(Transform transform)
+    public void Desapareixre(Transform transform)
     {
         desapareixre.Play(transform);
         desapareixreParent.Play(transform.parent.GetComponent<RectTransform>());
