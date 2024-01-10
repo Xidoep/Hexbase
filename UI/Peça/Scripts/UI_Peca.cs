@@ -6,17 +6,41 @@ using Sirenix.OdinInspector;
 
 public class UI_Peca : MonoBehaviour
 {
-    public void Setup(EstatColocable estat, AnimacioPerCodi_GameObject_Referencia outline)
+    public void Setup(
+        EstatColocable estat,
+        AnimacioPerCodi_GameObject_Referencia outline,
+        AnimacioPerCodi desapareixre,
+        AnimacioPerCodi desapareixreParent,
+        AnimacioPerCodi primeraPosicio,
+        AnimacioPerCodi primeraPosicioParent,
+        AnimacioPerCodi segonaPosicio,
+        AnimacioPerCodi segonaPosicioParent
+        )
     {
         this.estat = estat;
         this.outline = outline;
+        this.desapareixre = desapareixre;
+        this.desapareixreParent = desapareixreParent;
+        this.primeraPosicio = primeraPosicio;
+        this.primeraPosicioParent = primeraPosicioParent;
+        this.segonaPosicio = segonaPosicio;
+        this.segonaPosicioParent = segonaPosicioParent;
     }
 
     [SerializeField] EstatColocable estat;
-    [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
     Transform[] childs;
     public bool resaltat;
     [SerializeField] Fase_Colocar colocar;
+
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi_GameObject_Referencia outline;
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi desapareixre;
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi desapareixreParent;
+    [Space(5)]
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi primeraPosicio;
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi primeraPosicioParent;
+    [Space(5)]
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi segonaPosicio;
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi segonaPosicioParent;
 
     //Posar una var que posi RESALTADA.
     //Quan vagi el MostrarSeleccioanda de Menu_FreeStyle,
@@ -74,6 +98,22 @@ public class UI_Peca : MonoBehaviour
         return instanciada;
     }
 
+    public void Desapareixre()
+    {
+        desapareixre.Play(transform);
+        desapareixreParent.Play(transform.parent.GetComponent<RectTransform>());
+    }
+
+    public void Posicio1()
+    {
+        primeraPosicio.Play(transform);
+        primeraPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
+    }
+    public void Posicio2()
+    {
+        segonaPosicio.Play(transform);
+        segonaPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
+    }
 
     /*private void OnEnable()
     {

@@ -151,7 +151,7 @@ public class SaveHex : ScriptableObject
 
     //EXPERIENCIA
     public int Experiencia(int index) => files[index].Experiencia;
-    public void GuardarExperiencia(int experiencia) => files[actual].SetExperiencia(experiencia);
+    public void GuardarExperiencia(int total, int guanyada) => files[actual].SetExperiencia(total);
     public void guardarNivell(int nivell) => files[actual].SetNivell(nivell);
 
 

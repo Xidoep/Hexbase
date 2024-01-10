@@ -1,0 +1,217 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a5bd4e9dac6aa4697e66b4d0d8fb3a, type: 3}
+  m_Name: PoquesPeces
+  m_EditorClassIdentifier: 
+  transicio: 0
+  temps: 2
+  delay: 0
+  unscaled: 1
+  animacions:
+  - rid: 4560689874777145348
+  - rid: 7653357632728858628
+  - rid: 7653357632728858629
+  references:
+    version: 2
+    RefIds:
+    - rid: 4560689874777145348
+      type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 9.488458
+            outSlope: 9.488458
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.059148714
+            value: 0.56123006
+            inSlope: 5.627156
+            outSlope: 5.627156
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.2999816
+            value: 0.9865058
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.86207706
+            value: 0.5611633
+            inSlope: -2.4126906
+            outSlope: -2.4126906
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.21406004
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 1, y: 1, z: 1}
+        dinamic: 0
+        final: {x: 1.2, y: 1.2, z: 1.2}
+    - rid: 7653357632728858628
+      type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
+      data:
+        corba:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 7.048359
+            outSlope: 7.048359
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.13869222
+          - serializedVersion: 3
+            time: 0.14194387
+            value: 0.99743724
+            inSlope: -12.778483
+            outSlope: -12.778483
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.20326892
+            value: -1.000775
+            inSlope: -9.99836
+            outSlope: -9.99836
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.3489428
+            value: 0.8328557
+            inSlope: -1.8305931
+            outSlope: -1.8305931
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.43541092
+            value: -0.5721144
+            inSlope: -3.896626
+            outSlope: -3.896626
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.5550526
+            value: 0.43947566
+            inSlope: -0.3464985
+            outSlope: -0.3464985
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.6345788
+            value: -0.28804332
+            inSlope: -0.59055233
+            outSlope: -0.59055233
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.70189
+            value: 0.24822864
+            inSlope: 1.1565888
+            outSlope: 1.1565888
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.7704881
+            value: -0.13961673
+            inSlope: -1.3726116
+            outSlope: -1.3726116
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.85205495
+            value: 0.097633265
+            inSlope: 0.23873246
+            outSlope: 0.23873246
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.9147381
+            value: -0.054761514
+            inSlope: -0.038173437
+            outSlope: -0.038173437
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.9594793
+            value: 0.050596945
+            inSlope: 0.5530882
+            outSlope: 0.5530882
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -1.2486682
+            outSlope: -1.2486682
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        inici: {x: 0, y: 0, z: 0}
+        dinamic: 0
+        final: {x: 0, y: 0, z: 10}
+        local: 1
+    - rid: 7653357632728858629
+      type: {class: Animacio_ProximaAnimacio, ns: , asm: AnimacioPerCodi}
+      data:
+        nom: Proxima Animacio
+        animacio: {fileID: 11400000, guid: 766a6d3b67ab68b42a618197230affe6, type: 2}

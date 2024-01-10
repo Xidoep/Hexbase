@@ -52,6 +52,11 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     [SerializeField] List<TilePotencial> propagables;
 
     [SerializeField] Possibilitats all;
+    [SerializeField] bool VeureProces;
+    private void OnValidate()
+    {
+        veureProces = VeureProces;
+    }
     //[SerializeField] List<string> posibleMissingTiles;
 
 
@@ -92,6 +97,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
     void OnEnable()
     {
+        
         Random.InitState(1);
         colisions = 0;
         iniciat = false;

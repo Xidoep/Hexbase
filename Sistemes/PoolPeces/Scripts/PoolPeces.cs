@@ -83,6 +83,7 @@ public class PoolPeces : ScriptableObject
         }
     }
 
+    [ContextMenu("AddPeça")]
     void AddPeça()
     {
         //FALTA: Assegurar X cases?

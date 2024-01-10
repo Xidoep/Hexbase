@@ -23,9 +23,17 @@ public class TilesUnpack : ScriptableObject
 
     //[SerializeField] Object tiles;
     [SerializeField] AnimacioPerCodi_GameObject_Referencia outline;
-
+    [Space(20)]
+    [SerializeField] AnimacioPerCodi uiDesapareixre;
+    [SerializeField] AnimacioPerCodi uiDesapareixreParent;
+    [Space(5)]
+    [SerializeField] AnimacioPerCodi pilaPosicio1;
+    [SerializeField] AnimacioPerCodi pilaPosicio1Parent;
+    [Space(5)]
+    [SerializeField] AnimacioPerCodi pilaPosicio2;
+    [SerializeField] AnimacioPerCodi pilaPosicio2Parent;
     //[Apartat("Auto-configurable")]
-   // [SerializeField] List<Object> connexions;
+    // [SerializeField] List<Object> connexions;
 
 
 
@@ -319,7 +327,7 @@ public class TilesUnpack : ScriptableObject
         AssetDatabase.CreateAsset(colocable, Path_Colocable(root));
 
         //SETUP PEÇA
-        peça.Setup(colocable, tmpOutline);
+        peça.Setup(colocable, tmpOutline,uiDesapareixre, uiDesapareixreParent, pilaPosicio1, pilaPosicio1Parent, pilaPosicio2, pilaPosicio2Parent);
 
         //GUARDAR PREFAB
         prefab = PrefabUtility.SaveAsPrefabAsset(intance, Path_PrefabEstat(root));

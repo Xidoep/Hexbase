@@ -10,9 +10,9 @@ public class Nivell : ScriptableObject
     [SerializeField] int experiencia = 0;
     [Space(20)]
 
-    System.Action<int> enGuanyarExperiencia;
+    System.Action<int, int> enGuanyarExperiencia;
     System.Action<int> enPujarNivell;
-    public System.Action<int> EnGuanyarExperiencia { get => enGuanyarExperiencia; set => enGuanyarExperiencia = value; }
+    public System.Action<int, int> EnGuanyarExperiencia { get => enGuanyarExperiencia; set => enGuanyarExperiencia = value; }
     public System.Action<int> EnPujarNivell { get => enPujarNivell; set => enPujarNivell = value; }
 
 
@@ -28,7 +28,8 @@ public class Nivell : ScriptableObject
     public int ExperienciaNecessariaProximNivell => ProximNivell(nivell + 1);
     int ProximNivell(int nivell) => nivell * nivell * 10;
 
-    public float FactorExperienciaNivellActual => (experiencia - (ProximNivell(nivell - 1))) / (float)((ProximNivell(nivell) - ProximNivell(nivell - 1)));
+    //public float FactorExperienciaNivellActual => (experiencia - (ProximNivell(nivell - 1))) / (float)((ProximNivell(nivell) - ProximNivell(nivell - 1)));
+    public float FactorExperienciaNivellActual(int experiencia) => (experiencia - (ProximNivell(nivell - 1))) / (float)((ProximNivell(nivell) - ProximNivell(nivell - 1)));
 
 
 
@@ -37,7 +38,7 @@ public class Nivell : ScriptableObject
     {
         Debug.Log("Guanyar experiencia");
         this.experiencia += experiencia;
-        XS_Coroutine.StartCoroutine(GuanyarExperiencia_Corrutina(delay));
+        XS_Coroutine.StartCoroutine(GuanyarExperiencia_Corrutina(delay, experiencia));
 
         if(this.experiencia >= ProximNivell(nivell))
         {
@@ -46,11 +47,11 @@ public class Nivell : ScriptableObject
             XS_Coroutine.StartCoroutine(PujarNivell_Corrutina(delay + 1));
         }
     }
-    IEnumerator GuanyarExperiencia_Corrutina(float delay)
+    IEnumerator GuanyarExperiencia_Corrutina(float delay, int experienciaGuanyada)
     {
         wfsExperiencia = new WaitForSeconds(delay);
         yield return wfsExperiencia;
-        enGuanyarExperiencia?.Invoke(experiencia);
+        enGuanyarExperiencia?.Invoke(experiencia, experienciaGuanyada);
     }
     IEnumerator PujarNivell_Corrutina(float delay)
     {
