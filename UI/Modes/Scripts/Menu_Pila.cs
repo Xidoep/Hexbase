@@ -85,10 +85,12 @@ public class Menu_Pila : MonoBehaviour
         ((RectTransform)parent.transform).anchoredPosition3D = Vector3.zero;
 
         creades.Add((UI_Peca)(estat.Prefab.Crear().SetTransform(Vector3.zero, Vector3.zero, Vector3.one * 100, parent.transform)));
-        animacio_afegirPeces.Play(bombolla.transform);
+        ResaltarNumero();
 
         ActualitzarNumero();
     }
+
+    void ResaltarNumero() => animacio_afegirPeces.Play(bombolla.transform);
 
     [ContextMenu("Remove")]
     void RemovePeça()
