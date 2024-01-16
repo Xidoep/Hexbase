@@ -44,7 +44,7 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //[SerializeField] ConnexioEnum estatConnexio;
     //[SerializeField] bool pendent;
     [SerializeField] Peça connexio;
-    //[SerializeField] Vector2Int connexioCoordenada;
+    [SerializeField] Vector2Int connexioCoordenada;
     
     
     [Apartat("PRDUCTES")]
@@ -94,7 +94,11 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     //vvv
 
     public Peça Connexio => connexio;
-    //public Vector2Int ConnexioCoordenada => connexioCoordenada;
+    public Vector2Int ConnexioCoordenada 
+    {
+        get => connexioCoordenada;
+        set => connexioCoordenada = value;
+    } 
     public TilePotencial GetTile(int index) => tiles[index];
     public bool EstatIgualA(EstatColocable altreEstat) => estat.Equals(altreEstat);
     public bool SubestatIgualA(Estat altreSubestat) => subestat.Equals(altreSubestat);
@@ -420,6 +424,9 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
     }
     string DebugVei(int index)
     {
+        if (tiles == null || tiles.Length == 0)
+            return "null";
+
         if (tiles[index].Veins[0] == null)
             return "null";
         else
@@ -429,7 +436,14 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
                 return "mes d'una possibilitat?...";
         }
     }
-    int DebugOrientacio(int index) => tiles[index].OrientacioFisica;
+    int DebugOrientacio(int index) 
+    {
+        if (tiles == null || tiles.Length == 0)
+            return -1;
+
+        return tiles[index].OrientacioFisica;
+    }
+    
 }
 
 

@@ -38,6 +38,7 @@ public class SavedPeça
     //[SerializeField] Subestat subestat;
 
     [SerializeField] Vector2Int extraccio;
+    [SerializeField] Producte[] productes;
     [SerializeField] Grup grup;
     //[SerializeField] SavedCasa[] casa;
     [SerializeField] SavedNecessitat[] necessitats;
@@ -82,7 +83,8 @@ public class SavedPeça
         //VEINS
         peça.AssignarVeinsTiles(peça.Tiles);
 
-        //if (extraccio != -Vector2Int.one) peça.SetExtraccio = extraccio;
+        peça.ConnexioCoordenada = extraccio;
+        //if (extraccio != -Vector2Int.one * 10000) peça.SetExtraccio = extraccio;
         //peça.CrearDetalls();
 
         //peça.Detalls();

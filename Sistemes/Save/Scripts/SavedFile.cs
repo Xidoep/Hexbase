@@ -164,10 +164,11 @@ public class SavedFile
         //PRODUCTES
         for (int i = 0; i < creades.Count; i++)
         {
-            //if (creades[i].ConnexioCoordenada.EsNula())
-            //    return;
+            if (creades[i].ConnexioCoordenada == -Vector2Int.one * 10000)
+                continue;
 
-            //((Peça)Grid.Instance.Get(creades[i].ConnexioCoordenada)).Connectar(creades[i]);
+            Debug.Log($"Connectar: {creades[i].ConnexioCoordenada}");
+            ((Peça)Grid.Instance.Get(creades[i].ConnexioCoordenada)).Connectar(creades[i]);
         }
 
         //DEBUG
