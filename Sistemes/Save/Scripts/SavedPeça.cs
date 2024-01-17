@@ -11,14 +11,17 @@ public class SavedPeça
         estat = peça.EstatNom;
         subestat = peça.SubestatNom;
         extraccio = peça.Connexio != null ? peça.Connexio.Coordenades : GridExtensions.CoordenadaNula;
+        productes = new ProductesGuardats(peça.ProductesExtrets);
         grup = grups.GrupByPeça(grups.Grup, peça);
 
         if (peça.TeCasa)
         {
-            //necessitats = new SavedNecessitat[] { new SavedNecessitat(peça.Cases[0].Necessitats) };
-            //casa = new SavedCasa[] { new SavedCasa(peça.Casa.Necessitats) };
+            necessitats = new string[peça.Cases[0].Necessitats.Count];
+            for (int i = 0; i < peça.Cases[0].Necessitats.Count; i++)
+            {
+                necessitats[i] = peça.Cases[0].Necessitats[i].name;
+            }
         }
-
 
         tiles = new SavedTile[]
         {
@@ -38,10 +41,10 @@ public class SavedPeça
     //[SerializeField] Subestat subestat;
 
     [SerializeField] Vector2Int extraccio;
-    [SerializeField] Producte[] productes;
+    [SerializeField] ProductesGuardats productes;
     [SerializeField] Grup grup;
     //[SerializeField] SavedCasa[] casa;
-    [SerializeField] SavedNecessitat[] necessitats;
+    [SerializeField] string[] necessitats;
     [SerializeField] SavedTile[] tiles;
 
     public Vector2Int Coordenada => coordenada;
@@ -83,6 +86,13 @@ public class SavedPeça
         //VEINS
         peça.AssignarVeinsTiles(peça.Tiles);
 
+        List<ProducteExtret> producteGuardats = new List<ProducteExtret>();
+        for (int i = 0; i < productes.productes.Length; i++)
+        {
+            producteGuardats.Add(new ProducteExtret(Referencies.Instance.GetProducte(productes.productes[i]), productes.gastats[i]));
+        }
+        peça.SetProductesExtrets = producteGuardats.ToArray();
+
         peça.ConnexioCoordenada = extraccio;
         //if (extraccio != -Vector2Int.one * 10000) peça.SetExtraccio = extraccio;
         //peça.CrearDetalls();
@@ -92,5 +102,23 @@ public class SavedPeça
         animacio?.Invoke(peça);
 
         return peça;
+    }
+
+
+    [System.Serializable]
+    public struct ProductesGuardats
+    {
+        public ProductesGuardats(ProducteExtret[] productes) 
+        {
+            this.productes = new string[productes.Length];
+            this.gastats = new bool[productes.Length];
+            for (int i = 0; i < productes.Length; i++)
+            {
+                this.productes[i] = productes[i].producte.name;
+                this.gastats[i] = productes[i].gastat;
+            }
+        }
+        public string[] productes;
+        public bool[] gastats;
     }
 }

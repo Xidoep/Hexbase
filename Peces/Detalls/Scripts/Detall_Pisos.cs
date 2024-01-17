@@ -122,7 +122,10 @@ public class Detall_Pisos : Detall
 
 
         SetAltures();
-        
+
+        if (tile.Veins == null)
+            return;
+
         //No es poden ajuntar, son diferents entre elles.
         if (tile.Veins[0] != null)
         {

@@ -77,6 +77,8 @@ public class SavedFile
         if (this.grups == null) this.grups = grups;
         this.seguent = seguent;
 
+        grups.Resetejar();
+
         creades = new List<Peça>();
 
         index = 0;
@@ -146,15 +148,6 @@ public class SavedFile
             }
         }
 
-        //DETALLS
-        for (int i = 0; i < creades.Count; i++)
-        {
-            for (int t = 0; t < creades[i].Tiles.Length; t++)
-            {
-                creades[i].Tiles[t].Detalls(creades[i].Detalls);
-            }
-        }
-
         //EMPLENAR GRUPS
         for (int i = 0; i < grups.Grup.Count; i++)
         {
@@ -169,6 +162,15 @@ public class SavedFile
 
             Debug.Log($"Connectar: {creades[i].ConnexioCoordenada}");
             ((Peça)Grid.Instance.Get(creades[i].ConnexioCoordenada)).Connectar(creades[i]);
+        }
+
+        //DETALLS
+        for (int i = 0; i < creades.Count; i++)
+        {
+            for (int t = 0; t < creades[i].Tiles.Length; t++)
+            {
+                creades[i].Tiles[t].Detalls(creades[i].Detalls);
+            }
         }
 
         //DEBUG

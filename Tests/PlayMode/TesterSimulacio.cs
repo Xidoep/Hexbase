@@ -43,6 +43,7 @@ public class TesterSimulacio
     [UnityTest]
     public IEnumerator StartGame()
     {
+        Debug.unityLogger.logEnabled = false;
         SceneManager.LoadScene(0);
         yield return new WaitForSeconds(3);
 

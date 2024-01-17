@@ -93,6 +93,12 @@ public struct ProducteExtret
         gastat = false;
         informacio = new Informacio.Unitat();
     }
+    public ProducteExtret(Producte producte, bool gastat)
+    {
+        this.producte = producte;
+        this.gastat = gastat;
+        informacio = new Informacio.Unitat();
+    }
     public Producte producte;
     public bool gastat;
     public Informacio.Unitat informacio;
