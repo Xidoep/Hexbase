@@ -124,7 +124,7 @@ public class Visualitzacions : ScriptableObject
     #region RESALTAR
     void Resaltar(Peça peça)
     {
-        Grup grup = grups.GrupByPeça(grups.Grup, peça);
+        Grup grup = grups.GrupByPeça(grups.GetGrups, peça);
         grup.Resaltat = true;
 
         //Destacar el grup en si.
@@ -133,7 +133,7 @@ public class Visualitzacions : ScriptableObject
         //Destacar el grup dels cammins connectats, que també contenen els ports.
         for (int i = 0; i < grup.Camins.Count; i++)
         {
-            Grup cami = grups.GrupByPeça(grups.Grup, grup.Camins[i]);
+            Grup cami = grups.GrupByPeça(grups.GetGrups, grup.Camins[i]);
             cami.Resaltat = true;
             DestacarPeces(cami.Peces, true);
         }
@@ -144,7 +144,7 @@ public class Visualitzacions : ScriptableObject
             if (grup.ConnexionsId[i] == grup.Id)
                 continue;
 
-            Grup connectat = grups.GrupById(grups.Grup, grup.ConnexionsId[i]);
+            Grup connectat = grups.GrupById(grups.GetGrups, grup.ConnexionsId[i]);
             connectat.Resaltat = true;
             DestacarPeces(connectat.Peces, true);
         }
@@ -152,18 +152,18 @@ public class Visualitzacions : ScriptableObject
         //Destacar els ports als que estan connectats els ports connectats.
         for (int i = 0; i < grup.Ports.Count; i++)
         {
-            Grup port = grups.GrupByPeça(grups.Grup, grup.Ports[i]);
+            Grup port = grups.GrupByPeça(grups.GetGrups, grup.Ports[i]);
             port.Resaltat = true;
         }
     }
     void Desresaltar()
     {
-        for (int i = 0; i < grups.Grup.Count; i++)
+        for (int i = 0; i < grups.GetGrups.Count; i++)
         {
-            if (grups.Grup[i].Resaltat)
+            if (grups.GetGrups[i].Resaltat)
             {
-                DestacarPeces(grups.Grup[i].Peces, false);
-                grups.Grup[i].Resaltat = false;
+                DestacarPeces(grups.GetGrups[i].Peces, false);
+                grups.GetGrups[i].Resaltat = false;
             }
 
         }

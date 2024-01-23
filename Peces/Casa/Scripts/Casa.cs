@@ -14,12 +14,23 @@ public class Casa
 
         AgafarNecessitats();
     }
+    public Casa(Peça peça, string[] necessitats, string[] receptes)
+    {
+        this.peça = peça;
+        this.necessitats = new List<Producte>();
+        for (int i = 0; i < necessitats.Length; i++)
+        {
+            this.necessitats.Add(Referencies.Instance.GetProducte(necessitats[i]));
+        }
+        AgafarNecessitats();
+    }
 
     [SerializeField] Peça peça;
     [SerializeField] List<Recepta> receptes;
     [SerializeField] List<Producte> proveits;
     [SerializeField] List<Producte> necessitats;
 
+    public List<Recepta> Receptes => receptes;
     public Recepta ReceptaActual => receptes[0];
     public List<Producte> Necessitats => necessitats;
 

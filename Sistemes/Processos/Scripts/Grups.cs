@@ -23,7 +23,7 @@ public class Grups : ScriptableObject
     [SerializeField] Estat port;
     [SerializeField] EstatColocable aigua;
 
-    public List<Grup> Grup => grups;
+    public List<Grup> GetGrups => grups;
     public List<Peça> ConnexionsFetes => connexionsFetes;
 
     //INTERN
@@ -202,14 +202,12 @@ public class Grups : ScriptableObject
             if (!grup.Peces.Contains(peça))
             {
                 grup.Peces.Add(peça);
-                grup.Coordenades.Add(peça.Coordenades);
             }
 
         }
         int AjuntarGrups(Grup desti, Grup seleccionat)
         {
             desti.Peces.AddRange(seleccionat.Peces);
-            desti.Coordenades.AddRange(seleccionat.Coordenades);
             grups.Remove(seleccionat);
 
             return grups.IndexOf(desti);
@@ -458,72 +456,34 @@ public class Grups : ScriptableObject
     }
 
     #region LOAD
-    public void CrearGrups_FromLoad(Grup nouGrup, Peça peça)
-    {
-        int sameId = -1;
-        for (int i = 0; i < grups.Count; i++)
-        {
-            if(grups[i].Id == nouGrup.Id)
-            {
-                sameId = i;
-                break;
-            }
-        }
 
-        if (sameId == -1)
-        {
-            nouGrup.Netejar();
-            grups.Add(nouGrup);
-            grups[0].Load(peça);
-        }
-        else
-        {
-            grups[sameId].Load(peça);
-        }
 
-        /*if (!grups.Contains(nouGrup))
-        {
-            nouGrup.Netejar();
-            grups.Add(nouGrup);
-        }*/
-
-        //nouGrup.Load(peça);
-    }
-    public void CrearGrups_FromLoad(List<SavedPeça> peces)
+    public void Load(List<GrupGuardat> guardats)
     {
         grups = new List<Grup>();
-
-        for (int p = 0; p < peces.Count; p++)
+        for (int i = 0; i < guardats.Count; i++)
         {
-            for (int g = 0; g < grups.Count; g++)
+            grups.Add(new Grup(guardats[i]));
+        }
+
+        /*for (int g = 0; g < guardats.Length; g++)
+        {
+            int indexId = -1;
+            for (int i = 0; i < grups.Count; i++)
             {
-
+                if (grups[i].Id == guardats[g].id)
+                {
+                    indexId = i;
+                    break;
+                }
             }
-        }
-        //Comprovar el numero de grups que es necessiten.
-        int indexMesAlt = 0;
-        for (int i = 0; i < peces.Count; i++)
-        {
-            //if (indexMesAlt < peces[i].Grup) indexMesAlt = peces[i].Grup;
-        }
 
-        for (int i = 0; i < indexMesAlt + 1; i++)
-        {
-            grups.Add(new Grup());
-        }
-
-        for (int i = 0; i < peces.Count; i++)
-        {
-            //grups[peces[i].Grup].Load(peces[i], peces[i].Estat, casa);
-        }
-
-        for (int i = 0; i < grups.Count; i++)
-        {
-            grups[i].TrobarVeins();
-        }
-
+            if (indexId == -1) //No està el grup creat.
+            {
+                grups.Add(new Grup(guardats[g]));
+            }
+        }*/
     }
-
     #endregion
 
 
@@ -570,7 +530,43 @@ public class Grup : System.Object
     }
 
     //>>> CREAR GRUP FROM LOAD
-    public Grup() { }
+    public Grup(GrupGuardat guardat) 
+    {
+        id = guardat.id;
+        poble = guardat.poble;
+        
+        peces = new List<Peça>();
+        for (int i = 0; i < guardat.peces.Length; i++)
+        {
+            peces.Add((Peça)Grid.Instance.Get(guardat.peces[i]));
+        }
+
+        veins = new List<Peça>();
+        for (int i = 0; i < guardat.veines.Length; i++)
+        {
+            veins.Add((Peça)Grid.Instance.Get(guardat.veines[i]));
+        }
+
+        connexionsId = new List<string>(guardat.connexionsId);
+
+        cases = new List<Peça>();
+        for (int i = 0; i < guardat.cases.Length; i++)
+        {
+            cases.Add((Peça)Grid.Instance.Get(guardat.cases[i]));
+        }
+
+        camins = new List<Peça>();
+        for (int i = 0; i < guardat.camins.Length; i++)
+        {
+            camins.Add((Peça)Grid.Instance.Get(guardat.camins[i]));
+        }
+
+        ports = new List<Peça>();
+        for (int i = 0; i < guardat.ports.Length; i++)
+        {
+            ports.Add((Peça)Grid.Instance.Get(guardat.ports[i]));
+        }
+    }
 
     //>>> CREAR NOU GRUP
     public Grup(EstatColocable estat, List<Peça> peces, EstatColocable casa, int index)
@@ -579,11 +575,6 @@ public class Grup : System.Object
         //this.estat = estat;
         this.poble = estat == casa;
         this.peces = peces;
-        this.coordenades = new List<Vector2Int>();
-        for (int i = 0; i < peces.Count; i++)
-        {
-            coordenades.Add(peces[i].Coordenades);
-        }
         if (this.poble)
             ConnexionsId = new List<string>() { id };
     }
@@ -599,16 +590,10 @@ public class Grup : System.Object
             peces.Add(copia.peces[i]);
         }
 
-        coordenades = new List<Vector2Int>();
-        for (int i = 0; i < copia.coordenades.Count; i++)
+        veins = new List<Peça>();
+        for (int i = 0; i < copia.veins.Count; i++)
         {
-            coordenades.Add(copia.coordenades[i]);
-        }
-
-        pecesVeines = new List<Peça>();
-        for (int i = 0; i < copia.pecesVeines.Count; i++)
-        {
-            pecesVeines.Add(copia.pecesVeines[i]);
+            veins.Add(copia.veins[i]);
         }
 
         connexionsId = new List<string>();
@@ -650,8 +635,7 @@ public class Grup : System.Object
     [SerializeField] string id;
     [SerializeField] bool poble;
     [SerializeField] List<Peça> peces;
-    [SerializeField] List<Vector2Int> coordenades;
-    [SerializeField] List<Peça> pecesVeines;
+    [SerializeField] List<Peça> veins;
     [SerializeField] List<string> connexionsId;
 
     [SerializeField] List<Peça> cases;
@@ -662,9 +646,8 @@ public class Grup : System.Object
 
     public string Id => id;
     public List<Peça> Peces => peces;
-    public List<Vector2Int> Coordenades => coordenades;
     public bool EsPoble => poble;
-    public List<Peça> Veins => pecesVeines;
+    public List<Peça> Veins => veins;
 
     public List<string> ConnexionsId { get => connexionsId; set => connexionsId = value; }
     public List<Peça> Cases { set => cases = value; get => cases; }
@@ -678,7 +661,7 @@ public class Grup : System.Object
 
     public void TrobarVeins()
     {
-        pecesVeines = new List<Peça>();
+        veins = new List<Peça>();
         //Per cada una de les peces del grup
         for (int g = 0; g < peces.Count; g++)
         {
@@ -686,32 +669,14 @@ public class Grup : System.Object
             tmpVeins = peces[g].VeinsPeça;
             for (int v = 0; v < tmpVeins.Count; v++)
             {
-                if (!peces.Contains(tmpVeins[v]) && !pecesVeines.Contains(tmpVeins[v])) //Si no forma part del meu grup
+                if (!peces.Contains(tmpVeins[v]) && !veins.Contains(tmpVeins[v])) //Si no forma part del meu grup
                 {
-                    pecesVeines.Add(tmpVeins[v]);
+                    veins.Add(tmpVeins[v]);
                 }
             }
 
         }
     }
 
-    public void Netejar()
-    {
-        peces = new List<Peça>();
-        coordenades = new List<Vector2Int>();
-        pecesVeines = new List<Peça>();
-        cases = new List<Peça>();
-        camins = new List<Peça>();
-        ports = new List<Peça>();
-    }
-    public void Load(Peça peça)
-    {
-        if (peces == null) peces = new List<Peça>();
-
-        if (!peces.Contains(peça)) 
-        {
-            peces.Add(peça);
-        }
-    }
 
 }

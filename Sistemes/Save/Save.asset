@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c36b533053374cbdf56ec03286579, type: 3}
   m_Name: Save
   m_EditorClassIdentifier: 
-  partidaAnterior: 9
-  actual: 9
+  partidaAnterior: 14
+  actual: 15
   files:
   - captures: []
     nom: 
@@ -22,6 +22,7 @@ MonoBehaviour:
     nivell: 0
     pila: []
     "pe\xE7es": []
+    grupsGuardats: []
   - captures:
     - C:\Users\xeviegido\Documents\Photos\GameFootage_2023-06-28_16-31-08.png
     nom: 
@@ -30,26 +31,14 @@ MonoBehaviour:
     nivell: 0
     pila: []
     "pe\xE7es":
-    - subestat: TERRA
+    - coordenada: {x: 100, y: 100}
+      subestat: TERRA
       estat: Terra
-      coordenada: {x: 100, y: 100}
-      extraccio: {x: -10000, y: -10000}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Terra_031UHU6P9JKQWQ9B59YL
-        poble: 0
-        peces:
-        - {fileID: 0}
-        coordenades:
-        - {x: 100, y: 100}
-        pecesVeines: []
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Terra-Pla_Pla_Pla
@@ -70,6 +59,7 @@ MonoBehaviour:
       - tile: Terra-Pla_Pla_Pla
         orientacio: 5
         orientacioFisica: 1
+    grupsGuardats: []
   - captures: []
     nom: 
     mode: 1
@@ -77,6 +67,7 @@ MonoBehaviour:
     nivell: 0
     pila: []
     "pe\xE7es": []
+    grupsGuardats: []
   - captures:
     - C:\Users\xeviegido\Documents\Photos\GameFootage_2023-06-28_16-40-37.png
     nom: 
@@ -85,26 +76,14 @@ MonoBehaviour:
     nivell: 0
     pila: []
     "pe\xE7es":
-    - subestat: TERRA
+    - coordenada: {x: 100, y: 100}
+      subestat: TERRA
       estat: Terra
-      coordenada: {x: 100, y: 100}
-      extraccio: {x: -10000, y: -10000}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Terra_031UHU6P9JKQWQ9B59YL
-        poble: 0
-        peces:
-        - {fileID: 0}
-        coordenades:
-        - {x: 100, y: 100}
-        pecesVeines: []
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Terra-Pla_Pla_Pla
@@ -125,6 +104,7 @@ MonoBehaviour:
       - tile: Terra-Pla_Pla_Pla
         orientacio: 5
         orientacioFisica: 0
+    grupsGuardats: []
   - captures: []
     nom: 
     mode: 1
@@ -132,6 +112,7 @@ MonoBehaviour:
     nivell: 0
     pila: []
     "pe\xE7es": []
+    grupsGuardats: []
   - captures:
     - C:\Users\xeviegido\Documents\Photos\GameFootage_2023-12-12_15-44-21.png
     - C:\Users\xeviegido\Documents\Photos\GameFootage_2023-12-20_10-27-46.png
@@ -141,27 +122,14 @@ MonoBehaviour:
     nivell: 0
     pila: []
     "pe\xE7es":
-    - subestat: TERRA
+    - coordenada: {x: 100, y: 100}
+      subestat: TERRA
       estat: Terra
-      coordenada: {x: 100, y: 100}
-      extraccio: {x: -10000, y: -10000}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Terra_031UHU6P9JKQWQ9B59YL
-        poble: 0
-        peces:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        coordenades: []
-        pecesVeines: []
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Terra-Pla_Pla_Pla
@@ -182,24 +150,14 @@ MonoBehaviour:
       - tile: Terra-Pla_Pla_Pla
         orientacio: 5
         orientacioFisica: 0
-    - subestat: MONTANYA
+    - coordenada: {x: 101, y: 100}
+      subestat: MONTANYA
       estat: Montanya
-      coordenada: {x: 101, y: 100}
-      extraccio: {x: -10000, y: -10000}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Montanya_IDQ1XPM7DXBIL9YXKWZZ
-        poble: 0
-        peces: []
-        coordenades: []
-        pecesVeines: []
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Montanya-PlaTuro_TuroMont_MontPla
@@ -220,24 +178,14 @@ MonoBehaviour:
       - tile: Montanya-TuroPla_PlaMont_MontTuro
         orientacio: 5
         orientacioFisica: 0
-    - subestat: MAR
+    - coordenada: {x: 100, y: 101}
+      subestat: MAR
       estat: Mar
-      coordenada: {x: 100, y: 101}
-      extraccio: {x: -10000, y: -10000}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Mar_1OF9DL2QIA1BASNKZI0D
-        poble: 0
-        peces: []
-        coordenades: []
-        pecesVeines: []
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Mar-PlaTuro_TuroLMar_PlatjaPla
@@ -258,6 +206,7 @@ MonoBehaviour:
       - tile: Mar-Mar_MarPla_PlaPlatja
         orientacio: 5
         orientacioFisica: 1
+    grupsGuardats: []
   - captures: []
     nom: 
     mode: 1
@@ -265,6 +214,7 @@ MonoBehaviour:
     nivell: 0
     pila: []
     "pe\xE7es": []
+    grupsGuardats: []
   - captures:
     - C:\Users\xeviegido\Documents\Photos\GameFootage_2024-01-16_12-41-22.png
     nom: 
@@ -275,28 +225,14 @@ MonoBehaviour:
     - Casa
     - Terra
     "pe\xE7es":
-    - subestat: TERRA
+    - coordenada: {x: 100, y: 100}
+      subestat: TERRA
       estat: Terra
-      coordenada: {x: 100, y: 100}
-      extraccio: {x: -10000, y: -10000}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Terra_031UHU6P9JKQWQ9B59YL
-        poble: 0
-        peces:
-        - {fileID: 0}
-        coordenades:
-        - {x: 100, y: 100}
-        pecesVeines:
-        - {fileID: 0}
-        - {fileID: 0}
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Terra-Pla_Pla_Pla
@@ -317,29 +253,14 @@ MonoBehaviour:
       - tile: Terra-Pla_Pla_Pla
         orientacio: 5
         orientacioFisica: 2
-    - subestat: GRANJA
+    - coordenada: {x: 101, y: 100}
+      subestat: GRANJA
       estat: Casa
-      coordenada: {x: 101, y: 100}
-      extraccio: {x: 100, y: 101}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Casa_IDQ1XPM7DXBIL9YXKWZZ
-        poble: 1
-        peces:
-        - {fileID: 0}
-        coordenades:
-        - {x: 101, y: 100}
-        pecesVeines:
-        - {fileID: 0}
-        - {fileID: 0}
-        connexionsId:
-        - Casa_IDQ1XPM7DXBIL9YXKWZZ
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Granja-GportaPla_Pla_PlaGcanto
@@ -360,28 +281,14 @@ MonoBehaviour:
       - tile: Granja-PlaGporta_GcantoPla_Pla
         orientacio: 5
         orientacioFisica: 2
-    - subestat: CAMP
+    - coordenada: {x: 100, y: 101}
+      subestat: CAMP
       estat: Camp
-      coordenada: {x: 100, y: 101}
-      extraccio: {x: 101, y: 100}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Camp_1OF9DL2QIA1BASNKZI0D
-        poble: 0
-        peces:
-        - {fileID: 0}
-        coordenades:
-        - {x: 100, y: 101}
-        pecesVeines:
-        - {fileID: 0}
-        - {fileID: 0}
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Camp-Pla_Campcamiobert_Campcamiobert
@@ -402,6 +309,7 @@ MonoBehaviour:
       - tile: Camp-Pla_Campcamiobert_Campcamiobert
         orientacio: 5
         orientacioFisica: 0
+    grupsGuardats: []
   - captures: []
     nom: 
     mode: 1
@@ -409,6 +317,7 @@ MonoBehaviour:
     nivell: 0
     pila: []
     "pe\xE7es": []
+    grupsGuardats: []
   - captures:
     - C:\Users\xeviegido\Documents\Photos\GameFootage_2024-01-17_13-07-05.png
     nom: 
@@ -418,28 +327,14 @@ MonoBehaviour:
     pila:
     - Terra
     "pe\xE7es":
-    - subestat: TERRA
+    - coordenada: {x: 100, y: 100}
+      subestat: TERRA
       estat: Terra
-      coordenada: {x: 100, y: 100}
-      extraccio: {x: -10000, y: -10000}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Terra_031UHU6P9JKQWQ9B59YL
-        poble: 0
-        peces:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        coordenades: []
-        pecesVeines:
-        - {fileID: 0}
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Terra-Pla_PlaTuro_TuroPla
@@ -460,28 +355,14 @@ MonoBehaviour:
       - tile: Terra-Pla_Pla_Pla
         orientacio: 5
         orientacioFisica: 2
-    - subestat: GRANJA
+    - coordenada: {x: 101, y: 99}
+      subestat: GRANJA
       estat: Casa
-      coordenada: {x: 101, y: 99}
-      extraccio: {x: 101, y: 100}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Casa_IDQ1XPM7DXBIL9YXKWZZ
-        poble: 1
-        peces:
-        - {fileID: 0}
-        coordenades: []
-        pecesVeines:
-        - {fileID: 0}
-        - {fileID: 0}
-        connexionsId:
-        - Casa_IDQ1XPM7DXBIL9YXKWZZ
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Granja-GtrasPla_Pla_PlaGcanto
@@ -502,27 +383,17 @@ MonoBehaviour:
       - tile: Granja-PlaGtras_GcantoTuro_TuroPla
         orientacio: 5
         orientacioFisica: 2
-    - subestat: CAMP
+    - coordenada: {x: 101, y: 100}
+      subestat: CAMP
       estat: Camp
-      coordenada: {x: 101, y: 100}
-      extraccio: {x: 101, y: 99}
+      connexio: {x: 0, y: 0}
       productes:
         productes:
-        - Blat
-        - Blat
-        - Blat
+        - Blat (Producte)
+        - Blat (Producte)
+        - Blat (Producte)
         gastats: 010000
-      grup:
-        id: Camp_1OF9DL2QIA1BASNKZI0D
-        poble: 0
-        peces: []
-        coordenades: []
-        pecesVeines: []
-        connexionsId: []
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Camp-Pla_Campcamiobert_Campcamiobert
@@ -543,31 +414,14 @@ MonoBehaviour:
       - tile: Camp-Campcamitancat_Pla_Pla
         orientacio: 5
         orientacioFisica: 2
-    - subestat: CASA
+    - coordenada: {x: 100, y: 99}
+      subestat: CASA
       estat: Casa
-      coordenada: {x: 100, y: 99}
-      extraccio: {x: -10000, y: -10000}
+      connexio: {x: 0, y: 0}
       productes:
         productes: []
         gastats: 
-      grup:
-        id: Casa_IDQ1XPM7DXBIL9YXKWZZ
-        poble: 1
-        peces:
-        - {fileID: 0}
-        - {fileID: 0}
-        coordenades:
-        - {x: 101, y: 99}
-        - {x: 100, y: 99}
-        pecesVeines:
-        - {fileID: 0}
-        - {fileID: 0}
-        connexionsId:
-        - Casa_IDQ1XPM7DXBIL9YXKWZZ
-        cases: []
-        camins: []
-        ports: []
-        resaltat: 0
+      grup: 
       necessitats: []
       tiles:
       - tile: Casa-CEe_Pla_Pla
@@ -588,6 +442,363 @@ MonoBehaviour:
       - tile: Casa-CDe_Pla_Pla
         orientacio: 5
         orientacioFisica: 2
-  guardat: {fileID: 5025323944512142337, guid: 123573ce310551047a34f75130c9bbf5, type: 3}
+    grupsGuardats: []
+  - captures: []
+    nom: 
+    mode: 1
+    experiencia: 0
+    nivell: 0
+    pila: []
+    "pe\xE7es": []
+    grupsGuardats: []
+  - captures:
+    - C:\Users\xeviegido\Documents\Photos\GameFootage_2024-01-17_17-06-54.png
+    nom: 
+    mode: 1
+    experiencia: 1
+    nivell: 0
+    pila:
+    - Terra
+    "pe\xE7es":
+    - coordenada: {x: 100, y: 100}
+      subestat: TERRA
+      estat: Terra
+      connexio: {x: 0, y: 0}
+      productes:
+        productes: []
+        gastats: 
+      grup: 
+      necessitats: []
+      tiles:
+      - tile: Terra-Pla_PlaTuro_TuroLPla_2
+        orientacio: 0
+        orientacioFisica: 0
+      - tile: Terra-Pla_PlaTuro_TuroPla
+        orientacio: 1
+        orientacioFisica: 0
+      - tile: Terra-Pla_PlaTuroL_TuroPla
+        orientacio: 2
+        orientacioFisica: 0
+      - tile: Terra-Pla_PlaTuro_TuroLPla
+        orientacio: 3
+        orientacioFisica: 0
+      - tile: Terra-Turo_TuroPla_PlaTuro
+        orientacio: 4
+        orientacioFisica: 2
+      - tile: Terra-Turo_TuroLPla_PlaTuroL
+        orientacio: 5
+        orientacioFisica: 1
+    - coordenada: {x: 101, y: 100}
+      subestat: GRANJA
+      estat: Casa
+      connexio: {x: 0, y: 0}
+      productes:
+        productes: []
+        gastats: 
+      grup: 
+      necessitats: []
+      tiles:
+      - tile: Granja-Campcamitancat_PlaGcostat_GcostatPla
+        orientacio: 0
+        orientacioFisica: 0
+      - tile: Granja-PlaGtras_GcantoPla_Pla
+        orientacio: 1
+        orientacioFisica: 2
+      - tile: Granja-GtrasPla_Pla_PlaGcanto
+        orientacio: 2
+        orientacioFisica: 1
+      - tile: Granja-Pla_PlaGcostat_GcostatPla
+        orientacio: 3
+        orientacioFisica: 0
+      - tile: Granja-PlaGporta_GcantoPla_Pla
+        orientacio: 4
+        orientacioFisica: 2
+      - tile: Granja-GportaPla_Pla_PlaGcanto
+        orientacio: 5
+        orientacioFisica: 1
+    - coordenada: {x: 101, y: 99}
+      subestat: CAMP
+      estat: Camp
+      connexio: {x: 0, y: 0}
+      productes:
+        productes:
+        - Blat
+        - Blat
+        - Blat
+        gastats: 000000
+      grup: 
+      necessitats: []
+      tiles:
+      - tile: Camp-Campcamitancat_Pla_Pla
+        orientacio: 0
+        orientacioFisica: 1
+      - tile: Camp-Campcamitancat_Pla_Pla
+        orientacio: 1
+        orientacioFisica: 2
+      - tile: Camp-Pla_Campcamiobert_Campcamiobert
+        orientacio: 2
+        orientacioFisica: 0
+      - tile: Camp-Pla_Campcamiobert_Campcamiobert
+        orientacio: 3
+        orientacioFisica: 2
+      - tile: Camp-Campcamitancat_Pla_Pla
+        orientacio: 4
+        orientacioFisica: 2
+      - tile: Camp-Pla_Campcamiobert_Campcamiobert
+        orientacio: 5
+        orientacioFisica: 0
+    - coordenada: {x: 100, y: 99}
+      subestat: CASA
+      estat: Casa
+      connexio: {x: 0, y: 0}
+      productes:
+        productes: []
+        gastats: 
+      grup: 
+      necessitats:
+      - Blat
+      tiles:
+      - tile: Casa-CE_Pla_Pla
+        orientacio: 0
+        orientacioFisica: 2
+      - tile: Casa-CD_Pla_Pla
+        orientacio: 1
+        orientacioFisica: 1
+      - tile: Casa-CEe_Pla_Pla
+        orientacio: 2
+        orientacioFisica: 2
+      - tile: Casa-CDe_Pla_Pla
+        orientacio: 3
+        orientacioFisica: 1
+      - tile: Casa-CDd_Pla_Pla
+        orientacio: 4
+        orientacioFisica: 2
+      - tile: Casa-CEd_Pla_Pla
+        orientacio: 5
+        orientacioFisica: 1
+    grupsGuardats: []
+  - captures: []
+    nom: 
+    mode: 1
+    experiencia: 0
+    nivell: 0
+    pila: []
+    "pe\xE7es": []
+    grupsGuardats: []
+  - captures:
+    - C:\Users\xeviegido\Documents\Photos\GameFootage_2024-01-23_12-00-48.png
+    nom: 
+    mode: 1
+    experiencia: 0
+    nivell: 0
+    pila:
+    - Camp
+    - Casa
+    - Terra
+    "pe\xE7es":
+    - coordenada: {x: 100, y: 100}
+      subestat: TERRA
+      estat: Terra
+      connexio: {x: 0, y: 0}
+      productes:
+        productes: []
+        gastats: 
+      grup: 
+      necessitats: []
+      tiles:
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 0
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 1
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 2
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 3
+        orientacioFisica: 2
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 4
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 5
+        orientacioFisica: 2
+    - coordenada: {x: 101, y: 99}
+      subestat: CASA
+      estat: Casa
+      connexio: {x: 0, y: 0}
+      productes:
+        productes: []
+        gastats: 
+      grup: 
+      necessitats:
+      - Blat
+      tiles:
+      - tile: Casa-CDe_PlaTuro_TuroPla
+        orientacio: 0
+        orientacioFisica: 2
+      - tile: Casa-Cami_CEe_Pla
+        orientacio: 1
+        orientacioFisica: 2
+      - tile: Casa-Cami_Pla_CD
+        orientacio: 2
+        orientacioFisica: 1
+      - tile: Casa-CE_Pla_Pla
+        orientacio: 3
+        orientacioFisica: 1
+      - tile: Casa-CEe_Pla_Pla
+        orientacio: 4
+        orientacioFisica: 2
+      - tile: Casa-CDe_PlaTuro_TuroPla
+        orientacio: 5
+        orientacioFisica: 1
+    grupsGuardats: []
+  - captures: []
+    nom: 
+    mode: 1
+    experiencia: 0
+    nivell: 0
+    pila: []
+    "pe\xE7es":
+    - coordenada: {x: 0, y: 0}
+      subestat: 
+      estat: 
+      connexio: {x: 0, y: 0}
+      productes:
+        productes: []
+        gastats: 
+      grup: 
+      necessitats: []
+      tiles: []
+    grupsGuardats: []
+  - captures: []
+    nom: 
+    mode: 1
+    experiencia: 0
+    nivell: 0
+    pila:
+    - Casa
+    - Terra
+    "pe\xE7es":
+    - coordenada: {x: 100, y: 100}
+      subestat: TERRA
+      estat: Terra
+      connexio: {x: -10000, y: -10000}
+      productes:
+        productes: []
+        gastats: 
+      grup: Terra_031UHU6P9JKQWQ9B59YL
+      necessitats: []
+      tiles:
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 0
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 1
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 2
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 3
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 4
+        orientacioFisica: 1
+      - tile: Terra-Pla_Pla_Pla
+        orientacio: 5
+        orientacioFisica: 1
+    - coordenada: {x: 101, y: 99}
+      subestat: CASA
+      estat: Casa
+      connexio: {x: -10000, y: -10000}
+      productes:
+        productes: []
+        gastats: 
+      grup: Casa_IDQ1XPM7DXBIL9YXKWZZ
+      necessitats:
+      - Blat
+      tiles:
+      - tile: Casa-Cami_Pla_CD
+        orientacio: 0
+        orientacioFisica: 1
+      - tile: Casa-CE_Pla_Pla
+        orientacio: 1
+        orientacioFisica: 1
+      - tile: Casa-CDe_Pla_Pla
+        orientacio: 2
+        orientacioFisica: 2
+      - tile: Casa-CEe_Pla_Pla
+        orientacio: 3
+        orientacioFisica: 1
+      - tile: Casa-CDe_Pla_Pla
+        orientacio: 4
+        orientacioFisica: 2
+      - tile: Casa-Cami_CEe_Pla
+        orientacio: 5
+        orientacioFisica: 2
+    - coordenada: {x: 99, y: 99}
+      subestat: CAMP
+      estat: Camp
+      connexio: {x: -10000, y: -10000}
+      productes:
+        productes: []
+        gastats: 
+      grup: Camp_1OF9DL2QIA1BASNKZI0D
+      necessitats: []
+      tiles:
+      - tile: Camp-Pla_Campcamiobert_Campcamiobert
+        orientacio: 0
+        orientacioFisica: 0
+      - tile: Camp-Campcamitancat_Pla_Pla
+        orientacio: 1
+        orientacioFisica: 1
+      - tile: Camp-Campcamitancat_Pla_Pla
+        orientacio: 2
+        orientacioFisica: 2
+      - tile: Camp-Pla_Campcamiobert_Campcamiobert
+        orientacio: 3
+        orientacioFisica: 0
+      - tile: Camp-Campcamitancat_Pla_Pla
+        orientacio: 4
+        orientacioFisica: 1
+      - tile: Camp-Campcamitancat_Pla_Pla
+        orientacio: 5
+        orientacioFisica: 2
+    grupsGuardats:
+    - id: Terra_031UHU6P9JKQWQ9B59YL
+      poble: 0
+      peces:
+      - {x: 100, y: 100}
+      veines:
+      - {x: 101, y: 99}
+      - {x: 99, y: 99}
+      connexionsId: []
+      cases: []
+      camins: []
+      ports: []
+    - id: Casa_IDQ1XPM7DXBIL9YXKWZZ
+      poble: 1
+      peces:
+      - {x: 101, y: 99}
+      veines:
+      - {x: 100, y: 100}
+      connexionsId:
+      - Casa_IDQ1XPM7DXBIL9YXKWZZ
+      cases: []
+      camins: []
+      ports: []
+    - id: Camp_1OF9DL2QIA1BASNKZI0D
+      poble: 0
+      peces:
+      - {x: 99, y: 99}
+      veines:
+      - {x: 100, y: 100}
+      connexionsId: []
+      cases: []
+      camins: []
+      ports: []
+  guardat: {fileID: 21300000, guid: 1b85cced608bd544dbb826f56722bfc2, type: 3}
   outline: {fileID: 0}
   nomesGuardats: 0
