@@ -16,6 +16,8 @@ public class Fase_Menu : Fase
     [BoxGroup("GUARDAT"), SerializeScriptableObject, SerializeField] Guardat guardat;
     [BoxGroup("GUARDAT"), SerializeScriptableObject, SerializeField] Grups grups;
     [BoxGroup("GUARDAT"), SerializeScriptableObject, SerializeField] CapturarPantalla capturarPantalla;
+    [BoxGroup("GUARDAT"), SerializeField] Utils_InstantiableFromProject popup_Guardant;
+
     [BoxGroup("GUARDAT"), SerializeField] SavableVariable<bool> bromaVista;
     [BoxGroup("GUARDAT"), SerializeField] SavableVariable<bool> segonaPartida;
 
@@ -129,6 +131,20 @@ public class Fase_Menu : Fase
             save.Load(grups, null, continuarFondoClicable.Instantiate);
         else save.Load(partida, grups, null, continuarFondoClicable.Instantiate);
     }
+
+    public void Guardar()
+    {
+        capturarPantalla.OnCapturatRegistrar(GuardarDespresDeCapturar);
+        capturarPantalla.Capturar(true);
+    }
+    
+    void GuardarDespresDeCapturar(string path)
+    {
+        guardat.Guardar();
+        popup_Guardant.Instantiate();
+        capturarPantalla.OnCapturatDesregistrar(GuardarDespresDeCapturar);
+    }
+
 
     public void Modes() //Mostre les opcions dels modes
     {

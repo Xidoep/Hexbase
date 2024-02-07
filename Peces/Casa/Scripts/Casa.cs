@@ -22,7 +22,12 @@ public class Casa
         {
             this.necessitats.Add(Referencies.Instance.GetProducte(necessitats[i]));
         }
-        AgafarNecessitats();
+
+        this.receptes = new List<Recepta>();
+        for (int i = 0; i < receptes.Length; i++)
+        {
+            this.receptes.Add(Referencies.Instance.GetRecepta(receptes[i]));
+        }
     }
 
     [SerializeField] Peça peça;

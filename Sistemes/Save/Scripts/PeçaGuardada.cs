@@ -98,9 +98,19 @@ public class PeçaGuardada
             peça.CrearCasa(casa[0].Load(producteNomToPrefab));
         }*/
         //NECESSITATS
+
+
+
         if(necessitats != null && necessitats.Length > 0)
         {
-            peça.CrearCasa(new Casa(peça, receptes, necessitats));
+            peça.CrearCasa(new Casa(peça, receptesCasa, necessitats));
+        }
+        if(receptes != null && receptes.Length > 0)
+        {
+            for (int i = 0; i < receptes.Length; i++)
+            {
+                peça.processador.AfegirRecepta(Referencies.Instance.GetRecepta(receptes[i]));
+            }
         }
 
         grid.Set(peça);
@@ -150,29 +160,45 @@ public struct GrupGuardat
             veines[i] = grup.Veins[i].Coordenades;
         }
 
-        connexionsId = new string[grup.ConnexionsId.Count];
-        for (int i = 0; i < grup.ConnexionsId.Count; i++)
+        if (grup.ConnexionsId != null)
         {
-            connexionsId[i] = grup.ConnexionsId[i];
+            connexionsId = new string[grup.ConnexionsId.Count];
+            for (int i = 0; i < grup.ConnexionsId.Count; i++)
+            {
+                connexionsId[i] = grup.ConnexionsId[i];
+            }
         }
+        else connexionsId = new string[0];
 
-        cases = new Vector2Int[grup.Cases.Count];
-        for (int i = 0; i < grup.Cases.Count; i++)
+        if(grup.Cases != null)
         {
-            cases[i] = grup.Cases[i].Coordenades;
+            cases = new Vector2Int[grup.Cases.Count];
+            for (int i = 0; i < grup.Cases.Count; i++)
+            {
+                cases[i] = grup.Cases[i].Coordenades;
+            }
         }
+        else cases = new Vector2Int[0];
 
-        camins = new Vector2Int[grup.Camins.Count];
-        for (int i = 0; i < grup.Camins.Count; i++)
+        if (grup.Camins != null)
         {
-            camins[i] = grup.Camins[i].Coordenades;
+            camins = new Vector2Int[grup.Camins.Count];
+            for (int i = 0; i < grup.Camins.Count; i++)
+            {
+                camins[i] = grup.Camins[i].Coordenades;
+            }
         }
+        else camins = new Vector2Int[0];
 
-        ports = new Vector2Int[grup.Ports.Count];
-        for (int i = 0; i < grup.Ports.Count; i++)
+        if(grup.Ports != null)
         {
-            ports[i] = grup.Ports[i].Coordenades;
+            ports = new Vector2Int[grup.Ports.Count];
+            for (int i = 0; i < grup.Ports.Count; i++)
+            {
+                ports[i] = grup.Ports[i].Coordenades;
+            }
         }
+        else ports = new Vector2Int[0];
     }
 
     public string id;

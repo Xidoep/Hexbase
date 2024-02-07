@@ -67,8 +67,13 @@ public class ArchiuGuardat
     public void Actualitzar(Grups grups)
     {
         Peça peça = null;
-        for (int i = 0; i < peçes.Count; i++)
+        for (int i = peçes.Count -1; i >= 0; i--)
         {
+            if(Grid.Instance.Get(peçes[i].Coordenada) == null)
+            {
+                peçes.RemoveAt(i);
+                continue;
+            }
             peça = (Peça)Grid.Instance.Get(peçes[i].Coordenada);
             peçes[i].Save(
                 peça,

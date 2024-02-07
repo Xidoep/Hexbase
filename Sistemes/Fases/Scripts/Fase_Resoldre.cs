@@ -18,7 +18,7 @@ public class Fase_Resoldre : Fase
     [SerializeScriptableObject] [SerializeField] Nivell nivell;
     [SerializeScriptableObject] [SerializeField] Modes modes;
     [SerializeScriptableObject] [SerializeField] CapturarPantalla capturarPantalla;
-    //[SerializeScriptableObject] [SerializeField] SaveHex save;
+    [SerializeScriptableObject] [SerializeField] SaveHex save;
 
     [Apartat("UIs")]
     [SerializeField] Utils_InstantiableFromProject prefab_uiPerdre;
@@ -58,8 +58,16 @@ public class Fase_Resoldre : Fase
     public void TornarAMenuPrincipal() //DESDE MENU
     {
         enTornar?.Invoke();
-        capturarPantalla.OnCapturatRegistrar(TornarAMenu_DespresDeCapturar);
-        capturarPantalla.Capturar(true, false);
+        if (!save.TeCaptures)
+        {
+            capturarPantalla.OnCapturatRegistrar(TornarAMenu_DespresDeCapturar);
+            capturarPantalla.Capturar(true, false);
+        }
+        else
+        {
+            TornarAMenu();
+        }
+        
         CursorEstat.Mostrar(false);
         //Capturar();
     }
@@ -94,10 +102,12 @@ public class Fase_Resoldre : Fase
         switch (opcio)
         {
             case 0: //TORNAR
-                prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(Tornar);
+                Tornar(false);
+                //prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(Tornar);
                 break;
             case 1: //REPETIR
-                prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(Repetir);
+                Repetir(false);
+                //prefab_uiPreguntarGuardar.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(Repetir);
                 break;
             case 2: //CONTINUAR
                 Continuar_Freestyle();
@@ -107,16 +117,15 @@ public class Fase_Resoldre : Fase
     void Tornar(bool guardar) //DESDE POPUP PERDRE
     {
         enTornar?.Invoke();
-        capturarPantalla.OnCapturatRegistrar(TornarAMenu_DespresDeCapturar);
-        capturarPantalla.Capturar(false);
-        //Capturar();
+        save.BorrarPartida();
+        TornarAMenu();
     }
     void Repetir(bool guardar) //DESDE POPUP PERDRE
     {
+        ((Fase_Iniciar)iniciar).GridNet();
+        save.BorrarPartida();
         enRepetir?.Invoke();
-        capturarPantalla.OnCapturatRegistrar(TornarAIniciar_DespresDeCapturar);
-        capturarPantalla.Capturar(false);
-        //Capturar();
+        TornarAIniciar();
     }
     void Continuar_Freestyle() //DESDE POPUP PERDRE
     {
@@ -130,18 +139,24 @@ public class Fase_Resoldre : Fase
 
     void TornarAMenu_DespresDeCapturar(string path)
     {
-        Netejar();
-        enNetejar?.Invoke(Mode.Pila);
-        menu.Iniciar();
-
+        TornarAMenu();
         capturarPantalla.OnCapturatDesregistrar(TornarAMenu_DespresDeCapturar);
     }
     void TornarAIniciar_DespresDeCapturar(string path)
     {
+        TornarAIniciar();
+        capturarPantalla.OnCapturatDesregistrar(TornarAIniciar_DespresDeCapturar);
+    }
+    void TornarAMenu()
+    {
+        Netejar();
+        enNetejar?.Invoke(Mode.Pila);
+        menu.Iniciar();
+    }
+    void TornarAIniciar()
+    {
         Netejar();
         iniciar.Iniciar();
-
-        capturarPantalla.OnCapturatDesregistrar(TornarAIniciar_DespresDeCapturar);
     }
 
     void Netejar()
