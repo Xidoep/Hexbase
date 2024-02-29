@@ -280,7 +280,14 @@ public class Fase_Menu : Fase
     {
         inici = false;
     }
-    void AmagarTitol() => animacioTitol.Destroy();
+    void AmagarTitol() 
+    {
+        animacioTitol.Destroy();
+        //if (animacioTitol == null)
+        //    return;
+
+        //Destroy(animacioTitol.transform.parent.gameObject, 2.5f);
+    } 
 
 
     public void PopupSortir() => sortir1.InstantiateReturn().GetComponent<Utils_EsdevenimentDelegatBool>().Registrar(BromaSortir);

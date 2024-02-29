@@ -444,6 +444,10 @@ public class Peça : Hexagon, IPointerEnterHandler, IPointerExitHandler
         return tiles[index].OrientacioFisica;
     }
     
+    void OnDestroy()
+    {
+        AmagarInformacio();
+    }
 }
 
 

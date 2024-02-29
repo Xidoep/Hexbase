@@ -103,10 +103,11 @@ public class PeçaGuardada
 
         if(necessitats != null && necessitats.Length > 0)
         {
-            peça.CrearCasa(new Casa(peça, receptesCasa, necessitats));
+            peça.CrearCasa(new Casa(peça, necessitats, receptesCasa));
         }
         if(receptes != null && receptes.Length > 0)
         {
+            peça.processador.NetejarReceptes();
             for (int i = 0; i < receptes.Length; i++)
             {
                 peça.processador.AfegirRecepta(Referencies.Instance.GetRecepta(receptes[i]));

@@ -109,7 +109,10 @@ public class Processador : System.Object
 
         receptes.Remove(recepta);
     }
-
+    public void NetejarReceptes()
+    {
+        receptes = new List<Recepta>();
+    }
 
 
 

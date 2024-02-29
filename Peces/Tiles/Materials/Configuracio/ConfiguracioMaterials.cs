@@ -75,7 +75,7 @@ public class ConfiguracioMaterials : ScriptableObject
                     if(settings[s].Iguals(materials[m], 0))
                     {
                         settings[s].Setup(materials[m], 0);
-                        return;
+                        continue;
                     }
                 }
             }
