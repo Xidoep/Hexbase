@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8244763543273270773}
   - component: {fileID: 3772362107536452135}
   - component: {fileID: 4566594250216440861}
+  - component: {fileID: -5989519875044570338}
   m_Layer: 0
   m_Name: Pi
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2280163313967212789}
-  m_LocalRotation: {x: -0.7071066, y: -0.000000097592576, z: -0.0000003238759, w: 0.70710695}
+  m_LocalRotation: {x: -0.00000003774895, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -5, y: 0, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -61,7 +62,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5546125456189317939, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
+  - {fileID: 2100000, guid: 081f50f77b7a50e4aba3fc75625aa410, type: 2}
+  - {fileID: 2100000, guid: dfdaf44308619264f882ab3618585e7a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,3 +85,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5989519875044570338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2280163313967212789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63ac7085c10359a4e93e7cc80e520937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

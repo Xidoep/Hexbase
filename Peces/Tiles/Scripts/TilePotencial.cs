@@ -171,6 +171,10 @@ public class TilePotencial
         }
         else
         {
+            if(possibilitatsVirtuals.Count == 0)
+            {
+                Debug.LogError($"{Peça.name} ({orientacio}) No s'ha quedat sense possibilitats.. perque?");
+            }
             Escollir(possibilitatsVirtuals.Get(0));
         }
         

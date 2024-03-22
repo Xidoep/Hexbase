@@ -264,6 +264,9 @@ public class Referencies : ScriptableObject
         List<EstatColocable> tmp = new List<EstatColocable>(colocables);
         for (int i = tmp.Count -1; i >= 0; i--)
         {
+            if (tmp[i].Estat is null)
+                continue;
+
             if (tmp[i].Estat.Colocable)
                 continue;
 
