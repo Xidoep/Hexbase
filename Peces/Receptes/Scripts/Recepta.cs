@@ -50,6 +50,7 @@ public class Recepta : ScriptableObject
 
 
     public ScriptableObject[] Inputs => inputs;
+    public ScriptableObject[] Outputs => output;
     public int Experiencia => experiencia;
 
 

@@ -15,17 +15,18 @@ MonoBehaviour:
   transicio: 0
   temps: 1.75
   delay: 0
+  unscaled: 1
   animacions:
   - rid: 7484184750431141891
   - rid: 4560690097998790660
   - rid: 2914006605935935490
+  - rid: 7242570119180189700
   references:
     version: 2
     RefIds:
     - rid: 2914006605935935490
       type: {class: Animacio_Escala, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Escala
         corba:
           serializedVersion: 2
           m_Curve:
@@ -51,12 +52,11 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         inici: {x: 1, y: 1, z: 1}
-        final: {x: 1, y: 1, z: 1}
         dinamic: 0
+        final: {x: 1, y: 1, z: 1}
     - rid: 4560690097998790660
       type: {class: Animacio_Rotacio, ns: , asm: AnimacioPerCodi}
       data:
-        nom: Rotacio
         corba:
           serializedVersion: 2
           m_Curve:
@@ -91,9 +91,15 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         inici: {x: 0, y: 0, z: 0}
+        dinamic: 0
         final: {x: 360, y: 0, z: 0}
         local: 1
-        dinamic: 0
+    - rid: 7242570119180189700
+      type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
+      data:
+        so: {fileID: 11400000, guid: 196bb1b63e0ef084a9e0d0ea170d54ae, type: 2}
+        aPosicio: 0
+        delay: 0
     - rid: 7484184750431141891
       type: {class: Animacio_Posicio, ns: , asm: AnimacioPerCodi}
       data:
@@ -149,6 +155,6 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         inici: {x: 0, y: 0, z: 0}
+        dinamic: 0
         final: {x: 0, y: 2, z: 0}
         local: 1
-        dinamic: 0
