@@ -115,10 +115,8 @@ public class TilePotencial
         return this;
     }
 
-    public void Escollir()
+    public bool Escollir()
     {
-        int r = 0;
-
         if (possibilitatsVirtuals.Count > 1)
         {
             int highestPriority = 0;
@@ -143,31 +141,6 @@ public class TilePotencial
             }
 
             Escollir(possibilitats[UnityEngine.Random.Range(0, possibilitats.Count)]);
-
-            //----------------------------------------------------
-            /*
-            int randomMax = 0;
-
-            List<Random> randoms = new List<Random>();
-
-            for (int i = 0; i < possibilitatsVirtuals.Count; i++)
-            {
-                randoms.Add(new Random() { index = i, rang = new Vector2Int(randomMax + (i > 0 ? 1 : 0), randomMax + possibilitatsVirtuals.Get(i).Pes) });
-                randomMax += possibilitatsVirtuals.Get(i).Pes;
-            }
-            int randomNumber = UnityEngine.Random.Range(0, randomMax);
-            //Debug.LogError($"GIVEN RANDOM NUMBER = {randomNumber}");
-            for (int i = 0; i < randoms.Count; i++)
-            {
-                //Debug.LogError($"P{i} RANDOM {randoms[i].rang}");
-                if (randomNumber == Mathf.Clamp(randomNumber, randoms[i].rang.x, randoms[i].rang.y))
-                {
-                    r = randoms[i].index;
-                    //break;
-                }
-            }
-            //Debugar.Log($"RANDOM = {r}");
-            */
         }
         else
         {
@@ -175,12 +148,11 @@ public class TilePotencial
             {
                 Debug.LogError($"{Peça.name} ({orientacio}) S'ha quedat sense possibilitats.. perque?");
                 Ambiguo();
-                return;
+                return false;
             }
             Escollir(possibilitatsVirtuals.Get(0));
         }
-        
-        //Escollir(possibilitatsVirtuals.Tile(r), possibilitatsVirtuals.Orietacio(r));
+        return true;
     }
     void Escollir(Possibilitat possibilitat) => Escollir(possibilitat.Tile, possibilitat.Orientacio);
     public void Escollir(Tile tile, int orientacioFisica)
@@ -281,46 +253,6 @@ public class TilePotencial
             }
         }
     }
-    /*public void Detalls(Subestat subestat)
-    {
-        if (WaveFunctionColpaseScriptable.veureProces)
-        {
-            if (detalls != null)
-                MonoBehaviour.Destroy(detalls);
-        }
-
-
-        if (subestat.Detalls == null || subestat.Detalls.Length == 0)
-            return;
-
-        for (int d = 0; d < subestat.Detalls.Length; d++)
-        {
-            int[] tiles = subestat.Detalls[d].Tiles(peça);
-            for (int t = 0; t < tiles.Length; t++)
-            {
-                //Debug.LogError($"Peça {Peça.Coordenades}, Orientacio {orientacio} Tile {t}", Peça);
-                //Tiles del detalls no retorna tots els tiles, només els que s'han de instanciar. Aqui es mira si aquest està a la llista.
-                if(tiles[t] == orientacio)
-                {
-                    //Debug.LogError("TRobat!");
-                    GameObject _detall = subestat.Detalls[d].GameObject(peça, this);
-                    if (_detall == null)
-                        continue;
-
-                    //detalls = GameObject.Instantiate(subestat.detalls[d].GameObject(peça), tileFisic.transform.position, Quaternion.identity, tileFisic.transform);
-                    detalls = GameObject.Instantiate(_detall, tileFisic.transform.position, Quaternion.identity);
-                    for (int m = 0; m < subestat.Detalls[d].Modificacios.Length; m++)
-                    {
-                        subestat.Detalls[d].Modificacios[m].Modificar(this, detalls);
-                    }
-                    detalls.transform.SetParent(tileFisic.transform);
-                }
-            }
-        
-            
-        }
-
-    }*/
 
 
     public struct Random

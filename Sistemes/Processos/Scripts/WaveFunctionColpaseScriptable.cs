@@ -201,7 +201,9 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         actual = TileWithTheLowestEntropy();
         pendents.Remove(actual);
         //Debug.Log($"{actual.Peça.name}({actual.Orientacio})");
-        actual.Escollir();
+        if (!actual.Escollir())
+            pendents.Add(actual);
+
 #if UNITY_EDITOR
         //Debug.Log($"Resoldre {actual.Peça.gameObject.name} amb el tile {actual.PossibilitatsVirtuals.Get(0).Tile.name}");
 #endif
@@ -301,6 +303,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
     }
     void Reiniciar() 
     {
+        colisions = 0;
         if (!canviades.Contains(propagables[0].Peça)) canviades.Add(propagables[0].Peça);
         Iniciar_WFC(colocada, canviades, enFinalitzar, true);
     }
@@ -385,7 +388,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
 
 
                     colisions++;
-                    if(colisions > 1)
+                    if(colisions > 5)
                     {
                         Debugar.LogError(_debug, propagables[0].Peça);
 
@@ -395,7 +398,8 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                     else
                     {
                         Debugar.LogError(_debug, propagables[0].Peça);
-                        propagables[0].Comodi(all);
+                        propagables[0].Ambiguo();
+                        //propagables[0].Comodi(all);
                     }
                     
                 }
@@ -413,6 +417,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
                         }
                     }
                 }
+
             }
 
             propagables.RemoveAt(0);
@@ -561,7 +566,7 @@ public class WaveFunctionColpaseScriptable : ScriptableObject
         }
         else
         {
-            if (tile.Peça.TeConnexionsNules && colisions < 2)
+            if (tile.Peça.TeConnexionsNules && colisions < 10)
                 return tile.Peça.ConnexionsNules;
 
             return tile.Peça.ConnexionsPossibles;
