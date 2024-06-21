@@ -96,7 +96,7 @@ public class TilePotencial
         return this;
     }
 
-    Possibilitats possibilitatsActuals;
+    Possibilitats possibilifftatsActuals;
     Possibilitats possibilitatsComodi;
     Possibilitats novesPossibilitats;
     public TilePotencial Comodi(Possibilitats all)
@@ -122,7 +122,7 @@ public class TilePotencial
             int highestPriority = 0;
 
             for (int i = 0; i < possibilitatsVirtuals.Count; i++)
-            {;
+            {
                 if (possibilitatsVirtuals.Get(i).GetPes(i) > highestPriority) highestPriority = possibilitatsVirtuals.Get(i).GetPes(i);
             }
 
@@ -140,6 +140,7 @@ public class TilePotencial
                 Debug.Log("No hi ha possibilitats?!?!?!?!?");
             }
 
+            Debug.Log($"Escollir: hi ha {possibilitats.Count} possiblitats...");
             Escollir(possibilitats[UnityEngine.Random.Range(0, possibilitats.Count)]);
         }
         else
@@ -150,6 +151,7 @@ public class TilePotencial
                 Ambiguo();
                 return false;
             }
+            Debug.Log($"Escollir: només hi ha 1 possiblitat!");
             Escollir(possibilitatsVirtuals.Get(0));
         }
         return true;

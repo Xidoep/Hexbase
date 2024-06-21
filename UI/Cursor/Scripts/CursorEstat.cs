@@ -18,6 +18,7 @@ public class CursorEstat : ScriptableObject
 
     [SerializeField] InputActionReference mousePosition;
     [SerializeField] Visualitzacions visualitzacions;
+    [SerializeField] AnimacioPerCodi anim_Mostrar;
 
     [SerializeField, ReadOnly] GameObject cursor;
 
@@ -122,7 +123,11 @@ public class CursorEstat : ScriptableObject
         if (cursor == null)
             return;
 
+        if (cursor.activeSelf)
+            return;
+
         cursor.SetActive(true);
+        anim_Mostrar.Play(cursor.transform);
     }
     void MostrarCursorReset() => XS_Coroutine.StartCoroutine(MostrarCursorReset_Corrutine());
 

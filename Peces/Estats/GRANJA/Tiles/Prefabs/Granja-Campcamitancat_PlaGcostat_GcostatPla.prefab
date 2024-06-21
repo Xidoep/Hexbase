@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1326470757390485507
+--- !u!1 &2549776297652337896
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4186134758839237917}
-  - component: {fileID: 299591628187187305}
-  - component: {fileID: 7259551638203645343}
+  - component: {fileID: 852166825926196258}
+  - component: {fileID: 2515098059670594708}
+  - component: {fileID: 161370017481683876}
   m_Layer: 0
-  m_Name: Granja-Campcamitancat_PlaGcostat_GcostatPla
+  m_Name: prop_GranjaCantonada.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4186134758839237917
+  m_IsActive: 0
+--- !u!4 &852166825926196258
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326470757390485507}
-  m_LocalRotation: {x: -0.0000000025817979, y: 1, z: -0.00000008146034, w: 0.00000019470718}
-  m_LocalPosition: {x: -19, y: 0.00000023841858, z: -3.9999807}
+  m_GameObject: {fileID: 2549776297652337896}
+  m_LocalRotation: {x: -0.00000023841858, y: 0.00000023841858, z: 0.0000000025818316, w: 1}
+  m_LocalPosition: {x: 0.0000019073486, y: -0.00000009879233, z: -0.0000021457672}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8353576035394568578}
-  - {fileID: 7695655280742036277}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 9051712720269036773}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &299591628187187305
+--- !u!33 &2515098059670594708
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326470757390485507}
-  m_Mesh: {fileID: -3943010782642927571, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &7259551638203645343
+  m_GameObject: {fileID: 2549776297652337896}
+  m_Mesh: {fileID: -2760031713593666461, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
+--- !u!23 &161370017481683876
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326470757390485507}
+  m_GameObject: {fileID: 2549776297652337896}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -63,7 +61,93 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2199f91c9f9ef446b02918273517ce1, type: 2}
+  - {fileID: 2100000, guid: a50489efd866ea947b0b313db3c2c855, type: 2}
+  - {fileID: 2100000, guid: 4ec03a6a02559504cbfbce24f9e2382f, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7950730544822621053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9051712720269036773}
+  - component: {fileID: 1140116458140659868}
+  - component: {fileID: 5095934214678051709}
+  m_Layer: 0
+  m_Name: Granja-Campcamitancat_PlaGcostat_GcostatPla
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9051712720269036773
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950730544822621053}
+  m_LocalRotation: {x: -0.0000000025817979, y: 1, z: -0.00000008146034, w: 0.00000019470718}
+  m_LocalPosition: {x: -19, y: 0.00000023841858, z: -3.9999807}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 852166825926196258}
+  - {fileID: 3423840950771077286}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1140116458140659868
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950730544822621053}
+  m_Mesh: {fileID: -3943010782642927571, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
+--- !u!23 &5095934214678051709
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950730544822621053}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 64b541cf326cb92499fffd6e1f3c7c6b, type: 2}
   - {fileID: 2100000, guid: accba63b5fbbc694da92fc6542cd34f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -86,96 +170,12 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &5274497137333283340
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8353576035394568578}
-  - component: {fileID: 9132334482317546690}
-  - component: {fileID: 688900663644279778}
-  m_Layer: 0
-  m_Name: prop_GranjaCantonada.002
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &8353576035394568578
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5274497137333283340}
-  m_LocalRotation: {x: -0.00000023841858, y: 0.00000023841858, z: 0.0000000025818316, w: 1}
-  m_LocalPosition: {x: 0.0000019073486, y: -0.00000009879233, z: -0.0000021457672}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4186134758839237917}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9132334482317546690
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5274497137333283340}
-  m_Mesh: {fileID: -2760031713593666461, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &688900663644279778
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5274497137333283340}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 87a70bc809940284b87ea9ac5780704e, type: 2}
-  - {fileID: 2100000, guid: c198ab2fbb2f80e4f9b9e48c500a1bef, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &874174995042233922
+--- !u!1001 &5291211721432419793
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 4186134758839237917}
+    m_TransformParent: {fileID: 9051712720269036773}
     m_Modifications:
     - target: {fileID: 4442071197904281653, guid: 9950c287db385174b82978543e67684b, type: 3}
       propertyPath: m_Name
@@ -227,8 +227,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9950c287db385174b82978543e67684b, type: 3}
---- !u!4 &7695655280742036277 stripped
+--- !u!4 &3423840950771077286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7416799882951368055, guid: 9950c287db385174b82978543e67684b, type: 3}
-  m_PrefabInstance: {fileID: 874174995042233922}
+  m_PrefabInstance: {fileID: 5291211721432419793}
   m_PrefabAsset: {fileID: 0}

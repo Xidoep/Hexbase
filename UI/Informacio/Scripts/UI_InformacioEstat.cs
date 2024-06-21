@@ -12,4 +12,10 @@ public class UI_InformacioEstat : UI_Informacio
 
         return gameObject;
     }
+    public GameObject Setup(Estat estat)
+    {
+        this.estat.text = estat.name;
+
+        return gameObject;
+    }
 }

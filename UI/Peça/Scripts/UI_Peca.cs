@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using XS_Utils;
 using Sirenix.OdinInspector;
 
@@ -25,12 +26,16 @@ public class UI_Peca : MonoBehaviour
         this.primeraPosicioParent = primeraPosicioParent;
         this.segonaPosicio = segonaPosicio;
         this.segonaPosicioParent = segonaPosicioParent;
+
+        GetComponentInParent<XS_Button>().OnEnter += PointerEnter;
+        GetComponentInParent<XS_Button>().OnExit += PointerExit;
     }
 
     [SerializeField] EstatColocable estat;
     Transform[] childs;
     public bool resaltat;
     [SerializeField] Fase_Colocar colocar;
+    [SerializeField] UI_InformacioEstat infoEstat;
 
     [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi_GameObject_Referencia outline;
     [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi desapareixre;
@@ -115,6 +120,15 @@ public class UI_Peca : MonoBehaviour
         segonaPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
     }
 
+    public void PointerEnter()
+    {
+        Debug.Log("Estat");
+        //Instantiate(infoEstat, transform).Setup(estat.Estat);
+    }
+    public void PointerExit()
+    {
+        Debug.Log("Exit");
+    }
     /*private void OnEnable()
     {
         childs = transform.GetComponentsInChildren<Transform>(true);

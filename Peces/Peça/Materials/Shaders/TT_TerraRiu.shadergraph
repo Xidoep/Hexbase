@@ -496,7 +496,7 @@
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Color",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
@@ -577,6 +577,21 @@
         "z": 0.0,
         "w": 0.0
     },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "5e6ea31408b14e4b861bea8704e93a0e",
+    "m_Id": -1346866192,
+    "m_DisplayName": "Float (1)",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Float_1",
+    "m_StageCapability": 2,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
     "m_Labels": []
 }
 
@@ -1057,6 +1072,21 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "d032068c348e4c09ae4df167d9832d32",
+    "m_Id": 1934867332,
+    "m_DisplayName": "Float",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Float",
+    "m_StageCapability": 2,
+    "m_Value": 1.0199999809265137,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "d36dea13994f416494e3d13d6bb5cba0",
     "m_Id": -238387595,
     "m_DisplayName": "VertexColor",
@@ -1089,6 +1119,12 @@
     },
     "m_Slots": [
         {
+            "m_Id": "d032068c348e4c09ae4df167d9832d32"
+        },
+        {
+            "m_Id": "5e6ea31408b14e4b861bea8704e93a0e"
+        },
+        {
             "m_Id": "344d86fa69884deba66916cb48fcbeae"
         },
         {
@@ -1103,8 +1139,14 @@
         "m_SerializableColors": []
     },
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"af69fa05ffd215d4594df069dbb67f7b\",\n        \"type\": 3\n    }\n}",
-    "m_PropertyGuids": [],
-    "m_PropertyIds": [],
+    "m_PropertyGuids": [
+        "e1053e7b-3da6-463c-8bf3-7ec5d24b1411",
+        "70f48029-c0d9-41af-846e-ecd3845d0f4d"
+    ],
+    "m_PropertyIds": [
+        1934867332,
+        -1346866192
+    ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
 }

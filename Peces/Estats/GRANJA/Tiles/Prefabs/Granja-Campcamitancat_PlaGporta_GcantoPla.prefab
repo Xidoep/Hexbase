@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5510948002176656652
+--- !u!1 &5081639095142909163
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1595448199098895354}
-  - component: {fileID: 478402598254083709}
-  - component: {fileID: 6287245604222146009}
+  - component: {fileID: 1869365549999064071}
+  - component: {fileID: 5889982086775812352}
+  - component: {fileID: 5502564454080577671}
   m_Layer: 0
   m_Name: prop_GranjaFrontal.006
   m_TagString: Untagged
@@ -18,36 +18,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &1595448199098895354
+--- !u!4 &1869365549999064071
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5510948002176656652}
+  m_GameObject: {fileID: 5081639095142909163}
   m_LocalRotation: {x: 0.00000011697334, y: 0.8660255, z: 0.000000064092156, w: -0.49999988}
   m_LocalPosition: {x: 0.5000019, y: 0.000000035580854, z: 0.8660252}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8182673477304059755}
+  m_Father: {fileID: 1091247984328025641}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &478402598254083709
+--- !u!33 &5889982086775812352
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5510948002176656652}
+  m_GameObject: {fileID: 5081639095142909163}
   m_Mesh: {fileID: 4160072018373848522, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &6287245604222146009
+--- !u!23 &5502564454080577671
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5510948002176656652}
+  m_GameObject: {fileID: 5081639095142909163}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,8 +61,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4ec03a6a02559504cbfbce24f9e2382f, type: 2}
   - {fileID: 2100000, guid: a50489efd866ea947b0b313db3c2c855, type: 2}
+  - {fileID: 2100000, guid: 4ec03a6a02559504cbfbce24f9e2382f, type: 2}
   - {fileID: 2100000, guid: 8bd9232807573fb46816b1ad81e52339, type: 2}
   - {fileID: 2100000, guid: cdba518f2740ceb4e887c369b67e7adb, type: 2}
   m_StaticBatchInfo:
@@ -86,7 +86,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &7002921643833353638
+--- !u!1 &7372937149401726370
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,9 +94,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8182673477304059755}
-  - component: {fileID: 2129166703141596695}
-  - component: {fileID: 8377818881955675998}
+  - component: {fileID: 1091247984328025641}
+  - component: {fileID: 8825156170669887943}
+  - component: {fileID: 4075460199614943907}
   m_Layer: 0
   m_Name: Granja-Campcamitancat_PlaGporta_GcantoPla
   m_TagString: Untagged
@@ -104,38 +104,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8182673477304059755
+--- !u!4 &1091247984328025641
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7002921643833353638}
+  m_GameObject: {fileID: 7372937149401726370}
   m_LocalRotation: {x: -0.00000028212997, y: 0.00000008146036, z: 1, w: 0.000000043711413}
   m_LocalPosition: {x: -20, y: 0.00000013962666, z: -3}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1595448199098895354}
-  - {fileID: 2475122792501120911}
+  - {fileID: 1869365549999064071}
+  - {fileID: 2340757583353722077}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2129166703141596695
+--- !u!33 &8825156170669887943
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7002921643833353638}
+  m_GameObject: {fileID: 7372937149401726370}
   m_Mesh: {fileID: 5994973089801918034, guid: d94e7c9376098df4ba361a68d299391a, type: 3}
---- !u!23 &8377818881955675998
+--- !u!23 &4075460199614943907
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7002921643833353638}
+  m_GameObject: {fileID: 7372937149401726370}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -149,7 +149,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2199f91c9f9ef446b02918273517ce1, type: 2}
+  - {fileID: 2100000, guid: 64b541cf326cb92499fffd6e1f3c7c6b, type: 2}
   - {fileID: 2100000, guid: accba63b5fbbc694da92fc6542cd34f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -172,12 +172,12 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &8725820172676895501
+--- !u!1001 &8880318606852827231
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8182673477304059755}
+    m_TransformParent: {fileID: 1091247984328025641}
     m_Modifications:
     - target: {fileID: 5323335325530409735, guid: 7543d086a38f44d458217a32f581598a, type: 3}
       propertyPath: m_Name
@@ -229,8 +229,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7543d086a38f44d458217a32f581598a, type: 3}
---- !u!4 &2475122792501120911 stripped
+--- !u!4 &2340757583353722077 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6575589878503349378, guid: 7543d086a38f44d458217a32f581598a, type: 3}
-  m_PrefabInstance: {fileID: 8725820172676895501}
+  m_PrefabInstance: {fileID: 8880318606852827231}
   m_PrefabAsset: {fileID: 0}

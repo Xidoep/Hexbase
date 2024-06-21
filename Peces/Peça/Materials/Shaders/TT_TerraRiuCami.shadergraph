@@ -523,6 +523,12 @@
     },
     "m_Slots": [
         {
+            "m_Id": "803cc826cafa4db2b72d68db4bb91c47"
+        },
+        {
+            "m_Id": "8a35c1bf246f480da62dad104c7eb0f1"
+        },
+        {
             "m_Id": "bc9b1c83e8c841a4875a50341a04499f"
         },
         {
@@ -537,8 +543,14 @@
         "m_SerializableColors": []
     },
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"af69fa05ffd215d4594df069dbb67f7b\",\n        \"type\": 3\n    }\n}",
-    "m_PropertyGuids": [],
-    "m_PropertyIds": [],
+    "m_PropertyGuids": [
+        "e1053e7b-3da6-463c-8bf3-7ec5d24b1411",
+        "70f48029-c0d9-41af-846e-ecd3845d0f4d"
+    ],
+    "m_PropertyIds": [
+        1934867332,
+        -1346866192
+    ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
 }
@@ -1055,11 +1067,41 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "803cc826cafa4db2b72d68db4bb91c47",
+    "m_Id": 1934867332,
+    "m_DisplayName": "Float",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Float",
+    "m_StageCapability": 2,
+    "m_Value": 1.0199999809265137,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalLitSubTarget",
     "m_ObjectId": "86693dbd7d1f4a6096b9a9afe5612d25",
     "m_WorkflowMode": 1,
     "m_NormalDropOffSpace": 0,
     "m_ClearCoat": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "8a35c1bf246f480da62dad104c7eb0f1",
+    "m_Id": -1346866192,
+    "m_DisplayName": "Float (1)",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Float_1",
+    "m_StageCapability": 2,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -1470,7 +1512,7 @@
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Color",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
