@@ -10,6 +10,8 @@ public class Processador : System.Object
     bool aconseguit;
     Recepta confirmada;
 
+    public List<Recepta> Receptes => receptes;
+
     [System.Serializable]
     public struct Proces
     {
@@ -27,6 +29,8 @@ public class Processador : System.Object
         public bool confirmat;
         public int experiencia;
     }
+
+
 
     public Proces IntentarProcessar(Peça peça, List<object> inputs, bool aLaPrimeraReceptaComplertaAturat = false)
     //public bool IntentarProcessar(Peça peça, List<object> inputs, bool aLaPrimeraReceptaComplertaAturat = false)
@@ -105,7 +109,10 @@ public class Processador : System.Object
 
         receptes.Remove(recepta);
     }
-
+    public void NetejarReceptes()
+    {
+        receptes = new List<Recepta>();
+    }
 
 
 

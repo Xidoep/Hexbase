@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Detall : MonoBehaviour
+public abstract class Detall : MonoBehaviour
 {
-    public virtual void Setup(string[] args) { }
+    public abstract void Setup(string[] args);
 }

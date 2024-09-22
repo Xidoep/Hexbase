@@ -92,9 +92,9 @@ public class Prediccio : ScriptableObject
     void CrearCopiaDeGrups()
     {
         grupsSimulats = new List<Grup>();
-        for (int i = 0; i < grups.Grup.Count; i++)
+        for (int i = 0; i < grups.GetGrups.Count; i++)
         {
-            grupsSimulats.Add(new Grup(grups.Grup[i]));
+            grupsSimulats.Add(new Grup(grups.GetGrups[i]));
         }
     }
     void CrearPeçaSimulada(Vector2Int coordenada)
@@ -110,13 +110,13 @@ public class Prediccio : ScriptableObject
 
         for (int i = 0; i < veinsDeLaSimulada.Count; i++)
         {
-            List<Peça> veinsDelGrupDelVei = grups.Veins(grups.Grup, veinsDeLaSimulada[i]);
+            List<Peça> veinsDelGrupDelVei = grups.Veins(grups.GetGrups, veinsDeLaSimulada[i]);
             for (int v = 0; v < veinsDelGrupDelVei.Count; v++)
             {
                 if (!pecesPerComprovar.Contains(veinsDelGrupDelVei[v])) pecesPerComprovar.Add(veinsDelGrupDelVei[v]);
             }
 
-            List<Peça> veinsDelGrupDelVeiContemplantCamins = grups.VeinsAmbCami(grups.Grup, veinsDeLaSimulada[i]);
+            List<Peça> veinsDelGrupDelVeiContemplantCamins = grups.VeinsAmbCami(grups.GetGrups, veinsDeLaSimulada[i]);
             for (int v = 0; v < veinsDelGrupDelVeiContemplantCamins.Count; v++)
             {
                 if (!pecesPerComprovar.Contains(veinsDelGrupDelVeiContemplantCamins[v])) pecesPerComprovar.Add(veinsDelGrupDelVeiContemplantCamins[v]);

@@ -41,6 +41,7 @@ public class Referencies : ScriptableObject
     Estat eTrobat;
     Producte pTrobat;
     GameObject dTrobat;
+    Recepta rTrobada;
     Output_GuanyarExperiencia gTrobat;
 
     public EstatColocable GetColocable(string nom)
@@ -78,6 +79,7 @@ public class Referencies : ScriptableObject
         }
         return cTrobada;
     }
+
     public Connexio GetConnexioNew(string nom)
     {
         cTrobada = null;
@@ -184,6 +186,23 @@ public class Referencies : ScriptableObject
         }
         return dTrobat;
     }
+    public Recepta GetRecepta(string nom)
+    {
+        rTrobada = null;
+        for (int i = 0; i < receptes.Length; i++)
+        {
+            if (receptes[i].name.Equals(nom))
+            {
+                rTrobada = receptes[i];
+                break;
+            }
+        }
+        if (rTrobada == null)
+        {
+            Debug.LogError($"la recepta amb el nom {nom} no existeix");
+        }
+        return rTrobada;
+    }
     public Output_GuanyarExperiencia GetGuanyarExperiencia(string nom)
     {
         gTrobat = null;
@@ -237,7 +256,7 @@ public class Referencies : ScriptableObject
         connexions = XS_Editor.LoadAllAssetsAtPath<Connexio>("Assets/XidoStudio/Hexbase/Peces/Connexio").ToArray();
         //connexions = XS_Editor.LoadAllAssetsAtPath<Connexio>("Assets/XidoStudio/Hexbase/Peces/Connexio/new").ToArray();
         detalls = XS_Editor.LoadAllAssetsAtPath<GameObject>("Assets/XidoStudio/Hexbase/Peces/Detalls").ToArray();
-        receptes = XS_Editor.LoadAllAssetsAtPath<Recepta>("Assets/XidoStudio/Hexbase/Peces/Receptes").ToArray();
+        receptes = XS_Editor.LoadAllAssetsAtPathAndSubFolders<Recepta>("Assets/XidoStudio/Hexbase/Peces/Receptes").ToArray();
         guanyarExperiencies = XS_Editor.LoadAllAssetsAtPath<Output_GuanyarExperiencia>("Assets/XidoStudio/Hexbase/Sistemes/Processador/GunayarExperiencia").ToArray();
         if (capturarPantalla == null) capturarPantalla = XS_Editor.LoadAssetAtPath<CapturarPantalla>("Assets/XidoStudio/Capturar/CapturarPantalla.asset");
 
@@ -245,6 +264,9 @@ public class Referencies : ScriptableObject
         List<EstatColocable> tmp = new List<EstatColocable>(colocables);
         for (int i = tmp.Count -1; i >= 0; i--)
         {
+            if (tmp[i].Estat is null)
+                continue;
+
             if (tmp[i].Estat.Colocable)
                 continue;
 

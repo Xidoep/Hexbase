@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileSet:
     tiles:
+    - tile: {fileID: 11400000, guid: 2a2041b0f7b64c54aa5ad0b17836b5e7, type: 2}
+      pes: 4
+    - tile: {fileID: 11400000, guid: 88c224da5a5f51347896fd7c80675d73, type: 2}
+      pes: 4
+    - tile: {fileID: 11400000, guid: df51cd25af15c0f4cb225c5ee6928a15, type: 2}
+      pes: 3
+    - tile: {fileID: 11400000, guid: 0fd5916431b2fad46a7196825a19f8f0, type: 2}
+      pes: 2
     - tile: {fileID: 11400000, guid: c6822df1b76a0b34d8b1c07f91da687e, type: 2}
       pes: 1
     - tile: {fileID: 11400000, guid: 61fd569da2fc33445b64e100469578fa, type: 2}
       pes: 1
     - tile: {fileID: 11400000, guid: dde6f8a0418980c428c362b1c0b0faf5, type: 2}
-      pes: 1
-    - tile: {fileID: 11400000, guid: 0fd5916431b2fad46a7196825a19f8f0, type: 2}
-      pes: 1
-    - tile: {fileID: 11400000, guid: df51cd25af15c0f4cb225c5ee6928a15, type: 2}
       pes: 1
     - tile: {fileID: 11400000, guid: 42f01b75bade6924d9c262ac6733cd8a, type: 2}
       pes: 1
@@ -36,14 +40,12 @@ MonoBehaviour:
       pes: 1
     - tile: {fileID: 11400000, guid: 0a6557434f797e94683aa548b1f22520, type: 2}
       pes: 1
-    - tile: {fileID: 11400000, guid: ef9d0bdd15a3b3443a638c0380ef719b, type: 2}
-      pes: 1
     - tile: {fileID: 11400000, guid: a86013c374576af408e4ce9dc19a0ba5, type: 2}
       pes: 0
     - tile: {fileID: 11400000, guid: 4f0f0bf8d760d1c40835d6f77cc981c9, type: 2}
       pes: 0
-    - tile: {fileID: 11400000, guid: 2a2041b0f7b64c54aa5ad0b17836b5e7, type: 2}
-      pes: 1
+    - tile: {fileID: 11400000, guid: ef9d0bdd15a3b3443a638c0380ef719b, type: 2}
+      pes: 3
     connexionsNules:
     - {fileID: 11400000, guid: 30a336c0ae3fac142bc2f0b9ee3f49cc, type: 2}
     - {fileID: 11400000, guid: 30a336c0ae3fac142bc2f0b9ee3f49cc, type: 2}
@@ -51,7 +53,16 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 055efba740fd2c345b1ca0b3c864ad33, type: 2}
     - {fileID: 11400000, guid: a7b0207c03df62d4ebde48faee0015d6, type: 2}
     - {fileID: 11400000, guid: fa160ccec5bfb604e895317f440be792, type: 2}
+    - {fileID: 11400000, guid: 2379637604671c1419aa2db361ded9ff, type: 2}
     connexionsEspesifiques:
+    - subestats:
+      - {fileID: 11400000, guid: 8cb9231632934924db1aaeaa1fffe896, type: 2}
+      connexions:
+      - {fileID: 11400000, guid: 30a336c0ae3fac142bc2f0b9ee3f49cc, type: 2}
+      - {fileID: 11400000, guid: 091c50774478cac4eb09d7ce7b604fcf, type: 2}
+      - {fileID: 11400000, guid: 055efba740fd2c345b1ca0b3c864ad33, type: 2}
+      - {fileID: 11400000, guid: fa160ccec5bfb604e895317f440be792, type: 2}
+      - {fileID: 11400000, guid: a7b0207c03df62d4ebde48faee0015d6, type: 2}
     - subestats:
       - {fileID: 11400000, guid: 26447e78aa2d6f141b9ac323e9272989, type: 2}
       connexions:

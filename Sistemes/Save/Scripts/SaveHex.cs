@@ -12,9 +12,7 @@ public class SaveHex : ScriptableObject
 
     [SerializeField] int partidaAnterior = -1;
     [SerializeField] int actual = 0;
-    [SerializeField] List<SavedFile> files;
-    [SerializeField] Guardat guardat;
-    [SerializeField] ScriptableRendererFeature outline;
+    [SerializeField] List<ArchiuGuardat> files;
 
     EstatColocable eTrobat;
     Estat sTrobat;
@@ -28,8 +26,6 @@ public class SaveHex : ScriptableObject
     private void OnEnable()
     {
         nomesGuardats = false;
-
-        SetOutline((guardat.Get<float>("Outline", 1)) > 0.1f);
     }
 
     private void OnDisable()
@@ -46,7 +42,7 @@ public class SaveHex : ScriptableObject
     public int Actual { get => actual; }
     public void NouArxiu(Mode mode)
     {
-        files.Add(new SavedFile());
+        files.Add(new ArchiuGuardat());
         partidaAnterior = actual;
         actual = files.Count - 1;
         files[actual].SetMode(mode);
@@ -54,7 +50,7 @@ public class SaveHex : ScriptableObject
     public void BorrarPartida()
     {
         files.RemoveAt(actual);
-        if (files.Count == 0) files.Add(new SavedFile());
+        if (files.Count == 0) files.Add(new ArchiuGuardat());
         actual = Mathf.Clamp(actual - 1, 0, files.Count - 1);
     }
 
@@ -138,20 +134,19 @@ public class SaveHex : ScriptableObject
     {
         get 
         {
-            if (files == null || files.Count == 0) files = new List<SavedFile>() {new SavedFile() };
+            if (files == null || files.Count == 0) files = new List<ArchiuGuardat>() {new ArchiuGuardat() };
             if (actual > files.Count - 1) actual = 0;
             return files[actual].TePeces;
         
         }
     }
-    public void Add(Peça peça, Grups grups) => files[actual].Add(peça, grups);
-    public void Actualitzar(List<Peça> peçes, Grups grups) => files[actual].Actualitzar(peçes, grups);
-    
-
+    public void Add(Peça peça, Grups grups) => files[actual].Add(peça, grups.GrupByPeça(grups.GetGrups, peça));
+    //public void Actualitzar(List<Peça> peçes, Grups grups) => files[actual].Actualitzar(peçes, grups);
+    public void Actualitzar(Grups grups) => files[actual].Actualitzar(grups);
 
     //EXPERIENCIA
     public int Experiencia(int index) => files[index].Experiencia;
-    public void GuardarExperiencia(int experiencia) => files[actual].SetExperiencia(experiencia);
+    public void GuardarExperiencia(int total, int guanyada) => files[actual].SetExperiencia(total);
     public void guardarNivell(int nivell) => files[actual].SetNivell(nivell);
 
 
@@ -226,9 +221,6 @@ public class SaveHex : ScriptableObject
     public List<EstatColocable> Pila => files[actual].Pila(EstatNomToPrefab);
     public void AddToPila(EstatColocable estat) => files[actual].AddPila(estat);
     public void RemoveLastFromPila() => files[actual].RemoveLastPila();
-
-
-    public void SetOutline(bool valor) => outline.SetActive(valor);
 
     //UI
     public void MostrarNomesPartidesGuardades(bool nomesGuardats) => this.nomesGuardats = nomesGuardats;

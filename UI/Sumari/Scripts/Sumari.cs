@@ -45,25 +45,25 @@ public class Sumari : ScriptableObject
         Debug.Log("SUMARI:");
         //necessitats = new List<Producte>();
         infoNecessitats = new List<Informacio>();
-        for (int g = 0; g < grups.Grup.Count; g++)
+        for (int g = 0; g < grups.GetGrups.Count; g++)
         {
-            if (!grups.Grup[g].EsPoble)
+            if (!grups.GetGrups[g].EsPoble)
                 continue;
 
-            Debug.Log($"{grups.Grup[g].Peces.Count} peces al grup");
-            for (int p = 0; p < grups.Grup[g].Peces.Count; p++)
+            Debug.Log($"{grups.GetGrups[g].Peces.Count} peces al grup");
+            for (int p = 0; p < grups.GetGrups[g].Peces.Count; p++)
             {
-                for (int c = 0; c < grups.Grup[g].Peces[p].CasesLength; c++)
+                for (int c = 0; c < grups.GetGrups[g].Peces[p].CasesLength; c++)
                 {
-                    Debug.Log($"Peça {p} te {grups.Grup[g].Peces[p].CasesLength} cases");
-                    for (int n = 0; n < grups.Grup[g].Peces[p].Cases[c].Necessitats.Count; n++)
+                    Debug.Log($"Peça {p} te {grups.GetGrups[g].Peces[p].CasesLength} cases");
+                    for (int n = 0; n < grups.GetGrups[g].Peces[p].Cases[c].Necessitats.Count; n++)
                     {
-                        Debug.Log($"Casa {c} te {grups.Grup[g].Peces[p].Cases[c].Necessitats.Count} necessitats");
+                        Debug.Log($"Casa {c} te {grups.GetGrups[g].Peces[p].Cases[c].Necessitats.Count} necessitats");
                         //necessitats.Add(grups.Grup[g].Peces[p].Cases[c].Necessitats[n]);
                         infoNecessitats.Add(new Informacio()
                         {
-                            peça = grups.Grup[g].Peces[p],
-                            producte = grups.Grup[g].Peces[p].Cases[c].Necessitats[n],
+                            peça = grups.GetGrups[g].Peces[p],
+                            producte = grups.GetGrups[g].Peces[p].Cases[c].Necessitats[n],
                             index = c
                         });
                     }

@@ -15,7 +15,6 @@ public class Visualitzacions : ScriptableObject
     [SerializeField] Informacio_Grup informacioGrup;
     [SerializeField] Informacio_Connexio informacioConnexio;
     [SerializeField] Menu_Pila menuPila;
-    [SerializeField] Nivell nivell;
     [Space(20)]
     [SerializeField] Grups grups;
 
@@ -33,13 +32,6 @@ public class Visualitzacions : ScriptableObject
     [Space(20)]
     [SerializeField] MaterialPropertyBlock resaltar;
     [SerializeField] MaterialPropertyBlock noResaltar;
-
-    [Space(20)]
-    [SerializeField] AnimacioPerCodi desapareixre;
-    [SerializeField] AnimacioPerCodi desapareixreParent;
-    [SerializeField] AnimacioPerCodi pilaPosicio1, pilaPosicio1Parent;
-    [SerializeField] AnimacioPerCodi pilaPosicio2, pilaPosicio2Parent;
-
 
 
     private void OnEnable()
@@ -67,14 +59,7 @@ public class Visualitzacions : ScriptableObject
         noResaltar = new MaterialPropertyBlock();
         noResaltar.SetInt(DESTACAT, 0);
 
-        //PILA
-        //menuPila.EnDesapareixre += Desapareixre;
-        //menuPila.EnPosicio1 += PrimeraPosicio;
-        //menuPila.EnPosicio2 += SegonaPosicio;
 
-        //NIVELL
-        nivell.EnGuanyarExperiencia += UIExperiencia;
-        nivell.EnPujarNivell += UINivell;
     }
     private void OnDisable()
     {
@@ -95,14 +80,7 @@ public class Visualitzacions : ScriptableObject
         informacioGrup.EnDesresaltar -= Desresaltar;
         informacioConnexio.EnResaltar -= DestacarPeça;
 
-        //PILA
-        //menuPila.EnDesapareixre -= Desapareixre;
-        //menuPila.EnPosicio1 -= PrimeraPosicio;
-        //menuPila.EnPosicio2 -= SegonaPosicio;
 
-        //NIVELL
-        nivell.EnGuanyarExperiencia -= UIExperiencia;
-        nivell.EnPujarNivell -= UINivell;
     }
 
 
@@ -146,7 +124,7 @@ public class Visualitzacions : ScriptableObject
     #region RESALTAR
     void Resaltar(Peça peça)
     {
-        Grup grup = grups.GrupByPeça(grups.Grup, peça);
+        Grup grup = grups.GrupByPeça(grups.GetGrups, peça);
         grup.Resaltat = true;
 
         //Destacar el grup en si.
@@ -155,7 +133,7 @@ public class Visualitzacions : ScriptableObject
         //Destacar el grup dels cammins connectats, que també contenen els ports.
         for (int i = 0; i < grup.Camins.Count; i++)
         {
-            Grup cami = grups.GrupByPeça(grups.Grup, grup.Camins[i]);
+            Grup cami = grups.GrupByPeça(grups.GetGrups, grup.Camins[i]);
             cami.Resaltat = true;
             DestacarPeces(cami.Peces, true);
         }
@@ -166,7 +144,7 @@ public class Visualitzacions : ScriptableObject
             if (grup.ConnexionsId[i] == grup.Id)
                 continue;
 
-            Grup connectat = grups.GrupById(grups.Grup, grup.ConnexionsId[i]);
+            Grup connectat = grups.GrupById(grups.GetGrups, grup.ConnexionsId[i]);
             connectat.Resaltat = true;
             DestacarPeces(connectat.Peces, true);
         }
@@ -174,18 +152,18 @@ public class Visualitzacions : ScriptableObject
         //Destacar els ports als que estan connectats els ports connectats.
         for (int i = 0; i < grup.Ports.Count; i++)
         {
-            Grup port = grups.GrupByPeça(grups.Grup, grup.Ports[i]);
+            Grup port = grups.GrupByPeça(grups.GetGrups, grup.Ports[i]);
             port.Resaltat = true;
         }
     }
     void Desresaltar()
     {
-        for (int i = 0; i < grups.Grup.Count; i++)
+        for (int i = 0; i < grups.GetGrups.Count; i++)
         {
-            if (grups.Grup[i].Resaltat)
+            if (grups.GetGrups[i].Resaltat)
             {
-                DestacarPeces(grups.Grup[i].Peces, false);
-                grups.Grup[i].Resaltat = false;
+                DestacarPeces(grups.GetGrups[i].Peces, false);
+                grups.GetGrups[i].Resaltat = false;
             }
 
         }
@@ -207,41 +185,7 @@ public class Visualitzacions : ScriptableObject
     }
     #endregion
 
-    #region PILA
-    public void PrimeraPosicio(Transform transform)
-    {
-        pilaPosicio1.Play(transform);
-        pilaPosicio1Parent.Play(transform.parent.GetComponent<RectTransform>());
-        //animacions.primeraPosicio.Play(transform);
-        //animacions.primeraPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
-    }
-    public void SegonaPosicio(Transform transform)
-    {
-        pilaPosicio2.Play(transform);
-        pilaPosicio2Parent.Play(transform.parent.GetComponent<RectTransform>());
-        //animacions.segonaPosicio.Play(transform);
-        //animacions.segonaPosicioParent.Play(transform.parent.GetComponent<RectTransform>());
-    }
 
-    public void Desapareixre(Transform transform)
-    {
-        desapareixre.Play(transform);
-        desapareixreParent.Play(transform.parent.GetComponent<RectTransform>());
-        //animacions.colocarPeça.Play(transform);
-        //animacions.colocarPeçaParent.Play(transform.parent.GetComponent<RectTransform>());
-    }
-    #endregion
-
-    #region NIVELL
-    public void UINivell(int nivell)
-    {
-
-    }
-    public void UIExperiencia(int experiencia)
-    {
-
-    }
-    #endregion
 
     [Space(20)]
     [SerializeField] Animacions animacions;

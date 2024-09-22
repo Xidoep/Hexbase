@@ -10,9 +10,9 @@ public class Nivell : ScriptableObject
     [SerializeField] int experiencia = 0;
     [Space(20)]
 
-    System.Action<int> enGuanyarExperiencia;
+    System.Action<int, int> enGuanyarExperiencia;
     System.Action<int> enPujarNivell;
-    public System.Action<int> EnGuanyarExperiencia { get => enGuanyarExperiencia; set => enGuanyarExperiencia = value; }
+    public System.Action<int, int> EnGuanyarExperiencia { get => enGuanyarExperiencia; set => enGuanyarExperiencia = value; }
     public System.Action<int> EnPujarNivell { get => enPujarNivell; set => enPujarNivell = value; }
 
 
@@ -21,14 +21,16 @@ public class Nivell : ScriptableObject
 
     bool haPujatDeNivell;
 
-    
-    
+
+    public int GetNivell => nivell;
+    public int GetExpeirencia => experiencia;
     public bool HaPujatDeNivell { get => haPujatDeNivell; set => haPujatDeNivell = value; }
 
-    public int ExperienciaNecessariaProximNivell => ProximNivell(nivell + 1);
+    public int ExperienciaNecessariaProximNivell(int nivell) => ProximNivell(nivell + 1);
     int ProximNivell(int nivell) => nivell * nivell * 10;
 
-    public float FactorExperienciaNivellActual => (experiencia - (ProximNivell(nivell - 1))) / (float)((ProximNivell(nivell) - ProximNivell(nivell - 1)));
+    //public float FactorExperienciaNivellActual => (experiencia - (ProximNivell(nivell - 1))) / (float)((ProximNivell(nivell) - ProximNivell(nivell - 1)));
+    public float FactorExperienciaNivellActual(int nivell, int experiencia) => (experiencia - (ProximNivell(nivell - 1))) / (float)((ProximNivell(nivell) - ProximNivell(nivell - 1)));
 
 
 
@@ -37,20 +39,20 @@ public class Nivell : ScriptableObject
     {
         Debug.Log("Guanyar experiencia");
         this.experiencia += experiencia;
-        XS_Coroutine.StartCoroutine(GuanyarExperiencia_Corrutina(delay));
+        XS_Coroutine.StartCoroutine(GuanyarExperiencia_Corrutina(delay, experiencia));
 
         if(this.experiencia >= ProximNivell(nivell))
         {
             nivell++;
             haPujatDeNivell = true;
-            XS_Coroutine.StartCoroutine(PujarNivell_Corrutina(delay + 1));
+            XS_Coroutine.StartCoroutine(PujarNivell_Corrutina(delay + 0.1f));
         }
     }
-    IEnumerator GuanyarExperiencia_Corrutina(float delay)
+    IEnumerator GuanyarExperiencia_Corrutina(float delay, int experienciaGuanyada)
     {
         wfsExperiencia = new WaitForSeconds(delay);
         yield return wfsExperiencia;
-        enGuanyarExperiencia?.Invoke(experiencia);
+        enGuanyarExperiencia?.Invoke(experiencia, experienciaGuanyada);
     }
     IEnumerator PujarNivell_Corrutina(float delay)
     {
@@ -79,6 +81,8 @@ public class Nivell : ScriptableObject
 
     //DEBUG
     [ContextMenu("mes 2")] void Prova2() => GuanyarExperiencia(2,1);
+    [ContextMenu("mes 5")] void Prova5() => GuanyarExperiencia(5,1);
+    [ContextMenu("mes 10")] void Prova10() => GuanyarExperiencia(10,1);
     [ContextMenu("mes 20")] void Prova20() => GuanyarExperiencia(20,1);
     [ContextMenu("mes 200")] void Prova200() => GuanyarExperiencia(200,1);
 

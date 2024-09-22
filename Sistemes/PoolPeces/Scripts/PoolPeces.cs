@@ -17,6 +17,7 @@ public class PoolPeces : ScriptableObject
     [Linia]
     //[SerializeField] Estat[] disponibles;
     [SerializeField] int inicial;
+    [SerializeField, Tooltip("Si poses alguna peça aquí, s'iniciarà amb aquestes peces")] EstatColocable[] pecesDebug;
 
     bool iniciat = false;
 
@@ -69,6 +70,14 @@ public class PoolPeces : ScriptableObject
         }
         void Noves()
         {
+            if(pecesDebug.Length > 0)
+            {
+                for (int i = 0; i < pecesDebug.Length; i++)
+                {
+                    AddPeça(pecesDebug[i]);
+                }
+                return;
+            }
             for (int i = 0; i < inicial; i++)
             {
                 AddPeça();
@@ -83,14 +92,18 @@ public class PoolPeces : ScriptableObject
         }
     }
 
+    [ContextMenu("AddPeça")]
     void AddPeça()
     {
         //FALTA: Assegurar X cases?
         EstatColocable seleccionat = referencies.Colocables[Random.Range(0, referencies.Colocables.Length)];
-        peces.Add(seleccionat);
-        enAfegir?.Invoke(seleccionat);
+        AddPeça(seleccionat);
     }
-    
+    void AddPeça(EstatColocable colocable)
+    {
+        peces.Add(colocable);
+        enAfegir?.Invoke(colocable);
+    }
 
     public void RemovePeça()
     {

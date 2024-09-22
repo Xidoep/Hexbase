@@ -2,19 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
+using TMPro;
+using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 public class Menu_Pila : MonoBehaviour
 {
     [Apartat("FROM PROJECT")]
-    [SerializeField] Visualitzacions visualitzacions;
     [SerializeField] GameObject prefab;
     [Apartat("FROM HIERARCHY")]
     [SerializeField] Fase_Resoldre resoldre;
     [SerializeField] Transform parent;
     [SerializeField] PoolPeces pool;
+    [Space(10)]
+    [SerializeField] TMP_Text numero;
+    [SerializeField] Image bombolla;
+
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi animacio_afegirPeces;
+    [FoldoutGroup("Animacions"), SerializeField, SerializeScriptableObject] AnimacioPerCodi animacio_poquesPeces;
 
     List<UI_Peca> creades;
 
+    bool PoquesPeces => pool.Quantitat <= 5;
 
     /*
     System.Action<Transform> enDesapareixre;
@@ -46,6 +55,8 @@ public class Menu_Pila : MonoBehaviour
         }
 
         ResaltarISepararSuperior();
+
+        numero.text = pool.Quantitat.ToString();
     }
 
     void OnDisable()
@@ -71,60 +82,56 @@ public class Menu_Pila : MonoBehaviour
         parent.GetComponent<RectTransform>().sizeDelta = new Vector2(170, 20);
         parent.transform.localScale = new Vector3(1, 0.2f, 1);
 
-        //UI_Peca uiPeca = estat.Prefab.Crear();
-        //uiPeca.SetTransform(Vector3.zero, Vector3.zero, Vector3.one * 100, parent.transform);
-
-        //GameObject peça = Instantiate(estat.Prefag, Vector3.zero, Quaternion.identity, parent.transform);
         ((RectTransform)parent.transform).anchoredPosition3D = Vector3.zero;
-        //parent.GetComponent<RectTransform>()
-        //RectTransform rect = parent.GetComponent<RectTransform>();
-        //rect.anchoredPosition3D = Vector3.zero;
 
-        //peça.transform.localScale = new Vector3(100, 100, 100);
-        //peça.transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-        //UI_Peca uiPeca = peça.GetComponent<UI_Peca>();
-
-        //creades.Add(uiPeca);
         creades.Add((UI_Peca)(estat.Prefab.Crear().SetTransform(Vector3.zero, Vector3.zero, Vector3.one * 100, parent.transform)));
+        ResaltarNumero();
+
+        ActualitzarNumero();
     }
+
+    void ResaltarNumero() => animacio_afegirPeces.Play(bombolla.transform);
 
     [ContextMenu("Remove")]
     void RemovePeça()
     {
-        visualitzacions.Desapareixre(creades[0].transform);
-        //enDesapareixre?.Invoke(creades[0].transform);
         StartCoroutine(RemovePeçaTemps(creades[0]));
         
         creades.RemoveAt(0);
         ResaltarISepararSuperior();
+
+        ActualitzarNumero();
     }
 
     IEnumerator RemovePeçaTemps(UI_Peca peça)
     {
+        peça.Desapareixre();
         yield return new WaitForSeconds(0.51f);
         Destroy(peça.transform.parent.gameObject);
     }
 
     void ResaltarISepararSuperior()
     {
-            //Debug.Log($"enPosicio1 == null ? {enPosicio1 == null}");
-            //Debug.Log($"enPosicio2 == null ? {enPosicio2 == null}");
         if (creades.Count > 0)
         {
             creades[0].Resaltar();
             creades[0].Seleccionar();
-            //enPosicio1?.Invoke(creades[0].transform);
-            visualitzacions.PrimeraPosicio(creades[0].transform);
+            creades[0].Posicio1();
         }
         if(creades.Count > 1)
         {
-            //enPosicio1?.Invoke(creades[0].transform);
-            //enPosicio2?.Invoke(creades[1].transform);
-            visualitzacions.PrimeraPosicio(creades[0].transform);
-            visualitzacions.SegonaPosicio(creades[1].transform);
+            creades[1].Posicio2();
         }
     }
 
+    void ActualitzarNumero()
+    {
+        numero.text = pool.Quantitat.ToString();
+
+        bombolla.color = PoquesPeces ? (Color.red + Color.cyan * 0.25f) : Color.white;
+
+        if (PoquesPeces)
+            animacio_poquesPeces.Play(bombolla.transform);
+    }
 
 }

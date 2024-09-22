@@ -65,7 +65,7 @@ public class Fase_Processar : Fase
 
         prediccio.FinalitzacioForçada();
         grups.Interrompre();
-        grups.Agrupdar(grups.Grup, peça, Proximitat);
+        grups.Agrupdar(grups.GetGrups, peça, Proximitat);
     }
 
     
@@ -277,8 +277,9 @@ public class Fase_Processar : Fase
             yield return waitForEndOfFrame;
         }
 
-        save.Add(peça, grups);
-        save.Actualitzar(perComprovar, grups);
+        save.Add(peça, grups); //Affegir coordenades peça
+        Debug.Log("Això ha de canviar per utlitzar només les ''perComprovar''");
+        save.Actualitzar(grups); //Actualitzar totes les peces i grups
 
 
         Grid.Instance.Dimensionar(peça);

@@ -50,7 +50,7 @@ public class Proximitat : ScriptableObject
             if (!tmp.Contains(veins[i])) tmp.Add(veins[i]);
         }
 
-        List<Peça> grup = grups.Peces(grups.Grup, peça);
+        List<Peça> grup = grups.Peces(grups.GetGrups, peça);
         if(grup != null)
         {
             for (int i = 0; i < grup.Count; i++)
@@ -58,7 +58,7 @@ public class Proximitat : ScriptableObject
                 if (!tmp.Contains(grup[i])) tmp.Add(grup[i]);
             }
 
-            List<Peça> veinsGrupAmbCami = grups.VeinsAmbCami(grups.Grup, peça);
+            List<Peça> veinsGrupAmbCami = grups.VeinsAmbCami(grups.GetGrups, peça);
             for (int i = 0; i < veinsGrupAmbCami.Count; i++)
             {
                 if (!tmp.Contains(veinsGrupAmbCami[i])) tmp.Add(veinsGrupAmbCami[i]);

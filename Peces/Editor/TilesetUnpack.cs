@@ -304,15 +304,68 @@ public class TilesetUnpack : ScriptableObject
         switch (tipus)
         {
             case Tipus.Simple:
-                simple.TileSet.ConnexionsNules = connexions.ToArray();
+                Simple();
                 break;
             case Tipus.Ocupable:
-                ocupable.TileSetLliure.ConnexionsNules = connexions.ToArray();
-                ocupable.TileSetOcupat.ConnexionsNules = connexions.ToArray();
+                Ocupable();
                 break;
             case Tipus.Condicional:
-                condicional.Condicions[condicio-1].TileSet.ConnexionsNules = connexions.ToArray();
+                Condicional();
                 break;
+        }
+
+        void Simple()
+        {
+            if (simple.TileSet.ConnexionsNules == null)
+            {
+                simple.TileSet.ConnexionsNules = connexions.ToArray();
+            }
+            else
+            {
+                List<Connexio> conActuals = new List<Connexio>(simple.TileSet.ConnexionsNules);
+                conActuals.AddRange(connexions);
+                simple.TileSet.ConnexionsNules = conActuals.ToArray();
+            }
+        }
+        void Ocupable()
+        {
+            if (ocupable.TileSetLliure.ConnexionsNules == null)
+            {
+                ocupable.TileSetLliure.ConnexionsNules = connexions.ToArray();
+                ocupable.TileSetOcupat.ConnexionsNules = connexions.ToArray();
+            }
+            else
+            {
+                List<Connexio> conLliActual = new List<Connexio>(ocupable.TileSetLliure.ConnexionsNules);
+                List<Connexio> conOcuActual = new List<Connexio>(ocupable.TileSetOcupat.ConnexionsNules);
+                conLliActual.AddRange(connexions);
+                conOcuActual.AddRange(connexions);
+                ocupable.TileSetLliure.ConnexionsNules = conLliActual.ToArray();
+                ocupable.TileSetOcupat.ConnexionsNules = conOcuActual.ToArray();
+            }
+        }
+        void Condicional()
+        {
+            if (condicional.Condicions[condicio - 1].TileSet.ConnexionsNules == null)
+            {
+                condicional.Condicions[condicio - 1].TileSet.ConnexionsNules = new Connexio[0];
+            }
+
+            List<Connexio> conActual = new List<Connexio>(condicional.Condicions[condicio - 1].TileSet.ConnexionsNules);
+            conActual.AddRange(connexions);
+            condicional.Condicions[condicio - 1].TileSet.ConnexionsNules = conActual.ToArray();
+
+            /*
+            if (condicional.Condicions[condicio - 1].TileSet.ConnexionsNules == null)
+            {
+                condicional.Condicions[condicio - 1].TileSet.ConnexionsNules = connexions.ToArray();
+            }
+            else
+            {
+                List<Connexio> conActual = new List<Connexio>(condicional.Condicions[condicio - 1].TileSet.ConnexionsNules);
+                conActual.AddRange(connexions);
+                condicional.Condicions[condicio - 1].TileSet.ConnexionsNules = conActual.ToArray();
+            }*/
         }
 
         bool EsNules(int i, string root, bool condicional = false) => subobjects[i].name.Substring(root.Length + 4 + (condicional ? 2 : 0)).StartsWith(NULES);

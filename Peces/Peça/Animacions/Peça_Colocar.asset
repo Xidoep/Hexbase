@@ -19,7 +19,8 @@ MonoBehaviour:
   animacions:
   - rid: 7484184590524088322
   - rid: 233190295782031365
-  - rid: 3474560513304428556
+  - rid: 7242570119180189698
+  - rid: 7242570119180189699
   references:
     version: 2
     RefIds:
@@ -107,7 +108,13 @@ MonoBehaviour:
         inici: {x: 1, y: 1, z: 1}
         dinamic: 0
         final: {x: 1.2, y: 0.8, z: 1.2}
-    - rid: 3474560513304428556
+    - rid: 7242570119180189698
+      type: {class: Animacio_So, ns: , asm: AnimacioPerCodi}
+      data:
+        so: {fileID: 11400000, guid: b85da6c6029f8bc459d4f66ef968f50b, type: 2}
+        aPosicio: 0
+        delay: 0.25
+    - rid: 7242570119180189699
       type: {class: Animacio_Audio, ns: , asm: AnimacioPerCodi}
       data:
         audio:
@@ -117,8 +124,8 @@ MonoBehaviour:
         - {fileID: 8300000, guid: eaf4a5c56e2d57a4197afa4f4b318a7f, type: 3}
         - {fileID: 8300000, guid: 8d6b6c98b5cc4fc4983d5a24a7b80866, type: 3}
         - {fileID: 8300000, guid: 7e0b31f1ed441da4ca253657ec963a4c, type: 3}
-        volum: {x: 0.25, y: 0.25}
-        delay: 0
+        volum: {x: 1, y: 1}
+        delay: 0.25
     - rid: 7484184590524088322
       type: {class: Animacio_Posicio, ns: , asm: AnimacioPerCodi}
       data:

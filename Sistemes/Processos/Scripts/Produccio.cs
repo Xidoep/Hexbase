@@ -237,7 +237,7 @@ public class Produccio : ScriptableObject
 
 
         //string debug = "PRODUCCIO DEBUG\n";
-        connexions = grups.GrupByPeça(grups.Grup, productor).ConnexionsId;
+        connexions = grups.GrupByPeça(grups.GetGrups, productor).ConnexionsId;
         if (connexions == null)
         {
             index = -1;
@@ -246,7 +246,7 @@ public class Produccio : ScriptableObject
 
         for (int con = 0; con < connexions.Count; con++)
         {
-            List<Peça> poble = grups.GrupById(grups.Grup, connexions[con]).Peces;
+            List<Peça> poble = grups.GrupById(grups.GetGrups, connexions[con]).Peces;
 
             for (int p = 0; p < poble.Count; p++)
             {

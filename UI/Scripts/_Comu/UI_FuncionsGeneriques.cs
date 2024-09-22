@@ -12,6 +12,6 @@ public static class UI_FuncionsGeneriques
     public static void SetCapa_UIPeces(this Transform transform)
     {
         if (transform.gameObject.layer != 7)
-            transform.gameObject.layer = 10;
+            transform.gameObject.layer = 5;
     }
 }
